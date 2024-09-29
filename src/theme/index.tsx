@@ -21,6 +21,7 @@ import { createStyles } from './create-styles';
 type ThemeProps = {
   children: ReactNode;
   theme?: Partial<TTheme>;
+  forceMode?: 'light' | 'dark';
 };
 
 export const ThemeContext = createContext<any>(null);
@@ -28,14 +29,16 @@ export const ThemeContext = createContext<any>(null);
 export const ThemeProvider = ({
   children,
   theme,
+  forceMode,
 }: {
   children: React.ReactNode;
   theme: TTheme;
+  forceMode?: 'light' | 'dark';
 }): React.ReactElement => {
   const { colors, primaryShade, primaryColor, secondaryColor } = theme;
   const systemDarkMode = Appearance.getColorScheme();
   const [currentMode, setCurrentMode] = useState<'light' | 'dark'>(
-    systemDarkMode || 'light'
+    forceMode || systemDarkMode || 'light'
   );
 
   const toggleMode = (): void => {
@@ -88,11 +91,16 @@ export const useTheme = (): TTheme => useContext(ThemeContext);
 export const Theme = ({
   children,
   theme: themeOverwrite,
+  forceMode,
 }: ThemeProps): React.ReactElement => {
   const theme = useMemo(() => {
     return generateTheme(themeOverwrite);
   }, [themeOverwrite]);
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme} forceMode={forceMode}>
+      {children}
+    </ThemeProvider>
+  );
 };
 
 export { createStyles };
