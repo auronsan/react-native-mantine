@@ -214,10 +214,10 @@ const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 
 export const DEFAULT_THEME: TTheme = {
-  fontFamily: 'Nunito',
-  fontFamilyBold: 'Nunito Bold',
-  fontFamilySemiBold: 'Nunito SemiBold',
-  fontFamilyInput: 'Nunito',
+  fontFamily: 'System font',
+  fontFamilyBold: 'System font',
+  fontFamilySemiBold: 'System font',
+  fontFamilyInput: 'System font',
   localColor: '#1F2863',
   primaryShade: 6,
   colors: DEFAULT_COLORS,
@@ -275,8 +275,7 @@ export const DEFAULT_THEME: TTheme = {
     xl: 24,
   },
   headings: {
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji',
+    fontFamily: 'System font',
     fontWeight: 700,
     sizes: {
       h1: { fontSize: 34, lineHeight: 1.3, fontWeight: undefined },

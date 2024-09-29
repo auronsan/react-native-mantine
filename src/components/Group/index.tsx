@@ -1,7 +1,7 @@
 import type { ViewStyle } from 'react-native';
 
-import { BoxView } from '@/components/Box';
-import type { ViewProps } from '@/components/Box';
+import { BoxView } from '@/components/BoxView';
+import type { ViewProps } from '@/components/BoxView';
 
 export const Group = ({
   children,

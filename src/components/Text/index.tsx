@@ -5,7 +5,6 @@ import { forwardRef } from 'react';
 import { Text as DefaultText } from 'react-native';
 
 export type TextProps = DefaultText['props'] & {
-  tenancy?: boolean;
   size?: string;
   bold?: boolean;
   questrial?: boolean;
@@ -34,7 +33,6 @@ const propToColor = (
 export const Text = forwardRef((props: TextProps, ref: any) => {
   const {
     style,
-    tenancy,
     color,
     white,
     size = 'md',
@@ -50,14 +48,10 @@ export const Text = forwardRef((props: TextProps, ref: any) => {
     fontFamilyBold,
     fontFamilySemiBold,
     colors,
-    primaryBgColor,
     primaryShade,
     fontSizes,
-    currentMode,
     light,
   } = useTheme();
-
-  const tenancyColor = currentMode === 'dark' ? '#fff' : primaryBgColor;
 
   return (
     <DefaultText
@@ -73,13 +67,11 @@ export const Text = forwardRef((props: TextProps, ref: any) => {
                 : fontFamily,
           fontWeight: bold ? '900' : '300',
           fontSize: fontSize ? fontSize : get(fontSizes, size, 16),
-          color: tenancy
-            ? tenancyColor
-            : white
-              ? 'white'
-              : color
-                ? propToColor(color, colors, primaryShade)
-                : light.text,
+          color: white
+            ? 'white'
+            : color
+              ? propToColor(color, colors, primaryShade)
+              : light.text,
         },
         style,
       ]}
