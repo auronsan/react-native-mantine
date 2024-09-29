@@ -1,5 +1,5 @@
-import { useTheme } from '@/theme';
-import type { Palette } from '@/theme/theme';
+import { useTheme } from 'react-native-mantine';
+import type { Palette } from 'react-native-mantine';
 import { get } from 'lodash-es';
 import { forwardRef } from 'react';
 import { Text as DefaultText } from 'react-native';
