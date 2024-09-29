@@ -1,10 +1,11 @@
 {
   "name": "react-native-mantine",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "Make Mantine Accessable on React Native",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
+  "types": "./lib/typescript/commonjs/src/index.d.ts",
   "exports": {
     ".": {
       "import": {
@@ -42,7 +43,8 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\" --config ./eslintrc.json",
     "clean": "del-cli lib",
     "prepare": "bob build",
-    "release": "release-it"
+    "release": "release-it",
+    "typescript": "tsc --noEmit"
   },
   "keywords": [
     "react-native",
