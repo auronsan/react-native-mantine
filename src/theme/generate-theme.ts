@@ -10,8 +10,8 @@ export const generateTheme = (theme?: Partial<TTheme>): TTheme => {
     fontFamilyBold: 'Nunito Bold',
     fontFamilySemiBold: 'Nunito SemiBold',
     fontFamilyInput: 'Nunito',
-    primaryColor: 'tenant',
-    secondaryColor: 'blue',
+    primaryColor: 'blue',
+    secondaryColor: 'cyan',
     headings: {
       fontFamily: 'Nunito',
     },

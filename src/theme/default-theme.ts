@@ -298,8 +298,8 @@ export const DEFAULT_THEME: TTheme = {
 type ColorScheme = {
   text: string;
   background: string;
-  backgroundSecondary: string;
-  backgroundThird: string;
+  backgroundSecondary?: string;
+  backgroundThird?: string;
   tint: string;
   tabIconDefault: string;
   tabIconSelected: string;
