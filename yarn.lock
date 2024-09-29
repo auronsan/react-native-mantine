@@ -76,7 +76,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/eslint-parser@npm:^7.20.0":
+"@babel/eslint-parser@npm:^7.20.0, @babel/eslint-parser@npm:^7.25.1":
   version: 7.25.1
   resolution: "@babel/eslint-parser@npm:7.25.1"
   dependencies:
@@ -12570,6 +12570,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "react-native-mantine@workspace:."
   dependencies:
+    "@babel/eslint-parser": ^7.25.1
     "@commitlint/config-conventional": ^17.0.2
     "@evilmartians/lefthook": ^1.5.0
     "@react-native/eslint-config": ^0.73.1
