@@ -1,12 +1,12 @@
 import {
   createStyles,
   getSize,
-} from 'react-native-mantine';
+} from '../../theme';
 
 import type {
   MantineNumberSize,
   MantineColor,
-} from 'react-native-mantine'
+} from '../../theme/types'
 
 export const ACTION_ICON_VARIANTS = [
   'subtle',
@@ -45,9 +45,6 @@ function getVariantStyles({ variant, theme, color }: GetVariantStyles): any {
       border: `1px solid ${colors.border}`,
       backgroundColor: colors.background,
       color: colors.color,
-      ...theme.fn.hover({
-        backgroundColor: colors.hover,
-      }),
     };
   }
 
@@ -56,6 +53,19 @@ function getVariantStyles({ variant, theme, color }: GetVariantStyles): any {
 
 export default createStyles(
   (theme, { radius, color, variant, size }: any) => ({
+    icon: {
+      backgroundColor:
+        theme.currentMode === 'dark'
+          ? theme.primaryBgColor
+          : theme.secondaryBgColor,
+      borderRadius: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: getSize({ size, sizes }),
+      minHeight: getSize({ size, sizes }),
+      width: getSize({ size, sizes }),
+      minWidth: getSize({ size, sizes }),
+    },
     root: {
       position: 'relative',
       borderRadius: theme.fn.radius(radius),
@@ -64,51 +74,7 @@ export default createStyles(
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      height: getSize({ size, sizes }),
-      minHeight: getSize({ size, sizes }),
-      width: getSize({ size, sizes }),
-      minWidth: getSize({ size, sizes }),
       ...getVariantStyles({ variant, theme, color }),
-
-      '&:active': theme.activeStyles,
-
-      '& [data-action-icon-loader]': {
-        maxWidth: '70%',
-      },
-
-      '&:disabled, &[data-disabled]': {
-        color: theme.colors.gray ? theme.colors.gray[theme.colorScheme === 'dark' ? 6 : 4] : 'gray',
-        cursor: 'not-allowed',
-        backgroundColor:
-          variant === 'transparent'
-            ? undefined
-            : theme.fn.themeColor('gray', theme.colorScheme === 'dark' ? 8 : 1),
-        borderColor:
-          variant === 'transparent'
-            ? undefined
-            : theme.fn.themeColor('gray', theme.colorScheme === 'dark' ? 8 : 1),
-        backgroundImage: 'none',
-        pointerEvents: 'none',
-
-        '&:active': {
-          transform: 'none',
-        },
-      },
-
-      '&[data-loading]': {
-        pointerEvents: 'none',
-
-        '&::before': {
-          content: '""',
-          // ...theme.fn.cover(rem(-1)),
-          backgroundColor: 'rgba(255, 255, 255, .5)',
-            // theme.colorScheme === 'dark'
-            //   ? theme.fn.rgba(theme.colors.dark[7], 0.5)
-            //   :
-          borderRadius: theme.fn.radius(radius),
-          cursor: 'not-allowed',
-        },
-      },
     },
   })
 );

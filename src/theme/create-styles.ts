@@ -2,7 +2,8 @@ import type { ImageStyle, TextStyle, ViewStyle } from 'react-native';
 
 import { StyleSheet } from 'react-native';
 
-import { useTheme } from '.';
+import { useTheme } from './theme-provider';
+
 import type { TTheme } from './default-theme';
 
 type NamedStyles<T> = {

@@ -2,7 +2,8 @@ import React, { forwardRef } from 'react';
 import { BoxView } from '../BoxView';
 import useStyles from './UnstyledButton.styles';
 import { TouchableOpacity } from 'react-native';
-import { useComponentDefaultProps } from 'react-native-mantine';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
+import { Text } from '../Text';
 
 export interface UnstyledButtonProps {
   variant?: string;
@@ -11,9 +12,9 @@ export interface UnstyledButtonProps {
 
 export const UnstyledButton = forwardRef<
   any,
-  UnstyledButtonProps & { component?: any; style: any }
+  UnstyledButtonProps & { style?: any }
 >((props, ref) => {
-  const { variant, style, ...others } = useComponentDefaultProps(
+  const { variant, style, children, ...others } = useComponentDefaultProps(
     'UnstyledButton',
     {},
     props
@@ -25,7 +26,9 @@ export const UnstyledButton = forwardRef<
 
   return (
     <TouchableOpacity>
-      <BoxView ref={ref} style={[styles.root, style]} {...others} />
+      <BoxView ref={ref} style={[styles.root, style]} {...others}>
+        <Text>{children}</Text>
+      </BoxView>
     </TouchableOpacity>
   );
 });

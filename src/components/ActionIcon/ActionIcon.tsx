@@ -1,17 +1,19 @@
 import React, { forwardRef } from 'react';
-import { useComponentDefaultProps } from 'react-native-mantine';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 
 import type {
   DefaultProps,
   MantineNumberSize,
   MantineColor,
   Variants,
-} from 'react-native-mantine';
+} from '../../theme/types';
+
 import { UnstyledButton } from '../UnstyledButton';
 import useStyles from './ActionIcon.styles';
 import { Loader } from '../Loader';
 
 import type { LoaderProps } from '../Loader';
+import { BoxView } from '../BoxView';
 
 export interface ActionIconProps extends DefaultProps {
   __staticSelector?: string;
@@ -47,6 +49,8 @@ export interface ActionIconProps extends DefaultProps {
 
   /** Indicates disabled state */
   disabled?: boolean;
+
+  icon?: React.ReactNode;
 }
 
 const defaultProps: Partial<ActionIconProps> = {
@@ -55,43 +59,43 @@ const defaultProps: Partial<ActionIconProps> = {
   variant: 'subtle',
 };
 
-export const ActionIcon = forwardRef<HTMLButtonElement, ActionIconProps>(
-  (props, ref) => {
-    const {
-      color,
-      children,
-      radius,
-      size,
-      variant,
-      disabled,
-      loaderProps,
-      loading,
-      style,
-      __staticSelector,
-      ...others
-    } = useComponentDefaultProps('ActionIcon', defaultProps, props);
+export const ActionIcon = forwardRef<any, ActionIconProps>((props, ref) => {
+  const {
+    color,
+    children,
+    radius,
+    size,
+    variant,
+    disabled,
+    loaderProps,
+    loading,
+    style,
+    __staticSelector,
+    icon,
+    ...others
+  } = useComponentDefaultProps('ActionIcon', defaultProps, props);
 
-    const { styles, theme } = useStyles({ radius, color, variant, size });
+  const { styles, theme } = useStyles({ radius, color, variant, size });
 
-    const loader = (
-      <Loader
-        color={theme.fn.variant({ color, variant }).color}
-        size="100%"
-        data-action-icon-loader
-        {...loaderProps}
-      />
-    );
+  const loader = (
+    <Loader
+      color={theme.fn.variant({ color, variant }).color}
+      size="100%"
+      data-action-icon-loader
+      {...loaderProps}
+    />
+  );
 
-    return (
-      <UnstyledButton
-        style={[styles.root, style]}
-        ref={ref}
-        data-disabled={disabled || undefined}
-        data-loading={loading || undefined}
-        {...others}
-      >
-        {loading ? loader : children}
-      </UnstyledButton>
-    );
-  }
-);
+  return (
+    <UnstyledButton
+      style={[styles.root, style]}
+      ref={ref}
+      data-disabled={disabled || undefined}
+      data-loading={loading || undefined}
+      {...others}
+    >
+      {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
+      {loading ? loader : children}
+    </UnstyledButton>
+  );
+});

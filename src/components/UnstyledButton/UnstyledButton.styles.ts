@@ -1,4 +1,4 @@
-import { createStyles } from "react-native-mantine";
+import { createStyles } from "../../theme";
 
 export default createStyles((theme, {variant} ) => ({
   root: {

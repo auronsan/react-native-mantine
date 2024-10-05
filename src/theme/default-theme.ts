@@ -1,3 +1,4 @@
+import { attachFunctions } from './functions/attach-functions';
 import type { Palette } from './theme';
 
 export const DEFAULT_COLORS: {
@@ -213,7 +214,7 @@ export const DEFAULT_COLORS: {
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 
-export const DEFAULT_THEME: TTheme = {
+export const _DEFAULT_THEME: TTheme = {
   fontFamily: 'System font',
   fontFamilyBold: 'System font',
   fontFamilySemiBold: 'System font',
@@ -260,6 +261,7 @@ export const DEFAULT_THEME: TTheme = {
     xl: 20,
   },
 
+  defaultRadius:8,
   radius: {
     xs: 2,
     sm: 4,
@@ -294,6 +296,8 @@ export const DEFAULT_THEME: TTheme = {
   primaryBgColor: 'white',
   primaryTextColor: 'black',
 };
+
+export const DEFAULT_THEME = attachFunctions(_DEFAULT_THEME);
 
 type ColorScheme = {
   text: string;

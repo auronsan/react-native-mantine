@@ -1,7 +1,7 @@
 import { ActivityIndicator } from 'react-native';
-import type { MantineNumberSize, MantineColor } from 'react-native-mantine';
+import type { MantineNumberSize, MantineColor } from '../../theme/types';
 
-import { useComponentDefaultProps } from 'react-native-mantine';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 
 // const sizes = {
 //   xs: 18,

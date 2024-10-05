@@ -1,7 +1,7 @@
 import type { ViewStyle } from 'react-native';
 
-import { BoxView } from 'react-native-mantine';
-import type { ViewProps } from 'react-native-mantine';
+import { BoxView } from '../BoxView';
+import type { ViewProps } from '../BoxView';
 
 export const Stack = ({
   children,
