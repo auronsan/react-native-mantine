@@ -8,24 +8,24 @@ import { Text } from '../Text';
 export interface UnstyledButtonProps {
   variant?: string;
   children?: React.ReactNode;
+  onPress?: (payload: any) => void;
 }
 
 export const UnstyledButton = forwardRef<
   any,
   UnstyledButtonProps & { style?: any }
 >((props, ref) => {
-  const { variant, style, children, ...others } = useComponentDefaultProps(
-    'UnstyledButton',
-    {},
-    props
-  );
+  const { variant, style, children, onPress, ...others } =
+    useComponentDefaultProps('UnstyledButton', {}, props);
 
   const { styles } = useStyles({
     variant,
   });
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={typeof onPress === 'function' ? onPress : () => {}}
+    >
       <BoxView ref={ref} style={[styles.root, style]} {...others}>
         <Text>{children}</Text>
       </BoxView>

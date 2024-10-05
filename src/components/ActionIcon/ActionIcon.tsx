@@ -1,101 +1,57 @@
-import React, { forwardRef } from 'react';
-import { useComponentDefaultProps } from '../../theme/theme-provider';
-
-import type {
-  DefaultProps,
-  MantineNumberSize,
-  MantineColor,
-  Variants,
-} from '../../theme/types';
-
-import { UnstyledButton } from '../UnstyledButton';
-import useStyles from './ActionIcon.styles';
-import { Loader } from '../Loader';
-
-import type { LoaderProps } from '../Loader';
+import { isValidElement } from 'react';
+import { TouchableOpacity } from 'react-native';
+import { createStyles } from '../../theme/create-styles';
 import { BoxView } from '../BoxView';
+import { getSize } from '../../theme';
 
-export interface ActionIconProps extends DefaultProps {
-  __staticSelector?: string;
-
-  /** Icon */
+export type ActionIconProps = {
+  onPress?: (payload: any) => void;
   children?: React.ReactNode;
-
-  /** Controls appearance, subtle by default */
-  variant?: Variants<
-    | 'subtle'
-    | 'filled'
-    | 'outline'
-    | 'light'
-    | 'default'
-    | 'transparent'
-    | 'gradient'
-  >;
-
-  /** Key of theme.colors */
-  color?: MantineColor;
-
-  /** Key of theme.radius or any valid CSS value to set border-radius, theme.defaultRadius by default */
-  radius?: MantineNumberSize;
-
-  /** Predefined button size or any valid CSS value to set width and height */
-  size?: MantineNumberSize;
-
-  /** Props added to Loader component (only visible when `loading` prop is set) */
-  loaderProps?: LoaderProps;
-
-  /** Indicates loading state */
-  loading?: boolean;
-
-  /** Indicates disabled state */
-  disabled?: boolean;
-
-  icon?: React.ReactNode;
-}
-
-const defaultProps: Partial<ActionIconProps> = {
-  color: 'gray',
-  size: 'md',
-  variant: 'subtle',
+  icon: React.ReactNode;
+  minWidth?: number;
+  style?: any;
+  size: any;
 };
 
-export const ActionIcon = forwardRef<any, ActionIconProps>((props, ref) => {
-  const {
-    color,
-    children,
-    radius,
-    size,
-    variant,
-    disabled,
-    loaderProps,
-    loading,
-    style,
-    __staticSelector,
-    icon,
-    ...others
-  } = useComponentDefaultProps('ActionIcon', defaultProps, props);
-
-  const { styles, theme } = useStyles({ radius, color, variant, size });
-
-  const loader = (
-    <Loader
-      color={theme.fn.variant({ color, variant }).color}
-      size="100%"
-      data-action-icon-loader
-      {...loaderProps}
-    />
-  );
-
+export const ActionIcon = ({
+  onPress = () => {},
+  children,
+  icon,
+  minWidth = 100,
+  style,
+  size = 'md',
+}: ActionIconProps): React.ReactElement => {
+  const { styles } = useStyles({ minWidth, size });
   return (
-    <UnstyledButton
-      style={[styles.root, style]}
-      ref={ref}
-      data-disabled={disabled || undefined}
-      data-loading={loading || undefined}
-      {...others}
+    <TouchableOpacity
+      onPress={typeof onPress === 'function' ? onPress : () => {}}
+      style={[style, styles.container]}
     >
-      {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
-      {loading ? loader : children}
-    </UnstyledButton>
+      <>
+        <BoxView style={styles.containerButton}>{icon}</BoxView>
+        {isValidElement(children) ? children : <></>}
+      </>
+    </TouchableOpacity>
   );
+};
+
+const useStyles = createStyles((theme, { minWidth = 100, size = 40 }) => {
+  return {
+    container: {
+      alignItems: 'center',
+      minWidth: minWidth,
+    },
+    containerButton: {
+      backgroundColor:
+        theme.currentMode === 'dark'
+          ? theme.primaryBgColor
+          : theme.secondaryBgColor,
+      borderRadius: 50,
+      padding: 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: getSize({ size: 40, sizes: theme.spacing }),
+      width: getSize({ size: 40, sizes: theme.spacing }),
+    },
+  };
 });
