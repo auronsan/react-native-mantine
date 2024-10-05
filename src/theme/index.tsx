@@ -17,6 +17,8 @@ import type { TTheme } from './default-theme';
 import { generateTheme } from './generate-theme';
 
 import { createStyles } from './create-styles';
+import { filterProps } from './filter-props';
+import { getSize } from './get-size';
 
 type ThemeProps = {
   children: ReactNode;
@@ -103,4 +105,24 @@ export const Theme = ({
   );
 };
 
-export { createStyles };
+export function useComponentDefaultProps<
+  T extends Record<string, any>,
+  U extends Partial<T> = {},
+>(
+  component: string,
+  defaultProps: U,
+  props: T
+): T & {
+  [Key in Extract<keyof T, keyof U>]-?: U[Key] | NonNullable<T[Key]>;
+} {
+  const theme = useTheme();
+  const contextPropsPayload = theme.components[component]?.defaultProps;
+  const contextProps =
+    typeof contextPropsPayload === 'function'
+      ? contextPropsPayload(theme)
+      : contextPropsPayload;
+
+  return { ...defaultProps, ...contextProps, ...filterProps(props) };
+}
+
+export { createStyles, getSize, filterProps };

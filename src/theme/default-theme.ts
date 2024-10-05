@@ -242,6 +242,7 @@ export const DEFAULT_THEME: TTheme = {
     tabIconDefault: '#ccc',
     tabIconSelected: tintColorDark,
   },
+  components: {},
   other: {},
   shadows: {
     xs: '0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1)',
