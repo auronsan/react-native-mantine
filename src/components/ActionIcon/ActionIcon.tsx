@@ -35,6 +35,14 @@ export const ActionIcon = ({
   );
 };
 
+export const sizes = {
+  xs: 18,
+  sm: 22,
+  md: 28,
+  lg: 34,
+  xl: 44,
+};
+
 const useStyles = createStyles((theme, { minWidth = 100, size = 40 }) => {
   return {
     container: {
@@ -47,11 +55,10 @@ const useStyles = createStyles((theme, { minWidth = 100, size = 40 }) => {
           ? theme.primaryBgColor
           : theme.secondaryBgColor,
       borderRadius: 50,
-      padding: 10,
       alignItems: 'center',
       justifyContent: 'center',
-      height: getSize({ size: 40, sizes: theme.spacing }),
-      width: getSize({ size: 40, sizes: theme.spacing }),
+      height: getSize({ size: size, sizes }),
+      width: getSize({ size: size, sizes }),
     },
   };
 });
