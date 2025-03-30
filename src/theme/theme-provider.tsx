@@ -13,7 +13,7 @@ import type { ColorSchemeName } from 'react-native';
 import type { ReactNode } from 'react';
 
 import { Layout } from './constants';
-import type { TTheme } from './default-theme';
+import type { MantineTheme } from './default-theme';
 import { createTheme } from './create-theme';
 
 import { filterProps } from './filter-props';
@@ -21,7 +21,7 @@ import useCachedResources from '../hooks/useCachedResources';
 
 type ThemeProps = {
   children: ReactNode;
-  theme?: Partial<TTheme>;
+  theme?: Partial<MantineTheme>;
   forceMode?: 'light' | 'dark';
 };
 
@@ -33,7 +33,7 @@ export const ThemeProvider = ({
   forceMode,
 }: {
   children: React.ReactNode;
-  theme: TTheme;
+  theme: MantineTheme;
   forceMode?: 'light' | 'dark';
 }): React.ReactElement => {
   const { colors, primaryShade, primaryColor, secondaryColor } = theme;
@@ -87,7 +87,7 @@ export const ThemeProvider = ({
   );
 };
 
-export const useTheme = (): TTheme => useContext(ThemeContext);
+export const useTheme = (): MantineTheme => useContext(ThemeContext);
 
 export const Theme = ({
   children,

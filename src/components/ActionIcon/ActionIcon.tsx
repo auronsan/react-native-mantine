@@ -10,7 +10,7 @@ export type ActionIconProps = {
   icon: React.ReactNode;
   minWidth?: number;
   style?: any;
-  size: any;
+  size?: any;
 };
 
 export const ActionIcon = ({

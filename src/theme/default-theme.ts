@@ -214,7 +214,7 @@ export const DEFAULT_COLORS: {
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 
-export const _DEFAULT_THEME: TTheme = {
+export const _DEFAULT_THEME: MantineTheme = {
   fontFamily: 'System font',
   fontFamilyBold: 'System font',
   fontFamilySemiBold: 'System font',
@@ -261,7 +261,7 @@ export const _DEFAULT_THEME: TTheme = {
     xl: 20,
   },
 
-  defaultRadius:8,
+  defaultRadius: 8,
   radius: {
     xs: 2,
     sm: 4,
@@ -319,7 +319,7 @@ export type ThemeSize = {
 
 export type themeMode = 'dark' | 'light';
 
-export type TTheme = {
+export type MantineTheme = {
   fontFamily: string;
   fontFamilyBold: string;
 

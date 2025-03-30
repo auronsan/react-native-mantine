@@ -21,7 +21,7 @@ export const Content = () => {
   );
 };
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   container: {
     flex: 1,
     alignItems: 'center',

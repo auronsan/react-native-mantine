@@ -4,19 +4,30 @@ import { StyleSheet } from 'react-native';
 
 import { useTheme } from './theme-provider';
 
-import type { TTheme } from './default-theme';
+import type { MantineTheme } from './default-theme';
 
 type NamedStyles<T> = {
   [P in keyof T]: ViewStyle | TextStyle | ImageStyle;
 };
 
+type Variations =
+  | {
+      variant?: string;
+      size: string | number;
+    }
+  | any;
+
 export function createStyles<T = any>(
-  input: (theme: TTheme, params: any) => NamedStyles<T>
+  input: (
+    theme: MantineTheme,
+    params: any,
+    variations?: Variations
+  ) => NamedStyles<T>
 ) {
   const getStyleObject = typeof input === 'function' ? input : () => input;
-  function useStyles(params?: any) {
+  function useStyles(params?: any, variations?: Variations) {
     const theme = useTheme();
-    const styleObject = getStyleObject(theme, params);
+    const styleObject = getStyleObject(theme, params, variations);
     const sx = (...args: any) => {
       return args;
     };

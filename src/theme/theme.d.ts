@@ -11,3 +11,5 @@ export type Palette = [
   string,
   string,
 ];
+
+export type MantineGradient = any;

@@ -1,7 +1,7 @@
 import { DEFAULT_COLORS, DEFAULT_THEME } from './default-theme';
-import type { TTheme } from './default-theme';
+import type { MantineTheme } from './default-theme';
 
-export const createTheme = (theme?: Partial<TTheme>): TTheme => {
+export const createTheme = (theme?: Partial<MantineTheme>): MantineTheme => {
   const { primaryShade = 7, other = {} } = theme || {};
   return {
     ...DEFAULT_THEME,
