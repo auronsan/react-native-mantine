@@ -14,7 +14,7 @@ import type { ReactNode } from 'react';
 
 import { Layout } from './constants';
 import type { TTheme } from './default-theme';
-import { generateTheme } from './generate-theme';
+import { createTheme } from './create-theme';
 
 import { filterProps } from './filter-props';
 import useCachedResources from '../hooks/useCachedResources';
@@ -97,7 +97,7 @@ export const Theme = ({
   const loaded = useCachedResources();
 
   const theme = useMemo(() => {
-    return generateTheme(themeOverwrite);
+    return createTheme(themeOverwrite);
   }, [themeOverwrite]);
 
   if (!loaded) {
