@@ -90,7 +90,7 @@ export interface SelectProps extends DefaultProps {
 const useStyles = createStyles(
   (
     theme,
-    { color, size }: { color: MantineColor; size: MantineSize }
+    { color }: { color: MantineColor; size: MantineSize }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
 
@@ -102,7 +102,7 @@ const useStyles = createStyles(
       },
       modalContent: {
         backgroundColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[7] : theme.white,
         borderTopLeftRadius: theme.radius.lg,
         borderTopRightRadius: theme.radius.lg,
         maxHeight: '80%',
@@ -112,14 +112,14 @@ const useStyles = createStyles(
         borderBottomWidth: 1,
         borderBottomColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[4]
-            : theme.colors.gray[2],
+            ? (theme.colors.dark || [])[4]
+            : (theme.colors.gray || [])[2],
       },
       listContainer: {
-        paddingVertical: rem(8),
+        paddingVertical: rem(8) as any,
       },
       item: {
-        paddingVertical: rem(12),
+        paddingVertical: rem(12) as any,
         paddingHorizontal: theme.spacing.md,
         flexDirection: 'row',
         alignItems: 'center',
@@ -127,29 +127,29 @@ const useStyles = createStyles(
       itemSelected: {
         backgroundColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[5]
-            : colors?.[0] || theme.colors.gray[0],
+            ? (theme.colors.dark || [])[5]
+            : colors?.[0] || (theme.colors.gray || [])[0],
       },
       itemDisabled: {
         opacity: 0.4,
       },
       itemText: {
-        fontSize: rem(14),
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        fontSize: rem(14) as any,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
       },
       itemTextSelected: {
         fontWeight: '600',
         color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
       },
       groupLabel: {
-        paddingVertical: rem(8),
+        paddingVertical: rem(8) as any,
         paddingHorizontal: theme.spacing.md,
-        fontSize: rem(12),
+        fontSize: rem(12) as any,
         fontWeight: '600',
         color:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[2]
-            : theme.colors.gray[6],
+            ? (theme.colors.dark || [])[2]
+            : (theme.colors.gray || [])[6],
         textTransform: 'uppercase',
       },
       emptyState: {
@@ -159,12 +159,12 @@ const useStyles = createStyles(
       emptyText: {
         color:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[2]
-            : theme.colors.gray[6],
+            ? (theme.colors.dark || [])[2]
+            : (theme.colors.gray || [])[6],
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<SelectProps> = {
   size: 'md',
@@ -251,7 +251,7 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
       if (!groupedData[item.group]) {
         groupedData[item.group] = [];
       }
-      groupedData[item.group].push(item);
+      groupedData[item.group]!.push(item);
     } else {
       ungroupedItems.push(item);
     }
@@ -266,12 +266,11 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
         error={error}
         size={size}
         radius={radius}
-        disabled={disabled}
         icon={icon}
         rightSection={rightSection}
         value={selectedItem?.label || ''}
         placeholder={placeholder}
-        editable={false}
+        editable={!disabled}
         onPress={() => !disabled && setOpened(true)}
         style={style}
         {...others}
@@ -338,7 +337,7 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
               {Object.keys(groupedData).map((group) => (
                 <React.Fragment key={group}>
                   <Text style={styles.groupLabel}>{group}</Text>
-                  {groupedData[group].map((item) => (
+                  {(groupedData[group] || []).map((item) => (
                     <TouchableOpacity
                       key={item.value}
                       style={[

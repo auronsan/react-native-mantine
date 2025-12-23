@@ -2,8 +2,8 @@ import React, { forwardRef, createContext, useContext } from 'react';
 import { ScrollView } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
-import type { DefaultProps, MantineNumberSize, SpacingValue } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import type { DefaultProps, SpacingValue } from '../../theme/types';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -141,7 +141,7 @@ const useTableStyles = createStyles(
       }),
     },
     caption: {
-      fontSize: theme.fontSizes.sm,
+      fontSize: theme.fontSizes.sm as number,
       color: theme.colorScheme === 'dark' ? theme.colors.dark?.[2] : theme.colors.gray?.[6],
       paddingVertical: theme.spacing.xs,
       textAlign: 'center',
@@ -162,7 +162,6 @@ const useTableRowStyles = createStyles(
     theme,
     {
       striped,
-      highlightOnHover,
       isEven,
     }: {
       striped: boolean;
@@ -247,7 +246,7 @@ export const Table = forwardRef<any, TableProps>((props, ref) => {
     verticalSpacing,
     fontSize,
     striped,
-    highlightOnHover,
+    highlightOnHover: _highlightOnHover,
     withBorder,
     withColumnBorders,
     captionSide,
@@ -256,8 +255,7 @@ export const Table = forwardRef<any, TableProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Table', defaultProps, props);
 
-  const theme = useTheme();
-  const { styles, sx } = useTableStyles(
+  const { styles, sx} = useTableStyles(
     { withBorder, captionSide },
     { name: 'Table' }
   ) as any;
@@ -266,7 +264,7 @@ export const Table = forwardRef<any, TableProps>((props, ref) => {
     <TableContext.Provider
       value={{
         striped: striped!,
-        highlightOnHover: highlightOnHover!,
+        highlightOnHover: _highlightOnHover!,
         withBorder: withBorder!,
         withColumnBorders: withColumnBorders!,
         fontSize: fontSize!,
@@ -285,8 +283,8 @@ export const Table = forwardRef<any, TableProps>((props, ref) => {
 });
 
 export const Thead = forwardRef<any, TableTheadProps>((props, ref) => {
-  const { children, style, ...others } = props;
-  const { styles, sx } = useTableHeadStyles({}, { name: 'Thead' }) as any;
+  const { children, style, ...others} = props;
+  const { styles, sx} = useTableHeadStyles({}, { name: 'Thead' }) as any;
 
   return (
     <BoxView ref={ref} style={sx(styles.thead, style)} {...others}>
@@ -324,10 +322,10 @@ export const Tfoot = forwardRef<any, TableTfootProps>((props, ref) => {
 });
 
 export const Tr = forwardRef<any, TableTrProps>((props, ref) => {
-  const { children, style, __index, ...others } = props;
+  const { children, style, __index, ...others} = props;
   const context = useTableContext();
 
-  const { styles, sx } = useTableRowStyles(
+  const { styles, sx} = useTableRowStyles(
     {
       striped: context?.striped ?? false,
       highlightOnHover: context?.highlightOnHover ?? false,
@@ -344,10 +342,10 @@ export const Tr = forwardRef<any, TableTrProps>((props, ref) => {
 });
 
 export const Th = forwardRef<any, TableThProps>((props, ref) => {
-  const { children, style, ...others } = props;
+  const { children, style, ...others} = props;
   const context = useTableContext();
 
-  const { styles, sx } = useTableCellStyles(
+  const { styles, sx} = useTableCellStyles(
     {
       fontSize: context?.fontSize ?? 'sm',
       verticalSpacing: context?.verticalSpacing ?? 'xs',
@@ -366,10 +364,10 @@ export const Th = forwardRef<any, TableThProps>((props, ref) => {
 });
 
 export const Td = forwardRef<any, TableTdProps>((props, ref) => {
-  const { children, style, ...others } = props;
+  const { children, style, ...others} = props;
   const context = useTableContext();
 
-  const { styles, sx } = useTableCellStyles(
+  const { styles, sx} = useTableCellStyles(
     {
       fontSize: context?.fontSize ?? 'sm',
       verticalSpacing: context?.verticalSpacing ?? 'xs',

@@ -57,7 +57,7 @@ const useStyles = createStyles(
       },
       icon: {
         marginRight: theme.spacing.md,
-        marginTop: rem(2),
+        marginTop: rem(2) as any as any,
       },
       body: {
         flex: 1,
@@ -83,10 +83,10 @@ const defaultProps: Partial<BlockquoteProps> = {
 };
 
 export const Blockquote = forwardRef<any, BlockquoteProps>((props, ref) => {
-  const { color, icon, cite, radius, children, style, ...others } =
+  const { color, icon, cite, radius, children, style} =
     useComponentDefaultProps('Blockquote', defaultProps, props);
 
-  const { styles, sx } = useStyles({ color, radius }, { name: 'Blockquote' }) as any;
+  const { styles, sx, ...others} = useStyles({ color, radius}, { name: 'Blockquote' }) as any;
 
   return (
     <BoxView ref={ref} style={sx(styles.root, style)} {...others}>

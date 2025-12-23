@@ -9,7 +9,7 @@ import type {
   MantineSize,
   Variants,
 } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -58,11 +58,11 @@ export interface ChipProps extends DefaultProps {
 }
 
 const sizes = {
-  xs: { height: rem(24), fontSize: rem(10), paddingHorizontal: rem(8) },
-  sm: { height: rem(28), fontSize: rem(12), paddingHorizontal: rem(10) },
-  md: { height: rem(32), fontSize: rem(14), paddingHorizontal: rem(12) },
-  lg: { height: rem(36), fontSize: rem(16), paddingHorizontal: rem(14) },
-  xl: { height: rem(42), fontSize: rem(18), paddingHorizontal: rem(16) },
+  xs: { height: rem(24) as any, fontSize: rem(10), paddingHorizontal: rem(8) as any },
+  sm: { height: rem(28) as any, fontSize: rem(12), paddingHorizontal: rem(10) as any },
+  md: { height: rem(32) as any, fontSize: rem(14), paddingHorizontal: rem(12) as any },
+  lg: { height: rem(36) as any, fontSize: rem(16), paddingHorizontal: rem(14) as any },
+  xl: { height: rem(42) as any, fontSize: rem(18), paddingHorizontal: rem(16) as any },
 };
 
 const useStyles = createStyles(
@@ -85,7 +85,7 @@ const useStyles = createStyles(
     }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const sizeStyles = sizes[size] || sizes.md;
+    const sizeStyles = sizes[size as keyof typeof sizes] || sizes.md;
 
     const getVariantStyles = () => {
       if (!checked) {
@@ -115,7 +115,7 @@ const useStyles = createStyles(
             backgroundColor:
               theme.colorScheme === 'dark'
                 ? theme.fn.rgba(colors?.[9] || theme.primaryBgColor, 0.25)
-                : colors?.[0] || theme.colors.gray[1],
+                : colors?.[0] || (theme.colors.gray || [])[1],
             borderWidth: 0,
           };
         default:
@@ -195,12 +195,11 @@ export const Chip = forwardRef<any, ChipProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Chip', defaultProps, props);
 
-  const theme = useTheme();
   const [uncontrolledChecked, setUncontrolledChecked] = React.useState(defaultChecked || false);
 
   const checked = controlledChecked !== undefined ? controlledChecked : uncontrolledChecked;
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { size, color, radius, variant, checked, disabled },
     { name: 'Chip' }
   ) as any;
@@ -289,7 +288,7 @@ export const ChipGroup = forwardRef<any, ChipGroupProps>((props, ref) => {
     multiple,
     style,
     spacing,
-    ...others
+    ...otherProps
   } = useComponentDefaultProps('ChipGroup', defaultGroupProps, props);
 
   const [uncontrolledValue, setUncontrolledValue] = React.useState<string | string[]>(
@@ -298,7 +297,7 @@ export const ChipGroup = forwardRef<any, ChipGroupProps>((props, ref) => {
 
   const value = controlledValue !== undefined ? controlledValue : uncontrolledValue;
 
-  const { styles, sx } = useGroupStyles({ spacing }, { name: 'ChipGroup' }) as any;
+  const { styles, sx } = useGroupStyles({ spacing}, { name: 'ChipGroup' }) as any;
 
   const handleChipChange = (chipValue: string, checked: boolean) => {
     let newValue: string | string[];
@@ -339,7 +338,7 @@ export const ChipGroup = forwardRef<any, ChipGroupProps>((props, ref) => {
   });
 
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+    <BoxView ref={ref} style={sx(styles.root, style)} {...otherProps}>
       {enhancedChildren}
     </BoxView>
   );

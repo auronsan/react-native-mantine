@@ -19,7 +19,7 @@ export interface CodeProps extends Omit<TextProps, 'children'> {
  * Code component renders inline code or code blocks with monospace font
  */
 export const Code = forwardRef<any, CodeProps>((props, ref) => {
-  const { children, color, block = false, style, ...others } = props;
+  const { children, color, block = false, style, ...others} = props;
 
   const theme = useTheme();
 
@@ -32,7 +32,7 @@ export const Code = forwardRef<any, CodeProps>((props, ref) => {
   // Monospace font - in React Native, we can use 'Courier' or 'Courier New'
   const codeStyles = {
     fontFamily: 'Courier',
-    fontSize: theme.fontSizes.sm || 14,
+    fontSize: theme.fontSizes.sm as number || 14,
     backgroundColor: backgroundColor,
     color: textColor,
     paddingHorizontal: block ? 16 : 4,
@@ -57,7 +57,7 @@ export const Code = forwardRef<any, CodeProps>((props, ref) => {
           style={[
             {
               fontFamily: 'Courier',
-              fontSize: theme.fontSizes.sm || 14,
+              fontSize: theme.fontSizes.sm as number || 14,
               color: textColor,
             },
           ]}

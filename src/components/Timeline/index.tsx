@@ -2,7 +2,7 @@ import React, { forwardRef, createContext, useContext } from 'react';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor, MantineNumberSize } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -84,7 +84,7 @@ export interface TimelineItemProps extends DefaultProps {
 }
 
 const useTimelineStyles = createStyles(
-  (theme, { align }: { align: 'left' | 'right' }) => ({
+  (_theme, { align }: { align: 'left' | 'right' }) => ({
     root: {
       flexDirection: 'column',
       alignItems: align === 'left' ? 'flex-start' : 'flex-end',
@@ -119,7 +119,7 @@ const useTimelineItemStyles = createStyles(
 
     const getLineStyle = () => {
       const baseStyle = {
-        borderLeftWidth: lineWidth,
+        borderLeftWidth: lineWidth as any,
         borderLeftColor: isActive
           ? colors?.[6] || colors?.[5] || theme.primaryBgColor
           : theme.colorScheme === 'dark'
@@ -149,19 +149,19 @@ const useTimelineItemStyles = createStyles(
       },
       bulletWrapper: {
         position: 'relative',
-        width: bulletSize,
+        width: bulletSize as any,
         alignItems: 'center',
       },
       bullet: {
-        width: bulletSize,
-        height: bulletSize,
+        width: bulletSize as any,
+        height: bulletSize as any,
         borderRadius: theme.fn.radius(radius),
         backgroundColor: isActive
           ? colors?.[6] || colors?.[5] || theme.primaryBgColor
           : theme.colorScheme === 'dark'
           ? theme.colors.dark?.[5]
           : theme.colors.gray?.[2],
-        borderWidth: rem(2),
+        borderWidth: rem(2) as any,
         borderColor: isActive
           ? colors?.[6] || colors?.[5] || theme.primaryBgColor
           : theme.colorScheme === 'dark'
@@ -173,19 +173,19 @@ const useTimelineItemStyles = createStyles(
       },
       line: {
         position: 'absolute',
-        top: bulletSize,
+        top: bulletSize as any,
         bottom: 0,
-        left: bulletSize / 2 - lineWidth / 2,
+        left: (bulletSize / 2 - lineWidth / 2) as any,
         ...getLineStyle(),
       },
       title: {
-        fontSize: theme.fontSizes.sm,
+        fontSize: theme.fontSizes.sm as number,
         fontWeight: '600',
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-        marginBottom: rem(4),
+        marginBottom: rem(4) as any,
       },
       content: {
-        fontSize: theme.fontSizes.sm,
+        fontSize: theme.fontSizes.sm as number,
         color: theme.colorScheme === 'dark' ? theme.colors.dark?.[2] : theme.colors.gray?.[7],
       },
     };
@@ -220,7 +220,6 @@ export const Timeline = forwardRef<any, TimelineProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Timeline', defaultProps, props);
 
-  const theme = useTheme();
   const { styles, sx } = useTimelineStyles({ align }, { name: 'Timeline' }) as any;
 
   const childrenArray = React.Children.toArray(children);
@@ -230,7 +229,7 @@ export const Timeline = forwardRef<any, TimelineProps>((props, ref) => {
     <TimelineContext.Provider
       value={{
         color: color!,
-        radius: radius!,
+        radius: radius || 'sm',
         lineWidth: lineWidth!,
         bulletSize: bulletSize!,
         align: align!,
@@ -276,14 +275,13 @@ export const TimelineItem = forwardRef<
   } = { ...defaultItemProps, ...props };
 
   const context = useTimelineContext();
-  const theme = useTheme();
 
   const bulletSize = itemBulletSize || context.bulletSize;
   const color = itemColor || context.color;
   const isActive = __isActive ?? false;
   const isLast = __isLast ?? false;
 
-  const { styles, sx } = useTimelineItemStyles(
+  const { styles, sx} = useTimelineItemStyles(
     {
       color,
       radius: context.radius,

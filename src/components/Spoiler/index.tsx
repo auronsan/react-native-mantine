@@ -1,10 +1,9 @@
-import React, { forwardRef, useState, useRef } from 'react';
-import { TouchableOpacity, LayoutChangeEvent } from 'react-native';
+import React, { forwardRef, useState } from 'react';
+import { TouchableOpacity, type LayoutChangeEvent } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
-import { Collapse } from '../Collapse';
 import type { DefaultProps } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -44,7 +43,7 @@ const useStyles = createStyles((theme) => ({
     paddingBottom: theme.spacing.sm,
   },
   controlText: {
-    fontSize: theme.fontSizes.sm,
+    fontSize: theme.fontSizes.sm as number,
     fontWeight: '500',
     color: theme.colors[theme.primaryColor]?.[6] || theme.primaryBgColor,
   },
@@ -70,8 +69,7 @@ export const Spoiler = forwardRef<any, SpoilerProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Spoiler', defaultProps, props);
 
-  const theme = useTheme();
-  const { styles, sx } = useStyles({}, { name: 'Spoiler' }) as any;
+  const { styles, sx} = useStyles({}, { name: 'Spoiler' }) as any;
 
   const [contentHeight, setContentHeight] = useState<number>(0);
   const [uncontrolledExpanded, setUncontrolledExpanded] = useState(false);

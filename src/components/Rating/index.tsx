@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor, MantineSize } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -62,7 +62,6 @@ const useStyles = createStyles(
     {
       color,
       emptyColor,
-      readOnly,
     }: {
       color: MantineColor;
       emptyColor: MantineColor;
@@ -72,7 +71,7 @@ const useStyles = createStyles(
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
     const emptyColors = theme.colors[emptyColor] || theme.colors.gray;
-    const sizeValue = sizes[size] || sizes.md;
+    const sizeValue = sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
       root: {
@@ -80,11 +79,11 @@ const useStyles = createStyles(
         alignItems: 'center',
       },
       symbolWrapper: {
-        marginHorizontal: rem(2),
+        marginHorizontal: rem(2) as any,
       },
       symbol: {
-        fontSize: sizeValue,
-        lineHeight: sizeValue,
+        fontSize: sizeValue as any,
+        lineHeight: sizeValue as any,
       },
       symbolFilled: {
         color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
@@ -97,7 +96,7 @@ const useStyles = createStyles(
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<RatingProps> = {
   count: 5,
@@ -131,7 +130,6 @@ export const Rating = forwardRef<any, RatingProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Rating', defaultProps, props);
 
-  const theme = useTheme();
   const { styles, sx } = useStyles(
     { color, emptyColor, readOnly },
     { name: 'Rating', size }
@@ -155,7 +153,6 @@ export const Rating = forwardRef<any, RatingProps>((props, ref) => {
   const renderSymbol = (index: number) => {
     const currentValue = hoveredValue >= 0 && !highlightSelectedOnly ? hoveredValue : value;
     const isActive = index < currentValue;
-    const isFractional = index < Math.floor(currentValue) + (currentValue % 1 > 0 ? 1 : 0);
 
     // For fractional ratings, calculate fill percentage
     const fillPercentage =

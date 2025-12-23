@@ -116,7 +116,6 @@ export const Burger = forwardRef<any, BurgerProps>((props, ref) => {
     { name: 'Burger' }
   ) as any;
 
-
   useEffect(() => {
     const config = {
       duration: transitionDuration,

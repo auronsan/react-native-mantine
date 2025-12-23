@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { Animated, View } from 'react-native';
+import { View } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor } from '../../theme/types';
@@ -77,7 +77,7 @@ const useStyles = createStyles(
       position: 'absolute',
       fontSize: rem(14),
       fontWeight: '600',
-      color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+      color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
     },
     // Simplified progress representation
     progressContainer: {
@@ -112,15 +112,14 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
 
   const rootColor =
     customRootColor ||
-    (theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]);
+    (theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[2]);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { size, thickness, rootColor },
     { name: 'RingProgress' }
   ) as any;
 
-  // Calculate total value
-  const totalValue = sections.reduce((acc, section) => acc + section.value, 0);
+  // Calculate total value and normalize sections
   const normalizedSections = sections.map((section) => ({
     ...section,
     percentage: (section.value / 100) * 100,
@@ -147,9 +146,9 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
           key={index}
           style={{
             position: 'absolute',
-            width: size,
-            height: size,
-            borderRadius: size / 2,
+            width: size!,
+            height: size!,
+            borderRadius: size! / 2,
             borderWidth: thickness,
             borderColor: 'transparent',
             borderTopColor: sectionColor,

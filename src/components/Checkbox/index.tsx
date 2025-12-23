@@ -3,7 +3,7 @@ import { Pressable, Animated } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor, MantineSize } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -58,7 +58,7 @@ const useStyles = createStyles(
     }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const checkboxSize = sizes[size] || sizes.md;
+    const checkboxSize = sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
       root: {
@@ -67,11 +67,11 @@ const useStyles = createStyles(
         opacity: disabled ? 0.5 : 1,
       },
       checkbox: {
-        width: checkboxSize,
-        height: checkboxSize,
+        width: checkboxSize as any,
+        height: checkboxSize as any,
         borderRadius: theme.radius.sm,
         borderWidth: 2,
-        borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[4],
+        borderColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
@@ -82,12 +82,12 @@ const useStyles = createStyles(
       },
       checkmark: {
         color: theme.white,
-        fontSize: parseInt(checkboxSize) * 0.6,
+        fontSize: (checkboxSize as any as number) * 0.6,
         fontWeight: 'bold',
       },
       label: {
-        fontSize: theme.fontSizes.sm,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        fontSize: theme.fontSizes.sm as number,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
         marginLeft: theme.spacing.sm,
         flex: 1,
       },
@@ -114,10 +114,10 @@ export const Checkbox = forwardRef<any, CheckboxProps>((props, ref) => {
     disabled,
     style,
     wrapperStyle,
-    ...others
+    ...otherProps
   } = useComponentDefaultProps('Checkbox', defaultProps, props);
 
-  const { styles, sx } = useStyles({ size, color, disabled }, { name: 'Checkbox' }) as any;
+  const { styles, sx } = useStyles({ size, color, disabled}, { name: 'Checkbox' }) as any;
 
   const scaleAnim = useRef(new Animated.Value(checked ? 1 : 0)).current;
 
@@ -157,7 +157,7 @@ export const Checkbox = forwardRef<any, CheckboxProps>((props, ref) => {
       style={sx(styles.root, wrapperStyle)}
       accessibilityRole="checkbox"
       accessibilityState={{ checked: checked || indeterminate }}
-      {...others}
+      {...otherProps}
     >
       {checkboxContent}
       {label && <Text style={styles.label}>{label}</Text>}

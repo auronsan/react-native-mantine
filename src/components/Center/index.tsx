@@ -16,7 +16,7 @@ export interface CenterProps extends DefaultProps, Omit<ViewProps, 'style'> {
  * Uses flexbox to achieve centering
  */
 export const Center = forwardRef<any, CenterProps>((props, ref) => {
-  const { children, style, inline, ...others } = props;
+  const { children, style, inline, ...others} = props;
 
   return (
     <BoxView

@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor, MantineNumberSize } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -46,7 +46,6 @@ const useStyles = createStyles(
       color,
       radius,
       withBorder,
-      withIcon,
     }: {
       color: MantineColor;
       radius: MantineNumberSize;
@@ -59,7 +58,7 @@ const useStyles = createStyles(
 
     return {
       root: {
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
+        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[6] : theme.white,
         borderRadius: theme.fn.radius(radius),
         padding: theme.spacing.md,
         flexDirection: 'row',
@@ -67,8 +66,8 @@ const useStyles = createStyles(
         ...(withBorder && {
           borderWidth: 1,
           borderColor:
-            theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3],
-          borderLeftWidth: rem(4),
+            theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[3],
+          borderLeftWidth: rem(4) as any,
           borderLeftColor: borderColor,
         }),
         // Shadow for elevation
@@ -83,34 +82,34 @@ const useStyles = createStyles(
       },
       icon: {
         marginRight: theme.spacing.md,
-        paddingTop: rem(2),
+        paddingTop: rem(2) as any,
       },
       body: {
         flex: 1,
       },
       title: {
-        fontSize: theme.fontSizes.sm,
+        fontSize: theme.fontSizes.sm as number,
         fontWeight: '600',
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
         marginBottom: theme.spacing.xs,
       },
       message: {
-        fontSize: theme.fontSizes.sm,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[6],
+        fontSize: theme.fontSizes.sm as number,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
         lineHeight: theme.fontSizes.sm * 1.5,
       },
       closeButton: {
-        width: rem(24),
-        height: rem(24),
-        borderRadius: rem(12),
+        width: rem(24) as any,
+        height: rem(24) as any,
+        borderRadius: rem(12) as any,
         backgroundColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[1],
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: theme.spacing.sm,
       },
       closeButtonText: {
-        fontSize: rem(16),
+        fontSize: rem(16) as any,
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
       },
       loader: {
@@ -118,7 +117,7 @@ const useStyles = createStyles(
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<NotificationProps> = {
   color: 'blue',
@@ -143,8 +142,7 @@ export const Notification = forwardRef<any, NotificationProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Notification', defaultProps, props);
 
-  const theme = useTheme();
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { color, radius, withBorder, withIcon: !!icon },
     { name: 'Notification' }
   ) as any;

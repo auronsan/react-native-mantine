@@ -16,8 +16,7 @@ export interface TitleProps extends Omit<TextProps, 'size'> {
  * Maps order prop to h1-h6 heading styles from theme
  */
 export const Title = forwardRef<any, TitleProps>((props, ref) => {
-  const { order = 1, children, style, ...others } = props;
-
+  const { order = 1, children, style, ...others} = props;
   const theme = useTheme();
 
   // Get heading styles from theme

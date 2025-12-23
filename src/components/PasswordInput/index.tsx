@@ -49,8 +49,6 @@ export const PasswordInput = forwardRef<RNTextInput, PasswordInputProps>((props,
     onVisibilityChange?.(newVisible);
   };
 
-  const ToggleIcon = visibilityToggleIcon || DefaultEyeIcon;
-
   const toggleButton = (
     <Pressable
       onPress={handleToggle}
@@ -62,7 +60,7 @@ export const PasswordInput = forwardRef<RNTextInput, PasswordInputProps>((props,
         alignItems: 'center',
       }}
     >
-      <ToggleIcon visible={visible} />
+      {visibilityToggleIcon ? visibilityToggleIcon(visible) : <DefaultEyeIcon visible={visible} />}
     </Pressable>
   );
 

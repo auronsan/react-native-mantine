@@ -122,10 +122,10 @@ const defaultProps: Partial<ThemeIconProps> = {
 };
 
 export const ThemeIcon = forwardRef<any, ThemeIconProps>((props, ref) => {
-  const { color, variant, gradient, size, radius, children, style, ...others } =
+  const { color, variant, gradient, size, radius, children, style, ...others} =
     useComponentDefaultProps('ThemeIcon', defaultProps, props);
 
-  const { styles, sx, theme } = useStyles(
+  const { styles, sx, theme} = useStyles(
     { color, size, radius, variant },
     { name: 'ThemeIcon' }
   ) as any;

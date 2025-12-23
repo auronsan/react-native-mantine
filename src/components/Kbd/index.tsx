@@ -27,35 +27,35 @@ const sizes = {
 
 const useStyles = createStyles(
   (theme, _params, { size }) => {
-    const sizeStyles = sizes[size] || sizes.md;
+    const sizeStyles = sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
       root: {
         backgroundColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[5]
-            : theme.colors.gray[0],
+            ? (theme.colors.dark || [])[5]
+            : (theme.colors.gray || [])[0],
         borderWidth: 1,
         borderBottomWidth: 2,
         borderColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[4]
-            : theme.colors.gray[3],
+            ? (theme.colors.dark || [])[4]
+            : (theme.colors.gray || [])[3],
         borderRadius: theme.radius.sm,
         paddingHorizontal: theme.spacing.xs,
-        paddingVertical: rem(2),
-        minWidth: sizeStyles.minWidth,
+        paddingVertical: rem(2) as any as any,
+        minWidth: sizeStyles.minWidth as any,
         alignItems: 'center',
         justifyContent: 'center',
       },
       label: {
-        fontSize: sizeStyles.fontSize,
+        fontSize: sizeStyles.fontSize as any,
         fontWeight: '700',
         fontFamily: theme.fontFamilyMonospace,
         color:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[0]
-            : theme.colors.gray[7],
+            ? (theme.colors.dark || [])[0]
+            : (theme.colors.gray || [])[7],
       },
     };
   }
@@ -66,16 +66,16 @@ const defaultProps: Partial<KbdProps> = {
 };
 
 export const Kbd = forwardRef<any, KbdProps>((props, ref) => {
-  const { size, children, style, ...others } = useComponentDefaultProps(
+  const { size, children, style, ...otherProps} = useComponentDefaultProps(
     'Kbd',
     defaultProps,
     props
   );
 
-  const { styles, sx } = useStyles({}, { name: 'Kbd', size }) as any;
+  const { styles, sx } = useStyles({}, { name: 'Kbd', size}) as any;
 
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+    <BoxView ref={ref} style={sx(styles.root, style)} {...otherProps}>
       <Text style={styles.label}>{children}</Text>
     </BoxView>
   );

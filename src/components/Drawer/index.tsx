@@ -10,7 +10,7 @@ import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import { Overlay } from '../Overlay';
 import type { DefaultProps, MantineNumberSize, SpacingValue } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -90,7 +90,7 @@ const useStyles = createStyles(
 
     const getSize = () => {
       if (typeof size === 'number') return rem(size);
-      return rem(sizes[size] || sizes.md);
+      return rem(sizes[size as keyof typeof sizes] || sizes.md);
     };
 
     const isHorizontal = position === 'left' || position === 'right';
@@ -104,10 +104,10 @@ const useStyles = createStyles(
         alignItems: position === 'right' ? 'flex-end' : position === 'left' ? 'flex-start' : 'stretch',
       },
       container: {
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[7] : theme.white,
         [dimensionKey]: getSize(),
         maxHeight: '100%',
-        maxWidth: '100%',
+        maxWidth: '100%' as any,
         ...(position === 'left' && {
           borderTopRightRadius: theme.fn.radius('md'),
           borderBottomRightRadius: theme.fn.radius('md'),
@@ -129,29 +129,29 @@ const useStyles = createStyles(
         padding: getPadding(),
         borderBottomWidth: 1,
         borderBottomColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2],
+          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[2],
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
       },
       title: {
-        fontSize: theme.fontSizes.lg,
+        fontSize: theme.fontSizes.lg as number,
         fontWeight: '600',
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
         flex: 1,
       },
       closeButton: {
-        width: rem(32),
-        height: rem(32),
-        borderRadius: rem(16),
+        width: rem(32) as any,
+        height: rem(32) as any,
+        borderRadius: rem(16) as any,
         backgroundColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[1],
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: theme.spacing.md,
       },
       closeButtonText: {
-        fontSize: rem(20),
+        fontSize: rem(20) as any,
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
       },
       body: {

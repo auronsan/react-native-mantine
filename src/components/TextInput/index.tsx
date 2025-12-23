@@ -71,7 +71,7 @@ const useStyles = createStyles(
     const getVariantStyles = () => {
       if (variant === 'filled') {
         return {
-          backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+          backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[1],
           borderWidth: 1,
           borderColor: 'transparent',
         };
@@ -87,36 +87,36 @@ const useStyles = createStyles(
 
       // default variant
       return {
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
+        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[6] : theme.white,
         borderWidth: 1,
-        borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[4],
+        borderColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
       };
     };
 
-    const sizeValue = INPUT_SIZES[size] || INPUT_SIZES.md;
+    const sizeValue = INPUT_SIZES[size as keyof typeof INPUT_SIZES] || INPUT_SIZES.md;
 
     return {
       wrapper: {
         width: '100%',
       },
       label: {
-        fontSize: theme.fontSizes.sm,
+        fontSize: theme.fontSizes.sm as number,
         fontWeight: '500',
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
         marginBottom: theme.spacing.xs / 2,
       },
       required: {
-        color: theme.colors.red[6],
+        color: (theme.colors.red || [])[6],
       },
       description: {
-        fontSize: theme.fontSizes.xs,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[6],
+        fontSize: theme.fontSizes.xs as number,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
         marginTop: theme.spacing.xs / 2,
         marginBottom: theme.spacing.xs / 2,
       },
       error: {
-        fontSize: theme.fontSizes.xs,
-        color: theme.colors.red[6],
+        fontSize: theme.fontSizes.xs as number,
+        color: (theme.colors.red || [])[6],
         marginTop: theme.spacing.xs / 2,
       },
       inputWrapper: {
@@ -124,21 +124,21 @@ const useStyles = createStyles(
       },
       input: {
         ...theme.fn.fontStyles(),
-        height: sizeValue,
-        fontSize: getSize({ size, sizes: theme.fontSizes }),
-        paddingHorizontal: variant === 'unstyled' ? 0 : rem(12),
-        paddingLeft: withIcon ? sizeValue : variant === 'unstyled' ? 0 : rem(12),
-        paddingRight: withRightSection
-          ? rem(rightSectionWidth || parseInt(sizeValue))
+        height: sizeValue as any,
+        fontSize: getSize({ size, sizes: theme.fontSizes }) as any,
+        paddingHorizontal: (variant === 'unstyled' ? 0 : rem(12)) as any,
+        paddingLeft: (withIcon ? sizeValue : variant === 'unstyled' ? 0 : rem(12)) as any,
+        paddingRight: (withRightSection
+          ? rem(rightSectionWidth || parseInt(sizeValue as string))
           : variant === 'unstyled'
           ? 0
-          : rem(12),
+          : rem(12)) as any,
         borderRadius: theme.fn.radius(radius),
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
         ...getVariantStyles(),
         ...(invalid && {
-          borderColor: theme.colors.red[6],
-          color: theme.colors.red[6],
+          borderColor: (theme.colors.red || [])[6],
+          color: (theme.colors.red || [])[6],
         }),
       },
       icon: {
@@ -146,7 +146,7 @@ const useStyles = createStyles(
         left: 0,
         top: 0,
         bottom: 0,
-        width: sizeValue,
+        width: sizeValue as any,
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 1,
@@ -156,13 +156,13 @@ const useStyles = createStyles(
         right: 0,
         top: 0,
         bottom: 0,
-        width: rem(rightSectionWidth || parseInt(sizeValue)),
+        width: rem(rightSectionWidth || parseInt(sizeValue as string)) as any,
         justifyContent: 'center',
         alignItems: 'center',
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<TextInputProps> = {
   size: 'sm',
@@ -188,7 +188,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, ref) =>
     ...others
   } = useComponentDefaultProps('TextInput', defaultProps, props);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     {
       radius,
       invalid: !!error,

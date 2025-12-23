@@ -104,7 +104,7 @@ export const _Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ...others
     } = useComponentDefaultProps('Button', defaultProps, props);
 
-    const { styles, sx } = useStyles(
+    const { styles, sx} = useStyles(
       {
         radius,
         color,

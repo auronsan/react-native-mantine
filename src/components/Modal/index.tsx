@@ -11,7 +11,7 @@ import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import { Overlay } from '../Overlay';
 import type { DefaultProps, MantineNumberSize, SpacingValue } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -104,7 +104,7 @@ const useStyles = createStyles(
       if (fullScreen) return '100%';
       if (size === 'full') return '100%';
       if (typeof size === 'number') return rem(size);
-      return rem(sizes[size] || sizes.md);
+      return rem(sizes[size as keyof typeof sizes] || sizes.md);
     };
 
     return {
@@ -113,12 +113,12 @@ const useStyles = createStyles(
         backgroundColor: 'rgba(0, 0, 0, 0.001)',
         justifyContent: centered ? 'center' : 'flex-start',
         alignItems: 'center',
-        paddingTop: centered ? 0 : rem(60),
+        paddingTop: (centered ? 0 : rem(60)) as any,
       },
       container: {
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[7] : theme.white,
         borderRadius: fullScreen ? 0 : theme.fn.radius(radius),
-        width: getWidth(),
+        width: getWidth() as any,
         maxWidth: fullScreen ? '100%' : '90%',
         maxHeight: fullScreen ? '100%' : '90%',
         ...(fullScreen && {
@@ -129,29 +129,29 @@ const useStyles = createStyles(
         padding: getPadding(),
         borderBottomWidth: 1,
         borderBottomColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2],
+          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[2],
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
       },
       title: {
-        fontSize: theme.fontSizes.lg,
+        fontSize: theme.fontSizes.lg as number,
         fontWeight: '600',
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
         flex: 1,
       },
       closeButton: {
-        width: rem(32),
-        height: rem(32),
-        borderRadius: rem(16),
+        width: rem(32) as any,
+        height: rem(32) as any,
+        borderRadius: rem(16) as any,
         backgroundColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[1],
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: theme.spacing.md,
       },
       closeButtonText: {
-        fontSize: rem(20),
+        fontSize: rem(20) as any,
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
       },
       body: {
@@ -159,7 +159,7 @@ const useStyles = createStyles(
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<ModalProps> = {
   size: 'md',
@@ -198,7 +198,6 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Modal', defaultProps, props);
 
-  const theme = useTheme();
   const { styles, sx } = useStyles(
     { size, padding, radius, centered, fullScreen },
     { name: 'Modal' }

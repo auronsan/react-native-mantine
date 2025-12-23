@@ -3,19 +3,16 @@ import {
   View,
   TouchableWithoutFeedback,
   Animated,
-  Platform,
-  Modal,
 } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Portal } from '../Portal';
 import type {
   DefaultProps,
-  MantineColor,
+
   MantineNumberSize,
 } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
-import { createStyles } from '../../theme';
-import { rem } from '../../theme/utils/rem';
+
 
 export interface PopoverProps extends DefaultProps {
   /** Popover position relative to target */
@@ -78,57 +75,6 @@ export interface PopoverDropdownProps extends DefaultProps {
   style?: any;
 }
 
-const useStyles = createStyles(
-  (
-    theme,
-    {
-      radius,
-      shadow,
-      width,
-    }: {
-      radius: MantineNumberSize;
-      shadow: string;
-      width: number | 'target';
-    }
-  ) => {
-    const getShadow = () => {
-      const shadows = {
-        xs: { shadowOpacity: 0.05, shadowRadius: 1.84, elevation: 1 },
-        sm: { shadowOpacity: 0.1, shadowRadius: 2.84, elevation: 2 },
-        md: { shadowOpacity: 0.15, shadowRadius: 3.84, elevation: 4 },
-        lg: { shadowOpacity: 0.2, shadowRadius: 4.84, elevation: 6 },
-        xl: { shadowOpacity: 0.25, shadowRadius: 5.84, elevation: 8 },
-      };
-      return shadows[shadow] || shadows.md;
-    };
-
-    return {
-      dropdown: {
-        position: 'absolute',
-        backgroundColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
-        borderRadius: theme.fn.radius(radius),
-        borderWidth: 1,
-        borderColor:
-          theme.colorScheme === 'dark'
-            ? theme.colors.dark[4]
-            : theme.colors.gray[2],
-        padding: theme.spacing.md,
-        ...(width !== 'target' && { width }),
-        ...Platform.select({
-          ios: {
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            ...getShadow(),
-          },
-          android: {
-            ...getShadow(),
-          },
-        }),
-      },
-    };
-  }
-);
 
 const defaultProps: Partial<PopoverProps> = {
   position: 'bottom',
@@ -260,11 +206,6 @@ export const Popover = Object.assign(
       width: 0,
     });
     const targetRef = useRef<View>(null);
-
-    const { styles } = useStyles(
-      { radius, shadow, width },
-      { name: 'Popover' }
-    ) as any;
 
     const isControlled = controlledOpened !== undefined;
     const isOpened = isControlled ? controlledOpened : opened;

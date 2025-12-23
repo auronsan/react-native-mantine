@@ -67,7 +67,7 @@ const defaultProps: Partial<SimpleGridProps> = {
 };
 
 export const SimpleGrid = forwardRef<any, SimpleGridProps>((props, ref) => {
-  const { cols, spacing, verticalSpacing, breakpoints, children, style, ...others } =
+  const { cols, spacing, verticalSpacing, breakpoints, children, style} =
     useComponentDefaultProps('SimpleGrid', defaultProps, props);
 
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
@@ -106,7 +106,7 @@ export const SimpleGrid = forwardRef<any, SimpleGridProps>((props, ref) => {
   const childArray = React.Children.toArray(children);
 
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+    <BoxView ref={ref} style={sx(styles.root, style)}>
       {childArray.map((child, index) => (
         <BoxView key={index} style={styles.child}>
           {child}

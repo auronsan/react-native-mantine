@@ -1,8 +1,8 @@
 import React, { forwardRef, createContext, useContext } from 'react';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
-import type { DefaultProps, MantineNumberSize, SpacingValue } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import type { DefaultProps, SpacingValue } from '../../theme/types';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -127,21 +127,21 @@ const useListItemStyles = createStyles(
     },
     icon: {
       marginRight: theme.spacing.xs,
-      marginTop: center ? 0 : rem(2),
+      marginTop: (center ? 0 : rem(2)) as any,
     },
     iconText: {
-      fontSize: fontSizes[size],
+      fontSize: fontSizes[size] as any,
       color: theme.colorScheme === 'dark' ? theme.colors.dark?.[2] : theme.colors.gray?.[6],
       fontWeight: '600',
-      minWidth: rem(20),
+      minWidth: rem(20) as any,
     },
     content: {
       flex: 1,
     },
     contentText: {
-      fontSize: fontSizes[size],
+      fontSize: fontSizes[size] as any,
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-      lineHeight: fontSizes[size] * 1.5,
+      lineHeight: (fontSizes[size] as any) * 1.5,
     },
   })
 );
@@ -205,8 +205,7 @@ export const List = forwardRef<any, ListProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('List', defaultProps, props);
 
-  const theme = useTheme();
-  const { styles, sx } = useListStyles(
+  const { styles, sx} = useListStyles(
     { withPadding, spacing },
     { name: 'List' }
   ) as any;
@@ -216,14 +215,14 @@ export const List = forwardRef<any, ListProps>((props, ref) => {
   return (
     <ListContext.Provider
       value={{
-        type: type!,
-        size: size!,
-        spacing: spacing!,
-        center: center!,
+        type: type || 'unordered',
+        size: size || 'md',
+        spacing: spacing || 'md',
+        center: center || false,
         icon,
-        withPadding: withPadding!,
-        listStyleType: listStyleType!,
-        startIndex: startIndex!,
+        withPadding: withPadding || false,
+        listStyleType: listStyleType || 'disc',
+        startIndex: startIndex || 1,
       }}
     >
       <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
@@ -240,15 +239,14 @@ export const List = forwardRef<any, ListProps>((props, ref) => {
 });
 
 export const ListItem = forwardRef<any, ListItemProps>((props, ref) => {
-  const { children, icon: itemIcon, style, __index, ...others } = {
+  const { children, icon: itemIcon, style, __index, ...others} = {
     ...defaultItemProps,
     ...props,
   };
 
   const context = useListContext();
-  const theme = useTheme();
 
-  const { styles, sx } = useListItemStyles(
+  const { styles, sx} = useListItemStyles(
     { size: context.size, center: context.center },
     { name: 'ListItem' }
   ) as any;

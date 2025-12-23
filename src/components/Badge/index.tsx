@@ -42,11 +42,11 @@ export interface BadgeProps extends DefaultProps {
 }
 
 const sizes = {
-  xs: { fontSize: rem(9), height: rem(16), paddingHorizontal: rem(6) },
-  sm: { fontSize: rem(10), height: rem(18), paddingHorizontal: rem(8) },
-  md: { fontSize: rem(11), height: rem(20), paddingHorizontal: rem(10) },
-  lg: { fontSize: rem(13), height: rem(26), paddingHorizontal: rem(12) },
-  xl: { fontSize: rem(16), height: rem(32), paddingHorizontal: rem(16) },
+  xs: { fontSize: rem(9), height: rem(16) as any, paddingHorizontal: rem(6) as any },
+  sm: { fontSize: rem(10), height: rem(18) as any, paddingHorizontal: rem(8) as any },
+  md: { fontSize: rem(11), height: rem(20) as any, paddingHorizontal: rem(10) as any },
+  lg: { fontSize: rem(13), height: rem(26) as any, paddingHorizontal: rem(12) as any },
+  xl: { fontSize: rem(16), height: rem(32) as any, paddingHorizontal: rem(16) as any },
 };
 
 const dotSizes = {
@@ -72,7 +72,7 @@ const useStyles = createStyles(
     { variant, size }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const sizeStyles = sizes[size] || sizes.md;
+    const sizeStyles = sizes[size as keyof typeof sizes] || sizes.md;
 
     const getVariantStyles = () => {
       switch (variant) {
@@ -83,7 +83,7 @@ const useStyles = createStyles(
           };
         case 'light':
           return {
-            backgroundColor: colors?.[0] || colors?.[1] || theme.colors.gray[0],
+            backgroundColor: colors?.[0] || colors?.[1] || (theme.colors.gray || [])[0],
             color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
           };
         case 'outline':
@@ -95,10 +95,10 @@ const useStyles = createStyles(
           };
         case 'dot':
           return {
-            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.white,
-            color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+            backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : theme.white,
+            color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
             borderWidth: 1,
-            borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3],
+            borderColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[3],
           };
         default:
           return {
@@ -120,7 +120,7 @@ const useStyles = createStyles(
         textTransform: 'uppercase',
         overflow: 'hidden',
         ...(fullWidth && { width: '100%' }),
-      },
+      } as any,
       inner: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -134,9 +134,9 @@ const useStyles = createStyles(
         marginLeft: theme.spacing.xs / 2,
       },
       dot: {
-        width: dotSizes[size] || dotSizes.md,
-        height: dotSizes[size] || dotSizes.md,
-        borderRadius: dotSizes[size] || dotSizes.md,
+        width: (dotSizes[size as keyof typeof dotSizes] || dotSizes.md) as any,
+        height: (dotSizes[size as keyof typeof dotSizes] || dotSizes.md) as any,
+        borderRadius: (dotSizes[size as keyof typeof dotSizes] || dotSizes.md) as any,
         backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
         marginRight: theme.spacing.xs,
       },
@@ -173,7 +173,7 @@ export const Badge = forwardRef<any, BadgeProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Badge', defaultProps, props);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { color, radius, fullWidth },
     { name: 'Badge', variant, size }
   ) as any;

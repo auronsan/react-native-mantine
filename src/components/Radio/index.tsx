@@ -3,7 +3,7 @@ import { Pressable, Animated } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor, MantineSize } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -58,8 +58,8 @@ const useStyles = createStyles(
     }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const radioSize = sizes[size] || sizes.md;
-    const innerSize = parseInt(radioSize) * 0.5;
+    const radioSize = sizes[size as keyof typeof sizes] || sizes.md;
+    const innerSize = (radioSize as any as number) * 0.5;
 
     return {
       root: {
@@ -68,11 +68,11 @@ const useStyles = createStyles(
         opacity: disabled ? 0.5 : 1,
       },
       radio: {
-        width: radioSize,
-        height: radioSize,
-        borderRadius: parseInt(radioSize) / 2,
+        width: radioSize as any,
+        height: radioSize as any,
+        borderRadius: ((radioSize as any as number) / 2) as any,
         borderWidth: 2,
-        borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[4],
+        borderColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
@@ -81,20 +81,20 @@ const useStyles = createStyles(
         borderColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
       },
       inner: {
-        width: rem(innerSize),
-        height: rem(innerSize),
-        borderRadius: rem(innerSize / 2),
+        width: rem(innerSize) as any,
+        height: rem(innerSize) as any,
+        borderRadius: rem(innerSize / 2) as any,
         backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
       },
       label: {
-        fontSize: theme.fontSizes.sm,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        fontSize: theme.fontSizes.sm as number,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
         marginLeft: theme.spacing.sm,
         flex: 1,
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<RadioProps> = {
   size: 'md',

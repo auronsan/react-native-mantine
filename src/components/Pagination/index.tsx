@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor, MantineNumberSize, MantineSize } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -55,11 +55,11 @@ export interface PaginationProps extends DefaultProps {
 }
 
 const sizes = {
-  xs: { height: rem(24), minWidth: rem(24), fontSize: rem(10), padding: rem(4) },
-  sm: { height: rem(28), minWidth: rem(28), fontSize: rem(12), padding: rem(6) },
-  md: { height: rem(32), minWidth: rem(32), fontSize: rem(14), padding: rem(8) },
-  lg: { height: rem(38), minWidth: rem(38), fontSize: rem(16), padding: rem(10) },
-  xl: { height: rem(44), minWidth: rem(44), fontSize: rem(18), padding: rem(12) },
+  xs: { height: rem(24) as any, minWidth: rem(24), fontSize: rem(10), padding: rem(4) },
+  sm: { height: rem(28) as any, minWidth: rem(28), fontSize: rem(12), padding: rem(6) },
+  md: { height: rem(32) as any, minWidth: rem(32), fontSize: rem(14), padding: rem(8) },
+  lg: { height: rem(38) as any, minWidth: rem(38), fontSize: rem(16), padding: rem(10) },
+  xl: { height: rem(44) as any, minWidth: rem(44), fontSize: rem(18), padding: rem(12) },
 };
 
 const useStyles = createStyles(
@@ -77,7 +77,7 @@ const useStyles = createStyles(
     { size }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const sizeStyles = sizes[size] || sizes.md;
+    const sizeStyles = sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
       root: {
@@ -87,12 +87,12 @@ const useStyles = createStyles(
       },
       item: {
         height: sizeStyles.height,
-        minWidth: sizeStyles.minWidth,
-        paddingHorizontal: sizeStyles.padding,
+        minWidth: sizeStyles.minWidth as any,
+        paddingHorizontal: sizeStyles.padding as any,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: theme.fn.radius(radius),
-        marginHorizontal: rem(2),
+        marginHorizontal: rem(2) as any,
         borderWidth: 1,
         borderColor: 'transparent',
       },
@@ -108,7 +108,7 @@ const useStyles = createStyles(
         backgroundColor: 'transparent',
       },
       label: {
-        fontSize: sizeStyles.fontSize,
+        fontSize: sizeStyles.fontSize as any,
         fontWeight: '500',
       },
       labelDefault: {
@@ -124,11 +124,11 @@ const useStyles = createStyles(
         color: theme.colorScheme === 'dark' ? theme.colors.dark?.[3] : theme.colors.gray?.[5],
       },
       dots: {
-        paddingHorizontal: rem(8),
+        paddingHorizontal: rem(8) as any,
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<PaginationProps> = {
   size: 'md',
@@ -170,7 +170,6 @@ export const Pagination = forwardRef<any, PaginationProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Pagination', defaultProps, props);
 
-  const theme = useTheme();
   const { styles, sx } = useStyles(
     { color, radius, disabled },
     { name: 'Pagination', size }

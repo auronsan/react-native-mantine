@@ -1,10 +1,10 @@
 import React, { forwardRef, useState } from 'react';
-import { TextInput, TouchableOpacity, TextInputProps } from 'react-native';
+import { TextInput, TouchableOpacity, type TextInputProps } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type {
   DefaultProps,
-  MantineColor,
+
   MantineNumberSize,
   MantineSize,
 } from '../../theme/types';
@@ -13,7 +13,7 @@ import { createStyles, getSize } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 import { INPUT_SIZES } from '../Input';
 
-export interface NumberInputProps extends DefaultProps, Omit<TextInputProps, 'value' | 'onChangeText'> {
+export interface NumberInputProps extends DefaultProps, Omit<TextInputProps, 'value' | 'onChangeText' | 'onChange' | 'keyboardType' | 'editable' | 'placeholderTextColor' | 'defaultValue'> {
   /** Input label */
   label?: React.ReactNode;
 
@@ -101,7 +101,7 @@ const useStyles = createStyles(
         case 'filled':
           return {
             backgroundColor:
-              theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+              theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[1],
             borderWidth: 1,
             borderColor: 'transparent',
           };
@@ -112,10 +112,10 @@ const useStyles = createStyles(
           };
         default:
           return {
-            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
+            backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[6] : theme.white,
             borderWidth: 1,
             borderColor:
-              theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[4],
+              theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
           };
       }
     };
@@ -125,29 +125,29 @@ const useStyles = createStyles(
         width: fullWidth ? '100%' : undefined,
       },
       label: {
-        fontSize: theme.fontSizes.sm,
+        fontSize: theme.fontSizes.sm as number,
         fontWeight: '500',
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
         marginBottom: theme.spacing.xs,
       },
       description: {
-        fontSize: theme.fontSizes.xs,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[6],
+        fontSize: theme.fontSizes.xs as number,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
         marginTop: theme.spacing.xs,
       },
       error: {
-        fontSize: theme.fontSizes.xs,
-        color: theme.colors.red[6],
+        fontSize: theme.fontSizes.xs as number,
+        color: (theme.colors.red || [])[6],
         marginTop: theme.spacing.xs,
       },
       inputWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: getSize({ size, sizes: INPUT_SIZES }),
+        height: getSize({ size, sizes: INPUT_SIZES }) as any,
         borderRadius: theme.fn.radius(radius),
         ...getVariantStyles(),
         ...(error && {
-          borderColor: theme.colors.red[6],
+          borderColor: (theme.colors.red || [])[6],
         }),
         ...(disabled && {
           opacity: 0.6,
@@ -172,22 +172,22 @@ const useStyles = createStyles(
         height: '100%',
       },
       control: {
-        width: rem(32),
+        width: rem(32) as any,
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         borderLeftWidth: 1,
         borderLeftColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[4],
+          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
       },
       controlText: {
-        fontSize: rem(18),
+        fontSize: rem(18) as any,
         fontWeight: '600',
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : (theme.colors.gray || [])[7],
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<NumberInputProps> = {
   size: 'sm',
@@ -309,7 +309,7 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
           onChangeText={handleChange}
           placeholder={placeholder}
           placeholderTextColor={
-            theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[5]
+            theme.colorScheme === 'dark' ? (theme.colors.dark || [])[3] : (theme.colors.gray || [])[5]
           }
           keyboardType="numeric"
           editable={!disabled}

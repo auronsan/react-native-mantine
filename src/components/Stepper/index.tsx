@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor, MantineNumberSize, MantineSize } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -160,15 +160,15 @@ const useStepStyles = createStyles(
         position: 'relative',
       },
       icon: {
-        width: iconSize,
-        height: iconSize,
+        width: iconSize as any,
+        height: iconSize as any,
         borderRadius: theme.fn.radius(radius),
         backgroundColor: isCompleted || isActive
           ? colors?.[6] || colors?.[5] || theme.primaryBgColor
           : theme.colorScheme === 'dark'
           ? theme.colors.dark?.[5]
           : theme.colors.gray?.[1],
-        borderWidth: rem(2),
+        borderWidth: rem(2) as any,
         borderColor: isCompleted || isActive
           ? colors?.[6] || colors?.[5] || theme.primaryBgColor
           : theme.colorScheme === 'dark'
@@ -183,12 +183,12 @@ const useStepStyles = createStyles(
           : theme.colorScheme === 'dark'
           ? theme.colors.dark?.[1]
           : theme.colors.gray?.[6],
-        fontSize: theme.fontSizes.sm,
+        fontSize: theme.fontSizes.sm as number,
         fontWeight: '600',
       },
       separator: {
-        height: orientation === 'horizontal' ? rem(2) : rem(24),
-        width: orientation === 'horizontal' ? '100%' : rem(2),
+        height: (orientation === 'horizontal' ? rem(2) : rem(24)) as any,
+        width: (orientation === 'horizontal' ? '100%' : rem(2)) as any,
         backgroundColor: isCompleted
           ? colors?.[6] || colors?.[5] || theme.primaryBgColor
           : theme.colorScheme === 'dark'
@@ -209,13 +209,13 @@ const useStepStyles = createStyles(
         flex: 1,
       },
       label: {
-        fontSize: theme.fontSizes.sm,
+        fontSize: theme.fontSizes.sm as number,
         fontWeight: isActive ? '600' : '400',
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-        marginBottom: rem(4),
+        marginBottom: rem(4) as any,
       },
       description: {
-        fontSize: theme.fontSizes.xs,
+        fontSize: theme.fontSizes.xs as number,
         color: theme.colorScheme === 'dark' ? theme.colors.dark?.[2] : theme.colors.gray?.[6],
       },
     };
@@ -245,10 +245,10 @@ export const Stepper = forwardRef<any, StepperProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Stepper', defaultProps, props);
 
-  const theme = useTheme();
   const { styles, sx } = useStepperStyles({ orientation }, { name: 'Stepper' }) as any;
 
-  const iconSize = iconSizeProp || parseInt(iconSizes[size!] || iconSizes.md, 10);
+  const iconSizeKey = (size || 'md') as keyof typeof iconSizes;
+  const iconSize = iconSizeProp || parseInt(iconSizes[iconSizeKey] || iconSizes.md, 10);
 
   const childrenArray = React.Children.toArray(children);
   const steps = childrenArray.filter(
@@ -310,13 +310,12 @@ export const Step = forwardRef<any, StepProps & { __stepIndex?: number; __isLast
     } = props;
 
     const context = useStepperContext();
-    const theme = useTheme();
 
     const stepIndex = __stepIndex ?? 0;
     const isActive = context.active === stepIndex;
     const isCompleted = context.active > stepIndex || state === 'completed';
 
-    const { styles } = useStepStyles(
+    const { styles} = useStepStyles(
       {
         orientation: context.orientation,
         color: stepColor || context.color,
@@ -371,7 +370,7 @@ export const Step = forwardRef<any, StepProps & { __stepIndex?: number; __isLast
 );
 
 export const StepperCompleted = forwardRef<any, StepperCompletedProps>((props, ref) => {
-  const { children, style, ...others } = props;
+  const { children, style, ...others} = props;
 
   return (
     <BoxView ref={ref} style={style} {...others}>

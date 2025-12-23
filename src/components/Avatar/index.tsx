@@ -60,18 +60,18 @@ const useStyles = createStyles(
     }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const sizeValue = typeof size === 'number' ? rem(size) : sizes[size] || sizes.md;
+    const sizeValue = typeof size === 'number' ? rem(size) : sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
       root: {
-        width: sizeValue,
-        height: sizeValue,
+        width: sizeValue as any,
+        height: sizeValue as any,
         borderRadius: theme.fn.radius(radius),
         overflow: 'hidden',
         backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
         justifyContent: 'center',
         alignItems: 'center',
-      },
+      } as any,
       image: {
         width: '100%',
         height: '100%',
@@ -101,9 +101,9 @@ const defaultProps: Partial<AvatarProps> = {
 const getInitials = (name: string): string => {
   const names = name.trim().split(' ');
   if (names.length === 1) {
-    return names[0].substring(0, 2).toUpperCase();
+    return names[0]?.substring(0, 2).toUpperCase() || '';
   }
-  return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+  return ((names[0]?.[0] || '') + (names[names.length - 1]?.[0] || '')).toUpperCase();
 };
 
 export const Avatar = forwardRef<any, AvatarProps>((props, ref) => {
@@ -121,7 +121,7 @@ export const Avatar = forwardRef<any, AvatarProps>((props, ref) => {
 
   const [imageError, setImageError] = useState(false);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { color, radius, size },
     { name: 'Avatar' }
   ) as any;

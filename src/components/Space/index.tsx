@@ -16,7 +16,7 @@ export interface SpaceProps extends DefaultProps, Omit<ViewProps, 'style'> {
  * Space component adds horizontal or vertical spacing between elements
  */
 export const Space = forwardRef<any, SpaceProps>((props, ref) => {
-  const { style, w, h, ...others } = props;
+  const { style, w, h, ...others} = props;
 
   const theme = useTheme();
 

@@ -12,7 +12,7 @@ import type {
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor, MantineNumberSize, MantineSize } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -70,11 +70,11 @@ export interface SliderProps extends DefaultProps {
 }
 
 const sizes = {
-  xs: { height: rem(4), thumb: rem(12) },
-  sm: { height: rem(6), thumb: rem(16) },
-  md: { height: rem(8), thumb: rem(20) },
-  lg: { height: rem(10), thumb: rem(24) },
-  xl: { height: rem(12), thumb: rem(28) },
+  xs: { height: rem(4) as any, thumb: rem(12) },
+  sm: { height: rem(6) as any, thumb: rem(16) },
+  md: { height: rem(8) as any, thumb: rem(20) },
+  lg: { height: rem(10) as any, thumb: rem(24) },
+  xl: { height: rem(12) as any, thumb: rem(28) },
 };
 
 const useStyles = createStyles(
@@ -92,13 +92,13 @@ const useStyles = createStyles(
     { size }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const sizeStyles = sizes[size] || sizes.md;
+    const sizeStyles = sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
       root: {
         position: 'relative',
         width: '100%',
-        paddingVertical: rem(10),
+        paddingVertical: rem(10) as any,
         opacity: disabled ? 0.5 : 1,
       },
       track: {
@@ -117,13 +117,13 @@ const useStyles = createStyles(
       },
       thumb: {
         position: 'absolute',
-        width: sizeStyles.thumb,
-        height: sizeStyles.thumb,
-        borderRadius: sizeStyles.thumb,
+        width: sizeStyles.thumb as any,
+        height: sizeStyles.thumb as any,
+        borderRadius: sizeStyles.thumb as any,
         backgroundColor: theme.white,
-        borderWidth: rem(3),
+        borderWidth: rem(3) as any,
         borderColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
-        top: -(sizeStyles.thumb / 2 - sizeStyles.height / 2),
+        top: (-((sizeStyles.thumb as any) / 2 - (sizeStyles.height as any) / 2)) as any,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
@@ -132,18 +132,18 @@ const useStyles = createStyles(
       },
       label: {
         position: 'absolute',
-        top: rem(-32),
+        top: rem(-32) as any,
         backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
         paddingHorizontal: theme.spacing.xs,
-        paddingVertical: rem(4),
+        paddingVertical: rem(4) as any,
         borderRadius: theme.fn.radius('sm'),
-        minWidth: rem(28),
+        minWidth: rem(28) as any,
         alignItems: 'center',
         justifyContent: 'center',
       },
       labelText: {
         color: theme.white,
-        fontSize: theme.fontSizes.xs,
+        fontSize: theme.fontSizes.xs as number,
         fontWeight: '600',
       },
       marks: {
@@ -154,21 +154,21 @@ const useStyles = createStyles(
       },
       mark: {
         position: 'absolute',
-        width: rem(2),
-        height: rem(6),
+        width: rem(2) as any,
+        height: rem(6) as any,
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark?.[4] : theme.colors.gray?.[3],
-        borderRadius: rem(1),
+        borderRadius: rem(1) as any,
       },
       markLabel: {
         position: 'absolute',
-        top: rem(10),
-        fontSize: theme.fontSizes.xs,
+        top: rem(10) as any,
+        fontSize: theme.fontSizes.xs as number,
         color: theme.colorScheme === 'dark' ? theme.colors.dark?.[2] : theme.colors.gray?.[6],
         transform: [{ translateX: -10 }],
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<SliderProps> = {
   min: 0,
@@ -204,7 +204,6 @@ export const Slider = forwardRef<any, SliderProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Slider', defaultProps, props);
 
-  const theme = useTheme();
   const { styles, sx } = useStyles(
     { color, radius, disabled },
     { name: 'Slider', size }
@@ -216,7 +215,6 @@ export const Slider = forwardRef<any, SliderProps>((props, ref) => {
 
   const value = controlledValue !== undefined ? controlledValue : uncontrolledValue;
 
-  const position = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(1)).current;
 
   const clampValue = useCallback(
@@ -258,7 +256,7 @@ export const Slider = forwardRef<any, SliderProps>((props, ref) => {
           useNativeDriver: true,
         }).start();
       },
-      onPanResponderMove: (evt: GestureResponderEvent, gestureState: PanResponderGestureState) => {
+      onPanResponderMove: (_evt: GestureResponderEvent, gestureState: PanResponderGestureState) => {
         const newValue = getValueFromPosition(gestureState.moveX);
         updateValue(newValue);
       },

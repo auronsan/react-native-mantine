@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { TextInput as RNTextInput } from 'react-native';
 import { TextInput, type TextInputProps } from '../TextInput';
 
@@ -19,7 +19,7 @@ const defaultProps: Partial<TextareaProps> = {
 };
 
 export const Textarea = forwardRef<RNTextInput, TextareaProps>((props, ref) => {
-  const { minRows, maxRows, autosize, style, ...others } = {
+  const { minRows, maxRows, autosize, style, ...others} = {
     ...defaultProps,
     ...props,
   };

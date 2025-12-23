@@ -52,7 +52,7 @@ export interface PortalProps {
 
 export const Portal: React.FC<PortalProps> = ({ children }) => {
   const context = useContext(PortalContext);
-  const [key, setKey] = useState<number | null>(null);
+  const [, setKey] = useState<number | null>(null);
 
   React.useEffect(() => {
     if (!context) {

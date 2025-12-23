@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { TouchableWithoutFeedback, Animated, StyleSheet } from 'react-native';
 import type { DefaultProps, MantineNumberSize } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 
 export interface OverlayProps extends DefaultProps {
@@ -72,10 +72,10 @@ const defaultProps: Partial<OverlayProps> = {
 };
 
 export const Overlay = forwardRef<any, OverlayProps>((props, ref) => {
-  const { opacity, color, zIndex, radius, children, onPress, style, fixed, ...others } =
+  const { opacity, color, zIndex, radius, children, onPress, style, fixed, ...others} =
     useComponentDefaultProps('Overlay', defaultProps, props);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { opacity, color, zIndex, radius, fixed },
     { name: 'Overlay' }
   ) as any;

@@ -1,11 +1,11 @@
-import React, { forwardRef, useRef, useState } from 'react';
-import { TextInput, TextInputProps } from 'react-native';
+import { forwardRef, useRef, useState } from 'react';
+import { TextInput } from 'react-native';
 import { BoxView } from '../BoxView';
 import type { DefaultProps, MantineNumberSize, MantineSize } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles, getSize } from '../../theme';
 import { rem } from '../../theme/utils/rem';
-import { INPUT_SIZES } from '../Input';
+
 
 export interface PinInputProps extends DefaultProps {
   /** Number of inputs */
@@ -84,20 +84,20 @@ const useStyles = createStyles(
       root: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: getSpacing(),
+        gap: getSpacing() as any,
       },
       input: {
-        width: sizes[size] || sizes.md,
-        height: sizes[size] || sizes.md,
+        width: (sizes[size as keyof typeof sizes] || sizes.md) as any,
+        height: (sizes[size as keyof typeof sizes] || sizes.md) as any,
         borderRadius: theme.fn.radius(radius),
         borderWidth: 1,
         borderColor: error
-          ? theme.colors.red[6]
+          ? (theme.colors.red || [])[6]
           : theme.colorScheme === 'dark'
-          ? theme.colors.dark[4]
-          : theme.colors.gray[4],
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
-        fontSize: getSize({ size, sizes: theme.fontSizes }),
+          ? (theme.colors.dark || [])[4]
+          : (theme.colors.gray || [])[4],
+        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[6] : theme.white,
+        fontSize: getSize({ size, sizes: theme.fontSizes }) as any,
         textAlign: 'center',
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
         ...(disabled && {
@@ -110,7 +110,7 @@ const useStyles = createStyles(
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<PinInputProps> = {
   length: 4,
@@ -142,7 +142,6 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('PinInput', defaultProps, props);
 
-  const theme = useTheme();
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue || '');
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
@@ -165,8 +164,8 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
 
     // Handle paste
     if (text.length > 1) {
-      const pastedText = text.slice(0, length);
-      const newValue = pastedText.padEnd(length, ' ').slice(0, length);
+      const pastedText = text.slice(0, length!);
+      const newValue = pastedText.padEnd(length!, ' ').slice(0, length!);
 
       if (controlledValue === undefined) {
         setUncontrolledValue(newValue);
@@ -174,10 +173,10 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
       onChange?.(newValue);
 
       // Move focus to the last filled input or the end
-      const nextIndex = Math.min(pastedText.length, length - 1);
+      const nextIndex = Math.min(pastedText.length, length! - 1);
       inputRefs.current[nextIndex]?.focus();
 
-      if (newValue.replace(/ /g, '').length === length) {
+      if (newValue.replace(/ /g, '').length === length!) {
         onComplete?.(newValue);
       }
 
@@ -185,9 +184,9 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
     }
 
     // Handle single character input
-    const newValueArray = value.padEnd(length, ' ').split('');
+    const newValueArray = value.padEnd(length!, ' ').split('');
     newValueArray[index] = text;
-    const newValue = newValueArray.join('').slice(0, length);
+    const newValue = newValueArray.join('').slice(0, length!);
 
     if (controlledValue === undefined) {
       setUncontrolledValue(newValue);
@@ -195,12 +194,12 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
     onChange?.(newValue);
 
     // Move to next input if character was entered
-    if (text && index < length - 1) {
+    if (text && index < length! - 1) {
       inputRefs.current[index + 1]?.focus();
     }
 
     // Check if complete
-    if (newValue.replace(/ /g, '').length === length) {
+    if (newValue.replace(/ /g, '').length === length!) {
       onComplete?.(newValue);
     }
   };
@@ -220,7 +219,7 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
 
   return (
     <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
-      {Array.from({ length }, (_, index) => {
+      {Array.from({ length: length! }, (_, index) => {
         const inputValue = value.charAt(index) || '';
         const displayValue = inputValue === ' ' ? '' : inputValue;
 

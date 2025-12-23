@@ -120,10 +120,10 @@ const defaultColProps: Partial<GridColProps> = {
 
 export const Grid = Object.assign(
   forwardRef<any, GridProps>((props, ref) => {
-    const { columns, gutter, grow, align, justify, children, style, ...others } =
+    const { columns, gutter, grow, align, justify, children, style, ...others} =
       useComponentDefaultProps('Grid', defaultGridProps, props);
 
-    const { styles, sx } = useGridStyles(
+    const { styles, sx} = useGridStyles(
       { gutter, align, justify },
       { name: 'Grid' }
     ) as any;
@@ -145,10 +145,10 @@ export const Grid = Object.assign(
   {
     Col: forwardRef<any, GridColProps & { columns?: number; gutter?: MantineNumberSize; grow?: boolean }>(
       (props, ref) => {
-        const { span, offset, order, columns = 12, gutter = 'md', grow = false, children, style, ...others } =
+        const { span, offset, order, columns = 12, gutter = 'md', grow = false, children, style, ...others} =
           useComponentDefaultProps('GridCol', defaultColProps, props);
 
-        const { styles, sx } = useColStyles(
+        const { styles, sx} = useColStyles(
           { span, offset, order, columns, gutter, grow },
           { name: 'GridCol' }
         ) as any;

@@ -65,7 +65,7 @@ const useStyles = createStyles(
     { variant }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const fontSize = sizes[size as keyof typeof sizes] || sizes.md;
+    const fontSize = parseFloat(sizes[size as keyof typeof sizes] || sizes.md);
 
     const getVariantStyles = () => {
       switch (variant) {
@@ -76,7 +76,7 @@ const useStyles = createStyles(
           };
         case 'text':
           return {
-            color: theme.colorScheme === 'dark' ? theme.colors.dark?.[0] || theme.white : theme.black,
+            color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] || theme.white : theme.black,
             textDecorationLine: 'none',
           };
         default:
@@ -106,10 +106,10 @@ const defaultProps: Partial<AnchorProps> = {
 };
 
 export const Anchor = forwardRef<RNText, AnchorProps>((props, ref) => {
-  const { color, size, weight, underline, variant, href, onPress, children, style, ...others } =
+  const { color, size, weight, underline, variant, href, onPress, children, style, ...others} =
     useComponentDefaultProps('Anchor', defaultProps, props);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { color, size, weight, underline },
     { name: 'Anchor', variant }
   ) as any;

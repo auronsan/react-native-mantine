@@ -3,7 +3,7 @@ import { ScrollView, TouchableOpacity } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import { Checkbox } from '../Checkbox';
-import { Button } from '../Button';
+import { _Button as Button } from '../Button';
 import { TextInput } from '../TextInput';
 import type {
   DefaultProps,
@@ -93,8 +93,8 @@ const useStyles = createStyles(
         borderWidth: 1,
         borderColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[4]
-            : theme.colors.gray[3],
+            ? (theme.colors.dark || [])[4]
+            : (theme.colors.gray || [])[3],
         borderRadius: theme.fn.radius(radius),
         overflow: 'hidden',
       },
@@ -103,53 +103,53 @@ const useStyles = createStyles(
         borderBottomWidth: 1,
         borderBottomColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[4]
-            : theme.colors.gray[3],
+            ? (theme.colors.dark || [])[4]
+            : (theme.colors.gray || [])[3],
         backgroundColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0],
+            ? (theme.colors.dark || [])[6]
+            : (theme.colors.gray || [])[0],
       },
       title: {
-        fontSize: rem(14),
+        fontSize: rem(14) as any,
         fontWeight: '600',
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
       },
       searchContainer: {
         padding: theme.spacing.xs,
         borderBottomWidth: 1,
         borderBottomColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[4]
-            : theme.colors.gray[3],
+            ? (theme.colors.dark || [])[4]
+            : (theme.colors.gray || [])[3],
       },
       itemsContainer: {
-        height: listHeight,
+        height: listHeight as any,
       },
       item: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: rem(10),
+        paddingVertical: rem(10) as any,
         paddingHorizontal: theme.spacing.sm,
         borderBottomWidth: 1,
         borderBottomColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[5]
-            : theme.colors.gray[1],
+            ? (theme.colors.dark || [])[5]
+            : (theme.colors.gray || [])[1],
       },
       itemSelected: {
         backgroundColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[5]
-            : colors?.[0] || theme.colors.gray[0],
+            ? (theme.colors.dark || [])[5]
+            : colors?.[0] || (theme.colors.gray || [])[0],
       },
       itemText: {
         marginLeft: theme.spacing.sm,
-        fontSize: rem(14),
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        fontSize: rem(14) as any,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
       },
       controls: {
-        width: rem(80),
+        width: rem(80) as any,
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: theme.spacing.xs,
@@ -164,13 +164,13 @@ const useStyles = createStyles(
       emptyText: {
         color:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[2]
-            : theme.colors.gray[6],
-        fontSize: rem(12),
+            ? (theme.colors.dark || [])[2]
+            : (theme.colors.gray || [])[6],
+        fontSize: rem(12) as any,
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<TransferListProps> = {
   titles: ['', ''],
@@ -345,7 +345,7 @@ export const TransferList = forwardRef<any, TransferListProps>((props, ref) => {
           'left',
           leftSearch,
           setLeftSearch,
-          titles[0]
+          titles?.[0] || ''
         )}
 
         <BoxView style={styles.controls}>
@@ -389,7 +389,7 @@ export const TransferList = forwardRef<any, TransferListProps>((props, ref) => {
           'right',
           rightSearch,
           setRightSearch,
-          titles[1]
+          titles?.[1] || ''
         )}
       </BoxView>
     </BoxView>

@@ -139,7 +139,7 @@ const useAccordionItemStyles = createStyles((theme) => ({
     alignItems: 'center',
   },
   label: {
-    fontSize: theme.fontSizes.sm,
+    fontSize: theme.fontSizes.sm as number,
     fontWeight: '500',
     color: theme.colorScheme === 'dark' ? theme.white : theme.black,
     flex: 1,
@@ -148,7 +148,7 @@ const useAccordionItemStyles = createStyles((theme) => ({
     marginLeft: theme.spacing.sm,
   },
   iconText: {
-    fontSize: rem(16) as any,
+    fontSize: 16,
     color: theme.colorScheme === 'dark' ? theme.colors.dark?.[2] : theme.colors.gray?.[6],
   },
   panel: {
@@ -205,12 +205,12 @@ export const Accordion = forwardRef<any, AccordionProps>((props, ref) => {
   };
 
   const { styles, sx } = useAccordionStyles(
-    { variant: variant!, radius: radius!, spacing: spacing! },
+    { variant: variant || 'default', radius: radius || 'sm', spacing: spacing || 'md' },
     { name: 'Accordion' }
   ) as any;
 
   return (
-    <AccordionContext.Provider value={{ value, onChange: handleChange, multiple, variant }}>
+    <AccordionContext.Provider value={{ value, onChange: handleChange, multiple: multiple || false, variant: variant || 'default' }}>
       <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
         {children}
       </BoxView>
@@ -257,9 +257,9 @@ interface SimpleAccordionItemProps extends AccordionItemProps {
 }
 
 const SimpleAccordionItem = forwardRef<any, SimpleAccordionItemProps>((props, ref) => {
-  const { value, label, children, style, ...others } = props;
+  const { value, label, children, style, ...others} = props;
   const context = useAccordionContext();
-  const { styles, sx } = useAccordionItemStyles({}, { name: 'AccordionItem' }) as any;
+  const { styles, sx} = useAccordionItemStyles({}, { name: 'AccordionItem' }) as any;
 
   const isOpen = context.value.includes(value);
 

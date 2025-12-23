@@ -4,7 +4,7 @@ import type { LayoutChangeEvent } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor, MantineNumberSize, MantineSize } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -64,7 +64,6 @@ const useStyles = createStyles(
   (
     theme,
     {
-      color,
       radius,
       disabled,
       orientation,
@@ -78,8 +77,7 @@ const useStyles = createStyles(
     },
     { size }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const sizeStyles = sizes[size] || sizes.md;
+    const sizeStyles = sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
       root: {
@@ -87,7 +85,7 @@ const useStyles = createStyles(
         flexDirection: orientation === 'horizontal' ? 'row' : 'column',
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark?.[6] : theme.colors.gray?.[1],
         borderRadius: theme.fn.radius(radius),
-        padding: rem(4),
+        padding: rem(4) as any,
         opacity: disabled ? 0.5 : 1,
         ...(fullWidth && { width: '100%' }),
       },
@@ -106,16 +104,16 @@ const useStyles = createStyles(
       },
       segment: {
         flex: 1,
-        paddingHorizontal: sizeStyles.padding,
-        paddingVertical: sizeStyles.padding,
-        minHeight: sizeStyles.height,
+        paddingHorizontal: sizeStyles.padding as any,
+        paddingVertical: sizeStyles.padding as any,
+        minHeight: sizeStyles.height as any,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: theme.fn.radius(radius),
         zIndex: 1,
       },
       label: {
-        fontSize: sizeStyles.fontSize,
+        fontSize: sizeStyles.fontSize as any,
         fontWeight: '500',
         textAlign: 'center',
       },
@@ -130,7 +128,7 @@ const useStyles = createStyles(
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<SegmentedControlProps> = {
   size: 'md',
@@ -159,7 +157,6 @@ export const SegmentedControl = forwardRef<any, SegmentedControlProps>((props, r
     ...others
   } = useComponentDefaultProps('SegmentedControl', defaultProps, props);
 
-  const theme = useTheme();
   const { styles, sx } = useStyles(
     { color, radius, disabled, orientation, fullWidth },
     { name: 'SegmentedControl', size }

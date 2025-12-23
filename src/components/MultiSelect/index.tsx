@@ -92,7 +92,7 @@ export interface MultiSelectProps extends DefaultProps {
 const useStyles = createStyles(
   (
     theme,
-    { color, size }: { color: MantineColor; size: MantineSize }
+    { color }: { color: MantineColor; size: MantineSize }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
 
@@ -101,7 +101,7 @@ const useStyles = createStyles(
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: theme.spacing.xs,
-        padding: rem(4),
+        padding: rem(4) as any,
       },
       modalOverlay: {
         flex: 1,
@@ -110,7 +110,7 @@ const useStyles = createStyles(
       },
       modalContent: {
         backgroundColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[7] : theme.white,
         borderTopLeftRadius: theme.radius.lg,
         borderTopRightRadius: theme.radius.lg,
         maxHeight: '80%',
@@ -120,14 +120,14 @@ const useStyles = createStyles(
         borderBottomWidth: 1,
         borderBottomColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[4]
-            : theme.colors.gray[2],
+            ? (theme.colors.dark || [])[4]
+            : (theme.colors.gray || [])[2],
       },
       listContainer: {
-        paddingVertical: rem(8),
+        paddingVertical: rem(8) as any as any,
       },
       item: {
-        paddingVertical: rem(12),
+        paddingVertical: rem(12) as any,
         paddingHorizontal: theme.spacing.md,
         flexDirection: 'row',
         alignItems: 'center',
@@ -135,8 +135,8 @@ const useStyles = createStyles(
       itemSelected: {
         backgroundColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[5]
-            : colors?.[0] || theme.colors.gray[0],
+            ? (theme.colors.dark || [])[5]
+            : colors?.[0] || (theme.colors.gray || [])[0],
       },
       itemDisabled: {
         opacity: 0.4,
@@ -145,21 +145,21 @@ const useStyles = createStyles(
         flex: 1,
         fontSize: rem(14),
         marginLeft: theme.spacing.sm,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
       },
       itemTextSelected: {
         fontWeight: '600',
         color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
       },
       groupLabel: {
-        paddingVertical: rem(8),
+        paddingVertical: rem(8) as any,
         paddingHorizontal: theme.spacing.md,
         fontSize: rem(12),
         fontWeight: '600',
         color:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[2]
-            : theme.colors.gray[6],
+            ? (theme.colors.dark || [])[2]
+            : (theme.colors.gray || [])[6],
         textTransform: 'uppercase',
       },
       emptyState: {
@@ -169,22 +169,22 @@ const useStyles = createStyles(
       emptyText: {
         color:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[2]
-            : theme.colors.gray[6],
+            ? (theme.colors.dark || [])[2]
+            : (theme.colors.gray || [])[6],
       },
       footer: {
         padding: theme.spacing.md,
         borderTopWidth: 1,
         borderTopColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[4]
-            : theme.colors.gray[2],
+            ? (theme.colors.dark || [])[4]
+            : (theme.colors.gray || [])[2],
         flexDirection: 'row',
         justifyContent: 'space-between',
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<MultiSelectProps> = {
   size: 'md',
@@ -271,11 +271,11 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
     );
 
     const displayedValues =
-      selectedItems.length > maxSelectedValues
+      maxSelectedValues && selectedItems.length > maxSelectedValues
         ? selectedItems.slice(0, maxSelectedValues)
         : selectedItems;
 
-    const remainingCount = selectedItems.length - maxSelectedValues;
+    const remainingCount = maxSelectedValues ? selectedItems.length - maxSelectedValues : 0;
 
     const groupedData: { [key: string]: MultiSelectDataItem[] } = {};
     let ungroupedItems: MultiSelectDataItem[] = [];
@@ -285,7 +285,7 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
         if (!groupedData[item.group]) {
           groupedData[item.group] = [];
         }
-        groupedData[item.group].push(item);
+        groupedData[item.group]!.push(item);
       } else {
         ungroupedItems.push(item);
       }
@@ -325,7 +325,6 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
             error={error}
             size={size}
             radius={radius}
-            disabled={disabled}
             icon={icon}
             value=""
             placeholder={
@@ -333,7 +332,7 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
                 ? placeholder
                 : `${currentValue.length} selected`
             }
-            editable={false}
+            editable={!disabled}
             style={style}
             {...others}
           />
@@ -398,7 +397,7 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
                 {Object.keys(groupedData).map((group) => (
                   <React.Fragment key={group}>
                     <Text style={styles.groupLabel}>{group}</Text>
-                    {groupedData[group].map((item) => (
+                    {groupedData[group]!.map((item) => (
                       <TouchableOpacity
                         key={item.value}
                         style={[

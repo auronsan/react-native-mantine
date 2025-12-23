@@ -16,7 +16,7 @@ export interface MarkProps extends TextProps {
  * Default background is yellow
  */
 export const Mark = forwardRef<any, MarkProps>((props, ref) => {
-  const { children, color = 'yellow', style, ...others } = props;
+  const { children, color = 'yellow', style, ...others} = props;
 
   const theme = useTheme();
 
@@ -24,7 +24,7 @@ export const Mark = forwardRef<any, MarkProps>((props, ref) => {
   const getBackgroundColor = () => {
     // Try to get from theme colors with lighter shade (index 2)
     if (theme.colors[color]) {
-      return theme.colors[color][2] || theme.colors[color][0];
+      return (theme.colors[color] || [])[2] || (theme.colors[color] || [])[0];
     }
     // Otherwise use the color directly
     return color;

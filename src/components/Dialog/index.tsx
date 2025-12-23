@@ -79,17 +79,21 @@ const useStyles = createStyles(
     };
 
     const finalPosition = position || defaultPosition;
+    const posTop = 'top' in finalPosition ? finalPosition.top : undefined;
+    const posBottom = 'bottom' in finalPosition ? finalPosition.bottom : undefined;
+    const posLeft = 'left' in finalPosition ? finalPosition.left : undefined;
+    const posRight = 'right' in finalPosition ? finalPosition.right : undefined;
 
     return {
       root: {
         position: 'absolute' as const,
         width: getSize() as any,
-        maxWidth: '90%' as any,
+        maxWidth: '90%' as any as any,
         zIndex: 1000,
-        ...(finalPosition.top !== undefined && { top: rem(finalPosition.top) as any }),
-        ...(finalPosition.bottom !== undefined && { bottom: rem(finalPosition.bottom) as any }),
-        ...(finalPosition.left !== undefined && { left: rem(finalPosition.left) as any }),
-        ...(finalPosition.right !== undefined && { right: rem(finalPosition.right) as any }),
+        ...(posTop !== undefined && { top: rem(posTop) as any }),
+        ...(posBottom !== undefined && { bottom: rem(posBottom) as any }),
+        ...(posLeft !== undefined && { left: rem(posLeft) as any }),
+        ...(posRight !== undefined && { right: rem(posRight) as any }),
       },
     };
   }
@@ -116,10 +120,10 @@ export const Dialog = forwardRef<any, DialogProps>((props, ref) => {
     withBorder,
     style,
     transitionDuration,
-    ...others
+    ...otherProps
   } = useComponentDefaultProps('Dialog', defaultProps, props);
 
-  const { styles, sx } = useStyles({ size, position }, { name: 'Dialog' }) as any;
+  const { styles, sx } = useStyles({ size, position}, { name: 'Dialog' }) as any;
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;
@@ -168,7 +172,7 @@ export const Dialog = forwardRef<any, DialogProps>((props, ref) => {
           transform: [{ translateY: slideAnim }],
         },
       ]}
-      {...others}
+      {...otherProps}
     >
       <Paper
         shadow={withShadow ? 'lg' : undefined}

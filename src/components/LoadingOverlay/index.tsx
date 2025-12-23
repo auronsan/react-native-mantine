@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { Overlay } from '../Overlay';
 import { Loader } from '../Loader';
 import { BoxView } from '../BoxView';
@@ -35,7 +35,7 @@ export interface LoadingOverlayProps extends DefaultProps {
   style?: any;
 }
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((_theme) => ({
   root: {
     position: 'absolute',
     top: 0,
@@ -77,7 +77,7 @@ export const LoadingOverlay = forwardRef<any, LoadingOverlayProps>(
       ...others
     } = useComponentDefaultProps('LoadingOverlay', defaultProps, props);
 
-    const { styles, sx } = useStyles({}, { name: 'LoadingOverlay' }) as any;
+    const { styles, sx} = useStyles({}, { name: 'LoadingOverlay' }) as any;
 
     if (!visible) {
       return null;

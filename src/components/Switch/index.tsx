@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { Switch as RNSwitch, type SwitchProps as RNSwitchProps, Platform } from 'react-native';
+import { Switch as RNSwitch, Platform } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor, MantineSize } from '../../theme/types';
@@ -51,7 +51,7 @@ const useStyles = createStyles(
       size: MantineSize;
     }
   ) => {
-    const sizeStyles = sizes[size] || sizes.md;
+    const sizeStyles = sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
       root: {
@@ -59,8 +59,8 @@ const useStyles = createStyles(
         alignItems: 'center',
       },
       label: {
-        fontSize: theme.fontSizes.sm,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        fontSize: theme.fontSizes.sm as number,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
         marginLeft: labelPosition === 'right' ? theme.spacing.sm : 0,
         marginRight: labelPosition === 'left' ? theme.spacing.sm : 0,
       },
@@ -69,7 +69,7 @@ const useStyles = createStyles(
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<SwitchProps> = {
   size: 'md',
@@ -88,7 +88,6 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
     onChange,
     style,
     wrapperStyle,
-    ...others
   } = useComponentDefaultProps('Switch', defaultProps, props);
 
   const theme = useTheme();
@@ -98,10 +97,13 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
     onChange?.(value);
   };
 
-  const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-  const trackColor = {
-    false: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3],
-    true: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+  const colorKey = color || theme.primaryColor;
+  const colors = theme.colors[colorKey] || theme.colors[theme.primaryColor];
+  const falseColor = theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[3];
+  const trueColor = colors?.[6] || colors?.[5] || theme.primaryBgColor;
+  const trackColor: { false: string; true: string } = {
+    false: falseColor || '#ccc',
+    true: trueColor || '#000',
   };
 
   const thumbColor =
@@ -110,8 +112,8 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
       : checked
       ? theme.white
       : theme.colorScheme === 'dark'
-      ? theme.colors.dark[0]
-      : theme.colors.gray[1];
+      ? (theme.colors.dark || [])[0]
+      : (theme.colors.gray || [])[1];
 
   const switchComponent = (
     <RNSwitch

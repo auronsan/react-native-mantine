@@ -72,12 +72,12 @@ const useStyles = createStyles(
     }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const sizeValue = typeof size === 'number' ? rem(size) : sizes[size] || sizes.md;
+    const sizeValue = typeof size === 'number' ? rem(size) : sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
       root: {
-        height: sizeValue,
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2],
+        height: sizeValue as any,
+        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[2],
         borderRadius: theme.fn.radius(radius),
         overflow: 'hidden',
       },
@@ -94,7 +94,7 @@ const useStyles = createStyles(
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<ProgressProps> = {
   value: 0,
@@ -128,7 +128,7 @@ export const Progress = forwardRef<any, ProgressProps>((props, ref) => {
     }).start();
   }, [value, animatedValue]);
 
-  const { styles, sx, theme } = useStyles(
+  const { styles, sx, theme} = useStyles(
     { color, radius, size, striped },
     { name: 'Progress' }
   ) as any;

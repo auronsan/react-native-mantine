@@ -2,8 +2,6 @@ import React, { forwardRef, useState, useRef } from 'react';
 import {
   View,
   TouchableOpacity,
-  ScrollView,
-  Platform,
   Animated,
 } from 'react-native';
 import { BoxView } from '../BoxView';
@@ -17,7 +15,6 @@ import type {
 } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
-import { rem } from '../../theme/utils/rem';
 
 export interface MenuProps extends DefaultProps {
   /** Controlled opened state */
@@ -103,49 +100,16 @@ export interface MenuDividerProps extends DefaultProps {
   style?: any;
 }
 
+// TODO: Implement Menu component styling
+/* Placeholder for future Menu dropdown implementation
 const useMenuStyles = createStyles(
-  (
-    theme,
-    { radius, shadow }: { radius: MantineNumberSize; shadow: string }
-  ) => {
-    const getShadow = () => {
-      const shadows = {
-        xs: { shadowOpacity: 0.05, shadowRadius: 1.84, elevation: 1 },
-        sm: { shadowOpacity: 0.1, shadowRadius: 2.84, elevation: 2 },
-        md: { shadowOpacity: 0.15, shadowRadius: 3.84, elevation: 4 },
-        lg: { shadowOpacity: 0.2, shadowRadius: 4.84, elevation: 6 },
-        xl: { shadowOpacity: 0.25, shadowRadius: 5.84, elevation: 8 },
-      };
-      return shadows[shadow] || shadows.md;
-    };
-
-    return {
-      dropdown: {
-        position: 'absolute',
-        backgroundColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
-        borderRadius: theme.fn.radius(radius),
-        borderWidth: 1,
-        borderColor:
-          theme.colorScheme === 'dark'
-            ? theme.colors.dark[4]
-            : theme.colors.gray[2],
-        paddingVertical: rem(4),
-        minWidth: rem(200),
-        ...Platform.select({
-          ios: {
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            ...getShadow(),
-          },
-          android: {
-            ...getShadow(),
-          },
-        }),
-      },
-    };
-  }
+  (theme, { radius, shadow }: { radius: MantineNumberSize; shadow: string }) => ({
+    dropdown: {
+      // Menu dropdown styles will be implemented here
+    },
+  })
 );
+*/
 
 const useItemStyles = createStyles(
   (
@@ -158,31 +122,31 @@ const useItemStyles = createStyles(
       item: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: rem(10),
+        paddingVertical: 10,
         paddingHorizontal: theme.spacing.md,
         opacity: disabled ? 0.4 : 1,
       },
       itemHovered: {
         backgroundColor:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[5]
-            : theme.colors.gray[0],
+            ? (theme.colors.dark || [])[5]
+            : (theme.colors.gray || [])[0],
       },
       icon: {
         marginRight: theme.spacing.sm,
         color: color
           ? colors?.[6] || colors?.[5]
           : theme.colorScheme === 'dark'
-          ? theme.colors.dark[0]
-          : theme.colors.gray[7],
+          ? (theme.colors.dark || [])[0]
+          : (theme.colors.gray || [])[7],
       },
       label: {
         flex: 1,
-        fontSize: rem(14),
+        fontSize: 14,
         color: color
           ? colors?.[6] || colors?.[5]
           : theme.colorScheme === 'dark'
-          ? theme.colors.dark[0]
+          ? (theme.colors.dark || [])[0]
           : theme.black,
       },
       rightSection: {
@@ -194,11 +158,11 @@ const useItemStyles = createStyles(
 
 const useLabelStyles = createStyles((theme) => ({
   label: {
-    paddingVertical: rem(6),
+    paddingVertical: 6,
     paddingHorizontal: theme.spacing.md,
-    fontSize: rem(12),
+    fontSize: 12,
     fontWeight: '600',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[6],
+    color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
     textTransform: 'uppercase',
   },
 }));
@@ -387,8 +351,6 @@ export const Menu = Object.assign(
     });
     const targetRef = useRef<View>(null);
 
-    const { styles } = useMenuStyles({ radius, shadow }, { name: 'Menu' }) as any;
-
     const isControlled = controlledOpened !== undefined;
     const isOpened = isControlled ? controlledOpened : opened;
 
@@ -402,7 +364,7 @@ export const Menu = Object.assign(
     const contextValue: MenuContextValue = {
       opened: isOpened,
       setOpened: handleSetOpened,
-      closeOnItemClick,
+      closeOnItemClick: closeOnItemClick ?? true,
       targetRef,
       dropdownPosition,
       setDropdownPosition,

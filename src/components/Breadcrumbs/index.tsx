@@ -35,13 +35,13 @@ const defaultProps: Partial<BreadcrumbsProps> = {
 };
 
 export const Breadcrumbs = forwardRef<any, BreadcrumbsProps>((props, ref) => {
-  const { separator, children, style, ...others } = useComponentDefaultProps(
+  const { separator, children, style, ...others} = useComponentDefaultProps(
     'Breadcrumbs',
     defaultProps,
     props
   );
 
-  const { styles, sx } = useStyles({}, { name: 'Breadcrumbs' }) as any;
+  const { styles, sx} = useStyles({}, { name: 'Breadcrumbs' }) as any;
 
   const items = Children.toArray(children);
 

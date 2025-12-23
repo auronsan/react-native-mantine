@@ -3,7 +3,7 @@ import { BoxView } from '../BoxView';
 import { Paper } from '../Paper';
 import type { PaperProps } from '../Paper';
 import type { DefaultProps, SpacingValue } from '../../theme/types';
-import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
@@ -114,18 +114,17 @@ export const Card = forwardRef<any, CardProps>((props, ref) => {
     children,
     style,
     p,
-    ...others
+    ...otherProps
   } = useComponentDefaultProps('Card', defaultCardProps, props);
 
-  const theme = useTheme();
-  const { styles, sx } = useCardStyles({ padding }, { name: 'Card' }) as any;
+  const { styles, sx } = useCardStyles({ padding}, { name: 'Card' }) as any;
 
   // Use p prop for Paper, padding for Card internal logic
   const paperPadding = p !== undefined ? p : 0;
 
   return (
     <CardContext.Provider value={{ padding: padding! }}>
-      <Paper ref={ref} p={paperPadding} style={sx(styles.root, style)} {...others}>
+      <Paper ref={ref} p={paperPadding} style={sx(styles.root, style)} {...otherProps}>
         {children}
       </Paper>
     </CardContext.Provider>
@@ -143,7 +142,7 @@ export const CardSection = forwardRef<any, CardSectionProps>((props, ref) => {
   } = useComponentDefaultProps('CardSection', defaultCardSectionProps, props);
 
   const cardContext = useCardContext();
-  const { styles, sx } = useCardSectionStyles(
+  const { styles, sx} = useCardSectionStyles(
     {
       padding,
       withBorder,

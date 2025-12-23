@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions, ScaledSize } from 'react-native';
+import { Dimensions } from 'react-native';
+import type { ScaledSize } from 'react-native';
 import type { DefaultProps } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 
@@ -84,7 +85,6 @@ export const MediaQuery: React.FC<MediaQueryProps> = (props) => {
     orientation,
     children,
     query,
-    ...others
   } = useComponentDefaultProps('MediaQuery', defaultProps, props);
 
   const [dimensions, setDimensions] = useState(

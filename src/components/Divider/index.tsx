@@ -56,12 +56,12 @@ const useStyles = createStyles(
   ) => {
     const lineColor =
       color && theme.colors[color]
-        ? theme.colors[color][3]
+        ? (theme.colors[color] || [])[3]
         : theme.colorScheme === 'dark'
-        ? theme.colors.dark[4]
-        : theme.colors.gray[3];
+        ? (theme.colors.dark || [])[4]
+        : (theme.colors.gray || [])[3];
 
-    const lineSize = typeof size === 'number' ? rem(size) : sizes[size] || sizes.sm;
+    const lineSize = typeof size === 'number' ? rem(size) : sizes[size as keyof typeof sizes] || sizes.sm;
 
     const getBorderStyle = () => {
       if (variant === 'dashed') {
@@ -80,24 +80,24 @@ const useStyles = createStyles(
         flexDirection: isHorizontal ? 'row' : 'column',
         alignItems: 'center',
         ...(isHorizontal
-          ? { width: '100%', height: lineSize }
-          : { height: '100%', width: lineSize }),
-      },
+          ? { width: '100%', height: lineSize as any }
+          : { height: '100%', width: lineSize as any }),
+      } as any,
       line: {
         ...(isHorizontal
           ? {
-              height: lineSize,
-              borderBottomWidth: lineSize,
+              height: lineSize as any,
+              borderBottomWidth: lineSize as any,
               borderBottomColor: lineColor,
               borderStyle: getBorderStyle(),
             }
           : {
-              width: lineSize,
-              borderLeftWidth: lineSize,
+              width: lineSize as any,
+              borderLeftWidth: lineSize as any,
               borderLeftColor: lineColor,
               borderStyle: getBorderStyle(),
             }),
-      },
+      } as any,
       withLabel: {
         flex: 1,
       },
@@ -106,8 +106,8 @@ const useStyles = createStyles(
         paddingVertical: isHorizontal ? 0 : theme.spacing.xs,
       },
       label: {
-        fontSize: theme.fontSizes.sm,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7],
+        fontSize: theme.fontSizes.sm as number,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[1] : (theme.colors.gray || [])[7],
       },
       lineLeft: {
         ...(labelPosition === 'left' ? { flex: 0.3 } : { flex: 1 }),
@@ -138,7 +138,7 @@ export const Divider = forwardRef<any, DividerProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Divider', defaultProps, props);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { orientation, color, size, variant, labelPosition },
     { name: 'Divider' }
   ) as any;

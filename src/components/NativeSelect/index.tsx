@@ -1,8 +1,7 @@
 import React, { forwardRef, useState } from 'react';
-import { TouchableOpacity, Modal, FlatList, Platform } from 'react-native';
+import { TouchableOpacity, Modal, FlatList } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
-import { Overlay } from '../Overlay';
 import type {
   DefaultProps,
   MantineNumberSize,
@@ -98,7 +97,7 @@ const useStyles = createStyles(
         case 'filled':
           return {
             backgroundColor:
-              theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+              theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[1],
             borderWidth: 1,
             borderColor: 'transparent',
           };
@@ -109,10 +108,10 @@ const useStyles = createStyles(
           };
         default:
           return {
-            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
+            backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[6] : theme.white,
             borderWidth: 1,
             borderColor:
-              theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[4],
+              theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
           };
       }
     };
@@ -122,34 +121,34 @@ const useStyles = createStyles(
         width: fullWidth ? '100%' : undefined,
       },
       label: {
-        fontSize: theme.fontSizes.sm,
+        fontSize: theme.fontSizes.sm as number,
         fontWeight: '500',
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
         marginBottom: theme.spacing.xs,
       },
       description: {
-        fontSize: theme.fontSizes.xs,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[6],
+        fontSize: theme.fontSizes.xs as number,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
         marginTop: theme.spacing.xs,
       },
       error: {
-        fontSize: theme.fontSizes.xs,
-        color: theme.colors.red[6],
+        fontSize: theme.fontSizes.xs as number,
+        color: (theme.colors.red || [])[6],
         marginTop: theme.spacing.xs,
       },
       selectWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: getSize({ size, sizes: INPUT_SIZES }),
+        height: getSize({ size, sizes: INPUT_SIZES }) as any,
         borderRadius: theme.fn.radius(radius),
         ...getVariantStyles(),
         ...(error && {
-          borderColor: theme.colors.red[6],
+          borderColor: (theme.colors.red || [])[6],
         }),
         ...(disabled && {
           opacity: 0.6,
         }),
-      },
+      } as any,
       icon: {
         paddingLeft: theme.spacing.sm,
         paddingRight: theme.spacing.xs,
@@ -164,21 +163,21 @@ const useStyles = createStyles(
         }),
       },
       placeholder: {
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[5],
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[3] : (theme.colors.gray || [])[5],
       },
       chevron: {
         paddingRight: theme.spacing.sm,
       },
       chevronText: {
-        fontSize: rem(16),
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[2] : theme.colors.gray[6],
+        fontSize: rem(16) as any,
+        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
       },
       modalOverlay: {
         flex: 1,
         justifyContent: 'flex-end',
       },
       modalContent: {
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[7] : theme.white,
         borderTopLeftRadius: theme.fn.radius('md'),
         borderTopRightRadius: theme.fn.radius('md'),
         maxHeight: '70%',
@@ -187,10 +186,10 @@ const useStyles = createStyles(
         padding: theme.spacing.md,
         borderBottomWidth: 1,
         borderBottomColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2],
+          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[2],
       },
       modalTitle: {
-        fontSize: theme.fontSizes.lg,
+        fontSize: theme.fontSizes.lg as number,
         fontWeight: '600',
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
       },
@@ -198,19 +197,19 @@ const useStyles = createStyles(
         padding: theme.spacing.md,
         borderBottomWidth: 1,
         borderBottomColor:
-          theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2],
+          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[2],
       },
       optionSelected: {
         backgroundColor:
           theme.colorScheme === 'dark'
             ? theme.fn.rgba(theme.colors[theme.primaryColor]?.[9] || theme.primaryBgColor, 0.25)
-            : theme.colors[theme.primaryColor]?.[0] || theme.colors.gray[1],
+            : theme.colors[theme.primaryColor]?.[0] || (theme.colors.gray || [])[1],
       },
       optionDisabled: {
         opacity: 0.4,
       },
       optionText: {
-        fontSize: theme.fontSizes.sm,
+        fontSize: theme.fontSizes.sm as number,
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
       },
       optionTextSelected: {
@@ -219,7 +218,7 @@ const useStyles = createStyles(
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<NativeSelectProps> = {
   size: 'sm',
@@ -258,7 +257,7 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
 
   const value = controlledValue !== undefined ? controlledValue : uncontrolledValue;
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     {
       size,
       radius,
@@ -296,7 +295,7 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
       {label && (
         <Text style={styles.label}>
           {typeof label === 'string' ? label : label}
-          {required && <Text style={{ color: theme.colors.red[6] }}> *</Text>}
+          {required && <Text style={{ color: (theme.colors.red || [])[6] }}> *</Text>}
         </Text>
       )}
 

@@ -125,7 +125,7 @@ export const CloseButton = forwardRef<any, CloseButtonProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('CloseButton', defaultProps, props);
 
-  const { styles, sx, theme } = useStyles(
+  const { styles, sx, theme} = useStyles(
     { size, radius, disabled },
     { name: 'CloseButton' }
   ) as any;

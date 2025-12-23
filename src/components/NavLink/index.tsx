@@ -69,14 +69,14 @@ const useStyles = createStyles(
       if (disabled) {
         return {
           backgroundColor: 'transparent',
-          color: theme.colors.gray[5],
+          color: (theme.colors.gray || [])[5],
         };
       }
 
       if (!active) {
         return {
           backgroundColor: 'transparent',
-          color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+          color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
         };
       }
 
@@ -88,7 +88,7 @@ const useStyles = createStyles(
           };
         case 'light':
           return {
-            backgroundColor: colors?.[0] || colors?.[1] || theme.colors.gray[0],
+            backgroundColor: colors?.[0] || colors?.[1] || (theme.colors.gray || [])[0],
             color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
           };
         case 'subtle':
@@ -101,7 +101,7 @@ const useStyles = createStyles(
           };
         default:
           return {
-            backgroundColor: colors?.[0] || colors?.[1] || theme.colors.gray[0],
+            backgroundColor: colors?.[0] || colors?.[1] || (theme.colors.gray || [])[0],
             color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
           };
       }
@@ -126,17 +126,17 @@ const useStyles = createStyles(
         flex: 1,
       },
       label: {
-        fontSize: rem(14),
+        fontSize: rem(14) as any,
         fontWeight: '500',
         color: variantStyles.color,
       },
       description: {
         fontSize: rem(12),
-        marginTop: rem(2),
+        marginTop: rem(2) as any,
         color:
           theme.colorScheme === 'dark'
-            ? theme.colors.dark[2]
-            : theme.colors.gray[6],
+            ? (theme.colors.dark || [])[2]
+            : (theme.colors.gray || [])[6],
       },
       rightSection: {
         marginLeft: theme.spacing.sm,
@@ -148,7 +148,7 @@ const useStyles = createStyles(
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<NavLinkProps> = {
   color: 'blue',
@@ -175,7 +175,7 @@ export const NavLink = forwardRef<any, NavLinkProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('NavLink', defaultProps, props);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { color, active, disabled },
     { name: 'NavLink', variant }
   ) as any;
@@ -187,8 +187,7 @@ export const NavLink = forwardRef<any, NavLinkProps>((props, ref) => {
       <UnstyledButton
         ref={ref}
         onPress={isDisabled ? undefined : onPress}
-        style={sx(styles.root, style)}
-        disabled={isDisabled}
+        style={sx(styles.root, isDisabled && { opacity: 0.6 }, style)}
         {...others}
       >
         {icon && <BoxView style={styles.icon}>{icon}</BoxView>}

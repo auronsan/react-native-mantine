@@ -56,10 +56,10 @@ const useStyles = createStyles(
 
     return {
       root: {
-        height: circleSize || getSize(height) || rem(120),
-        width: circleSize || getSize(width) || '100%',
+        height: (circleSize || getSize(height) || rem(120)) as any,
+        width: (circleSize || getSize(width) || '100%') as any,
         borderRadius: circle ? 9999 : theme.fn.radius(radius),
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3],
+        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[3],
         overflow: 'hidden',
       },
       shimmer: {
@@ -72,7 +72,7 @@ const useStyles = createStyles(
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<SkeletonProps> = {
   height: 120,
@@ -116,7 +116,7 @@ export const Skeleton = forwardRef<any, SkeletonProps>((props, ref) => {
     }
   }, [animate, visible, shimmerAnimation]);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { height, width, radius, circle },
     { name: 'Skeleton' }
   ) as any;

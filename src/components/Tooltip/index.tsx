@@ -1,12 +1,10 @@
 import React, { forwardRef, useState, useRef } from 'react';
 import {
   View,
-  Modal,
   TouchableWithoutFeedback,
   Animated,
   Platform,
 } from 'react-native';
-import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import { Portal } from '../Portal';
 import type {
@@ -93,11 +91,11 @@ const useStyles = createStyles(
     return {
       tooltip: {
         position: 'absolute',
-        backgroundColor: colors?.[9] || colors?.[8] || theme.colors.gray[9],
+        backgroundColor: colors?.[9] || colors?.[8] || (theme.colors.gray || [])[9],
         borderRadius: theme.fn.radius(radius),
-        paddingVertical: rem(6),
-        paddingHorizontal: rem(10),
-        maxWidth: width === 'auto' ? rem(250) : width,
+        paddingVertical: rem(6) as any,
+        paddingHorizontal: rem(10) as any,
+        maxWidth: (width === 'auto' ? rem(250) : width) as any,
         ...(multiline && {
           textAlign: 'left',
         }),
@@ -115,15 +113,15 @@ const useStyles = createStyles(
       },
       label: {
         color: theme.white,
-        fontSize: rem(12),
-        lineHeight: rem(16),
+        fontSize: rem(12) as any,
+        lineHeight: rem(16) as any,
         ...(multiline && {
           whiteSpace: 'normal',
         }),
       },
     };
   }
-);
+) as any;
 
 const defaultProps: Partial<TooltipProps> = {
   position: 'top',
@@ -139,7 +137,7 @@ const defaultProps: Partial<TooltipProps> = {
   withArrow: false,
 };
 
-export const Tooltip = forwardRef<any, TooltipProps>((props, ref) => {
+export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
   const {
     label,
     position,
@@ -176,7 +174,7 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, ref) => {
     if (disabled) return;
 
     if (targetRef.current) {
-      targetRef.current.measureInWindow((x, y, width, height) => {
+      targetRef.current.measureInWindow((x, y, width, _height) => {
         const top = y - 40; // Simple positioning, can be improved
         const left = x + width / 2 - 50;
         setTooltipPosition({ top, left });

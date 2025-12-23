@@ -78,10 +78,10 @@ const defaultProps: Partial<ColorSwatchProps> = {
 };
 
 export const ColorSwatch = forwardRef<any, ColorSwatchProps>((props, ref) => {
-  const { color, size, radius, withShadow, children, onPress, style, ...others } =
+  const { color, size, radius, withShadow, children, onPress, style, ...others} =
     useComponentDefaultProps('ColorSwatch', defaultProps, props);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { color, size, radius, withShadow },
     { name: 'ColorSwatch' }
   ) as any;

@@ -36,7 +36,7 @@ const defaultProps: Partial<AspectRatioProps> = {
 };
 
 export const AspectRatio = forwardRef<any, AspectRatioProps>((props, ref) => {
-  const { ratio, children, style, ...others } = useComponentDefaultProps(
+  const { ratio, children, style, ...others} = useComponentDefaultProps(
     'AspectRatio',
     defaultProps,
     props
@@ -44,7 +44,7 @@ export const AspectRatio = forwardRef<any, AspectRatioProps>((props, ref) => {
 
   const [width, setWidth] = useState(0);
 
-  const { styles, sx } = useStyles({}, { name: 'AspectRatio' }) as any;
+  const { styles, sx} = useStyles({}, { name: 'AspectRatio' }) as any;
 
   const handleLayout = (event: LayoutChangeEvent) => {
     const { width: layoutWidth } = event.nativeEvent.layout;

@@ -164,14 +164,14 @@ const useStyles = createStyles(
           : colors?.[6] || colors?.[5] || theme.primaryBgColor,
         ...(withBorder && {
           borderWidth: 2,
-          borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+          borderColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[7] : theme.white,
         }),
         alignItems: 'center',
         justifyContent: 'center',
         opacity: disabled ? 0.5 : 1,
       },
       label: {
-        fontSize: rem(10),
+        fontSize: rem(10) as any,
         fontWeight: '700',
         color: theme.white,
       },
@@ -210,7 +210,7 @@ export const Indicator = forwardRef<any, IndicatorProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Indicator', defaultProps, props);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx} = useStyles(
     { color, size, radius, withBorder, position, offset, disabled, inline },
     { name: 'Indicator' }
   ) as any;
