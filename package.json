@@ -188,7 +188,9 @@
     "version": "0.41.2"
   },
   "dependencies": {
+    "expo-clipboard": "^8.0.8",
     "expo-font": "^12.0.10",
+    "expo-linear-gradient": "^15.0.8",
     "lodash-es": "^4.17.21"
   }
 }
