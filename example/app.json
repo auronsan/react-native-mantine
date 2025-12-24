@@ -13,7 +13,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "mantine.example"
+      "bundleIdentifier": "mantine.example",
+      "deploymentTarget": "15.1"
     },
     "android": {
       "adaptiveIcon": {

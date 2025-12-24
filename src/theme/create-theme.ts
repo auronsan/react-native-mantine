@@ -14,6 +14,7 @@ export const createTheme = (theme?: Partial<MantineTheme>): MantineTheme => {
     primaryColor: 'blue',
     secondaryColor: 'cyan',
     headings: {
+      ...DEFAULT_THEME.headings,
       fontFamily: 'Nunito',
     },
     colors: DEFAULT_COLORS,

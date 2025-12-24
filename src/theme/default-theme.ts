@@ -317,6 +317,25 @@ export type ThemeSize = {
   xl: number;
 };
 
+export type HeadingStyle = {
+  fontSize: number;
+  lineHeight: number;
+  fontWeight?: number;
+};
+
+export type MantineHeadings = {
+  fontFamily?: string;
+  fontWeight?: number;
+  sizes: {
+    h1: HeadingStyle;
+    h2: HeadingStyle;
+    h3: HeadingStyle;
+    h4: HeadingStyle;
+    h5: HeadingStyle;
+    h6: HeadingStyle;
+  };
+};
+
 export type themeMode = 'dark' | 'light';
 
 export type MantineTheme = {
@@ -344,6 +363,7 @@ export type MantineTheme = {
   };
   radius: ThemeSize;
   fontSizes: ThemeSize;
+  headings: MantineHeadings;
   window: {
     width: number;
     height: number;

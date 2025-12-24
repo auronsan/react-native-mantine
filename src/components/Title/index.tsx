@@ -23,6 +23,12 @@ export const Title = forwardRef<any, TitleProps>((props, ref) => {
   const headingKey = `h${order}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   const headingStyles = theme.headings.sizes[headingKey];
 
+  // Determine fontWeight - use specific value or default to 700
+  const fontWeight =
+    headingStyles.fontWeight ??
+    theme.headings.fontWeight ??
+    700;
+
   return (
     <Text
       ref={ref}
@@ -32,10 +38,7 @@ export const Title = forwardRef<any, TitleProps>((props, ref) => {
           lineHeight: headingStyles.lineHeight
             ? headingStyles.fontSize * headingStyles.lineHeight
             : headingStyles.fontSize * 1.3,
-          fontWeight:
-            headingStyles.fontWeight?.toString() ||
-            theme.headings.fontWeight?.toString() ||
-            '700',
+          fontWeight: fontWeight as any,
           fontFamily: theme.headings.fontFamily || theme.fontFamilyBold,
         },
         style,
