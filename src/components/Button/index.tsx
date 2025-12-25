@@ -81,7 +81,6 @@ const defaultProps: Partial<ButtonProps> = {
 export const _Button = forwardRef<View, ButtonProps>(
   (props, ref) => {
     const {
-      // className,
       size,
       color,
       type,
@@ -98,9 +97,6 @@ export const _Button = forwardRef<View, ButtonProps>(
       loaderPosition,
       loaderProps,
       gradient,
-      // classNames,
-      // styles,
-      // unstyled,
       style,
       ...others
     } = useComponentDefaultProps('Button', defaultProps, props);
@@ -117,33 +113,20 @@ export const _Button = forwardRef<View, ButtonProps>(
       },
       {
         name: 'Button',
-        // unstyled, classNames, styles,
         variant,
         size,
       }
     );
 
-    // const colors = theme.fn.variant({ color, variant });
-
-    // const loader = (
-    //   <Loader
-    //     color={colors.color}
-    //     size={`calc(${(getSize({ size, sizes }) as any).height} / 2)`}
-    //     {...loaderProps}
-    //   />
-    // );
     const loader = <ActivityIndicator />;
 
     return (
       <UnstyledButton
         style={sx(styles.root, style)}
-        // type={type}
-        // disabled={disabled}
         data-button
         data-disabled={disabled || undefined}
         data-loading={loading || undefined}
         ref={ref}
-        // unstyled={unstyled}
         {...others}
       >
         <BoxView style={styles.inner}>
@@ -157,10 +140,7 @@ export const _Button = forwardRef<View, ButtonProps>(
             <BoxView style={styles.centerLoader}>{loader}</BoxView>
           )}
 
-          <BoxView
-            style={styles.label}
-            // style={{ textTransform: uppercase ? 'uppercase' : undefined }}
-          >
+          <BoxView style={styles.label}>
             {typeof children === 'string' || typeof children === 'number' ? (
               <Text>{children}</Text>
             ) : (

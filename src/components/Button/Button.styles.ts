@@ -56,15 +56,10 @@ interface GetSizeStyles {
 }
 
 function getSizeStyles({
-  // compact,
   size,
   withLeftIcon,
   withRightIcon,
 }: GetSizeStyles): any {
-  // if (compact) {
-  //   return sizes[`compact-${size}`];
-  // }
-
   const _sizes: (typeof sizes)[keyof typeof sizes] = sizes[size];
 
   if (!_sizes) {
@@ -86,42 +81,6 @@ const getWidthStyles = (fullWidth: boolean) => ({
   display: fullWidth ? 'block' : 'inline-block',
   width: fullWidth ? '100%' : 'auto',
 });
-
-// interface GetVariantStyles {
-//   theme: MantineTheme;
-//   color: MantineColor;
-//   variant: string;
-//   gradient: MantineGradient;
-// }
-
-// function getVariantStyles({
-//   variant,
-//   theme,
-//   color,
-//   gradient,
-// }: GetVariantStyles) {
-//   if (!BUTTON_VARIANTS.includes(variant)) {
-//     return null;
-//   }
-
-//   const colors = theme.fn.variant({ color, variant, gradient });
-
-//   if (variant === 'gradient') {
-//     return {
-//       border: 0,
-//       backgroundImage: colors.background,
-//       color: colors.color,
-//       ...theme.fn.hover({ backgroundSize: '200%' }),
-//     };
-//   }
-
-//   return {
-//     border: `${rem(1)} solid ${colors.border}`,
-//     backgroundColor: colors.background,
-//     color: colors.color,
-//     ...theme.fn.hover({ backgroundColor: colors.hover }),
-//   };
-// }
 
 interface GetVariantStylesInput {
   variant: string;
@@ -163,10 +122,7 @@ const useStyles = createStyles(
       color,
       gradient,
     }: ButtonStylesParams,
-    {
-      variant,
-      size,
-    }
+    { variant, size }
   ) => {
     return {
       root: {
@@ -245,6 +201,7 @@ const useStyles = createStyles(
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
       },
     };
   }

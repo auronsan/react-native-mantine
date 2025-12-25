@@ -1,1 +1,1 @@
-export { sizes as INPUT_SIZES } from './Input.styles';
+export { INPUT_SIZES } from './Input.styles';

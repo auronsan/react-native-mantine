@@ -8,16 +8,13 @@ export default function useCachedResources(): boolean {
   useEffect(() => {
     async function loadResourcesAndDataAsync(): Promise<void> {
       try {
-        // SplashScreen.preventAutoHideAsync()
-        // Load fonts
         await Font.loadAsync({
           Nunito: require('../fonts/Nunito-Regular.ttf'),
           'Nunito Bold': require('../fonts/Nunito-Bold.ttf'),
           'Nunito SemiBold': require('../fonts/Nunito-SemiBold.ttf'),
         })
       } catch (e) {
-        // We might want to provide this error information to an error reporting service
-        // console.warn(e)
+        // Error silently ignored - consider adding error reporting in production
       } finally {
         setLoadingComplete(true)
       }
