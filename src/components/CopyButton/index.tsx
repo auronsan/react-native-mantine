@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as Clipboard from 'expo-clipboard';
 import type { DefaultProps } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
@@ -18,7 +18,7 @@ const defaultProps: Partial<CopyButtonProps> = {
   timeout: 1000,
 };
 
-export const CopyButton = forwardRef<any, CopyButtonProps>((props) => {
+export const CopyButton: React.FC<CopyButtonProps> = (props) => {
   const { value, timeout, children } = useComponentDefaultProps(
     'CopyButton',
     defaultProps,
@@ -55,6 +55,6 @@ export const CopyButton = forwardRef<any, CopyButtonProps>((props) => {
   };
 
   return <>{children({ copied, copy })}</>;
-});
+};
 
 CopyButton.displayName = 'CopyButton';

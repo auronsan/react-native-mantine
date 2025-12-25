@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { ActivityIndicator, Appearance, Platform } from 'react-native';
+import { Appearance, Platform } from 'react-native';
 
 import type { ColorSchemeName } from 'react-native';
 
@@ -17,7 +17,7 @@ import type { MantineTheme } from './default-theme';
 import { createTheme } from './create-theme';
 
 import { filterProps } from './filter-props';
-import useCachedResources from '../hooks/useCachedResources';
+// import useCachedResources from '../hooks/useCachedResources';
 
 type ThemeProps = {
   children: ReactNode;
@@ -94,15 +94,15 @@ export const Theme = ({
   theme: themeOverwrite,
   forceMode,
 }: ThemeProps): React.ReactElement => {
-  const loaded = useCachedResources();
+  // const loaded = useCachedResources();
 
   const theme = useMemo(() => {
     return createTheme(themeOverwrite);
   }, [themeOverwrite]);
 
-  if (!loaded) {
-    return <ActivityIndicator />;
-  }
+  // if (!loaded) {
+  //   return <ActivityIndicator />;
+  // }
   return (
     <ThemeProvider theme={theme} forceMode={forceMode}>
       {children}
@@ -121,7 +121,7 @@ export function useComponentDefaultProps<
   [Key in Extract<keyof T, keyof U>]-?: U[Key] | NonNullable<T[Key]>;
 } {
   const theme = useTheme();
-  const contextPropsPayload = theme.components[component]?.defaultProps;
+  const contextPropsPayload = theme?.components?.[component]?.defaultProps;
   const contextProps =
     typeof contextPropsPayload === 'function'
       ? contextPropsPayload(theme)

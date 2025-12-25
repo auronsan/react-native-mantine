@@ -11,8 +11,8 @@ export function getSize<
   size: Size;
   sizes: Sizes;
 }): Size extends Key ? Sizes[Size] : Size extends number ? number : Size {
-  if (size in sizes) {
+  if (sizes && typeof sizes === 'object' && size in sizes) {
     return sizes[size as any];
   }
-  return (size as any) || sizes.md;
+  return (size as any) || sizes?.md;
 }

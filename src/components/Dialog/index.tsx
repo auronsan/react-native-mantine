@@ -79,10 +79,10 @@ const useStyles = createStyles(
     };
 
     const finalPosition = position || defaultPosition;
-    const posTop = 'top' in finalPosition ? finalPosition.top : undefined;
-    const posBottom = 'bottom' in finalPosition ? finalPosition.bottom : undefined;
-    const posLeft = 'left' in finalPosition ? finalPosition.left : undefined;
-    const posRight = 'right' in finalPosition ? finalPosition.right : undefined;
+    const posTop = finalPosition && typeof finalPosition === 'object' && 'top' in finalPosition ? finalPosition.top : undefined;
+    const posBottom = finalPosition && typeof finalPosition === 'object' && 'bottom' in finalPosition ? finalPosition.bottom : undefined;
+    const posLeft = finalPosition && typeof finalPosition === 'object' && 'left' in finalPosition ? finalPosition.left : undefined;
+    const posRight = finalPosition && typeof finalPosition === 'object' && 'right' in finalPosition ? finalPosition.right : undefined;
 
     return {
       root: {

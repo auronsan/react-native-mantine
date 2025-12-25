@@ -60,7 +60,7 @@ const useStyles = createStyles(
     }
   ) => {
     const iconSize = typeof size === 'number' ? size : getSize({ size, sizes }) as number;
-    const themeColor = color in theme.colors ? color : theme.primaryColor;
+    const themeColor = theme?.colors && color in theme.colors ? color : theme.primaryColor;
     const shade = theme.primaryShade;
 
     const getVariantStyles = () => {
@@ -132,11 +132,11 @@ export const ThemeIcon = forwardRef<any, ThemeIconProps>((props, ref) => {
 
   const getGradientColors = (): [string, string] => {
     const fromColor =
-      gradient?.from && gradient.from in theme.colors
+      gradient?.from && theme?.colors && gradient.from in theme.colors
         ? theme.colors[gradient.from][theme.primaryShade]
         : gradient?.from || theme.colors.blue?.[6] || '#228be6';
     const toColor =
-      gradient?.to && gradient.to in theme.colors
+      gradient?.to && theme?.colors && gradient.to in theme.colors
         ? theme.colors[gradient.to][theme.primaryShade]
         : gradient?.to || theme.colors.cyan?.[6] || '#22b8cf';
     return [fromColor, toColor];

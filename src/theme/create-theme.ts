@@ -2,11 +2,12 @@ import { DEFAULT_COLORS, DEFAULT_THEME } from './default-theme';
 import type { MantineTheme } from './default-theme';
 
 export const createTheme = (theme?: Partial<MantineTheme>): MantineTheme => {
-  const { primaryShade = 7, other = {} } = theme || {};
+  const { primaryShade = 7, other = {}, components = {} } = theme || {};
   return {
     ...DEFAULT_THEME,
     primaryShade: primaryShade,
     other: other,
+    components: components,
     fontFamily: 'Nunito',
     fontFamilyBold: 'Nunito Bold',
     fontFamilySemiBold: 'Nunito SemiBold',
