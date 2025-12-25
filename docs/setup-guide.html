@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Guide - React Native Mantine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #228be6;
+            --gray-0: #f8f9fa;
+            --gray-1: #f1f3f5;
+            --gray-6: #868e96;
+            --gray-7: #495057;
+            --gray-9: #212529;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-9);
+            background-color: var(--gray-0);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-1);
+        }
+
+        h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--gray-9);
+        }
+
+        h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray-7);
+        }
+
+        p, li {
+            margin-bottom: 0.5rem;
+            color: var(--gray-7);
+        }
+
+        code {
+            background-color: var(--gray-1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background-color: var(--gray-9);
+            color: var(--gray-1);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--gray-6);
+        }
+
+        .success {
+            background-color: #d3f9d8;
+            border-left: 4px solid #51cf66;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .warning {
+            background-color: #fff3bf;
+            border-left: 4px solid #ffd43b;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .info {
+            background-color: #d0ebff;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Home</a>
+
+        <h1>Complete Setup Guide</h1>
+
+        <div class="info">
+            <strong>Note:</strong> This guide covers installation, configuration, and getting started with React Native Mantine.
+        </div>
+
+        <h2>Installation</h2>
+
+        <h3>Step 1: Install the Package</h3>
+        <pre><code># Using npm
+npm install react-native-mantine
+
+# Using yarn
+yarn add react-native-mantine
+
+# Using pnpm
+pnpm add react-native-mantine</code></pre>
+
+        <h3>Step 2: Install Peer Dependencies</h3>
+        <pre><code># Install required dependencies
+npm install expo-linear-gradient expo-font expo-clipboard
+
+# Or with yarn
+yarn add expo-linear-gradient expo-font expo-clipboard</code></pre>
+
+        <div class="warning">
+            <strong>Important:</strong> These peer dependencies are required for full functionality.
+        </div>
+
+        <h2>Basic Configuration</h2>
+
+        <h3>Step 1: Wrap Your App with ThemeProvider</h3>
+        <pre><code>import { ThemeProvider } from 'react-native-mantine';
+
+export default function App() {
+  return (
+    &lt;ThemeProvider&gt;
+      {/* Your app content */}
+    &lt;/ThemeProvider&gt;
+  );
+}</code></pre>
+
+        <h3>Step 2: Start Using Components</h3>
+        <pre><code>import { Button, Text, Stack } from 'react-native-mantine';
+
+function MyComponent() {
+  return (
+    &lt;Stack spacing="md"&gt;
+      &lt;Text size="xl" weight={700}&gt;
+        Hello React Native Mantine!
+      &lt;/Text&gt;
+      &lt;Button variant="filled" color="blue"&gt;
+        Click Me
+      &lt;/Button&gt;
+    &lt;/Stack&gt;
+  );
+}</code></pre>
+
+        <h2>Custom Theme Configuration</h2>
+
+        <p>You can customize the default theme to match your brand:</p>
+
+        <pre><code>import { ThemeProvider, createTheme } from 'react-native-mantine';
+
+const myTheme = createTheme({
+  primaryColor: 'blue',
+  primaryShade: 6,
+  fontFamily: 'System',
+  colors: {
+    // Override or add custom colors
+  },
+  fontSizes: {
+    xs: 12,
+    sm: 14,
+    md: 16,
+    lg: 18,
+    xl: 20,
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
+  },
+});
+
+export default function App() {
+  return (
+    &lt;ThemeProvider theme={myTheme}&gt;
+      {/* Your app */}
+    &lt;/ThemeProvider&gt;
+  );
+}</code></pre>
+
+        <h2>Using Theme in Components</h2>
+
+        <pre><code>import { useTheme } from 'react-native-mantine';
+import { View, Text } from 'react-native';
+
+function ThemedComponent() {
+  const theme = useTheme();
+
+  return (
+    &lt;View style={{
+      backgroundColor: theme.colors.blue[6],
+      padding: theme.spacing.md
+    }}&gt;
+      &lt;Text style={{
+        color: theme.white,
+        fontSize: theme.fontSizes.lg
+      }}&gt;
+        Themed Component
+      &lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}</code></pre>
+
+        <h2>TypeScript Support</h2>
+
+        <p>React Native Mantine is built with TypeScript and provides full type definitions:</p>
+
+        <pre><code>import { ButtonProps, TextProps } from 'react-native-mantine';
+
+interface MyButtonProps extends ButtonProps {
+  customProp?: string;
+}
+
+function MyButton({ customProp, ...props }: MyButtonProps) {
+  return &lt;Button {...props} /&gt;;
+}</code></pre>
+
+        <h2>Common Patterns</h2>
+
+        <h3>Form Example</h3>
+        <pre><code>import {
+  Stack,
+  TextInput,
+  PasswordInput,
+  Checkbox,
+  Button
+} from 'react-native-mantine';
+
+function LoginForm() {
+  return (
+    &lt;Stack spacing="md" padding="lg"&gt;
+      &lt;TextInput
+        label="Email"
+        placeholder="your@email.com"
+        required
+      /&gt;
+      &lt;PasswordInput
+        label="Password"
+        required
+      /&gt;
+      &lt;Checkbox label="Remember me" /&gt;
+      &lt;Button fullWidth&gt;Sign In&lt;/Button&gt;
+    &lt;/Stack&gt;
+  );
+}</code></pre>
+
+        <h3>Modal Example</h3>
+        <pre><code>import { useState } from 'react';
+import { Modal, Button, Text } from 'react-native-mantine';
+
+function ModalExample() {
+  const [opened, setOpened] = useState(false);
+
+  return (
+    &lt;&gt;
+      &lt;Button onPress={() =&gt; setOpened(true)}&gt;
+        Open Modal
+      &lt;/Button&gt;
+
+      &lt;Modal
+        opened={opened}
+        onClose={() =&gt; setOpened(false)}
+        title="Confirmation"
+      &gt;
+        &lt;Text&gt;Are you sure?&lt;/Text&gt;
+      &lt;/Modal&gt;
+    &lt;/&gt;
+  );
+}</code></pre>
+
+        <h2>Best Practices</h2>
+
+        <ul>
+            <li>Always wrap your app with <code>ThemeProvider</code></li>
+            <li>Use <code>useTheme()</code> hook to access theme values</li>
+            <li>Leverage TypeScript for better type safety</li>
+            <li>Use consistent spacing with theme values</li>
+            <li>Prefer theme colors over hardcoded values</li>
+            <li>Use semantic color names (primary, success, error, etc.)</li>
+        </ul>
+
+        <h2>Troubleshooting</h2>
+
+        <h3>Module not found errors</h3>
+        <p>Make sure all peer dependencies are installed:</p>
+        <pre><code>npm install expo-linear-gradient expo-font expo-clipboard</code></pre>
+
+        <h3>Theme not applying</h3>
+        <p>Ensure <code>ThemeProvider</code> wraps your entire app at the root level.</p>
+
+        <h3>TypeScript errors</h3>
+        <p>Update your TypeScript version to 5.0+ and ensure strict mode is enabled.</p>
+
+        <h2>Next Steps</h2>
+
+        <ul>
+            <li><a href="index.html">Browse all components</a></li>
+            <li><a href="https://github.com/auronsan/react-native-mantine#readme">Read the full documentation</a></li>
+            <li><a href="https://github.com/auronsan/react-native-mantine/tree/main/example">Check out example app</a></li>
+            <li><a href="https://github.com/auronsan/react-native-mantine/issues">Report issues</a></li>
+        </ul>
+
+        <div class="success">
+            <strong>Success!</strong> You're now ready to build beautiful React Native apps with Mantine.
+        </div>
+
+        <p style="margin-top: 2rem; text-align: center; color: var(--gray-6);">
+            <a href="index.html">← Back to Home</a>
+        </p>
+    </div>
+</body>
+</html>

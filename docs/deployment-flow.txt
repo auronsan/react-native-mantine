@@ -1,0 +1,228 @@
+React Native Mantine - GitHub Pages Deployment Flow
+=======================================================
+
+AUTOMATIC DOCUMENTATION DEPLOYMENT
+===================================
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                        DEVELOPER WORKFLOW                            │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  │ git push origin main
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         GITHUB ACTIONS                               │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │  Workflow: deploy-docs.yml                                   │   │
+│  │  ─────────────────────────                                  │   │
+│  │                                                              │   │
+│  │  Step 1: Checkout Repository                                │   │
+│  │          └─ actions/checkout@v4                             │   │
+│  │                                                              │   │
+│  │  Step 2: Setup GitHub Pages                                 │   │
+│  │          └─ actions/configure-pages@v4                      │   │
+│  │                                                              │   │
+│  │  Step 3: Upload Artifact                                    │   │
+│  │          └─ actions/upload-pages-artifact@v3                │   │
+│  │          └─ Source: ./docs                                  │   │
+│  │                                                              │   │
+│  │  Step 4: Deploy to GitHub Pages                             │   │
+│  │          └─ actions/deploy-pages@v4                         │   │
+│  │                                                              │   │
+│  │  ⏱️  Total Time: ~1 minute                                   │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  │ Deployment Complete
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         GITHUB PAGES CDN                             │
+│                                                                      │
+│  URL: https://auronsan.github.io/react-native-mantine/             │
+│                                                                      │
+│  Files Served:                                                      │
+│  ├─ index.html           (Main landing page)                       │
+│  ├─ setup-guide.html     (Setup instructions)                      │
+│  └─ Static assets        (Images, CSS, JS)                         │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  │ HTTPS
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                           END USERS                                  │
+│                                                                      │
+│  Browsers:                                                          │
+│  • Chrome/Edge                                                      │
+│  • Firefox                                                          │
+│  • Safari                                                           │
+│  • Mobile browsers                                                  │
+└─────────────────────────────────────────────────────────────────────┘
+
+
+OPTIONAL SHOWCASE DEPLOYMENT (Manual Trigger)
+==============================================
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    MANUAL WORKFLOW TRIGGER                           │
+│                  (GitHub Actions Tab)                                │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  │ Run workflow
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         GITHUB ACTIONS                               │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │  Workflow: deploy-showcase.yml                               │   │
+│  │  ──────────────────────────────                             │   │
+│  │                                                              │   │
+│  │  Step 1: Checkout Repository                                │   │
+│  │  Step 2: Setup Node.js 18                                   │   │
+│  │  Step 3: Enable Corepack (Yarn 3)                           │   │
+│  │  Step 4: Install Dependencies                               │   │
+│  │          └─ yarn install --immutable                        │   │
+│  │                                                              │   │
+│  │  Step 5: Build Expo Web                                     │   │
+│  │          └─ cd example && yarn web:build                    │   │
+│  │          └─ Output: example/web-build/                      │   │
+│  │                                                              │   │
+│  │  Step 6: Prepare Deployment                                 │   │
+│  │          ├─ Copy docs/* to deployment/                      │   │
+│  │          └─ Copy example/web-build/* to deployment/showcase/│   │
+│  │                                                              │   │
+│  │  Step 7: Deploy to GitHub Pages                             │   │
+│  │                                                              │   │
+│  │  ⏱️  Total Time: ~5-10 minutes                               │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         GITHUB PAGES CDN                             │
+│                                                                      │
+│  URLs:                                                              │
+│  ├─ https://auronsan.github.io/react-native-mantine/               │
+│  │  (Documentation)                                                │
+│  │                                                                  │
+│  └─ https://auronsan.github.io/react-native-mantine/showcase/      │
+│     (Interactive Component Demo)                                   │
+└─────────────────────────────────────────────────────────────────────┘
+
+
+LOCAL DEVELOPMENT WORKFLOW
+===========================
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    DEVELOPER MACHINE                                 │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                    ┌─────────────┴─────────────┐
+                    │                           │
+                    ▼                           ▼
+          ┌──────────────────┐       ┌──────────────────┐
+          │  Preview Docs    │       │  Build Showcase  │
+          │                  │       │                  │
+          │  yarn docs:      │       │  cd example      │
+          │  preview         │       │  yarn web:build  │
+          │                  │       │  yarn web:serve  │
+          │  ├─ Run server   │       │                  │
+          │  └─ Open browser │       │  ├─ Build Expo   │
+          │                  │       │  └─ Serve locally│
+          └──────────────────┘       └──────────────────┘
+                    │                           │
+                    ▼                           ▼
+          ┌──────────────────┐       ┌──────────────────┐
+          │  localhost:3000  │       │  localhost:3000  │
+          │  (Documentation) │       │  (Showcase)      │
+          └──────────────────┘       └──────────────────┘
+
+
+VERIFICATION WORKFLOW
+=====================
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    RUN VERIFICATION SCRIPT                           │
+│                  ./scripts/verify-deployment.sh                      │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                    ┌─────────────┴─────────────┐
+                    │                           │
+                    ▼                           ▼
+          ┌──────────────────┐       ┌──────────────────┐
+          │  Check Files     │       │  Check Config    │
+          │                  │       │                  │
+          │  ✓ index.html    │       │  ✓ Workflows     │
+          │  ✓ .nojekyll     │       │  ✓ Scripts       │
+          │  ✓ workflows     │       │  ✓ package.json  │
+          │  ✓ scripts       │       │  ✓ Documentation │
+          │  ✓ docs          │       │                  │
+          └──────────────────┘       └──────────────────┘
+                    │                           │
+                    └─────────────┬─────────────┘
+                                  ▼
+                    ┌──────────────────────────┐
+                    │  ✅ Deployment Ready     │
+                    │  or                      │
+                    │  ❌ Issues Found         │
+                    └──────────────────────────┘
+
+
+FILE STRUCTURE
+==============
+
+react-native-mantine/
+│
+├── docs/                          ← GITHUB PAGES SOURCE
+│   ├── index.html                 │ Main landing page
+│   ├── setup-guide.html          │ Setup instructions
+│   ├── README.md                  │ Documentation
+│   ├── .nojekyll                  │ Bypass Jekyll
+│   └── CNAME                      │ Custom domain
+│
+├── .github/
+│   ├── workflows/
+│   │   ├── deploy-docs.yml        │ Auto deployment
+│   │   └── deploy-showcase.yml    │ Manual showcase
+│   │
+│   ├── DEPLOYMENT_SUMMARY.md      │ Architecture doc
+│   ├── DEPLOYMENT_CHECKLIST.md    │ Deployment steps
+│   └── README.md                  │ GitHub docs
+│
+├── scripts/
+│   ├── preview-docs.sh            │ Local preview
+│   └── verify-deployment.sh       │ Verification
+│
+├── DEPLOYMENT.md                   │ Full guide
+├── QUICK_START_DEPLOYMENT.md       │ Quick start
+└── README.md                       │ Updated
+
+
+DEPLOYMENT TIMELINE
+===================
+
+Documentation (Automatic):
+─────────────────────────────────────────────────────────────────
+ 0s           20s          40s          60s          Complete
+ │            │            │            │            │
+ Push   →  Trigger   →  Upload   →  Deploy   →  ✅ Live
+ Code      Workflow     Artifact     Pages
+
+Showcase (Manual):
+─────────────────────────────────────────────────────────────────
+ 0s     2m     4m     6m     8m    10m    Complete
+ │      │      │      │      │      │      │
+ Trig → Deps → Build → Test → Pack → Dep → ✅ Live
+
+
+KEY BENEFITS
+============
+
+✅ Automatic Deployment    - Push and forget
+✅ Fast Updates            - Live in 1 minute
+✅ No Build Complexity     - Static HTML
+✅ Version Control         - Git-based workflow
+✅ Free Hosting            - GitHub Pages
+✅ HTTPS Enabled           - Secure by default
+✅ Global CDN              - Fast worldwide
+✅ Easy Rollback           - Git history
+✅ Pull Request Previews   - (Can be added)
+✅ Custom Domain Support   - Professional URL

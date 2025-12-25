@@ -1,0 +1,76 @@
+name: Build and Deploy Showcase (Optional)
+
+# This workflow builds the Expo web version of the example app
+# Uncomment the 'on' section below to enable automatic deployment
+# Note: This requires more setup and longer build times
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   workflow_dispatch:
+
+on:
+  workflow_dispatch:  # Manual trigger only by default
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages-showcase"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}showcase/
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: |
+          yarn install --immutable
+
+      - name: Build Expo Web
+        working-directory: ./example
+        run: |
+          yarn web:build
+
+      - name: Prepare deployment
+        run: |
+          # Copy the landing page
+          mkdir -p deployment
+          cp -r docs/* deployment/
+
+          # Copy the showcase (if built successfully)
+          if [ -d "example/web-build" ]; then
+            mkdir -p deployment/showcase
+            cp -r example/web-build/* deployment/showcase/
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './deployment'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
