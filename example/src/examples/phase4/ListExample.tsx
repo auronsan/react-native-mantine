@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { List , Paper } from 'react-native-mantine';
 
 export const ListExample = () => {
   return (
-    <ExampleWrapper title="List">
+    <ExampleWrapper
+      title="List"
+      description="Ordered and unordered lists"
+    >
       <ExampleSection
         title="Basic Usage"
         description="List component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              List Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <List>
+            <List.Item>First item</List.Item>
+            <List.Item>Second item</List.Item>
+            <List.Item>Third item</List.Item>
+          </List>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

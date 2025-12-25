@@ -248,7 +248,7 @@ export const Stepper = forwardRef<any, StepperProps>((props, ref) => {
   const { styles, sx } = useStepperStyles({ orientation }, { name: 'Stepper' }) as any;
 
   const iconSizeKey = (size || 'md') as keyof typeof iconSizes;
-  const iconSize = iconSizeProp || parseInt(iconSizes[iconSizeKey] || iconSizes.md, 10);
+  const iconSize = iconSizeProp || iconSizes[iconSizeKey] || iconSizes.md;
 
   const childrenArray = React.Children.toArray(children);
   const steps = childrenArray.filter(

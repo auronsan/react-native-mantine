@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Group, ThemeIcon , Paper } from 'react-native-mantine';
 
 export const ThemeIconExample = () => {
   return (
-    <ExampleWrapper title="ThemeIcon">
+    <ExampleWrapper
+      title="ThemeIcon"
+      description="Icon with themed background"
+    >
       <ExampleSection
         title="Basic Usage"
         description="ThemeIcon component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              ThemeIcon Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Group spacing={16}>
+            <ThemeIcon color="blue" size="lg">📧</ThemeIcon>
+            <ThemeIcon color="red" size="lg">❤️</ThemeIcon>
+            <ThemeIcon color="green" size="lg">✓</ThemeIcon>
+          </Group>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

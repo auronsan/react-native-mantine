@@ -1,26 +1,23 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { SimpleGrid , Paper } from 'react-native-mantine';
 
 export const SimpleGridExample = () => {
   return (
-    <ExampleWrapper title="SimpleGrid">
+    <ExampleWrapper
+      title="SimpleGrid"
+      description="Auto-responsive grid layout"
+    >
       <ExampleSection
         title="Basic Usage"
         description="SimpleGrid component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              SimpleGrid Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <SimpleGrid cols={2}>
+            <Paper p="md">Item 1</Paper>
+            <Paper p="md">Item 2</Paper>
+            <Paper p="md">Item 3</Paper>
+            <Paper p="md">Item 4</Paper>
+          </SimpleGrid>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

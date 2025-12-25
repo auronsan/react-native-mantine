@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { MultiSelect , Paper } from 'react-native-mantine';
 
 export const MultiSelectExample = () => {
   return (
-    <ExampleWrapper title="MultiSelect">
+    <ExampleWrapper
+      title="MultiSelect"
+      description="Multi-option select with tags"
+    >
       <ExampleSection
         title="Basic Usage"
         description="MultiSelect component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              MultiSelect Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <MultiSelect
+            label="Choose frameworks"
+            data={['React', 'Angular', 'Vue', 'Svelte']}
+            placeholder="Pick multiple"
+          />
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

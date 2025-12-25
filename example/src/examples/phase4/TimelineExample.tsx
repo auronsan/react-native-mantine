@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Timeline , Paper } from 'react-native-mantine';
 
 export const TimelineExample = () => {
   return (
-    <ExampleWrapper title="Timeline">
+    <ExampleWrapper
+      title="Timeline"
+      description="Vertical timeline with items"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Timeline component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Timeline Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Timeline active={1}>
+            <Timeline.Item title="First step">Step details</Timeline.Item>
+            <Timeline.Item title="Second step">Step details</Timeline.Item>
+            <Timeline.Item title="Third step">Step details</Timeline.Item>
+          </Timeline>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

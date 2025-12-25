@@ -8,7 +8,7 @@ export type RootStackParamList = {
   Phase5Components: undefined;
   Phase6Components: undefined;
 
-  // Base Components
+  // Core Components
   BoxViewExample: undefined;
   GroupExample: undefined;
   StackExample: undefined;
@@ -19,7 +19,7 @@ export type RootStackParamList = {
   InputExample: undefined;
   LoaderExample: undefined;
 
-  // Phase 1 Components
+  // Layout & Typography
   CenterExample: undefined;
   ContainerExample: undefined;
   FlexExample: undefined;
@@ -29,7 +29,7 @@ export type RootStackParamList = {
   MarkExample: undefined;
   CodeExample: undefined;
 
-  // Phase 2 Components
+  // Feedback & Forms
   BadgeExample: undefined;
   AvatarExample: undefined;
   PaperExample: undefined;
@@ -43,7 +43,7 @@ export type RootStackParamList = {
   CheckboxExample: undefined;
   RadioExample: undefined;
 
-  // Phase 3 Components
+  // Overlays & Dialogs
   OverlayExample: undefined;
   PortalExample: undefined;
   ModalExample: undefined;
@@ -58,7 +58,7 @@ export type RootStackParamList = {
   ChipExample: undefined;
   NativeSelectExample: undefined;
 
-  // Phase 4 Components
+  // Data Display
   SliderExample: undefined;
   RatingExample: undefined;
   StepperExample: undefined;
@@ -69,7 +69,7 @@ export type RootStackParamList = {
   TableExample: undefined;
   ListExample: undefined;
 
-  // Phase 5 Components
+  // Media & Utilities
   ImageExample: undefined;
   BackgroundImageExample: undefined;
   ThemeIconExample: undefined;
@@ -79,7 +79,7 @@ export type RootStackParamList = {
   CopyButtonExample: undefined;
   BurgerExample: undefined;
 
-  // Phase 6 Components
+  // Navigation & Advanced
   AnchorExample: undefined;
   KbdExample: undefined;
   IndicatorExample: undefined;

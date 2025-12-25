@@ -1,26 +1,21 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Checkbox, Stack , Paper } from 'react-native-mantine';
 
 export const CheckboxExample = () => {
   return (
-    <ExampleWrapper title="Checkbox">
+    <ExampleWrapper
+      title="Checkbox"
+      description="Checkbox with indeterminate state"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Checkbox component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Checkbox Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Stack spacing={16}>
+            <Checkbox label="Accept terms and conditions" />
+            <Checkbox label="Subscribe to newsletter" />
+          </Stack>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

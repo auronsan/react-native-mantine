@@ -70,11 +70,11 @@ export interface SliderProps extends DefaultProps {
 }
 
 const sizes = {
-  xs: { height: rem(4) as any, thumb: rem(12) },
-  sm: { height: rem(6) as any, thumb: rem(16) },
-  md: { height: rem(8) as any, thumb: rem(20) },
-  lg: { height: rem(10) as any, thumb: rem(24) },
-  xl: { height: rem(12) as any, thumb: rem(28) },
+  xs: { height: rem(4), thumb: rem(12) },
+  sm: { height: rem(6), thumb: rem(16) },
+  md: { height: rem(8), thumb: rem(20) },
+  lg: { height: rem(10), thumb: rem(24) },
+  xl: { height: rem(12), thumb: rem(28) },
 };
 
 const useStyles = createStyles(
@@ -98,7 +98,7 @@ const useStyles = createStyles(
       root: {
         position: 'relative',
         width: '100%',
-        paddingVertical: rem(10) as any,
+        paddingVertical: rem(10),
         opacity: disabled ? 0.5 : 1,
       },
       track: {
@@ -117,13 +117,13 @@ const useStyles = createStyles(
       },
       thumb: {
         position: 'absolute',
-        width: sizeStyles.thumb as any,
-        height: sizeStyles.thumb as any,
-        borderRadius: sizeStyles.thumb as any,
+        width: sizeStyles.thumb,
+        height: sizeStyles.thumb,
+        borderRadius: sizeStyles.thumb,
         backgroundColor: theme.white,
-        borderWidth: rem(3) as any,
+        borderWidth: rem(3),
         borderColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
-        top: (-((sizeStyles.thumb as any) / 2 - (sizeStyles.height as any) / 2)) as any,
+        top: -(sizeStyles.thumb / 2 - sizeStyles.height / 2),
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
@@ -132,12 +132,12 @@ const useStyles = createStyles(
       },
       label: {
         position: 'absolute',
-        top: rem(-32) as any,
+        top: rem(-32),
         backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
         paddingHorizontal: theme.spacing.xs,
-        paddingVertical: rem(4) as any,
+        paddingVertical: rem(4),
         borderRadius: theme.fn.radius('sm'),
-        minWidth: rem(28) as any,
+        minWidth: rem(28),
         alignItems: 'center',
         justifyContent: 'center',
       },
@@ -154,14 +154,14 @@ const useStyles = createStyles(
       },
       mark: {
         position: 'absolute',
-        width: rem(2) as any,
-        height: rem(6) as any,
+        width: rem(2),
+        height: rem(6),
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark?.[4] : theme.colors.gray?.[3],
-        borderRadius: rem(1) as any,
+        borderRadius: rem(1),
       },
       markLabel: {
         position: 'absolute',
-        top: rem(10) as any,
+        top: rem(10),
         fontSize: theme.fontSizes.xs as number,
         color: theme.colorScheme === 'dark' ? theme.colors.dark?.[2] : theme.colors.gray?.[6],
         transform: [{ translateX: -10 }],
@@ -208,6 +208,8 @@ export const Slider = forwardRef<any, SliderProps>((props, ref) => {
     { color, radius, disabled },
     { name: 'Slider', size }
   ) as any;
+
+  const sizeStyles = sizes[size as keyof typeof sizes] || sizes.md;
 
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue ?? min ?? 0);
   const [trackWidth, setTrackWidth] = useState(0);
@@ -285,7 +287,7 @@ export const Slider = forwardRef<any, SliderProps>((props, ref) => {
     const labelContent = typeof label === 'function' ? label(value) : label || value;
 
     return (
-      <BoxView style={[styles.label, { left: -(styles.label.minWidth / 2) }]}>
+      <BoxView style={[styles.label, { left: -(rem(28) / 2) }]}>
         <Text style={styles.labelText}>{labelContent}</Text>
       </BoxView>
     );
@@ -301,7 +303,7 @@ export const Slider = forwardRef<any, SliderProps>((props, ref) => {
             style={[
               styles.thumb,
               {
-                left: thumbPosition - (styles.thumb.width / 2),
+                left: thumbPosition - (sizeStyles.thumb / 2),
                 transform: [{ scale }],
               },
             ]}

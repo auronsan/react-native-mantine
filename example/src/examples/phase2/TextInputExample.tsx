@@ -1,26 +1,21 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { TextInput , Paper } from 'react-native-mantine';
 
 export const TextInputExample = () => {
   return (
-    <ExampleWrapper title="TextInput">
+    <ExampleWrapper
+      title="TextInput"
+      description="Single-line text input with validation"
+    >
       <ExampleSection
         title="Basic Usage"
         description="TextInput component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              TextInput Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <TextInput
+            label="Email"
+            placeholder="your@email.com"
+          />
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

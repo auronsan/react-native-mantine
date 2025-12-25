@@ -14,6 +14,9 @@ export interface NotificationProps extends DefaultProps {
   /** Notification message */
   message?: React.ReactNode;
 
+  /** Notification children (alternative to message) */
+  children?: React.ReactNode;
+
   /** Notification color */
   color?: MantineColor;
 

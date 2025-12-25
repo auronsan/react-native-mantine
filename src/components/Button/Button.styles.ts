@@ -20,6 +20,7 @@ export interface ButtonStylesParams {
   compact: boolean;
   withRightIcon: boolean;
   withLeftIcon: boolean;
+  gradient?: { from: string; to: string; deg?: number };
 }
 
 export const sizes = {
@@ -122,6 +123,34 @@ const getWidthStyles = (fullWidth: boolean) => ({
 //   };
 // }
 
+interface GetVariantStylesInput {
+  variant: string;
+  color: MantineColor;
+  theme: any;
+  gradient?: any;
+}
+
+function getVariantStyles({
+  variant,
+  theme,
+  color,
+  gradient,
+}: GetVariantStylesInput) {
+  if (!BUTTON_VARIANTS.includes(variant)) {
+    return {};
+  }
+
+  const colors = theme.fn.variant({ color, variant, gradient });
+
+  return {
+    backgroundColor: colors.background,
+    color: colors.color,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: colors.border,
+  };
+}
+
 const useStyles = createStyles(
   (
     theme,
@@ -131,11 +160,11 @@ const useStyles = createStyles(
       compact,
       withLeftIcon,
       withRightIcon,
-      // color,
-      // gradient,
+      color,
+      gradient,
     }: ButtonStylesParams,
     {
-      // variant,
+      variant,
       size,
     }
   ) => {
@@ -145,6 +174,7 @@ const useStyles = createStyles(
         ...theme.fn.fontStyles(),
         ...theme.fn.focusStyles(),
         ...getWidthStyles(fullWidth),
+        ...getVariantStyles({ variant, theme, color, gradient }),
         'borderRadius': theme.fn.radius(radius),
         'fontWeight': 600,
         'position': 'relative',
@@ -152,20 +182,13 @@ const useStyles = createStyles(
         'fontSize': getSize({ size, sizes: theme.fontSizes }),
         'userSelect': 'none',
         'cursor': 'pointer',
-        // ...getVariantStyles({ variant, theme, color, gradient }),
 
         '&:active': theme.activeStyles,
 
         '&:disabled, &[data-disabled]': {
           'borderColor': 'transparent',
-          // 'backgroundColor':
-          //   theme.colorScheme === 'dark'
-          //     ? theme.colors.dark[4]
-          //     : theme.colors.gray[2],
-          // 'color':
-          //   theme.colorScheme === 'dark'
-          //     ? theme.colors.dark[6]
-          //     : theme.colors.gray[5],
+          'backgroundColor': theme.colors.gray?.[2] || '#e9ecef',
+          'color': theme.colors.gray?.[5] || '#adb5bd',
           'cursor': 'not-allowed',
           'backgroundImage': 'none',
           'pointerEvents': 'none',
@@ -181,10 +204,7 @@ const useStyles = createStyles(
           '&::before': {
             content: '""',
             ...theme.fn.cover(rem(-1)),
-            // backgroundColor:
-            //   theme.colorScheme === 'dark'
-            //     ? theme.fn.rgba(theme.colors.dark[7], 0.5)
-            //     : 'rgba(255, 255, 255, .5)',
+            backgroundColor: 'rgba(255, 255, 255, .5)',
             borderRadius: theme.fn.radius(radius),
             cursor: 'not-allowed',
           },

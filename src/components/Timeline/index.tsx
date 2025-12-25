@@ -206,7 +206,7 @@ const defaultItemProps: Partial<TimelineItemProps> = {
   lineVariant: 'solid',
 };
 
-export const Timeline = forwardRef<any, TimelineProps>((props, ref) => {
+const TimelineRoot = forwardRef<any, TimelineProps>((props, ref) => {
   const {
     color,
     align,
@@ -318,8 +318,14 @@ export const TimelineItem = forwardRef<
   );
 });
 
-Timeline.displayName = 'Timeline';
+TimelineRoot.displayName = 'Timeline';
 TimelineItem.displayName = 'Timeline.Item';
 
-// Attach sub-components
-(Timeline as any).Item = TimelineItem;
+// Create a properly typed Timeline component with Item subcomponent
+type TimelineComponent = typeof TimelineRoot & {
+  Item: typeof TimelineItem;
+};
+
+// Attach sub-components and export with proper typing
+export const Timeline = TimelineRoot as TimelineComponent;
+Timeline.Item = TimelineItem;

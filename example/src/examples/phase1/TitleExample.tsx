@@ -1,10 +1,13 @@
 import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Title, Text, Paper } from 'react-native-mantine';
+import { Title, Text , Paper } from 'react-native-mantine';
 
 export const TitleExample = () => {
   return (
-    <ExampleWrapper title="Title">
+    <ExampleWrapper
+      title="Title"
+      description="Semantic heading with size variants"
+    >
       <ExampleSection
         title="Heading Levels"
         description="Title component supports all heading levels (h1-h6)"

@@ -1,26 +1,21 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { NativeSelect , Paper } from 'react-native-mantine';
 
 export const NativeSelectExample = () => {
   return (
-    <ExampleWrapper title="NativeSelect">
+    <ExampleWrapper
+      title="NativeSelect"
+      description="Platform-native dropdown select"
+    >
       <ExampleSection
         title="Basic Usage"
         description="NativeSelect component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              NativeSelect Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <NativeSelect
+            label="Select option"
+            data={['Option 1', 'Option 2', 'Option 3']}
+          />
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

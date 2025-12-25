@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Progress, Stack , Paper } from 'react-native-mantine';
 
 export const ProgressExample = () => {
   return (
-    <ExampleWrapper title="Progress">
+    <ExampleWrapper
+      title="Progress"
+      description="Progress bar with animations"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Progress component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Progress Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Stack spacing={16}>
+            <Progress value={25} />
+            <Progress value={50} color="green" />
+            <Progress value={75} color="orange" />
+          </Stack>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

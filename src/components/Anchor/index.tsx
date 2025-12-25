@@ -65,7 +65,7 @@ const useStyles = createStyles(
     { variant }
   ) => {
     const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const fontSize = parseFloat(sizes[size as keyof typeof sizes] || sizes.md);
+    const fontSize = sizes[size as keyof typeof sizes] || sizes.md;
 
     const getVariantStyles = () => {
       switch (variant) {

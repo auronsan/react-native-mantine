@@ -7,6 +7,7 @@ export const Group = ({
   children,
   position,
   style,
+  align,
   alignCenter = true,
   alignBottom = false,
   noWrap = false,
@@ -14,11 +15,33 @@ export const Group = ({
   ...rest
 }: ViewProps & {
   position?: string;
+  align?: 'start' | 'center' | 'end' | 'baseline' | 'stretch';
   alignCenter?: boolean;
   alignBottom?: boolean;
   noWrap?: boolean;
   spacing?: number;
 }): React.ReactElement => {
+  // Map align values to flexbox alignItems
+  const getAlignItems = () => {
+    if (align) {
+      switch (align) {
+        case 'start':
+          return 'flex-start';
+        case 'center':
+          return 'center';
+        case 'end':
+          return 'flex-end';
+        case 'baseline':
+          return 'baseline';
+        case 'stretch':
+          return 'stretch';
+        default:
+          return 'center';
+      }
+    }
+    return alignCenter ? 'center' : alignBottom ? 'flex-end' : 'flex-start';
+  };
+
   return (
     <BoxView
       style={{
@@ -33,11 +56,7 @@ export const Group = ({
                 ? 'flex-end'
                 : 'flex-start',
         flexWrap: noWrap ? 'nowrap' : 'wrap',
-        alignItems: alignCenter
-          ? 'center'
-          : alignBottom
-            ? 'flex-end'
-            : 'flex-start',
+        alignItems: getAlignItems(),
         ...(style as ViewStyle),
       }}
       {...rest}

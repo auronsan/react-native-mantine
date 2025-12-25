@@ -84,7 +84,7 @@ const useStyles = createStyles(
       },
       placeholderText: {
         color: theme.white,
-        fontSize: typeof size === 'number' ? size / 2.5 : parseInt(sizeValue) / 2.5,
+        fontSize: typeof size === 'number' ? size / 2.5 : sizeValue / 2.5,
         fontWeight: '700',
         textTransform: 'uppercase' as const,
       },

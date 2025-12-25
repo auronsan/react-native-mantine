@@ -5,6 +5,7 @@ export * from './Text';
 export * from './Button';
 export * from './UnstyledButton';
 export * from './ActionIcon';
+export * from './Loader';
 
 // Phase 1 components
 export * from './Center';

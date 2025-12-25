@@ -225,6 +225,8 @@ export const _DEFAULT_THEME: MantineTheme = {
   primaryColor: 'blue',
   secondaryColor: 'black',
   secondaryBgColor: 'white',
+  white: '#ffffff',
+  black: '#000000',
   light: {
     text: '#000',
     background: '#fdfdfd',
@@ -351,6 +353,8 @@ export type MantineTheme = {
   primaryColor: string;
   secondaryColor: string;
   secondaryBgColor: string;
+  white: string;
+  black: string;
 
   light: ColorScheme;
   dark: ColorScheme;

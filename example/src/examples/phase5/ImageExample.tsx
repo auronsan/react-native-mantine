@@ -1,26 +1,21 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Image , Paper } from 'react-native-mantine';
 
 export const ImageExample = () => {
   return (
-    <ExampleWrapper title="Image">
+    <ExampleWrapper
+      title="Image"
+      description="Responsive image with placeholder"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Image component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Image Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Image
+            source={{ uri: 'https://via.placeholder.com/150' }}
+            style={{ width: 150, height: 150, borderRadius: 8 }}
+          />
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

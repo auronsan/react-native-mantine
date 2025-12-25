@@ -6,7 +6,14 @@ export function attachFunctions(themeBase: any): any {
     fn: {
       radius: fns.radius(themeBase),
       variant: fns.variant(themeBase),
-      themeColor: fns.themeColor(themeBase),
+      themeColor: (color: string, shade?: number) =>
+        fns.themeColor({ theme: themeBase, color, shade }),
+      fontStyles: fns.fontStyles(themeBase),
+      focusStyles: fns.focusStyles(themeBase),
+      placeholderStyles: fns.placeholderStyles(themeBase),
+      cover: fns.cover(themeBase),
+      hover: fns.hover(themeBase),
     },
+    activeStyles: fns.activeStyles(themeBase),
   };
 }

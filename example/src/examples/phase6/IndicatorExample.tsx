@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Indicator, Text , Paper } from 'react-native-mantine';
 
 export const IndicatorExample = () => {
   return (
-    <ExampleWrapper title="Indicator">
+    <ExampleWrapper
+      title="Indicator"
+      description="Notification dot indicator"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Indicator component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Indicator Component
+          <Indicator label="new">
+            <Text style={{ padding: 16, backgroundColor: '#f1f3f5', borderRadius: 8 }}>
+              Content with indicator
             </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          </Indicator>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

@@ -1,26 +1,18 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Burger , Paper } from 'react-native-mantine';
 
 export const BurgerExample = () => {
   return (
-    <ExampleWrapper title="Burger">
+    <ExampleWrapper
+      title="Burger"
+      description="Animated hamburger menu icon"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Burger component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Burger Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Burger opened={false} />
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

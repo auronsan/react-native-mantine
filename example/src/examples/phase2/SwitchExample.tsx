@@ -1,26 +1,21 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Stack, Switch , Paper } from 'react-native-mantine';
 
 export const SwitchExample = () => {
   return (
-    <ExampleWrapper title="Switch">
+    <ExampleWrapper
+      title="Switch"
+      description="Toggle switch with labels"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Switch component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Switch Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Stack spacing={16}>
+            <Switch label="Enable notifications" />
+            <Switch label="Dark mode" defaultChecked />
+          </Stack>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

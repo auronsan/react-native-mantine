@@ -17,6 +17,12 @@ export interface MediaQueryProps extends DefaultProps {
   /** Maximum height for the query to match */
   maxHeight?: number;
 
+  /** Shorthand for minWidth (convenience prop) */
+  largerThan?: number | string;
+
+  /** Shorthand for maxWidth (convenience prop) */
+  smallerThan?: number | string;
+
   /** Orientation to match */
   orientation?: 'portrait' | 'landscape';
 
@@ -82,6 +88,8 @@ export const MediaQuery: React.FC<MediaQueryProps> = (props) => {
     maxWidth,
     minHeight,
     maxHeight,
+    largerThan,
+    smallerThan,
     orientation,
     children,
     query,
@@ -99,9 +107,17 @@ export const MediaQuery: React.FC<MediaQueryProps> = (props) => {
     return () => subscription?.remove();
   }, [query]);
 
+  // Convert largerThan/smallerThan to minWidth/maxWidth
+  const finalMinWidth = largerThan !== undefined
+    ? (typeof largerThan === 'number' ? largerThan : parseInt(largerThan, 10))
+    : minWidth;
+  const finalMaxWidth = smallerThan !== undefined
+    ? (typeof smallerThan === 'number' ? smallerThan : parseInt(smallerThan, 10))
+    : maxWidth;
+
   const matches = matchesQuery(dimensions, {
-    minWidth,
-    maxWidth,
+    minWidth: finalMinWidth,
+    maxWidth: finalMaxWidth,
     minHeight,
     maxHeight,
     orientation,

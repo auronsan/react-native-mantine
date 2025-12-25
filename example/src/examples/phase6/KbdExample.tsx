@@ -1,26 +1,20 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Kbd, Text , Paper } from 'react-native-mantine';
 
 export const KbdExample = () => {
   return (
-    <ExampleWrapper title="Kbd">
+    <ExampleWrapper
+      title="Kbd"
+      description="Keyboard shortcut display"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Kbd component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Kbd Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Text>
+            Press <Kbd>Ctrl</Kbd> + <Kbd>C</Kbd> to copy
+          </Text>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

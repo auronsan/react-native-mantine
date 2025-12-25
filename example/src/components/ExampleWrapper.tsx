@@ -1,21 +1,26 @@
 import { ScrollView, View } from 'react-native';
-import { Text, Title, Divider, createStyles } from 'react-native-mantine';
+import { Text, Title, Divider, createStyles, Paper, Badge } from 'react-native-mantine';
 
 interface ExampleWrapperProps {
   title: string;
+  description?: string;
   children: React.ReactNode;
 }
 
 export const ExampleWrapper: React.FC<ExampleWrapperProps> = ({
   title,
+  description,
   children,
 }) => {
   const { styles } = useStyles();
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
-        <Title order={2}>{title}</Title>
+        <Title order={2} style={styles.title}>{title}</Title>
+        {description && (
+          <Text style={styles.description}>{description}</Text>
+        )}
       </View>
       <View style={styles.content}>{children}</View>
     </ScrollView>
@@ -25,27 +30,96 @@ export const ExampleWrapper: React.FC<ExampleWrapperProps> = ({
 interface ExampleSectionProps {
   title: string;
   description?: string;
+  variant?: 'default' | 'showcase';
   children: React.ReactNode;
 }
 
 export const ExampleSection: React.FC<ExampleSectionProps> = ({
   title,
   description,
+  variant = 'default',
   children,
 }) => {
   const { styles } = useStyles();
 
   return (
     <View style={styles.section}>
-      <Title order={4} style={styles.sectionTitle}>
-        {title}
-      </Title>
+      <View style={styles.sectionHeader}>
+        <Title order={4} style={styles.sectionTitle}>
+          {title}
+        </Title>
+        {variant === 'showcase' && (
+          <Badge size="sm" variant="outline" color="blue">
+            Demo
+          </Badge>
+        )}
+      </View>
       {description && (
         <Text style={styles.sectionDescription}>{description}</Text>
       )}
-      <View style={styles.sectionContent}>{children}</View>
+      <Paper
+        p="md"
+        radius="md"
+        style={styles.sectionContent}
+      >
+        {children}
+      </Paper>
       <Divider style={styles.divider} />
     </View>
+  );
+};
+
+interface CodeBlockProps {
+  code: string;
+  language?: string;
+}
+
+export const CodeBlock: React.FC<CodeBlockProps> = ({ code, language = 'tsx' }) => {
+  const { styles } = useStyles();
+
+  return (
+    <Paper p="md" radius="md" style={styles.codeBlock}>
+      <View style={styles.codeHeader}>
+        <Badge size="xs" variant="filled" color="gray">
+          {language}
+        </Badge>
+      </View>
+      <Text style={styles.codeText}>{code}</Text>
+    </Paper>
+  );
+};
+
+interface PropsTableProps {
+  props: Array<{
+    name: string;
+    type: string;
+    description: string;
+    default?: string;
+  }>;
+}
+
+export const PropsTable: React.FC<PropsTableProps> = ({ props }) => {
+  const { styles } = useStyles();
+
+  return (
+    <Paper p="md" radius="md" style={styles.propsTable}>
+      <Title order={5} style={styles.propsTableTitle}>Component Props</Title>
+      {props.map((prop, index) => (
+        <View key={prop.name} style={styles.propRow}>
+          <View style={styles.propHeader}>
+            <Text style={styles.propName}>{prop.name}</Text>
+            <Badge size="xs" variant="light">
+              {prop.type}
+            </Badge>
+          </View>
+          <Text style={styles.propDescription}>{prop.description}</Text>
+          {prop.default && (
+            <Text style={styles.propDefault}>Default: {prop.default}</Text>
+          )}
+          {index < props.length - 1 && <Divider style={styles.propDivider} />}
+        </View>
+      ))}
+    </Paper>
   );
 };
 
@@ -56,32 +130,107 @@ const useStyles = createStyles((theme) => ({
   },
   header: {
     padding: 20,
-    paddingTop: 16,
-    backgroundColor: 'white',
+    paddingTop: 20,
+    backgroundColor: '#ffffff',
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.gray?.[2] || '#e9ecef',
   },
+  title: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: theme.colors.gray?.[9] || '#212529',
+    marginBottom: 6,
+  },
+  description: {
+    fontSize: 15,
+    color: theme.colors.gray?.[6] || '#868e96',
+    lineHeight: 22,
+  },
   content: {
     padding: 16,
+    paddingTop: 20,
   },
   section: {
-    marginBottom: 24,
+    marginBottom: 28,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 8,
+    fontSize: 19,
+    fontWeight: '700',
+    color: theme.colors.gray?.[8] || '#343a40',
   },
   sectionDescription: {
     color: theme.colors.gray?.[6] || '#868e96',
     fontSize: 14,
-    marginBottom: 12,
+    marginBottom: 14,
     lineHeight: 20,
   },
   sectionContent: {
-    marginBottom: 16,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: theme.colors.gray?.[2] || '#e9ecef',
+    marginBottom: 12,
   },
   divider: {
+    marginTop: 4,
+  },
+  codeBlock: {
+    backgroundColor: theme.colors.gray?.[9] || '#212529',
+    borderWidth: 1,
+    borderColor: theme.colors.gray?.[7] || '#495057',
+  },
+  codeHeader: {
+    marginBottom: 8,
+  },
+  codeText: {
+    fontFamily: 'Courier',
+    fontSize: 13,
+    color: '#e7f5ff',
+    lineHeight: 18,
+  },
+  propsTable: {
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: theme.colors.gray?.[2] || '#e9ecef',
+  },
+  propsTableTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 12,
+    color: theme.colors.gray?.[8] || '#343a40',
+  },
+  propRow: {
+    paddingVertical: 8,
+  },
+  propHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
+  propName: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: theme.colors.gray?.[9] || '#212529',
+  },
+  propDescription: {
+    fontSize: 14,
+    color: theme.colors.gray?.[7] || '#495057',
+    lineHeight: 19,
+    marginTop: 2,
+  },
+  propDefault: {
+    fontSize: 13,
+    color: theme.colors.blue?.[6] || '#228be6',
+    marginTop: 4,
+    fontStyle: 'italic',
+  },
+  propDivider: {
     marginTop: 8,
   },
 }));

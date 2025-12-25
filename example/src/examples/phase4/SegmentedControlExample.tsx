@@ -1,26 +1,20 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { SegmentedControl , Paper } from 'react-native-mantine';
 
 export const SegmentedControlExample = () => {
   return (
-    <ExampleWrapper title="SegmentedControl">
+    <ExampleWrapper
+      title="SegmentedControl"
+      description="Segmented button group selector"
+    >
       <ExampleSection
         title="Basic Usage"
         description="SegmentedControl component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              SegmentedControl Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <SegmentedControl
+            data={['React', 'Angular', 'Vue']}
+          />
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

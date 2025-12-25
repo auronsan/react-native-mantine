@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { ColorSwatch, Group , Paper } from 'react-native-mantine';
 
 export const ColorSwatchExample = () => {
   return (
-    <ExampleWrapper title="ColorSwatch">
+    <ExampleWrapper
+      title="ColorSwatch"
+      description="Color preview swatch"
+    >
       <ExampleSection
         title="Basic Usage"
         description="ColorSwatch component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              ColorSwatch Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Group spacing={8}>
+            <ColorSwatch color="#228be6" />
+            <ColorSwatch color="#fa5252" />
+            <ColorSwatch color="#40c057" />
+          </Group>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

@@ -1,4 +1,4 @@
-import { isValidElement } from 'react';
+import { forwardRef } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { createStyles } from '../../theme/create-styles';
 import { BoxView } from '../BoxView';
@@ -7,33 +7,35 @@ import { getSize } from '../../theme';
 export type ActionIconProps = {
   onPress?: (payload: any) => void;
   children?: React.ReactNode;
-  icon: React.ReactNode;
-  minWidth?: number;
+  color?: string;
+  variant?: 'filled' | 'light' | 'outline' | 'transparent' | 'default';
   style?: any;
-  size?: any;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
 };
 
-export const ActionIcon = ({
-  onPress = () => {},
-  children,
-  icon,
-  minWidth = 100,
-  style,
-  size = 'md',
-}: ActionIconProps): React.ReactElement => {
-  const { styles } = useStyles({ minWidth, size });
-  return (
-    <TouchableOpacity
-      onPress={typeof onPress === 'function' ? onPress : () => {}}
-      style={[style, styles.container]}
-    >
-      <>
-        <BoxView style={styles.containerButton}>{icon}</BoxView>
-        {isValidElement(children) ? children : <></>}
-      </>
-    </TouchableOpacity>
-  );
-};
+export const ActionIcon = forwardRef<any, ActionIconProps>(
+  (
+    {
+      onPress = () => {},
+      children,
+      variant = 'default',
+      style,
+      size = 'md',
+    },
+    ref
+  ) => {
+    const { styles } = useStyles({ size, variant });
+    return (
+      <TouchableOpacity
+        ref={ref}
+        onPress={typeof onPress === 'function' ? onPress : () => {}}
+        style={[styles.container, style]}
+      >
+        <BoxView style={styles.iconWrapper}>{children}</BoxView>
+      </TouchableOpacity>
+    );
+  }
+);
 
 export const sizes = {
   xs: 18,
@@ -43,22 +45,37 @@ export const sizes = {
   xl: 44,
 };
 
-const useStyles = createStyles((theme, { minWidth = 100, size = 40 }) => {
-  return {
-    container: {
-      alignItems: 'center',
-      minWidth: minWidth,
-    },
-    containerButton: {
-      backgroundColor:
-        theme.currentMode === 'dark'
-          ? theme.primaryBgColor
-          : theme.secondaryBgColor,
-      borderRadius: 50,
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: getSize({ size: size, sizes }),
-      width: getSize({ size: size, sizes }),
-    },
-  };
-});
+const useStyles = createStyles(
+  (
+    theme,
+    {
+      size = 'md',
+      variant = 'default',
+    }: {
+      size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
+      variant?: string;
+    }
+  ) => {
+    const sizeValue = typeof size === 'number' ? size : getSize({ size, sizes });
+
+    return {
+      container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      iconWrapper: {
+        backgroundColor:
+          variant === 'transparent'
+            ? 'transparent'
+            : theme.currentMode === 'dark'
+              ? theme.primaryBgColor
+              : theme.secondaryBgColor,
+        borderRadius: sizeValue / 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: sizeValue,
+        width: sizeValue,
+      },
+    };
+  }
+);

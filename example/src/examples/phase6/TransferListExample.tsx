@@ -1,26 +1,18 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Text , Paper } from 'react-native-mantine';
 
 export const TransferListExample = () => {
   return (
-    <ExampleWrapper title="TransferList">
+    <ExampleWrapper
+      title="TransferList"
+      description="Dual-list selection transfer"
+    >
       <ExampleSection
         title="Basic Usage"
         description="TransferList component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              TransferList Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Text>TransferList for dual-list selection - see interactive example</Text>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

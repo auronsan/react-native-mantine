@@ -173,3 +173,5 @@ export const _Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
   }
 ) as any;
+
+export const Button = _Button;

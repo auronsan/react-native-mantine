@@ -1,26 +1,18 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Text , Paper } from 'react-native-mantine';
 
 export const StepperExample = () => {
   return (
-    <ExampleWrapper title="Stepper">
+    <ExampleWrapper
+      title="Stepper"
+      description="Multi-step form navigation"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Stepper component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Stepper Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Text>Stepper component for multi-step forms - see interactive example</Text>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

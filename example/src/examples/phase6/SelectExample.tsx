@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Select , Paper } from 'react-native-mantine';
 
 export const SelectExample = () => {
   return (
-    <ExampleWrapper title="Select">
+    <ExampleWrapper
+      title="Select"
+      description="Searchable select dropdown"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Select component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Select Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Select
+            label="Choose framework"
+            data={['React', 'Angular', 'Vue', 'Svelte']}
+            placeholder="Pick one"
+          />
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Divider, Stack, Text , Paper } from 'react-native-mantine';
 
 export const DividerExample = () => {
   return (
-    <ExampleWrapper title="Divider">
+    <ExampleWrapper
+      title="Divider"
+      description="Visual separator with label support"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Divider component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Divider Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Stack spacing={16}>
+            <Text>Content above divider</Text>
+            <Divider />
+            <Text>Content below divider</Text>
+          </Stack>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

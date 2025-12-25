@@ -1,26 +1,20 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Blockquote , Paper } from 'react-native-mantine';
 
 export const BlockquoteExample = () => {
   return (
-    <ExampleWrapper title="Blockquote">
+    <ExampleWrapper
+      title="Blockquote"
+      description="Styled quotation block"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Blockquote component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Blockquote Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Blockquote cite="– Author Name">
+            This is an inspiring quote that demonstrates the Blockquote component
+          </Blockquote>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

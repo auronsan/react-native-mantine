@@ -1,26 +1,20 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { MediaQuery, Text , Paper } from 'react-native-mantine';
 
 export const MediaQueryExample = () => {
   return (
-    <ExampleWrapper title="MediaQuery">
+    <ExampleWrapper
+      title="MediaQuery"
+      description="Responsive visibility control"
+    >
       <ExampleSection
         title="Basic Usage"
         description="MediaQuery component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              MediaQuery Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <MediaQuery largerThan="sm">
+            <Text>Visible on screens larger than 'sm'</Text>
+          </MediaQuery>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

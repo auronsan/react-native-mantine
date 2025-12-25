@@ -1,4 +1,4 @@
-// Base Components
+// Core Components
 export * from './base/BoxViewExample';
 export * from './base/GroupExample';
 export * from './base/StackExample';
@@ -9,7 +9,7 @@ export * from './base/ActionIconExample';
 export * from './base/InputExample';
 export * from './base/LoaderExample';
 
-// Phase 1 Components
+// Layout & Typography
 export * from './phase1/CenterExample';
 export * from './phase1/ContainerExample';
 export * from './phase1/FlexExample';
@@ -19,7 +19,7 @@ export * from './phase1/HighlightExample';
 export * from './phase1/MarkExample';
 export * from './phase1/CodeExample';
 
-// Phase 2 Components
+// Feedback & Forms
 export * from './phase2/BadgeExample';
 export * from './phase2/AvatarExample';
 export * from './phase2/PaperExample';
@@ -33,7 +33,7 @@ export * from './phase2/SwitchExample';
 export * from './phase2/CheckboxExample';
 export * from './phase2/RadioExample';
 
-// Phase 3 Components
+// Overlays & Dialogs
 export * from './phase3/OverlayExample';
 export * from './phase3/PortalExample';
 export * from './phase3/ModalExample';
@@ -48,7 +48,7 @@ export * from './phase3/PinInputExample';
 export * from './phase3/ChipExample';
 export * from './phase3/NativeSelectExample';
 
-// Phase 4 Components
+// Data Display
 export * from './phase4/SliderExample';
 export * from './phase4/RatingExample';
 export * from './phase4/StepperExample';
@@ -59,7 +59,7 @@ export * from './phase4/TimelineExample';
 export * from './phase4/TableExample';
 export * from './phase4/ListExample';
 
-// Phase 5 Components
+// Media & Utilities
 export * from './phase5/ImageExample';
 export * from './phase5/BackgroundImageExample';
 export * from './phase5/ThemeIconExample';
@@ -69,7 +69,7 @@ export * from './phase5/CloseButtonExample';
 export * from './phase5/CopyButtonExample';
 export * from './phase5/BurgerExample';
 
-// Phase 6 Components
+// Navigation & Advanced
 export * from './phase6/AnchorExample';
 export * from './phase6/KbdExample';
 export * from './phase6/IndicatorExample';

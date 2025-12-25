@@ -1,26 +1,21 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Card, Text , Paper } from 'react-native-mantine';
 
 export const CardExample = () => {
   return (
-    <ExampleWrapper title="Card">
+    <ExampleWrapper
+      title="Card"
+      description="Content card with sections"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Card component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Card Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Card shadow="sm" p="lg" radius="md">
+            <Text style={{ fontWeight: '600', marginBottom: 8 }}>Card Title</Text>
+            <Text>Card content goes here</Text>
+          </Card>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

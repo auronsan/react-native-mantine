@@ -1,27 +1,87 @@
 import { View } from 'react-native';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { Loader, Group, Text, Stack, Center  } from 'react-native-mantine';
 
 export const LoaderExample = () => {
   return (
-    <ExampleWrapper title="Loader">
+    <ExampleWrapper
+      title="Loader"
+      description="Animated loading spinner"
+    >
       <ExampleSection
-        title="Basic Usage"
-        description="Loader component"
+        title="Loader Sizes"
+        description="Available size options"
+        variant="showcase"
       >
-        <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Loader Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
+        <Group spacing={32} align="center">
+          <View style={{ alignItems: 'center' }}>
+            <Loader size="xs" />
+            <Text style={{ marginTop: 8, fontSize: 12, color: '#666' }}>XS</Text>
           </View>
-        </Paper>
+          <View style={{ alignItems: 'center' }}>
+            <Loader size="sm" />
+            <Text style={{ marginTop: 8, fontSize: 12, color: '#666' }}>SM</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <Loader size="md" />
+            <Text style={{ marginTop: 8, fontSize: 12, color: '#666' }}>MD</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <Loader size="lg" />
+            <Text style={{ marginTop: 8, fontSize: 12, color: '#666' }}>LG</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <Loader size="xl" />
+            <Text style={{ marginTop: 8, fontSize: 12, color: '#666' }}>XL</Text>
+          </View>
+        </Group>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Loader Colors"
+        description="Theme colors for loaders"
+      >
+        <Group spacing={24} align="center">
+          <Loader color="blue" />
+          <Loader color="green" />
+          <Loader color="red" />
+          <Loader color="orange" />
+          <Loader color="grape" />
+        </Group>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Loading States"
+        description="Common loading scenarios"
+      >
+        <Stack spacing={16}>
+          <View style={{ backgroundColor: '#f8f9fa', padding: 20, borderRadius: 8 }}>
+            <Center style={{ height: 60 }}>
+              <Loader size="md" />
+              <Text style={{ marginTop: 12, color: '#666' }}>Loading content...</Text>
+            </Center>
+          </View>
+          <View style={{ backgroundColor: '#f8f9fa', padding: 20, borderRadius: 8 }}>
+            <Group spacing={16} align="center">
+              <Loader size="sm" color="blue" />
+              <Text>Processing your request</Text>
+            </Group>
+          </View>
+        </Stack>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage Example"
+        description="Basic implementation code"
+      >
+        <CodeBlock
+          code={`import { Loader  } from 'react-native-mantine';
+
+<Loader
+  size="md"
+  color="blue"
+/>`}
+        />
       </ExampleSection>
     </ExampleWrapper>
   );

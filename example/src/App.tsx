@@ -36,7 +36,7 @@ export default function App() {
           {/* Category Screens */}
           <Stack.Screen
             name="BaseComponents"
-            options={{ title: 'Base Components' }}
+            options={{ title: 'Core Components' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[0]!} />
@@ -45,7 +45,7 @@ export default function App() {
 
           <Stack.Screen
             name="Phase1Components"
-            options={{ title: 'Phase 1: Foundation' }}
+            options={{ title: 'Layout & Typography' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[1]!} />
@@ -54,7 +54,7 @@ export default function App() {
 
           <Stack.Screen
             name="Phase2Components"
-            options={{ title: 'Phase 2: Essential' }}
+            options={{ title: 'Feedback & Forms' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[2]!} />
@@ -63,7 +63,7 @@ export default function App() {
 
           <Stack.Screen
             name="Phase3Components"
-            options={{ title: 'Phase 3: Advanced UI' }}
+            options={{ title: 'Overlays & Dialogs' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[3]!} />
@@ -72,7 +72,7 @@ export default function App() {
 
           <Stack.Screen
             name="Phase4Components"
-            options={{ title: 'Phase 4: Complex Features' }}
+            options={{ title: 'Data Display' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[4]!} />
@@ -81,7 +81,7 @@ export default function App() {
 
           <Stack.Screen
             name="Phase5Components"
-            options={{ title: 'Phase 5: Specialized' }}
+            options={{ title: 'Media & Utilities' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[5]!} />
@@ -90,14 +90,14 @@ export default function App() {
 
           <Stack.Screen
             name="Phase6Components"
-            options={{ title: 'Phase 6: Advanced/Complex' }}
+            options={{ title: 'Navigation & Advanced' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[6]!} />
             )}
           </Stack.Screen>
 
-          {/* Base Component Examples */}
+          {/* Core Component Examples */}
           <Stack.Screen name="BoxViewExample" component={Examples.BoxViewExample} options={{ title: 'BoxView' }} />
           <Stack.Screen name="GroupExample" component={Examples.GroupExample} options={{ title: 'Group' }} />
           <Stack.Screen name="StackExample" component={Examples.StackExample} options={{ title: 'Stack' }} />
@@ -108,7 +108,7 @@ export default function App() {
           <Stack.Screen name="InputExample" component={Examples.InputExample} options={{ title: 'Input' }} />
           <Stack.Screen name="LoaderExample" component={Examples.LoaderExample} options={{ title: 'Loader' }} />
 
-          {/* Phase 1 Examples */}
+          {/* Layout & Typography Examples */}
           <Stack.Screen name="CenterExample" component={Examples.CenterExample} options={{ title: 'Center' }} />
           <Stack.Screen name="ContainerExample" component={Examples.ContainerExample} options={{ title: 'Container' }} />
           <Stack.Screen name="FlexExample" component={Examples.FlexExample} options={{ title: 'Flex' }} />
@@ -118,7 +118,7 @@ export default function App() {
           <Stack.Screen name="MarkExample" component={Examples.MarkExample} options={{ title: 'Mark' }} />
           <Stack.Screen name="CodeExample" component={Examples.CodeExample} options={{ title: 'Code' }} />
 
-          {/* Phase 2 Examples */}
+          {/* Feedback & Forms Examples */}
           <Stack.Screen name="BadgeExample" component={Examples.BadgeExample} options={{ title: 'Badge' }} />
           <Stack.Screen name="AvatarExample" component={Examples.AvatarExample} options={{ title: 'Avatar' }} />
           <Stack.Screen name="PaperExample" component={Examples.PaperExample} options={{ title: 'Paper' }} />
@@ -132,7 +132,7 @@ export default function App() {
           <Stack.Screen name="CheckboxExample" component={Examples.CheckboxExample} options={{ title: 'Checkbox' }} />
           <Stack.Screen name="RadioExample" component={Examples.RadioExample} options={{ title: 'Radio' }} />
 
-          {/* Phase 3 Examples */}
+          {/* Overlays & Dialogs Examples */}
           <Stack.Screen name="OverlayExample" component={Examples.OverlayExample} options={{ title: 'Overlay' }} />
           <Stack.Screen name="PortalExample" component={Examples.PortalExample} options={{ title: 'Portal' }} />
           <Stack.Screen name="ModalExample" component={Examples.ModalExample} options={{ title: 'Modal' }} />
@@ -147,7 +147,7 @@ export default function App() {
           <Stack.Screen name="ChipExample" component={Examples.ChipExample} options={{ title: 'Chip' }} />
           <Stack.Screen name="NativeSelectExample" component={Examples.NativeSelectExample} options={{ title: 'NativeSelect' }} />
 
-          {/* Phase 4 Examples */}
+          {/* Data Display Examples */}
           <Stack.Screen name="SliderExample" component={Examples.SliderExample} options={{ title: 'Slider' }} />
           <Stack.Screen name="RatingExample" component={Examples.RatingExample} options={{ title: 'Rating' }} />
           <Stack.Screen name="StepperExample" component={Examples.StepperExample} options={{ title: 'Stepper' }} />
@@ -158,7 +158,7 @@ export default function App() {
           <Stack.Screen name="TableExample" component={Examples.TableExample} options={{ title: 'Table' }} />
           <Stack.Screen name="ListExample" component={Examples.ListExample} options={{ title: 'List' }} />
 
-          {/* Phase 5 Examples */}
+          {/* Media & Utilities Examples */}
           <Stack.Screen name="ImageExample" component={Examples.ImageExample} options={{ title: 'Image' }} />
           <Stack.Screen name="BackgroundImageExample" component={Examples.BackgroundImageExample} options={{ title: 'BackgroundImage' }} />
           <Stack.Screen name="ThemeIconExample" component={Examples.ThemeIconExample} options={{ title: 'ThemeIcon' }} />
@@ -168,7 +168,7 @@ export default function App() {
           <Stack.Screen name="CopyButtonExample" component={Examples.CopyButtonExample} options={{ title: 'CopyButton' }} />
           <Stack.Screen name="BurgerExample" component={Examples.BurgerExample} options={{ title: 'Burger' }} />
 
-          {/* Phase 6 Examples */}
+          {/* Navigation & Advanced Examples */}
           <Stack.Screen name="AnchorExample" component={Examples.AnchorExample} options={{ title: 'Anchor' }} />
           <Stack.Screen name="KbdExample" component={Examples.KbdExample} options={{ title: 'Kbd' }} />
           <Stack.Screen name="IndicatorExample" component={Examples.IndicatorExample} options={{ title: 'Indicator' }} />

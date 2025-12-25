@@ -1,19 +1,21 @@
-function createConverter(units: string) {
-  return (px: unknown) => {
+// React Native needs numeric values, not rem strings
+// Convert rem to actual pixel values (16px base)
+function createNumericConverter() {
+  return (px: unknown): number => {
     if (typeof px === 'number') {
-      return `${px / 16}${units}`;
+      return px;
     }
 
     if (typeof px === 'string') {
       const replaced = px.replace('px', '');
       if (!Number.isNaN(Number(replaced))) {
-        return `${Number(replaced) / 16}${units}`;
+        return Number(replaced);
       }
     }
 
-    return px as string;
+    return typeof px === 'number' ? px : 0;
   };
 }
 
-export const rem = createConverter('rem');
-export const em = createConverter('em');
+export const rem = createNumericConverter();
+export const em = createNumericConverter();

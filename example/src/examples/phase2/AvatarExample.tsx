@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Avatar, Group , Paper } from 'react-native-mantine';
 
 export const AvatarExample = () => {
   return (
-    <ExampleWrapper title="Avatar">
+    <ExampleWrapper
+      title="Avatar"
+      description="User avatar with fallback support"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Avatar component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Avatar Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Group spacing={16}>
+            <Avatar size="sm">JD</Avatar>
+            <Avatar size="md">AB</Avatar>
+            <Avatar size="lg">XY</Avatar>
+          </Group>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

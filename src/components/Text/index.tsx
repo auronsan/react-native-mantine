@@ -12,6 +12,8 @@ export type TextProps = DefaultText['props'] & {
   fontSize?: number;
   color?: string;
   white?: boolean;
+  weight?: '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
+  align?: 'left' | 'center' | 'right' | 'justify';
 };
 
 const propToColor = (
@@ -40,6 +42,8 @@ export const Text = forwardRef((props: TextProps, ref: any) => {
     questrial = false,
     semiBold = false,
     fontSize,
+    weight,
+    align,
     ...otherProps
   } = props;
 
@@ -65,13 +69,14 @@ export const Text = forwardRef((props: TextProps, ref: any) => {
               : questrial
                 ? 'Questrial'
                 : fontFamily,
-          fontWeight: bold ? '900' : '300',
+          fontWeight: weight || (bold ? '900' : '300'),
           fontSize: fontSize ? fontSize : get(fontSizes, size, 16),
           color: white
             ? 'white'
             : color
               ? propToColor(color, colors, primaryShade)
               : light.text,
+          ...(align ? { textAlign: align } : {}),
         },
         style,
       ]}

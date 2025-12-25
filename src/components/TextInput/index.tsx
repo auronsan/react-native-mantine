@@ -129,7 +129,7 @@ const useStyles = createStyles(
         paddingHorizontal: (variant === 'unstyled' ? 0 : rem(12)) as any,
         paddingLeft: (withIcon ? sizeValue : variant === 'unstyled' ? 0 : rem(12)) as any,
         paddingRight: (withRightSection
-          ? rem(rightSectionWidth || parseInt(sizeValue as string))
+          ? rem(rightSectionWidth || sizeValue)
           : variant === 'unstyled'
           ? 0
           : rem(12)) as any,
@@ -156,7 +156,7 @@ const useStyles = createStyles(
         right: 0,
         top: 0,
         bottom: 0,
-        width: rem(rightSectionWidth || parseInt(sizeValue as string)) as any,
+        width: rem(rightSectionWidth || sizeValue) as any,
         justifyContent: 'center',
         alignItems: 'center',
       },

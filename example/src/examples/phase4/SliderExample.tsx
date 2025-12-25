@@ -1,26 +1,18 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Slider , Paper } from 'react-native-mantine';
 
 export const SliderExample = () => {
   return (
-    <ExampleWrapper title="Slider">
+    <ExampleWrapper
+      title="Slider"
+      description="Range slider with marks and labels"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Slider component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Slider Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Slider defaultValue={50} />
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

@@ -22,6 +22,9 @@ export interface SwitchProps extends DefaultProps {
   /** Checked state */
   checked?: boolean;
 
+  /** Default checked state */
+  defaultChecked?: boolean;
+
   /** Called when switch state changes */
   onChange?: (value: boolean) => void;
 

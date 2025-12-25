@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Radio, Stack , Paper } from 'react-native-mantine';
 
 export const RadioExample = () => {
   return (
-    <ExampleWrapper title="Radio">
+    <ExampleWrapper
+      title="Radio"
+      description="Radio button for exclusive selections"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Radio component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Radio Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Stack spacing={16}>
+            <Radio label="Option 1" value="1" />
+            <Radio label="Option 2" value="2" />
+            <Radio label="Option 3" value="3" />
+          </Stack>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

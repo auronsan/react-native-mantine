@@ -190,7 +190,7 @@ const getListMarker = (
   }
 };
 
-export const List = forwardRef<any, ListProps>((props, ref) => {
+const ListRoot = forwardRef<any, ListProps>((props, ref) => {
   const {
     type,
     size,
@@ -281,8 +281,14 @@ export const ListItem = forwardRef<any, ListItemProps>((props, ref) => {
   );
 });
 
-List.displayName = 'List';
+ListRoot.displayName = 'List';
 ListItem.displayName = 'List.Item';
 
-// Attach sub-components
-(List as any).Item = ListItem;
+// Create a properly typed List component with Item subcomponent
+type ListComponent = typeof ListRoot & {
+  Item: typeof ListItem;
+};
+
+// Attach sub-components and export with proper typing
+export const List = ListRoot as ListComponent;
+List.Item = ListItem;

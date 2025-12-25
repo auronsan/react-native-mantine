@@ -1,26 +1,22 @@
-import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { Anchor, Breadcrumbs, Text , Paper } from 'react-native-mantine';
 
 export const BreadcrumbsExample = () => {
   return (
-    <ExampleWrapper title="Breadcrumbs">
+    <ExampleWrapper
+      title="Breadcrumbs"
+      description="Navigation breadcrumb trail"
+    >
       <ExampleSection
         title="Basic Usage"
         description="Breadcrumbs component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              Breadcrumbs Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
-          </View>
+          <Breadcrumbs>
+            <Anchor>Home</Anchor>
+            <Anchor>Products</Anchor>
+            <Text>Current Page</Text>
+          </Breadcrumbs>
         </Paper>
       </ExampleSection>
     </ExampleWrapper>

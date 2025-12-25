@@ -1,25 +1,21 @@
 import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Text, Paper } from 'react-native-mantine';
+import { LoadingOverlay, Text , Paper } from 'react-native-mantine';
 
 export const LoadingOverlayExample = () => {
   return (
-    <ExampleWrapper title="LoadingOverlay">
+    <ExampleWrapper
+      title="LoadingOverlay"
+      description="Full-screen loading state"
+    >
       <ExampleSection
         title="Basic Usage"
         description="LoadingOverlay component"
       >
         <Paper p="md" radius="md">
-          <View style={{ gap: 12 }}>
-            <Text style={{ fontWeight: '600', fontSize: 16 }}>
-              LoadingOverlay Component
-            </Text>
-            <Text>
-              This component is part of the React Native Mantine library.
-            </Text>
-            <Text style={{ fontStyle: 'italic', marginTop: 8 }}>
-              Interactive examples coming soon!
-            </Text>
+          <View style={{ height: 100, position: 'relative' }}>
+            <LoadingOverlay visible />
+            <Text>Content under loading</Text>
           </View>
         </Paper>
       </ExampleSection>
