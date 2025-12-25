@@ -9,10 +9,11 @@ import type {
 } from '../../theme/types';
 import type { MantineGradient } from '../../theme/theme';
 import type { LoaderProps } from '../Loader';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import useStyles from './Button.styles';
 import { BoxView } from '../BoxView';
+import { Text } from '../Text';
 
 export type ButtonStylesNames = any;
 
@@ -77,7 +78,7 @@ const defaultProps: Partial<ButtonProps> = {
   loaderPosition: 'left',
 };
 
-export const _Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const _Button = forwardRef<View, ButtonProps>(
   (props, ref) => {
     const {
       // className,
@@ -160,7 +161,11 @@ export const _Button = forwardRef<HTMLButtonElement, ButtonProps>(
             style={styles.label}
             // style={{ textTransform: uppercase ? 'uppercase' : undefined }}
           >
-            {children}
+            {typeof children === 'string' || typeof children === 'number' ? (
+              <Text>{children}</Text>
+            ) : (
+              children
+            )}
           </BoxView>
 
           {(rightIcon || (loading && loaderPosition === 'right')) && (

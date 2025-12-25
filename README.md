@@ -31,6 +31,16 @@ A comprehensive React Native component library inspired by [Mantine](https://man
 
 ---
 
+## Quick Start
+
+### 🚀 Use the Template
+
+The fastest way to get started is by using our GitHub template:
+
+**[→ Use React Native Mantine Template](https://github.com/auronsan/react-native-mantine-template)**
+
+This template includes all dependencies configured, TypeScript setup, and example components ready to use.
+
 ## Installation
 
 ```bash

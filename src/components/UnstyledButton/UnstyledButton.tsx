@@ -3,7 +3,6 @@ import { BoxView } from '../BoxView';
 import useStyles from './UnstyledButton.styles';
 import { TouchableOpacity } from 'react-native';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
-import { Text } from '../Text';
 
 export interface UnstyledButtonProps {
   variant?: string;
@@ -27,7 +26,7 @@ export const UnstyledButton = forwardRef<
       onPress={typeof onPress === 'function' ? onPress : () => {}}
     >
       <BoxView ref={ref} style={[styles.root, style]} {...others}>
-        <Text>{children}</Text>
+        {children}
       </BoxView>
     </TouchableOpacity>
   );
