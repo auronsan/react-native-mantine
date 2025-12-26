@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
 import { UnstyledButton } from '../UnstyledButton';
 import { BoxView } from '../BoxView';
-import { Text } from '../Text';
 import type {
   DefaultProps,
   MantineColor,
@@ -10,8 +9,9 @@ import type {
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
+import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
-export interface NavLinkProps extends DefaultProps {
+export interface NavLinkProps extends DefaultProps, WithTextWrapperProps {
   /** Link label */
   label?: React.ReactNode;
 
@@ -156,6 +156,7 @@ const defaultProps: Partial<NavLinkProps> = {
   active: false,
   disabled: false,
   disableIfNoPress: true,
+  withTextWrapper: true,
 };
 
 export const NavLink = forwardRef<any, NavLinkProps>((props, ref) => {
@@ -172,6 +173,7 @@ export const NavLink = forwardRef<any, NavLinkProps>((props, ref) => {
     onPress,
     style,
     disableIfNoPress,
+    withTextWrapper: shouldWrapInText,
     ...others
   } = useComponentDefaultProps('NavLink', defaultProps, props);
 
@@ -192,8 +194,8 @@ export const NavLink = forwardRef<any, NavLinkProps>((props, ref) => {
       >
         {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
         <BoxView style={styles.body}>
-          {label && <Text style={styles.label}>{label}</Text>}
-          {description && <Text style={styles.description}>{description}</Text>}
+          {label && withTextWrapper(label, shouldWrapInText, styles.label)}
+          {description && withTextWrapper(description, shouldWrapInText, styles.description)}
         </BoxView>
         {rightSection && <BoxView style={styles.rightSection}>{rightSection}</BoxView>}
       </UnstyledButton>

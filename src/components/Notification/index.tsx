@@ -6,8 +6,9 @@ import type { DefaultProps, MantineColor, MantineNumberSize } from '../../theme/
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
+import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
-export interface NotificationProps extends DefaultProps {
+export interface NotificationProps extends DefaultProps, WithTextWrapperProps {
   /** Notification title */
   title?: React.ReactNode;
 
@@ -128,6 +129,7 @@ const defaultProps: Partial<NotificationProps> = {
   withCloseButton: true,
   withBorder: true,
   loading: false,
+  withTextWrapper: true,
 };
 
 export const Notification = forwardRef<any, NotificationProps>((props, ref) => {
@@ -142,6 +144,7 @@ export const Notification = forwardRef<any, NotificationProps>((props, ref) => {
     loading,
     withBorder,
     style,
+    withTextWrapper: shouldWrapInText,
     ...others
   } = useComponentDefaultProps('Notification', defaultProps, props);
 
@@ -155,20 +158,8 @@ export const Notification = forwardRef<any, NotificationProps>((props, ref) => {
       {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
 
       <BoxView style={styles.body}>
-        {title && (
-          typeof title === 'string' || typeof title === 'number' ? (
-            <Text style={styles.title}>{title}</Text>
-          ) : (
-            <BoxView style={{ marginBottom: styles.title.marginBottom }}>{title}</BoxView>
-          )
-        )}
-        {message && (
-          typeof message === 'string' || typeof message === 'number' ? (
-            <Text style={styles.message}>{message}</Text>
-          ) : (
-            <BoxView>{message}</BoxView>
-          )
-        )}
+        {title && withTextWrapper(title, shouldWrapInText, styles.title)}
+        {message && withTextWrapper(message, shouldWrapInText, styles.message)}
       </BoxView>
 
       {withCloseButton && onClose && (

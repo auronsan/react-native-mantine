@@ -6,7 +6,6 @@ import {
   Modal,
 } from 'react-native';
 import { BoxView } from '../BoxView';
-import { Text } from '../Text';
 import { Divider } from '../Divider';
 import type {
   DefaultProps,
@@ -15,6 +14,7 @@ import type {
 } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
+import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
 export interface MenuProps extends DefaultProps {
   /** Controlled opened state */
@@ -68,7 +68,7 @@ export interface MenuDropdownProps extends DefaultProps {
   style?: any;
 }
 
-export interface MenuItemProps extends DefaultProps {
+export interface MenuItemProps extends DefaultProps, WithTextWrapperProps {
   /** Item icon */
   icon?: React.ReactNode;
 
@@ -91,7 +91,7 @@ export interface MenuItemProps extends DefaultProps {
   style?: any;
 }
 
-export interface MenuLabelProps extends DefaultProps {
+export interface MenuLabelProps extends DefaultProps, WithTextWrapperProps {
   children: React.ReactNode;
   style?: any;
 }
@@ -198,6 +198,7 @@ const defaultMenuProps: Partial<MenuProps> = {
 
 const defaultItemProps: Partial<MenuItemProps> = {
   disabled: false,
+  withTextWrapper: true,
 };
 
 const MenuTarget: React.FC<MenuTargetProps> = ({ children }) => {
@@ -276,7 +277,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ children, style, ...others 
 };
 
 const MenuItem = forwardRef<any, MenuItemProps>((props, ref) => {
-  const { icon, color, children, onPress, disabled, rightSection, style, ...others } =
+  const { icon, color, children, onPress, disabled, rightSection, style, withTextWrapper: shouldWrapInText, ...others } =
     useComponentDefaultProps('MenuItem', defaultItemProps, props);
 
   const { setOpened, closeOnItemClick } = useMenuContext();
@@ -307,19 +308,19 @@ const MenuItem = forwardRef<any, MenuItemProps>((props, ref) => {
       {...others}
     >
       {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
-      <Text style={styles.label}>{children}</Text>
+      {withTextWrapper(children, shouldWrapInText, styles.label)}
       {rightSection && <BoxView style={styles.rightSection}>{rightSection}</BoxView>}
     </TouchableOpacity>
   );
 });
 
 const MenuLabel = forwardRef<any, MenuLabelProps>((props, ref) => {
-  const { children, style, ...others } = props;
+  const { children, style, withTextWrapper: shouldWrapInText = true, ...others } = props;
   const { styles, sx } = useLabelStyles({}, { name: 'MenuLabel' }) as any;
 
   return (
     <BoxView ref={ref} style={sx(styles.label, style)} {...others}>
-      <Text style={styles.label}>{children}</Text>
+      {withTextWrapper(children, shouldWrapInText, styles.label)}
     </BoxView>
   );
 });

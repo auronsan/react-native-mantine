@@ -10,8 +10,9 @@ import type {
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
+import type { WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
-export interface AnchorProps extends DefaultProps {
+export interface AnchorProps extends DefaultProps, WithTextWrapperProps {
   /** Anchor text color from theme */
   color?: MantineColor;
 
@@ -103,10 +104,11 @@ const defaultProps: Partial<AnchorProps> = {
   weight: '400',
   underline: true,
   variant: 'link',
+  withTextWrapper: true,
 };
 
 export const Anchor = forwardRef<RNText, AnchorProps>((props, ref) => {
-  const { color, size, weight, underline, variant, href, onPress, children, style, ...others} =
+  const { color, size, weight, underline, variant, href, onPress, children, style, withTextWrapper: shouldWrapInText, ...others} =
     useComponentDefaultProps('Anchor', defaultProps, props);
 
   const { styles, sx} = useStyles(
@@ -123,6 +125,10 @@ export const Anchor = forwardRef<RNText, AnchorProps>((props, ref) => {
       );
     }
   };
+
+  if (!shouldWrapInText) {
+    return children;
+  }
 
   return (
     <Text

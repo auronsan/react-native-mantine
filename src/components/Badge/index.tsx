@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react';
-import { Text } from '../Text';
 import { BoxView } from '../BoxView';
 import type {
   DefaultProps,
@@ -11,8 +10,9 @@ import type {
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
+import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
-export interface BadgeProps extends DefaultProps {
+export interface BadgeProps extends DefaultProps, WithTextWrapperProps {
   /** Badge color from theme */
   color?: MantineColor;
 
@@ -157,6 +157,7 @@ const defaultProps: Partial<BadgeProps> = {
   size: 'md',
   radius: 'xl',
   fullWidth: false,
+  withTextWrapper: true,
 };
 
 export const Badge = forwardRef<any, BadgeProps>((props, ref) => {
@@ -170,6 +171,7 @@ export const Badge = forwardRef<any, BadgeProps>((props, ref) => {
     rightSection,
     children,
     style,
+    withTextWrapper: shouldWrapInText,
     ...others
   } = useComponentDefaultProps('Badge', defaultProps, props);
 
@@ -183,7 +185,7 @@ export const Badge = forwardRef<any, BadgeProps>((props, ref) => {
       <BoxView style={styles.inner}>
         {variant === 'dot' && <BoxView style={styles.dot} />}
         {leftSection && <BoxView style={styles.leftSection}>{leftSection}</BoxView>}
-        <Text style={styles.label}>{children}</Text>
+        {withTextWrapper(children, shouldWrapInText, styles.label)}
         {rightSection && <BoxView style={styles.rightSection}>{rightSection}</BoxView>}
       </BoxView>
     </BoxView>

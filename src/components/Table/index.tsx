@@ -6,6 +6,7 @@ import type { DefaultProps, SpacingValue } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
+import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
 interface TableContextValue {
   striped: boolean;
@@ -94,7 +95,7 @@ export interface TableTrProps extends DefaultProps {
   __index?: number;
 }
 
-export interface TableThProps extends DefaultProps {
+export interface TableThProps extends DefaultProps, WithTextWrapperProps {
   /** Th children */
   children?: React.ReactNode;
 
@@ -102,7 +103,7 @@ export interface TableThProps extends DefaultProps {
   style?: any;
 }
 
-export interface TableTdProps extends DefaultProps {
+export interface TableTdProps extends DefaultProps, WithTextWrapperProps {
   /** Td children */
   children?: React.ReactNode;
 
@@ -365,7 +366,7 @@ const Tr = forwardRef<any, TableTrProps>((props, ref) => {
 });
 
 const Th = forwardRef<any, TableThProps>((props, ref) => {
-  const { children, style, ...others } = props;
+  const { children, style, withTextWrapper: shouldWrapInText = true, ...others } = props;
   const context = useTableContext();
 
   const { styles, sx } = useTableCellStyles(
@@ -381,13 +382,13 @@ const Th = forwardRef<any, TableThProps>((props, ref) => {
 
   return (
     <BoxView ref={ref} style={sx(styles.cell, style)} {...others}>
-      <Text style={styles.cell}>{children}</Text>)
+      {withTextWrapper(children, shouldWrapInText, styles.cell)}
     </BoxView>
   );
 });
 
 const Td = forwardRef<any, TableTdProps>((props, ref) => {
-  const { children, style, ...others } = props;
+  const { children, style, withTextWrapper: shouldWrapInText = true, ...others } = props;
   const context = useTableContext();
 
   const { styles, sx } = useTableCellStyles(
@@ -403,7 +404,7 @@ const Td = forwardRef<any, TableTdProps>((props, ref) => {
 
   return (
     <BoxView ref={ref} style={sx(styles.cell, style)} {...others}>
-      <Text style={styles.cell}>{children}</Text>
+      {withTextWrapper(children, shouldWrapInText, styles.cell)}
     </BoxView>
   );
 });

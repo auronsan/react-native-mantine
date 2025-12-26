@@ -13,11 +13,11 @@ import { ActivityIndicator, View } from 'react-native';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import useStyles from './Button.styles';
 import { BoxView } from '../BoxView';
-import { Text } from '../Text';
+import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
 export type ButtonStylesNames = any;
 
-export interface ButtonProps extends DefaultProps {
+export interface ButtonProps extends DefaultProps, WithTextWrapperProps {
   /** Predefined button size */
   size?: MantineSize;
 
@@ -69,8 +69,6 @@ export interface ButtonProps extends DefaultProps {
   disabled?: boolean;
 
   style?: any;
-
-  withTextWrapper?: boolean;
 }
 
 const defaultProps: Partial<ButtonProps> = {
@@ -78,6 +76,7 @@ const defaultProps: Partial<ButtonProps> = {
   type: 'button',
   variant: 'filled',
   loaderPosition: 'left',
+  withTextWrapper: true,
 };
 
 export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
@@ -99,7 +98,7 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
     loaderProps,
     gradient,
     style,
-    withTextWrapper = true,
+    withTextWrapper: shouldWrapInText,
     ...others
   } = useComponentDefaultProps('Button', defaultProps, props);
 
@@ -142,7 +141,7 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
           {loading && loaderPosition === 'center' && (
             <BoxView style={styles.centerLoader}>{loader}</BoxView>
           )}
-          {withTextWrapper ? <Text>{children}</Text> : children}
+          {withTextWrapper(children, shouldWrapInText)}
           {(rightIcon || (loading && loaderPosition === 'right')) && (
             <BoxView style={sx(styles.icon, styles.rightIcon)}>
               {loading && loaderPosition === 'right' ? loader : rightIcon}

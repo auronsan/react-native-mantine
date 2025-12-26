@@ -3,8 +3,9 @@ import { Text } from '../Text';
 import type { TextProps } from '../Text';
 import { useTheme } from '../../theme/theme-provider';
 import { BoxView } from '../BoxView';
+import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
-export interface CodeProps extends Omit<TextProps, 'children'> {
+export interface CodeProps extends Omit<TextProps, 'children'>, WithTextWrapperProps {
   /** Code content */
   children?: React.ReactNode;
 
@@ -19,7 +20,7 @@ export interface CodeProps extends Omit<TextProps, 'children'> {
  * Code component renders inline code or code blocks with monospace font
  */
 export const Code = forwardRef<any, CodeProps>((props, ref) => {
-  const { children, color, block = false, style, ...others} = props;
+  const { children, color, block = false, style, withTextWrapper: shouldWrapInText = true, ...others} = props;
 
   const theme = useTheme();
 
@@ -52,21 +53,25 @@ export const Code = forwardRef<any, CodeProps>((props, ref) => {
           },
           style,
         ]}
+        {...others}
       >
-        <Text
-          style={[
-            {
-              fontFamily: 'Courier',
-              fontSize: theme.fontSizes.sm as number || 14,
-              color: textColor,
-            },
-          ]}
-          {...others}
-        >
-          {children}
-        </Text>
+        {withTextWrapper(
+          children,
+          shouldWrapInText,
+          {
+            fontFamily: 'Courier',
+            fontSize: theme.fontSizes.sm as number || 14,
+            color: textColor,
+          }
+        )}
       </BoxView>
     );
+  }
+
+  // For inline code, we need to return a component that can accept the ref
+  // So we wrap in a View-like Text component
+  if (!shouldWrapInText) {
+    return children;
   }
 
   return (

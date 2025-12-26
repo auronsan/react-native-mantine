@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react';
 import { BoxView } from '../BoxView';
-import { Text } from '../Text';
 import type {
   DefaultProps,
   MantineColor,
@@ -9,8 +8,9 @@ import type {
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
+import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
-export interface BlockquoteProps extends DefaultProps {
+export interface BlockquoteProps extends DefaultProps, WithTextWrapperProps {
   /** Blockquote color from theme */
   color?: MantineColor;
 
@@ -80,10 +80,11 @@ const useStyles = createStyles(
 const defaultProps: Partial<BlockquoteProps> = {
   color: 'blue',
   radius: 'sm',
+  withTextWrapper: true,
 };
 
 export const Blockquote = forwardRef<any, BlockquoteProps>((props, ref) => {
-  const { color, icon, cite, radius, children, style} =
+  const { color, icon, cite, radius, children, style, withTextWrapper: shouldWrapInText} =
     useComponentDefaultProps('Blockquote', defaultProps, props);
 
   const { styles, sx, ...others} = useStyles({ color, radius}, { name: 'Blockquote' }) as any;
@@ -93,8 +94,8 @@ export const Blockquote = forwardRef<any, BlockquoteProps>((props, ref) => {
       <BoxView style={styles.inner}>
         {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
         <BoxView style={styles.body}>
-          <Text style={styles.content}>{children}</Text>
-          {cite && <Text style={styles.cite}>{cite}</Text>}
+          {withTextWrapper(children, shouldWrapInText, styles.content)}
+          {cite && withTextWrapper(cite, shouldWrapInText, styles.cite)}
         </BoxView>
       </BoxView>
     </BoxView>

@@ -2,8 +2,9 @@ import React, { forwardRef } from 'react';
 import { Text } from '../Text';
 import type { TextProps } from '../Text';
 import { useTheme } from '../../theme/theme-provider';
+import type { WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
-export interface MarkProps extends TextProps {
+export interface MarkProps extends TextProps, WithTextWrapperProps {
   /** Background color key from theme.colors or CSS color value */
   color?: string;
 
@@ -16,7 +17,7 @@ export interface MarkProps extends TextProps {
  * Default background is yellow
  */
 export const Mark = forwardRef<any, MarkProps>((props, ref) => {
-  const { children, color = 'yellow', style, ...others} = props;
+  const { children, color = 'yellow', style, withTextWrapper: shouldWrapInText = true, ...others} = props;
 
   const theme = useTheme();
 
@@ -29,6 +30,10 @@ export const Mark = forwardRef<any, MarkProps>((props, ref) => {
     // Otherwise use the color directly
     return color;
   };
+
+  if (!shouldWrapInText) {
+    return children;
+  }
 
   return (
     <Text

@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { BoxView } from '../BoxView';
-import { Text } from '../Text';
 import type {
   DefaultProps,
   MantineColor,
@@ -12,8 +11,9 @@ import type {
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
+import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
-export interface ChipProps extends DefaultProps {
+export interface ChipProps extends DefaultProps, WithTextWrapperProps {
   /** Chip label */
   children: React.ReactNode;
 
@@ -174,6 +174,7 @@ const defaultProps: Partial<ChipProps> = {
   variant: 'filled',
   disabled: false,
   type: 'checkbox',
+  withTextWrapper: true,
 };
 
 export const Chip = forwardRef<any, ChipProps>((props, ref) => {
@@ -192,6 +193,7 @@ export const Chip = forwardRef<any, ChipProps>((props, ref) => {
     textStyle,
     value,
     type,
+    withTextWrapper: shouldWrapInText,
     ...others
   } = useComponentDefaultProps('Chip', defaultProps, props);
 
@@ -226,7 +228,7 @@ export const Chip = forwardRef<any, ChipProps>((props, ref) => {
       {...others}
     >
       {showIcon && <BoxView style={styles.icon}>{icon}</BoxView>}
-      <Text style={sx(styles.text, textStyle)}>{children}</Text>
+      {withTextWrapper(children, shouldWrapInText, sx(styles.text, textStyle))}
     </TouchableOpacity>
   );
 });

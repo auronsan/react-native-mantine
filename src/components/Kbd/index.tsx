@@ -1,12 +1,12 @@
 import React, { forwardRef } from 'react';
 import { BoxView } from '../BoxView';
-import { Text } from '../Text';
 import type { DefaultProps, MantineSize } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
+import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
-export interface KbdProps extends DefaultProps {
+export interface KbdProps extends DefaultProps, WithTextWrapperProps {
   /** Kbd size */
   size?: MantineSize;
 
@@ -63,10 +63,11 @@ const useStyles = createStyles(
 
 const defaultProps: Partial<KbdProps> = {
   size: 'md',
+  withTextWrapper: true,
 };
 
 export const Kbd = forwardRef<any, KbdProps>((props, ref) => {
-  const { size, children, style, ...otherProps} = useComponentDefaultProps(
+  const { size, children, style, withTextWrapper: shouldWrapInText, ...otherProps} = useComponentDefaultProps(
     'Kbd',
     defaultProps,
     props
@@ -76,7 +77,7 @@ export const Kbd = forwardRef<any, KbdProps>((props, ref) => {
 
   return (
     <BoxView ref={ref} style={sx(styles.root, style)} {...otherProps}>
-      <Text style={styles.label}>{children}</Text>
+      {withTextWrapper(children, shouldWrapInText, styles.label)}
     </BoxView>
   );
 });

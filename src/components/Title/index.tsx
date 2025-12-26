@@ -2,8 +2,9 @@ import React, { forwardRef } from 'react';
 import { Text } from '../Text';
 import type { TextProps } from '../Text';
 import { useTheme } from '../../theme/theme-provider';
+import type { WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
-export interface TitleProps extends Omit<TextProps, 'size'> {
+export interface TitleProps extends Omit<TextProps, 'size'>, WithTextWrapperProps {
   /** Heading order (h1-h6) */
   order?: 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -16,7 +17,7 @@ export interface TitleProps extends Omit<TextProps, 'size'> {
  * Maps order prop to h1-h6 heading styles from theme
  */
 export const Title = forwardRef<any, TitleProps>((props, ref) => {
-  const { order = 1, children, style, ...others} = props;
+  const { order = 1, children, style, withTextWrapper: shouldWrapInText = true, ...others} = props;
   const theme = useTheme();
 
   // Get heading styles from theme
@@ -28,6 +29,10 @@ export const Title = forwardRef<any, TitleProps>((props, ref) => {
     headingStyles.fontWeight ??
     theme.headings.fontWeight ??
     700;
+
+  if (!shouldWrapInText) {
+    return children;
+  }
 
   return (
     <Text

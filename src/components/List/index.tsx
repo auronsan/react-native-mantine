@@ -5,6 +5,7 @@ import type { DefaultProps, SpacingValue } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
+import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
 interface ListContextValue {
   type: 'ordered' | 'unordered';
@@ -59,7 +60,7 @@ export interface ListProps extends DefaultProps {
   style?: any;
 }
 
-export interface ListItemProps extends DefaultProps {
+export interface ListItemProps extends DefaultProps, WithTextWrapperProps {
   /** Item children */
   children?: React.ReactNode;
 
@@ -156,7 +157,9 @@ const defaultProps: Partial<ListProps> = {
   startIndex: 1,
 };
 
-const defaultItemProps: Partial<ListItemProps> = {};
+const defaultItemProps: Partial<ListItemProps> = {
+  withTextWrapper: true,
+};
 
 const getListMarker = (
   type: 'ordered' | 'unordered',
@@ -239,7 +242,7 @@ const ListRoot = forwardRef<any, ListProps>((props, ref) => {
 });
 
 export const ListItem = forwardRef<any, ListItemProps>((props, ref) => {
-  const { children, icon: itemIcon, style, __index, ...others} = {
+  const { children, icon: itemIcon, style, __index, withTextWrapper: shouldWrapInText, ...others} = {
     ...defaultItemProps,
     ...props,
   };
@@ -271,11 +274,7 @@ export const ListItem = forwardRef<any, ListItemProps>((props, ref) => {
     <BoxView ref={ref} style={sx(styles.item, style)} {...others}>
       <BoxView style={styles.icon}>{renderIcon()}</BoxView>
       <BoxView style={styles.content}>
-        {typeof children === 'string' ? (
-          <Text style={styles.contentText}>{children}</Text>
-        ) : (
-          children
-        )}
+        {withTextWrapper(children, shouldWrapInText, styles.contentText)}
       </BoxView>
     </BoxView>
   );
