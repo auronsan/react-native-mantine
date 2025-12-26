@@ -156,10 +156,18 @@ export const Notification = forwardRef<any, NotificationProps>((props, ref) => {
 
       <BoxView style={styles.body}>
         {title && (
-          <Text style={styles.title}>{typeof title === 'string' ? title : title}</Text>
+          typeof title === 'string' || typeof title === 'number' ? (
+            <Text style={styles.title}>{title}</Text>
+          ) : (
+            <BoxView style={{ marginBottom: styles.title.marginBottom }}>{title}</BoxView>
+          )
         )}
         {message && (
-          <Text style={styles.message}>{typeof message === 'string' ? message : message}</Text>
+          typeof message === 'string' || typeof message === 'number' ? (
+            <Text style={styles.message}>{message}</Text>
+          ) : (
+            <BoxView>{message}</BoxView>
+          )
         )}
       </BoxView>
 

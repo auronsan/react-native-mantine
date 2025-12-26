@@ -137,12 +137,18 @@ const useTableStyles = createStyles(
       borderCollapse: 'collapse' as any,
       ...(withBorder && {
         borderWidth: 1,
-        borderColor: theme.colorScheme === 'dark' ? theme.colors.dark?.[4] : theme.colors.gray?.[3],
+        borderColor:
+          theme.colorScheme === 'dark'
+            ? theme.colors.dark?.[4]
+            : theme.colors.gray?.[3],
       }),
     },
     caption: {
       fontSize: theme.fontSizes.sm as number,
-      color: theme.colorScheme === 'dark' ? theme.colors.dark?.[2] : theme.colors.gray?.[6],
+      color:
+        theme.colorScheme === 'dark'
+          ? theme.colors.dark?.[2]
+          : theme.colors.gray?.[6],
       paddingVertical: theme.spacing.xs,
       textAlign: 'center',
       ...(captionSide === 'bottom' && { order: 1 }),
@@ -153,7 +159,10 @@ const useTableStyles = createStyles(
 const useTableHeadStyles = createStyles((theme) => ({
   thead: {
     borderBottomWidth: 1,
-    borderBottomColor: theme.colorScheme === 'dark' ? theme.colors.dark?.[4] : theme.colors.gray?.[3],
+    borderBottomColor:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark?.[4]
+        : theme.colors.gray?.[3],
   },
 }));
 
@@ -171,11 +180,16 @@ const useTableRowStyles = createStyles(
   ) => ({
     tr: {
       borderBottomWidth: 1,
-      borderBottomColor: theme.colorScheme === 'dark' ? theme.colors.dark?.[4] : theme.colors.gray?.[3],
+      borderBottomColor:
+        theme.colorScheme === 'dark'
+          ? theme.colors.dark?.[4]
+          : theme.colors.gray?.[3],
       ...(striped &&
         isEven && {
           backgroundColor:
-            theme.colorScheme === 'dark' ? theme.colors.dark?.[6] : theme.colors.gray?.[0],
+            theme.colorScheme === 'dark'
+              ? theme.colors.dark?.[6]
+              : theme.colors.gray?.[0],
         }),
     },
   })
@@ -218,7 +232,9 @@ const useTableCellStyles = createStyles(
         ...(withColumnBorders && {
           borderRightWidth: 1,
           borderRightColor:
-            theme.colorScheme === 'dark' ? theme.colors.dark?.[4] : theme.colors.gray?.[3],
+            theme.colorScheme === 'dark'
+              ? theme.colors.dark?.[4]
+              : theme.colors.gray?.[3],
         }),
         ...(isHeader && {
           fontWeight: '600',
@@ -255,7 +271,7 @@ const Table = forwardRef<any, TableProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Table', defaultProps, props);
 
-  const { styles, sx} = useTableStyles(
+  const { styles, sx } = useTableStyles(
     { withBorder, captionSide },
     { name: 'Table' }
   ) as any;
@@ -272,7 +288,11 @@ const Table = forwardRef<any, TableProps>((props, ref) => {
         horizontalSpacing: horizontalSpacing!,
       }}
     >
-      <ScrollView horizontal style={styles.wrapper} showsHorizontalScrollIndicator>
+      <ScrollView
+        horizontal
+        style={styles.wrapper}
+        showsHorizontalScrollIndicator
+      >
         <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
           {caption && <Text style={styles.caption}>{caption}</Text>}
           {children}
@@ -283,8 +303,8 @@ const Table = forwardRef<any, TableProps>((props, ref) => {
 });
 
 const Thead = forwardRef<any, TableTheadProps>((props, ref) => {
-  const { children, style, ...others} = props;
-  const { styles, sx} = useTableHeadStyles({}, { name: 'Thead' }) as any;
+  const { children, style, ...others } = props;
+  const { styles, sx } = useTableHeadStyles({}, { name: 'Thead' }) as any;
 
   return (
     <BoxView ref={ref} style={sx(styles.thead, style)} {...others}>
@@ -302,10 +322,13 @@ const Tbody = forwardRef<any, TableTbodyProps>((props, ref) => {
     <BoxView ref={ref} style={style} {...others}>
       {childrenArray.map((child, index) => {
         if (!React.isValidElement(child)) return child;
-        return React.cloneElement<TableTrProps>(child as React.ReactElement<TableTrProps>, {
-          key: index,
-          __index: index,
-        });
+        return React.cloneElement<TableTrProps>(
+          child as React.ReactElement<TableTrProps>,
+          {
+            key: index,
+            __index: index,
+          }
+        );
       })}
     </BoxView>
   );
@@ -322,10 +345,10 @@ const Tfoot = forwardRef<any, TableTfootProps>((props, ref) => {
 });
 
 const Tr = forwardRef<any, TableTrProps>((props, ref) => {
-  const { children, style, __index, ...others} = props;
+  const { children, style, __index, ...others } = props;
   const context = useTableContext();
 
-  const { styles, sx} = useTableRowStyles(
+  const { styles, sx } = useTableRowStyles(
     {
       striped: context?.striped ?? false,
       highlightOnHover: context?.highlightOnHover ?? false,
@@ -342,10 +365,10 @@ const Tr = forwardRef<any, TableTrProps>((props, ref) => {
 });
 
 const Th = forwardRef<any, TableThProps>((props, ref) => {
-  const { children, style, ...others} = props;
+  const { children, style, ...others } = props;
   const context = useTableContext();
 
-  const { styles, sx} = useTableCellStyles(
+  const { styles, sx } = useTableCellStyles(
     {
       fontSize: context?.fontSize ?? 'sm',
       verticalSpacing: context?.verticalSpacing ?? 'xs',
@@ -358,16 +381,16 @@ const Th = forwardRef<any, TableThProps>((props, ref) => {
 
   return (
     <BoxView ref={ref} style={sx(styles.cell, style)} {...others}>
-      {typeof children === 'string' ? <Text style={styles.cell}>{children}</Text> : children}
+      <Text style={styles.cell}>{children}</Text>)
     </BoxView>
   );
 });
 
 const Td = forwardRef<any, TableTdProps>((props, ref) => {
-  const { children, style, ...others} = props;
+  const { children, style, ...others } = props;
   const context = useTableContext();
 
-  const { styles, sx} = useTableCellStyles(
+  const { styles, sx } = useTableCellStyles(
     {
       fontSize: context?.fontSize ?? 'sm',
       verticalSpacing: context?.verticalSpacing ?? 'xs',
@@ -380,7 +403,7 @@ const Td = forwardRef<any, TableTdProps>((props, ref) => {
 
   return (
     <BoxView ref={ref} style={sx(styles.cell, style)} {...others}>
-      {typeof children === 'string' ? <Text style={styles.cell}>{children}</Text> : children}
+      <Text style={styles.cell}>{children}</Text>
     </BoxView>
   );
 });
@@ -394,7 +417,9 @@ Th.displayName = 'Table.Th';
 Td.displayName = 'Table.Td';
 
 // Attach sub-components with proper typing
-interface TableComponent extends React.ForwardRefExoticComponent<TableProps & React.RefAttributes<any>> {
+interface TableComponent extends React.ForwardRefExoticComponent<
+  TableProps & React.RefAttributes<any>
+> {
   Thead: typeof Thead;
   Tbody: typeof Tbody;
   Tfoot: typeof Tfoot;

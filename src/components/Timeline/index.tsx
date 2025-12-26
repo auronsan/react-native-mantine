@@ -307,14 +307,18 @@ export const TimelineItem = forwardRef<
 
       <BoxView style={styles.itemBody}>
         {title && (
-          <Text style={styles.title}>
-            {typeof title === 'string' ? title : title}
-          </Text>
+          typeof title === 'string' ? (
+            <Text style={styles.title}>{title}</Text>
+          ) : (
+            <BoxView style={{ marginBottom: rem(4) }}>{title}</BoxView>
+          )
         )}
         {children && (
-          <Text style={styles.content}>
-            {typeof children === 'string' ? children : children}
-          </Text>
+          typeof children === 'string' ? (
+            <Text style={styles.content}>{children}</Text>
+          ) : (
+            <BoxView>{children}</BoxView>
+          )
         )}
       </BoxView>
     </BoxView>

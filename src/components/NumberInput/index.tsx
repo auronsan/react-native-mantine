@@ -4,7 +4,6 @@ import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type {
   DefaultProps,
-
   MantineNumberSize,
   MantineSize,
 } from '../../theme/types';
@@ -13,7 +12,19 @@ import { createStyles, getSize } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 import { INPUT_SIZES } from '../Input';
 
-export interface NumberInputProps extends DefaultProps, Omit<TextInputProps, 'value' | 'onChangeText' | 'onChange' | 'keyboardType' | 'editable' | 'placeholderTextColor' | 'defaultValue'> {
+export interface NumberInputProps
+  extends
+    DefaultProps,
+    Omit<
+      TextInputProps,
+      | 'value'
+      | 'onChangeText'
+      | 'onChange'
+      | 'keyboardType'
+      | 'editable'
+      | 'placeholderTextColor'
+      | 'defaultValue'
+    > {
   /** Input label */
   label?: React.ReactNode;
 
@@ -101,7 +112,9 @@ const useStyles = createStyles(
         case 'filled':
           return {
             backgroundColor:
-              theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[1],
+              theme.colorScheme === 'dark'
+                ? (theme.colors.dark || [])[5]
+                : (theme.colors.gray || [])[1],
             borderWidth: 1,
             borderColor: 'transparent',
           };
@@ -112,10 +125,15 @@ const useStyles = createStyles(
           };
         default:
           return {
-            backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[6] : theme.white,
+            backgroundColor:
+              theme.colorScheme === 'dark'
+                ? (theme.colors.dark || [])[6]
+                : theme.white,
             borderWidth: 1,
             borderColor:
-              theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
+              theme.colorScheme === 'dark'
+                ? (theme.colors.dark || [])[4]
+                : (theme.colors.gray || [])[4],
           };
       }
     };
@@ -132,7 +150,10 @@ const useStyles = createStyles(
       },
       description: {
         fontSize: theme.fontSizes.xs as number,
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
+        color:
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[2]
+            : (theme.colors.gray || [])[6],
         marginTop: theme.spacing.xs,
       },
       error: {
@@ -158,8 +179,6 @@ const useStyles = createStyles(
         paddingRight: theme.spacing.xs,
       },
       input: {
-        // Use inputFontStyles for proper font family application
-        ...theme.fn.inputFontStyles(),
         flex: 1,
         height: '100%',
         fontSize: getSize({ size, sizes: theme.fontSizes }),
@@ -168,6 +187,7 @@ const useStyles = createStyles(
         ...(withIcon && {
           paddingLeft: 0,
         }),
+        fontFamily: theme.fontFamilyInput,
       },
       controls: {
         flexDirection: 'row',
@@ -180,12 +200,17 @@ const useStyles = createStyles(
         alignItems: 'center',
         borderLeftWidth: 1,
         borderLeftColor:
-          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[4]
+            : (theme.colors.gray || [])[4],
       },
       controlText: {
         fontSize: rem(18) as any,
         fontWeight: '600',
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : (theme.colors.gray || [])[7],
+        color:
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[0]
+            : (theme.colors.gray || [])[7],
       },
     };
   }
@@ -228,9 +253,12 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
   } = useComponentDefaultProps('NumberInput', defaultProps, props);
 
   const theme = useTheme();
-  const [uncontrolledValue, setUncontrolledValue] = useState<number | ''>(defaultValue ?? '');
+  const [uncontrolledValue, setUncontrolledValue] = useState<number | ''>(
+    defaultValue ?? ''
+  );
 
-  const value = controlledValue !== undefined ? controlledValue : uncontrolledValue;
+  const value =
+    controlledValue !== undefined ? controlledValue : uncontrolledValue;
 
   const { styles, sx } = useStyles(
     {
@@ -299,7 +327,9 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
   return (
     <BoxView style={sx(styles.wrapper, wrapperStyle)}>
       {label && (
-        <Text style={styles.label}>{typeof label === 'string' ? label : label}</Text>
+        <Text style={styles.label}>
+          {typeof label === 'string' ? label : label}
+        </Text>
       )}
 
       <BoxView style={sx(styles.inputWrapper, style)}>
@@ -311,7 +341,9 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
           onChangeText={handleChange}
           placeholder={placeholder}
           placeholderTextColor={
-            theme.colorScheme === 'dark' ? (theme.colors.dark || [])[3] : (theme.colors.gray || [])[5]
+            theme.colorScheme === 'dark'
+              ? (theme.colors.dark || [])[3]
+              : (theme.colors.gray || [])[5]
           }
           keyboardType="numeric"
           editable={!disabled}
@@ -324,7 +356,10 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
             <TouchableOpacity
               style={styles.control}
               onPress={handleDecrement}
-              disabled={disabled || (min !== undefined && typeof value === 'number' && value <= min)}
+              disabled={
+                disabled ||
+                (min !== undefined && typeof value === 'number' && value <= min)
+              }
               activeOpacity={0.7}
             >
               <Text style={styles.controlText}>−</Text>
@@ -333,7 +368,10 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
             <TouchableOpacity
               style={styles.control}
               onPress={handleIncrement}
-              disabled={disabled || (max !== undefined && typeof value === 'number' && value >= max)}
+              disabled={
+                disabled ||
+                (max !== undefined && typeof value === 'number' && value >= max)
+              }
               activeOpacity={0.7}
             >
               <Text style={styles.controlText}>+</Text>
@@ -349,7 +387,9 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
       )}
 
       {error && (
-        <Text style={styles.error}>{typeof error === 'string' ? error : error}</Text>
+        <Text style={styles.error}>
+          {typeof error === 'string' ? error : error}
+        </Text>
       )}
     </BoxView>
   );

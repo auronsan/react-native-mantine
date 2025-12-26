@@ -1,11 +1,14 @@
 import { forwardRef, useRef, useState } from 'react';
 import { TextInput } from 'react-native';
 import { BoxView } from '../BoxView';
-import type { DefaultProps, MantineNumberSize, MantineSize } from '../../theme/types';
+import type {
+  DefaultProps,
+  MantineNumberSize,
+  MantineSize,
+} from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles, getSize } from '../../theme';
 import { rem } from '../../theme/utils/rem';
-
 
 export interface PinInputProps extends DefaultProps {
   /** Number of inputs */
@@ -87,8 +90,6 @@ const useStyles = createStyles(
         gap: getSpacing() as any,
       },
       input: {
-        // Use inputFontStyles for proper font family application
-        ...theme.fn.inputFontStyles(),
         width: (sizes[size as keyof typeof sizes] || sizes.md) as any,
         height: (sizes[size as keyof typeof sizes] || sizes.md) as any,
         borderRadius: theme.fn.radius(radius),
@@ -96,18 +97,23 @@ const useStyles = createStyles(
         borderColor: error
           ? (theme.colors.red || [])[6]
           : theme.colorScheme === 'dark'
-          ? (theme.colors.dark || [])[4]
-          : (theme.colors.gray || [])[4],
-        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[6] : theme.white,
+            ? (theme.colors.dark || [])[4]
+            : (theme.colors.gray || [])[4],
+        backgroundColor:
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[6]
+            : theme.white,
         fontSize: getSize({ size, sizes: theme.fontSizes }) as any,
         textAlign: 'center',
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
         ...(disabled && {
           opacity: 0.6,
         }),
+        fontFamily: theme.fontFamilyInput,
       },
       inputFocused: {
-        borderColor: theme.colors[theme.primaryColor]?.[6] || theme.primaryBgColor,
+        borderColor:
+          theme.colors[theme.primaryColor]?.[6] || theme.primaryBgColor,
         borderWidth: 2,
       },
     };
@@ -144,10 +150,13 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('PinInput', defaultProps, props);
 
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue || '');
+  const [uncontrolledValue, setUncontrolledValue] = useState(
+    defaultValue || ''
+  );
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
-  const value = controlledValue !== undefined ? controlledValue : uncontrolledValue;
+  const value =
+    controlledValue !== undefined ? controlledValue : uncontrolledValue;
   const inputRefs = useRef<(TextInput | null)[]>([]);
 
   const { styles, sx } = useStyles(
