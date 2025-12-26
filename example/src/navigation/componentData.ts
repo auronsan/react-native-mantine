@@ -58,7 +58,6 @@ export const componentCategories: ComponentCategory[] = [
     route: 'Phase3Components',
     components: [
       { name: 'Overlay', description: 'Customizable overlay backdrop', route: 'OverlayExample' },
-      { name: 'Portal', description: 'Render components outside DOM hierarchy', route: 'PortalExample' },
       { name: 'Modal', description: 'Full-featured modal dialog', route: 'ModalExample' },
       { name: 'Drawer', description: 'Side panel with slide animation', route: 'DrawerExample' },
       { name: 'Dialog', description: 'Lightweight floating dialog', route: 'DialogExample' },

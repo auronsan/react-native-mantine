@@ -1,5 +1,8 @@
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { BackgroundImage, Text , Paper } from 'react-native-mantine';
+import {
+  ExampleWrapper,
+  ExampleSection,
+} from '../../components/ExampleWrapper';
+import { BackgroundImage, Text, Paper } from 'react-native-mantine';
 
 export const BackgroundImageExample = () => {
   return (
@@ -13,10 +16,12 @@ export const BackgroundImageExample = () => {
       >
         <Paper p="md" radius="md">
           <BackgroundImage
-            source={{ uri: 'https://via.placeholder.com/300x150' }}
+            source={{ uri: 'https://unsplash.it/640/425' }}
             style={{ height: 150, borderRadius: 8 }}
           >
-            <Text style={{ color: '#fff', padding: 16 }}>Content over image</Text>
+            <Text style={{ color: '#fff', padding: 16 }}>
+              Content over image
+            </Text>
           </BackgroundImage>
         </Paper>
       </ExampleSection>

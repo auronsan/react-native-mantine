@@ -46,7 +46,6 @@ export type RootStackParamList = {
 
   // Overlays & Dialogs
   OverlayExample: undefined;
-  PortalExample: undefined;
   ModalExample: undefined;
   DrawerExample: undefined;
   DialogExample: undefined;

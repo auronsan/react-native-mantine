@@ -260,11 +260,6 @@ export default function App() {
             options={{ title: 'Overlay' }}
           />
           <Stack.Screen
-            name="PortalExample"
-            component={Examples.PortalExample}
-            options={{ title: 'Portal' }}
-          />
-          <Stack.Screen
             name="ModalExample"
             component={Examples.ModalExample}
             options={{ title: 'Modal' }}

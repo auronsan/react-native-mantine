@@ -155,12 +155,11 @@ Visual feedback and form input components.
 - **Checkbox** - Checkbox input
 - **Radio** - Radio button input
 
-### Overlays & Dialogs (13)
+### Overlays & Dialogs (12)
 
 Interactive overlay components and modals.
 
 - **Overlay** - Semi-transparent overlay
-- **Portal** - Render components in a portal
 - **Modal** - Modal dialog component
 - **Drawer** - Slide-out drawer panel
 - **Dialog** - Simple dialog for quick actions

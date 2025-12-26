@@ -36,7 +36,6 @@ export * from './phase2/RadioExample';
 
 // Overlays & Dialogs
 export * from './phase3/OverlayExample';
-export * from './phase3/PortalExample';
 export * from './phase3/ModalExample';
 export * from './phase3/DrawerExample';
 export * from './phase3/DialogExample';
