@@ -79,23 +79,24 @@ export const DialogExample = () => {
       </ExampleSection>
 
       <ExampleSection
-        title="Center Dialog with Input"
-        description="Dialog with form input"
+        title="Centered Dialog with Input"
+        description="Dialog centered on screen with form input"
         variant="showcase"
       >
         <Button onPress={() => setCenterOpen(true)} color="teal">
-          Open Center Dialog
+          Open Centered Dialog
         </Button>
         <Dialog
           opened={centerOpen}
-          position={{ top: 200, left: 20 }}
+          centered
           size="lg"
           withBorder
         >
           <Stack spacing={16}>
             <Text weight="600" size="lg">Subscribe to Newsletter</Text>
             <Text size="sm">
-              Enter your email to receive updates.
+              Enter your email to receive updates. This dialog is centered
+              both horizontally and vertically on the screen.
             </Text>
             <TextInput
               placeholder="your@email.com"
@@ -135,6 +136,7 @@ const MyComponent = () => {
         Show Dialog
       </Button>
 
+      {/* Positioned dialog */}
       <Dialog
         opened={opened}
         position={{ bottom: 20, right: 20 }}
@@ -143,6 +145,14 @@ const MyComponent = () => {
         <Button onPress={() => setOpened(false)}>
           Close
         </Button>
+      </Dialog>
+
+      {/* Centered dialog */}
+      <Dialog
+        opened={opened}
+        centered
+      >
+        <Text>Centered dialog content</Text>
       </Dialog>
     </>
   );

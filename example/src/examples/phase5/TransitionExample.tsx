@@ -1,6 +1,17 @@
 import { useState } from 'react';
-import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
-import { Button, Transition, Stack, Text, Paper, Group } from 'react-native-mantine';
+import {
+  ExampleWrapper,
+  ExampleSection,
+  CodeBlock,
+} from '../../components/ExampleWrapper';
+import {
+  Button,
+  Transition,
+  Stack,
+  Text,
+  Paper,
+  Group,
+} from 'react-native-mantine';
 
 export const TransitionExample = () => {
   const [fadeVisible, setFadeVisible] = useState(false);
@@ -26,7 +37,9 @@ export const TransitionExample = () => {
           </Button>
           <Transition mounted={fadeVisible} transition="fade" duration={300}>
             <Paper p="md" radius="md" style={{ backgroundColor: '#228be6' }}>
-              <Text style={{ color: 'white' }}>Fading content with smooth opacity transition</Text>
+              <Text style={{ color: 'white' }}>
+                Fading content with smooth opacity transition
+              </Text>
             </Paper>
           </Transition>
         </Stack>
@@ -43,7 +56,9 @@ export const TransitionExample = () => {
           </Button>
           <Transition mounted={scaleVisible} transition="scale" duration={300}>
             <Paper p="md" radius="md" style={{ backgroundColor: '#be4bdb' }}>
-              <Text style={{ color: 'white' }}>Scaling animation from 75% to 100%</Text>
+              <Text style={{ color: 'white' }}>
+                Scaling animation from 75% to 100%
+              </Text>
             </Paper>
           </Transition>
         </Stack>
@@ -58,7 +73,11 @@ export const TransitionExample = () => {
           <Button onPress={() => setSlideVisible(!slideVisible)} color="teal">
             {slideVisible ? 'Hide' : 'Show'} Slide
           </Button>
-          <Transition mounted={slideVisible} transition="slide-down" duration={300}>
+          <Transition
+            mounted={slideVisible}
+            transition="slide-down"
+            duration={300}
+          >
             <Paper p="md" radius="md" style={{ backgroundColor: '#20c997' }}>
               <Text style={{ color: 'white' }}>Slides down from above</Text>
             </Paper>
@@ -77,7 +96,9 @@ export const TransitionExample = () => {
           </Button>
           <Transition mounted={popVisible} transition="pop" duration={300}>
             <Paper p="md" radius="md" style={{ backgroundColor: '#fd7e14' }}>
-              <Text style={{ color: 'white' }}>Pops into view with scale animation</Text>
+              <Text style={{ color: 'white' }}>
+                Pops into view with scale animation
+              </Text>
             </Paper>
           </Transition>
         </Stack>
@@ -92,9 +113,15 @@ export const TransitionExample = () => {
           <Button onPress={() => setRotateVisible(!rotateVisible)} color="red">
             {rotateVisible ? 'Hide' : 'Show'} Rotate
           </Button>
-          <Transition mounted={rotateVisible} transition="rotate" duration={500}>
+          <Transition
+            mounted={rotateVisible}
+            transition="rotate"
+            duration={500}
+          >
             <Paper p="md" radius="md" style={{ backgroundColor: '#fa5252' }}>
-              <Text style={{ color: 'white' }}>Rotates 180 degrees while fading in</Text>
+              <Text style={{ color: 'white' }}>
+                Rotates 180 degrees while fading in
+              </Text>
             </Paper>
           </Transition>
         </Stack>
@@ -120,7 +147,11 @@ export const TransitionExample = () => {
                 <Text style={{ color: 'white', fontSize: 12 }}>Scale</Text>
               </Paper>
             </Transition>
-            <Transition mounted={allVisible} transition="slide-up" duration={300}>
+            <Transition
+              mounted={allVisible}
+              transition="slide-up"
+              duration={300}
+            >
               <Paper p="sm" radius="sm" style={{ backgroundColor: '#20c997' }}>
                 <Text style={{ color: 'white', fontSize: 12 }}>Slide</Text>
               </Paper>

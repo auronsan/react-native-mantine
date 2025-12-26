@@ -8,13 +8,15 @@ export interface UnstyledButtonProps {
   variant?: string;
   children?: React.ReactNode;
   onPress?: (payload: any) => void;
+  disabled?: boolean;
+  activeOpacity?: number;
 }
 
 export const UnstyledButton = forwardRef<
   any,
   UnstyledButtonProps & { style?: any }
 >((props, ref) => {
-  const { variant, style, children, onPress, ...others } =
+  const { variant, style, children, onPress, disabled, activeOpacity, ...others } =
     useComponentDefaultProps('UnstyledButton', {}, props);
 
   const { styles } = useStyles({
@@ -24,6 +26,8 @@ export const UnstyledButton = forwardRef<
   return (
     <TouchableOpacity
       onPress={typeof onPress === 'function' ? onPress : () => {}}
+      disabled={disabled}
+      activeOpacity={activeOpacity !== undefined ? activeOpacity : 0.7}
     >
       <BoxView ref={ref} style={[styles.root, style]} {...others}>
         {children}

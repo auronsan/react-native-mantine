@@ -69,6 +69,8 @@ export interface ButtonProps extends DefaultProps {
   disabled?: boolean;
 
   style?: any;
+
+  withTextWrapper?: boolean;
 }
 
 const defaultProps: Partial<ButtonProps> = {
@@ -97,6 +99,7 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
     loaderProps,
     gradient,
     style,
+    withTextWrapper = true,
     ...others
   } = useComponentDefaultProps('Button', defaultProps, props);
 
@@ -139,11 +142,7 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
           {loading && loaderPosition === 'center' && (
             <BoxView style={styles.centerLoader}>{loader}</BoxView>
           )}
-          {typeof children === 'string' || typeof children === 'number' ? (
-            <Text>{children}</Text>
-          ) : (
-            children
-          )}
+          {withTextWrapper ? <Text>{children}</Text> : children}
           {(rightIcon || (loading && loaderPosition === 'right')) && (
             <BoxView style={sx(styles.icon, styles.rightIcon)}>
               {loading && loaderPosition === 'right' ? loader : rightIcon}

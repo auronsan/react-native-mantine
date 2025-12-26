@@ -30,6 +30,9 @@ export interface DialogProps extends DefaultProps {
     bottom?: number;
   };
 
+  /** If true, dialog will be centered on screen */
+  centered?: boolean;
+
   /** If true, dialog will show shadow */
   withShadow?: boolean;
 
@@ -57,6 +60,7 @@ const useStyles = createStyles(
     {
       size,
       position,
+      centered,
     }: {
       size: MantineNumberSize | number;
       position?: {
@@ -65,6 +69,7 @@ const useStyles = createStyles(
         right?: number;
         bottom?: number;
       };
+      centered?: boolean;
     }
   ) => {
     const getSize = () => {
@@ -73,6 +78,28 @@ const useStyles = createStyles(
       return rem(sizes[sizeKey] || sizes.md);
     };
 
+    const screenHeight = Dimensions.get('window').height;
+    const verticalMargin = 40; // Safety margin from screen edges
+
+    // If centered, calculate center position
+    if (centered) {
+      return {
+        root: {
+          position: 'absolute' as const,
+          width: getSize() as any,
+          maxWidth: '90%' as any,
+          maxHeight: (screenHeight - verticalMargin) as any,
+          zIndex: 1000,
+          // Center horizontally and vertically
+          left: '5%' as any,
+          right: '5%' as any,
+          top: '50%' as any,
+          transform: [{ translateY: -(screenHeight * 0.25) }] as any,
+        },
+      };
+    }
+
+    // Default positioning logic
     const defaultPosition = {
       bottom: 20,
       right: 20,
@@ -85,8 +112,6 @@ const useStyles = createStyles(
     const posRight = finalPosition && typeof finalPosition === 'object' && 'right' in finalPosition ? finalPosition.right : undefined;
 
     // Calculate max height based on viewport and position
-    const screenHeight = Dimensions.get('window').height;
-    const verticalMargin = 40; // Safety margin from screen edges
     let maxHeight = screenHeight - verticalMargin;
 
     // Adjust max height based on position
@@ -130,6 +155,7 @@ export const Dialog = forwardRef<any, DialogProps>((props, ref) => {
     padding,
     radius,
     position,
+    centered,
     withShadow,
     withBorder,
     style,
@@ -137,7 +163,7 @@ export const Dialog = forwardRef<any, DialogProps>((props, ref) => {
     ...otherProps
   } = useComponentDefaultProps('Dialog', defaultProps, props);
 
-  const { styles, sx } = useStyles({ size, position}, { name: 'Dialog' }) as any;
+  const { styles, sx } = useStyles({ size, position, centered }, { name: 'Dialog' }) as any;
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;

@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { Animated, Easing } from 'react-native';
 import type { DefaultProps } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
@@ -83,6 +83,7 @@ export const Transition = forwardRef<any, TransitionProps>((props, ref) => {
 
   const animation = useRef(new Animated.Value(mounted ? 1 : 0)).current;
   const shouldRender = useRef(mounted);
+  const [exited, setExited] = useState(true);
 
   useEffect(() => {
     if (mounted) {
@@ -96,6 +97,7 @@ export const Transition = forwardRef<any, TransitionProps>((props, ref) => {
         if (finished && onEntered) {
           onEntered();
         }
+        setExited(false);
       });
     } else {
       Animated.timing(animation, {
@@ -104,15 +106,25 @@ export const Transition = forwardRef<any, TransitionProps>((props, ref) => {
         easing: getEasing(timingFunction || 'ease'),
         useNativeDriver: true,
       }).start(({ finished }) => {
+        console.log('finished', finished);
         if (finished) {
           shouldRender.current = false;
           if (onExited) {
             onExited();
           }
+          setExited(true);
         }
       });
     }
-  }, [mounted, duration, exitDuration, timingFunction, onEntered, onExited, animation]);
+  }, [
+    mounted,
+    duration,
+    exitDuration,
+    timingFunction,
+    onEntered,
+    onExited,
+    animation,
+  ]);
 
   const getTransformStyle = () => {
     switch (transition) {
