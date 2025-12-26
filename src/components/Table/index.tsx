@@ -1,5 +1,6 @@
-import React, { forwardRef, createContext, useContext } from 'react';
+import React, { forwardRef, createContext, useContext, useState, useCallback } from 'react';
 import { ScrollView } from 'react-native';
+import type { LayoutChangeEvent } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, SpacingValue } from '../../theme/types';
@@ -16,6 +17,8 @@ interface TableContextValue {
   fontSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   verticalSpacing: SpacingValue;
   horizontalSpacing: SpacingValue;
+  columnWidths: number[];
+  onCellLayout: (columnIndex: number, width: number) => void;
 }
 
 const TableContext = createContext<TableContextValue | null>(null);
@@ -101,6 +104,9 @@ export interface TableThProps extends DefaultProps, WithTextWrapperProps {
 
   /** Additional styles */
   style?: any;
+
+  /** Internal column index */
+  __columnIndex?: number;
 }
 
 export interface TableTdProps extends DefaultProps, WithTextWrapperProps {
@@ -109,6 +115,9 @@ export interface TableTdProps extends DefaultProps, WithTextWrapperProps {
 
   /** Additional styles */
   style?: any;
+
+  /** Internal column index */
+  __columnIndex?: number;
 }
 
 const fontSizes = {
@@ -131,7 +140,7 @@ const useTableStyles = createStyles(
     }
   ) => ({
     wrapper: {
-      flex: 1,
+      // No flex: 1 here to avoid constraining the table
     },
     root: {
       width: '100%',
@@ -180,6 +189,7 @@ const useTableRowStyles = createStyles(
     }
   ) => ({
     tr: {
+      flexDirection: 'row',
       borderBottomWidth: 1,
       borderBottomColor:
         theme.colorScheme === 'dark'
@@ -205,12 +215,14 @@ const useTableCellStyles = createStyles(
       horizontalSpacing,
       withColumnBorders,
       isHeader,
+      width,
     }: {
       fontSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
       verticalSpacing: SpacingValue;
       horizontalSpacing: SpacingValue;
       withColumnBorders: boolean;
       isHeader: boolean;
+      width?: number;
     }
   ) => {
     const getVerticalPadding = () => {
@@ -225,6 +237,9 @@ const useTableCellStyles = createStyles(
 
     return {
       cell: {
+        // Remove flex: 1 to prevent equal spacing
+        // Use explicit width when available for column alignment
+        ...(width && { width }),
         paddingVertical: getVerticalPadding() as any,
         paddingHorizontal: getHorizontalPadding() as any,
         fontSize: fontSizes[fontSize],
@@ -277,6 +292,20 @@ const Table = forwardRef<any, TableProps>((props, ref) => {
     { name: 'Table' }
   ) as any;
 
+  // Track column widths to ensure alignment across rows
+  const [columnWidths, setColumnWidths] = useState<number[]>([]);
+
+  const onCellLayout = useCallback((columnIndex: number, width: number) => {
+    setColumnWidths((prevWidths) => {
+      const newWidths = [...prevWidths];
+      // Store the maximum width for each column to ensure all cells in that column have the same width
+      if (!newWidths[columnIndex] || width > newWidths[columnIndex]) {
+        newWidths[columnIndex] = width;
+      }
+      return newWidths;
+    });
+  }, []);
+
   return (
     <TableContext.Provider
       value={{
@@ -287,6 +316,8 @@ const Table = forwardRef<any, TableProps>((props, ref) => {
         fontSize: fontSize!,
         verticalSpacing: verticalSpacing!,
         horizontalSpacing: horizontalSpacing!,
+        columnWidths,
+        onCellLayout,
       }}
     >
       <ScrollView
@@ -358,16 +389,31 @@ const Tr = forwardRef<any, TableTrProps>((props, ref) => {
     { name: 'Tr' }
   ) as any;
 
+  // Add column indices to children (Th and Td components)
+  const childrenArray = React.Children.toArray(children);
+  const childrenWithColumnIndex = childrenArray.map((child, index) => {
+    if (!React.isValidElement(child)) return child;
+    return React.cloneElement<TableThProps | TableTdProps>(
+      child as React.ReactElement<TableThProps | TableTdProps>,
+      {
+        __columnIndex: index,
+      }
+    );
+  });
+
   return (
     <BoxView ref={ref} style={sx(styles.tr, style)} {...others}>
-      {children}
+      {childrenWithColumnIndex}
     </BoxView>
   );
 });
 
 const Th = forwardRef<any, TableThProps>((props, ref) => {
-  const { children, style, withTextWrapper: shouldWrapInText = true, ...others } = props;
+  const { children, style, withTextWrapper: shouldWrapInText = true, __columnIndex, ...others } = props;
   const context = useTableContext();
+
+  const columnIndex = __columnIndex ?? 0;
+  const columnWidth = context?.columnWidths?.[columnIndex];
 
   const { styles, sx } = useTableCellStyles(
     {
@@ -376,20 +422,39 @@ const Th = forwardRef<any, TableThProps>((props, ref) => {
       horizontalSpacing: context?.horizontalSpacing ?? 'xs',
       withColumnBorders: context?.withColumnBorders ?? false,
       isHeader: true,
+      width: columnWidth,
     },
     { name: 'Th' }
   ) as any;
 
+  const handleLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      const { width } = event.nativeEvent.layout;
+      if (context?.onCellLayout && width > 0) {
+        context.onCellLayout(columnIndex, width);
+      }
+    },
+    [context, columnIndex]
+  );
+
   return (
-    <BoxView ref={ref} style={sx(styles.cell, style)} {...others}>
+    <BoxView
+      ref={ref}
+      style={sx(styles.cell, style)}
+      onLayout={handleLayout}
+      {...others}
+    >
       {withTextWrapper(children, shouldWrapInText, styles.cell)}
     </BoxView>
   );
 });
 
 const Td = forwardRef<any, TableTdProps>((props, ref) => {
-  const { children, style, withTextWrapper: shouldWrapInText = true, ...others } = props;
+  const { children, style, withTextWrapper: shouldWrapInText = true, __columnIndex, ...others } = props;
   const context = useTableContext();
+
+  const columnIndex = __columnIndex ?? 0;
+  const columnWidth = context?.columnWidths?.[columnIndex];
 
   const { styles, sx } = useTableCellStyles(
     {
@@ -398,12 +463,28 @@ const Td = forwardRef<any, TableTdProps>((props, ref) => {
       horizontalSpacing: context?.horizontalSpacing ?? 'xs',
       withColumnBorders: context?.withColumnBorders ?? false,
       isHeader: false,
+      width: columnWidth,
     },
     { name: 'Td' }
   ) as any;
 
+  const handleLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      const { width } = event.nativeEvent.layout;
+      if (context?.onCellLayout && width > 0) {
+        context.onCellLayout(columnIndex, width);
+      }
+    },
+    [context, columnIndex]
+  );
+
   return (
-    <BoxView ref={ref} style={sx(styles.cell, style)} {...others}>
+    <BoxView
+      ref={ref}
+      style={sx(styles.cell, style)}
+      onLayout={handleLayout}
+      {...others}
+    >
       {withTextWrapper(children, shouldWrapInText, styles.cell)}
     </BoxView>
   );
