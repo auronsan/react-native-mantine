@@ -5,6 +5,8 @@ export function attachFunctions(themeBase: any): any {
     ...themeBase,
     fn: {
       radius: fns.radius(themeBase),
+      rgba: fns.rgba(themeBase),
+      size: fns.size(themeBase),
       variant: fns.variant(themeBase),
       themeColor: (color: string, shade?: number) =>
         fns.themeColor({ theme: themeBase, color, shade }),
