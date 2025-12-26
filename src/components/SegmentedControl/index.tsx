@@ -85,19 +85,20 @@ const useStyles = createStyles(
         flexDirection: orientation === 'horizontal' ? 'row' : 'column',
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark?.[6] : theme.colors.gray?.[1],
         borderRadius: theme.fn.radius(radius),
-        padding: rem(4) as any,
+        padding: rem(3) as any,
         opacity: disabled ? 0.5 : 1,
         ...(fullWidth && { width: '100%' }),
       },
       indicator: {
         position: 'absolute',
         backgroundColor: theme.white,
-        borderRadius: theme.fn.radius(radius),
+        borderRadius: (theme.fn.radius(radius) as number) - rem(1),
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.05,
         shadowRadius: 1,
         elevation: 1,
+        margin: rem(3) as any,
         ...(theme.colorScheme === 'dark' && {
           backgroundColor: theme.colors.dark?.[5],
         }),
@@ -105,11 +106,11 @@ const useStyles = createStyles(
       segment: {
         flex: 1,
         paddingHorizontal: sizeStyles.padding as any,
-        paddingVertical: sizeStyles.padding as any,
+        paddingVertical: rem(6) as any,
         minHeight: sizeStyles.height as any,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: theme.fn.radius(radius),
+        borderRadius: (theme.fn.radius(radius) as number) - rem(1),
         zIndex: 1,
       },
       label: {
@@ -181,6 +182,7 @@ export const SegmentedControl = forwardRef<any, SegmentedControlProps>((props, r
   useEffect(() => {
     if (segmentLayouts[activeIndex]) {
       const layout = segmentLayouts[activeIndex];
+      // No need to adjust for margin since indicator has its own margin
 
       Animated.parallel([
         Animated.timing(indicatorPosition, {

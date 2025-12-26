@@ -1,61 +1,111 @@
-import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
-import { Text, Paper, Stack } from 'react-native-mantine';
+import { useState } from 'react';
+import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { TransferList, Text, Paper, Stack } from 'react-native-mantine';
+import type { TransferListData } from 'react-native-mantine';
+
+const initialData: [TransferListData, TransferListData] = [
+  {
+    items: [
+      { value: 'react', label: 'React' },
+      { value: 'vue', label: 'Vue' },
+      { value: 'angular', label: 'Angular' },
+      { value: 'svelte', label: 'Svelte' },
+      { value: 'solid', label: 'Solid' },
+      { value: 'ember', label: 'Ember' },
+      { value: 'preact', label: 'Preact' },
+      { value: 'lit', label: 'Lit' },
+    ],
+    selectedValues: [],
+  },
+  {
+    items: [
+      { value: 'next', label: 'Next.js' },
+      { value: 'gatsby', label: 'Gatsby' },
+    ],
+    selectedValues: [],
+  },
+];
 
 export const TransferListExample = () => {
+  const [data, setData] = useState<[TransferListData, TransferListData]>(initialData);
+  const [searchableData, setSearchableData] = useState<[TransferListData, TransferListData]>([
+    {
+      items: [
+        { value: 'typescript', label: 'TypeScript' },
+        { value: 'javascript', label: 'JavaScript' },
+        { value: 'python', label: 'Python' },
+        { value: 'java', label: 'Java' },
+        { value: 'go', label: 'Go' },
+        { value: 'rust', label: 'Rust' },
+      ],
+      selectedValues: [],
+    },
+    {
+      items: [
+        { value: 'cpp', label: 'C++' },
+      ],
+      selectedValues: [],
+    },
+  ]);
+
   return (
     <ExampleWrapper
       title="TransferList"
       description="Dual-list selection transfer"
     >
       <ExampleSection
-        title="Component Status"
-        description="TransferList implementation status"
+        title="Basic Usage"
+        description="Transfer items between two lists"
         variant="showcase"
       >
         <Paper p="md" radius="md" withBorder>
-          <Stack spacing={12}>
-            <Text weight="600">TransferList Component</Text>
-            <Text size="sm">
-              TransferList is a dual-list selection component that allows users to move items between two lists.
-              This component is planned for a future release of React Native Mantine.
-            </Text>
+          <TransferList
+            value={data}
+            onChange={setData}
+            titles={['Available Frameworks', 'Selected Frameworks']}
+            listHeight={250}
+          />
+          <Stack spacing={8} mt="md">
+            <Text size="sm" weight="600">Selected items:</Text>
             <Text size="sm" color="dimmed">
-              Features will include: item selection, multi-select support, search/filter, custom item rendering,
-              and animated transfers between lists.
+              {data[1].items.length > 0
+                ? data[1].items.map(item => item.label).join(', ')
+                : 'None selected'}
             </Text>
           </Stack>
         </Paper>
       </ExampleSection>
 
       <ExampleSection
-        title="Planned Usage"
-        description="How TransferList will be used"
+        title="Searchable"
+        description="TransferList with search functionality"
       >
-        <CodeBlock
-          code={`import { useState } from 'react';
-import { TransferList } from 'react-native-mantine';
+        <Paper p="md" radius="md">
+          <TransferList
+            value={searchableData}
+            onChange={setSearchableData}
+            titles={['Available Languages', 'Preferred Languages']}
+            searchable
+            searchPlaceholder="Search languages..."
+            listHeight={200}
+          />
+        </Paper>
+      </ExampleSection>
 
-const MyComponent = () => {
-  const [data, setData] = useState([
-    [
-      { value: '1', label: 'Item 1' },
-      { value: '2', label: 'Item 2' },
-    ],
-    [
-      { value: '3', label: 'Item 3' },
-    ],
-  ]);
-
-  return (
-    <TransferList
-      value={data}
-      onChange={setData}
-      titles={['Available', 'Selected']}
-      searchable
-    />
-  );
-};`}
-        />
+      <ExampleSection
+        title="Customized"
+        description="TransferList with custom styling"
+      >
+        <Paper p="md" radius="md">
+          <TransferList
+            value={data}
+            onChange={setData}
+            titles={['Source', 'Destination']}
+            color="grape"
+            radius="md"
+            listHeight={220}
+          />
+        </Paper>
       </ExampleSection>
     </ExampleWrapper>
   );

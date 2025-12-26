@@ -1,5 +1,5 @@
-import React, { forwardRef } from 'react';
-import { View } from 'react-native';
+import React, { forwardRef, useEffect, useRef } from 'react';
+import { View, Animated } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor } from '../../theme/types';
@@ -119,13 +119,41 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
     { name: 'RingProgress' }
   ) as any;
 
+  // Animation values for each section
+  const animatedValues = useRef(
+    sections.map(() => new Animated.Value(0))
+  ).current;
+
+  // Update animation values when sections change
+  useEffect(() => {
+    // Ensure we have the right number of animated values
+    while (animatedValues.length < sections.length) {
+      animatedValues.push(new Animated.Value(0));
+    }
+
+    // Animate each section
+    const animations = sections.map((section, index) => {
+      const animValue = animatedValues[index];
+      if (!animValue) return Animated.timing(new Animated.Value(0), { toValue: 0, duration: 0, useNativeDriver: false });
+
+      return Animated.timing(animValue, {
+        toValue: section.value,
+        duration: 1000,
+        useNativeDriver: false,
+      });
+    });
+
+    Animated.parallel(animations).start();
+  }, [sections, animatedValues]);
+
   // Calculate total value and normalize sections
-  const normalizedSections = sections.map((section) => ({
+  const normalizedSections = sections.map((section, index) => ({
     ...section,
     percentage: (section.value / 100) * 100,
+    animatedValue: animatedValues[index] || new Animated.Value(0),
   }));
 
-  // Render simplified ring using borders and transforms
+  // Render animated ring using borders and transforms
   // Note: This is a basic implementation. For full SVG support, use react-native-svg
   const renderSections = () => {
     let currentAngle = 0;
@@ -139,10 +167,21 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
       const rotation = currentAngle;
       currentAngle += angle;
 
-      // Simplified representation - just show colored arcs
-      // This is a placeholder implementation
+      // Animate the opacity for a smooth appearance
+      const animatedOpacity = section.animatedValue.interpolate({
+        inputRange: [0, section.value],
+        outputRange: [0, 1],
+      });
+
+      // Animated scale for smooth growth effect
+      const animatedScale = section.animatedValue.interpolate({
+        inputRange: [0, section.value],
+        outputRange: [0.8, 1],
+      });
+
+      // Simplified representation - just show colored arcs with animation
       return (
-        <View
+        <Animated.View
           key={index}
           style={{
             position: 'absolute',
@@ -152,7 +191,11 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
             borderWidth: thickness,
             borderColor: 'transparent',
             borderTopColor: sectionColor,
-            transform: [{ rotate: `${rotation}deg` }],
+            transform: [
+              { rotate: `${rotation}deg` },
+              { scale: animatedScale },
+            ],
+            opacity: animatedOpacity,
           }}
         />
       );

@@ -239,7 +239,7 @@ const defaultProps: Partial<TableProps> = {
   captionSide: 'top',
 };
 
-export const Table = forwardRef<any, TableProps>((props, ref) => {
+const Table = forwardRef<any, TableProps>((props, ref) => {
   const {
     children,
     horizontalSpacing,
@@ -282,7 +282,7 @@ export const Table = forwardRef<any, TableProps>((props, ref) => {
   );
 });
 
-export const Thead = forwardRef<any, TableTheadProps>((props, ref) => {
+const Thead = forwardRef<any, TableTheadProps>((props, ref) => {
   const { children, style, ...others} = props;
   const { styles, sx} = useTableHeadStyles({}, { name: 'Thead' }) as any;
 
@@ -293,7 +293,7 @@ export const Thead = forwardRef<any, TableTheadProps>((props, ref) => {
   );
 });
 
-export const Tbody = forwardRef<any, TableTbodyProps>((props, ref) => {
+const Tbody = forwardRef<any, TableTbodyProps>((props, ref) => {
   const { children, style, ...others } = props;
 
   const childrenArray = React.Children.toArray(children);
@@ -311,7 +311,7 @@ export const Tbody = forwardRef<any, TableTbodyProps>((props, ref) => {
   );
 });
 
-export const Tfoot = forwardRef<any, TableTfootProps>((props, ref) => {
+const Tfoot = forwardRef<any, TableTfootProps>((props, ref) => {
   const { children, style, ...others } = props;
 
   return (
@@ -321,7 +321,7 @@ export const Tfoot = forwardRef<any, TableTfootProps>((props, ref) => {
   );
 });
 
-export const Tr = forwardRef<any, TableTrProps>((props, ref) => {
+const Tr = forwardRef<any, TableTrProps>((props, ref) => {
   const { children, style, __index, ...others} = props;
   const context = useTableContext();
 
@@ -341,7 +341,7 @@ export const Tr = forwardRef<any, TableTrProps>((props, ref) => {
   );
 });
 
-export const Th = forwardRef<any, TableThProps>((props, ref) => {
+const Th = forwardRef<any, TableThProps>((props, ref) => {
   const { children, style, ...others} = props;
   const context = useTableContext();
 
@@ -363,7 +363,7 @@ export const Th = forwardRef<any, TableThProps>((props, ref) => {
   );
 });
 
-export const Td = forwardRef<any, TableTdProps>((props, ref) => {
+const Td = forwardRef<any, TableTdProps>((props, ref) => {
   const { children, style, ...others} = props;
   const context = useTableContext();
 
@@ -393,10 +393,22 @@ Tr.displayName = 'Table.Tr';
 Th.displayName = 'Table.Th';
 Td.displayName = 'Table.Td';
 
-// Attach sub-components
-(Table as any).Thead = Thead;
-(Table as any).Tbody = Tbody;
-(Table as any).Tfoot = Tfoot;
-(Table as any).Tr = Tr;
-(Table as any).Th = Th;
-(Table as any).Td = Td;
+// Attach sub-components with proper typing
+interface TableComponent extends React.ForwardRefExoticComponent<TableProps & React.RefAttributes<any>> {
+  Thead: typeof Thead;
+  Tbody: typeof Tbody;
+  Tfoot: typeof Tfoot;
+  Tr: typeof Tr;
+  Th: typeof Th;
+  Td: typeof Td;
+}
+
+const TableWithSubComponents = Table as TableComponent;
+TableWithSubComponents.Thead = Thead;
+TableWithSubComponents.Tbody = Tbody;
+TableWithSubComponents.Tfoot = Tfoot;
+TableWithSubComponents.Tr = Tr;
+TableWithSubComponents.Th = Th;
+TableWithSubComponents.Td = Td;
+
+export { TableWithSubComponents as Table };

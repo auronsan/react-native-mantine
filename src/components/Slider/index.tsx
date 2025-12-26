@@ -247,19 +247,28 @@ export const Slider = forwardRef<any, SliderProps>((props, ref) => {
     [trackWidth, min, max]
   );
 
+  const trackLayoutRef = useRef({ x: 0, y: 0, width: 0, height: 0 });
+
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => !disabled!,
       onMoveShouldSetPanResponder: () => !disabled!,
-      onPanResponderGrant: () => {
+      onPanResponderGrant: (evt: GestureResponderEvent) => {
         setShowLabel(true);
         Animated.spring(scale, {
           toValue: 1.2,
           useNativeDriver: true,
         }).start();
+
+        // Handle tap to move slider
+        const locationX = evt.nativeEvent.locationX;
+        const newValue = getValueFromPosition(locationX);
+        updateValue(newValue);
       },
       onPanResponderMove: (_evt: GestureResponderEvent, gestureState: PanResponderGestureState) => {
-        const newValue = getValueFromPosition(gestureState.moveX);
+        // Calculate position relative to track start
+        const relativeX = gestureState.moveX - trackLayoutRef.current.x;
+        const newValue = getValueFromPosition(relativeX);
         updateValue(newValue);
       },
       onPanResponderRelease: () => {
@@ -274,7 +283,9 @@ export const Slider = forwardRef<any, SliderProps>((props, ref) => {
   ).current;
 
   const handleLayout = (event: LayoutChangeEvent) => {
-    setTrackWidth(event.nativeEvent.layout.width);
+    const { x, y, width, height } = event.nativeEvent.layout;
+    setTrackWidth(width);
+    trackLayoutRef.current = { x, y, width, height };
   };
 
   const percentage = ((value - min!) / (max! - min!)) * 100;

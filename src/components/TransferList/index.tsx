@@ -184,14 +184,10 @@ const defaultProps: Partial<TransferListProps> = {
 };
 
 const DefaultItem: React.FC<{ data: TransferListDataItem; selected: boolean }> = ({
-  data,
   selected,
 }) => {
   return (
-    <>
-      <Checkbox checked={selected} onChange={() => {}} />
-      <Text>{data.label}</Text>
-    </>
+    <Checkbox checked={selected} onChange={() => {}} />
   );
 };
 
