@@ -3,11 +3,11 @@ import {
   View,
   TouchableOpacity,
   Animated,
+  Modal,
 } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import { Divider } from '../Divider';
-import { Portal } from '../Portal';
 import type {
   DefaultProps,
   MantineColor,
@@ -171,7 +171,7 @@ interface MenuContextValue {
   opened: boolean;
   setOpened: (opened: boolean) => void;
   closeOnItemClick: boolean;
-  targetRef: React.RefObject<View>;
+  targetRef: React.RefObject<View | null>;
   dropdownPosition: { top: number; left: number; width: number };
   setDropdownPosition: (pos: { top: number; left: number; width: number }) => void;
 }
@@ -216,7 +216,7 @@ const MenuTarget: React.FC<MenuTargetProps> = ({ children }) => {
     setOpened(true);
   };
 
-  return React.cloneElement(children, {
+  return React.cloneElement(children as React.ReactElement<any>, {
     ref: targetRef,
     onPress: handlePress,
   });
@@ -241,16 +241,19 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ children, style, ...others 
   }
 
   return (
-    <Portal>
+    <Modal
+      visible={opened}
+      transparent
+      animationType="none"
+      onRequestClose={() => setOpened(false)}
+      statusBarTranslucent
+    >
       <TouchableOpacity
         activeOpacity={1}
         onPress={() => setOpened(false)}
         style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
+          flex: 1,
+          backgroundColor: 'transparent',
         }}
       >
         <Animated.View
@@ -268,7 +271,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ children, style, ...others 
           {children}
         </Animated.View>
       </TouchableOpacity>
-    </Portal>
+    </Modal>
   );
 };
 

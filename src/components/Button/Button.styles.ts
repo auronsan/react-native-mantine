@@ -189,10 +189,8 @@ const useStyles = createStyles(
 
       inner: {
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
         height: '100%',
-        overflow: 'visible',
+        flex: 1,
       },
 
       label: {
@@ -202,6 +200,8 @@ const useStyles = createStyles(
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'row',
+        flex: 1,
       },
     };
   }

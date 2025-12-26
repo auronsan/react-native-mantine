@@ -325,10 +325,10 @@ export const ChipGroup = forwardRef<any, ChipGroupProps>((props, ref) => {
   };
 
   const enhancedChildren = React.Children.map(children, (child) => {
-    if (React.isValidElement(child) && child.type === Chip) {
-      const chipValue = child.props.value;
+    if (React.isValidElement(child) && (child.type as any) === Chip) {
+      const chipValue = (child.props as ChipProps).value;
       if (chipValue !== undefined) {
-        return React.cloneElement(child as React.ReactElement<ChipProps>, {
+        return React.cloneElement<ChipProps>(child as React.ReactElement<ChipProps>, {
           checked: isChecked(chipValue),
           onChange: (checked: boolean) => handleChipChange(chipValue, checked),
         });

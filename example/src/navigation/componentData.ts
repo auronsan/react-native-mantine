@@ -15,6 +15,7 @@ export const componentCategories: ComponentCategory[] = [
       { name: 'ActionIcon', description: 'Compact icon button for actions', route: 'ActionIconExample' },
       { name: 'Input', description: 'Versatile text input field', route: 'InputExample' },
       { name: 'Loader', description: 'Animated loading indicator', route: 'LoaderExample' },
+      { name: 'Icon', description: 'FontAwesome icon component', route: 'IconExample' },
     ],
   },
   {

@@ -4,9 +4,9 @@ import {
   TouchableWithoutFeedback,
   Animated,
   Platform,
+  Modal,
 } from 'react-native';
 import { Text } from '../Text';
-import { Portal } from '../Portal';
 import type {
   DefaultProps,
   MantineColor,
@@ -210,7 +210,7 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
       ? { onLongPress: show }
       : { onPress: show, onPressOut: hide };
 
-  const childWithRef = React.cloneElement(children, {
+  const childWithRef = React.cloneElement(children as React.ReactElement<any>, {
     ref: targetRef,
     ...triggerProps,
   });
@@ -219,16 +219,18 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
     <>
       {childWithRef}
       {isVisible && (
-        <Portal>
+        <Modal
+          visible={isVisible}
+          transparent
+          animationType="none"
+          onRequestClose={hide}
+          statusBarTranslucent
+        >
           <TouchableWithoutFeedback onPress={hide}>
             <View
               style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex,
+                flex: 1,
+                backgroundColor: 'transparent',
               }}
             >
               <Animated.View
@@ -238,6 +240,7 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
                     top: tooltipPosition.top,
                     left: tooltipPosition.left,
                     opacity,
+                    zIndex,
                   },
                 ]}
                 {...others}
@@ -250,7 +253,7 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
               </Animated.View>
             </View>
           </TouchableWithoutFeedback>
-        </Portal>
+        </Modal>
       )}
     </>
   );

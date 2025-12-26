@@ -87,6 +87,8 @@ const useStyles = createStyles(
         gap: getSpacing() as any,
       },
       input: {
+        // Use inputFontStyles for proper font family application
+        ...theme.fn.inputFontStyles(),
         width: (sizes[size as keyof typeof sizes] || sizes.md) as any,
         height: (sizes[size as keyof typeof sizes] || sizes.md) as any,
         borderRadius: theme.fn.radius(radius),
@@ -226,7 +228,11 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
         return (
           <TextInput
             key={index}
-            ref={(el) => (inputRefs.current[index] = el)}
+            ref={(el) => {
+              if (inputRefs.current) {
+                inputRefs.current[index] = el;
+              }
+            }}
             value={mask && displayValue ? '•' : displayValue}
             onChangeText={(text) => handleChange(text, index)}
             onKeyPress={(e) => handleKeyPress(e, index)}

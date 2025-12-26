@@ -228,7 +228,7 @@ const ListRoot = forwardRef<any, ListProps>((props, ref) => {
       <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
         {childrenArray.map((child, index) => {
           if (!React.isValidElement(child)) return child;
-          return React.cloneElement(child as React.ReactElement, {
+          return React.cloneElement<ListItemProps>(child as React.ReactElement<ListItemProps>, {
             key: index,
             __index: index,
           });

@@ -254,24 +254,16 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
+        {/* Full screen overlay backdrop */}
         {withOverlay && (
-          <Animated.View
-            style={[
-              {
-                ...styles.overlay,
-                opacity: fadeAnim,
-              },
-            ]}
-          >
-            <Overlay
-              opacity={overlayOpacity}
-              color={overlayColor}
-              onPress={handleOverlayPress}
-              style={{ position: 'absolute' }}
-            />
-          </Animated.View>
+          <Overlay
+            opacity={overlayOpacity}
+            color={overlayColor}
+            onPress={handleOverlayPress}
+          />
         )}
 
+        {/* Modal container positioned over overlay */}
         <TouchableOpacity
           activeOpacity={1}
           style={styles.overlay}

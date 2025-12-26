@@ -8,6 +8,7 @@ export * from './base/UnstyledButtonExample';
 export * from './base/ActionIconExample';
 export * from './base/InputExample';
 export * from './base/LoaderExample';
+export * from './base/IconExample';
 
 // Layout & Typography
 export * from './phase1/CenterExample';

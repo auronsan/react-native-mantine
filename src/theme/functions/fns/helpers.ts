@@ -4,6 +4,16 @@ export const fontStyles = (theme: MantineTheme) => () => ({
   fontFamily: theme.fontFamily,
 });
 
+/**
+ * Returns font styles specifically for input components
+ * Uses fontFamilyInput if available, otherwise falls back to fontFamily
+ */
+export const inputFontStyles = (theme: MantineTheme) => () => {
+  return {
+    fontFamily: theme.fontFamilyInput || theme.fontFamily,
+  };
+};
+
 export const focusStyles = (_theme: MantineTheme) => () => ({
   // Focus styles for accessibility
   // In React Native, we typically don't use outline
@@ -15,13 +25,15 @@ export const placeholderStyles = (_theme: MantineTheme) => () => ({
   opacity: 0.6,
 });
 
-export const cover = (_theme: MantineTheme) => (offset: number = 0) => ({
-  position: 'absolute' as const,
-  top: offset,
-  right: offset,
-  bottom: offset,
-  left: offset,
-});
+export const cover =
+  (_theme: MantineTheme) =>
+  (offset: number = 0) => ({
+    position: 'absolute' as const,
+    top: offset,
+    right: offset,
+    bottom: offset,
+    left: offset,
+  });
 
 export const hover = (_theme: MantineTheme) => (styles: any) => ({
   // Hover styles (primarily for web, limited support in React Native)

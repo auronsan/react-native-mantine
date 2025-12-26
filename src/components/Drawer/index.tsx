@@ -264,22 +264,16 @@ export const Drawer = forwardRef<any, DrawerProps>((props, ref) => {
       onRequestClose={onClose}
       statusBarTranslucent
     >
+      {/* Full screen overlay backdrop */}
       {withOverlay && (
-        <Animated.View
-          style={{
-            flex: 1,
-            opacity: fadeAnim,
-          }}
-        >
-          <Overlay
-            opacity={overlayOpacity}
-            color={overlayColor}
-            onPress={handleOverlayPress}
-            style={{ position: 'absolute' }}
-          />
-        </Animated.View>
+        <Overlay
+          opacity={overlayOpacity}
+          color={overlayColor}
+          onPress={handleOverlayPress}
+        />
       )}
 
+      {/* Drawer container positioned over overlay */}
       <BoxView style={styles.overlay} pointerEvents="box-none">
         <Animated.View
           ref={ref}

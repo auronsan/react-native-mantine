@@ -6,6 +6,7 @@ export * from './Button';
 export * from './UnstyledButton';
 export * from './ActionIcon';
 export * from './Loader';
+export * from './Icon';
 
 // Phase 1 components
 export * from './Center';
@@ -35,7 +36,6 @@ export * from './Radio';
 
 // Phase 3 components - Foundation & Utilities
 export * from './Overlay';
-export * from './Portal';
 
 // Phase 3 components - Interactive Components
 export * from './Modal';

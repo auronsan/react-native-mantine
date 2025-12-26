@@ -158,6 +158,8 @@ const useStyles = createStyles(
         paddingRight: theme.spacing.xs,
       },
       input: {
+        // Use inputFontStyles for proper font family application
+        ...theme.fn.inputFontStyles(),
         flex: 1,
         height: '100%',
         fontSize: getSize({ size, sizes: theme.fontSizes }),

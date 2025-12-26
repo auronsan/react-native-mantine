@@ -1,7 +1,7 @@
 import React, { forwardRef, useState } from 'react';
 import { TextInput as RNTextInput, Pressable } from 'react-native';
 import { TextInput, type TextInputProps } from '../TextInput';
-import { Text } from '../Text';
+import { Icon } from '../Icon';
 
 export interface PasswordInputProps extends Omit<TextInputProps, 'rightSection' | 'type'> {
   /** Toggle button aria-label */
@@ -22,7 +22,7 @@ const defaultProps: Partial<PasswordInputProps> = {
 };
 
 const DefaultEyeIcon = ({ visible }: { visible: boolean }) => (
-  <Text style={{ fontSize: 18 }}>{visible ? '👁️' : '👁️‍🗨️'}</Text>
+  <Icon name={visible ? 'eye' : 'eye-slash'} size={16} useThemeColor />
 );
 
 export const PasswordInput = forwardRef<RNTextInput, PasswordInputProps>((props, ref) => {

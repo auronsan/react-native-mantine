@@ -244,12 +244,15 @@ const TimelineRoot = forwardRef<any, TimelineProps>((props, ref) => {
             ? index >= itemsCount - (active! + 1)
             : index <= active!;
 
-          return React.cloneElement(child as React.ReactElement, {
-            key: index,
-            __index: index,
-            __isLast: index === itemsCount - 1,
-            __isActive: isActive,
-          });
+          return React.cloneElement<TimelineItemProps & { __isActive?: boolean }>(
+            child as React.ReactElement<TimelineItemProps & { __isActive?: boolean }>,
+            {
+              key: index,
+              __index: index,
+              __isLast: index === itemsCount - 1,
+              __isActive: isActive,
+            }
+          );
         })}
       </BoxView>
     </TimelineContext.Provider>

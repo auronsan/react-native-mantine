@@ -252,10 +252,11 @@ export const Stepper = forwardRef<any, StepperProps>((props, ref) => {
 
   const childrenArray = React.Children.toArray(children);
   const steps = childrenArray.filter(
-    (child) => React.isValidElement(child) && (child as any).type === Step
+    (child): child is React.ReactElement<StepProps & { __stepIndex?: number; __isLast?: boolean }> =>
+      React.isValidElement(child) && (child.type as any) === Step
   );
   const completedStep = childrenArray.find(
-    (child) => React.isValidElement(child) && (child as any).type === StepperCompleted
+    (child) => React.isValidElement(child) && (child.type as any) === StepperCompleted
   );
 
   const isStepsCompleted = active >= steps.length;
@@ -275,7 +276,7 @@ export const Stepper = forwardRef<any, StepperProps>((props, ref) => {
       <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
         <BoxView style={styles.steps}>
           {steps.map((step, index) => {
-            return React.cloneElement(step as React.ReactElement, {
+            return React.cloneElement<StepProps & { __stepIndex?: number; __isLast?: boolean }>(step, {
               key: index,
               __stepIndex: index,
               __isLast: index === steps.length - 1,
@@ -286,7 +287,7 @@ export const Stepper = forwardRef<any, StepperProps>((props, ref) => {
         <BoxView style={styles.content}>
           {isStepsCompleted
             ? completedStep
-            : steps[active] && (steps[active] as React.ReactElement).props.children}
+            : steps[active] && steps[active].props.children}
         </BoxView>
       </BoxView>
     </StepperContext.Provider>

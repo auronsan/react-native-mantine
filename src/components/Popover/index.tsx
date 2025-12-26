@@ -3,9 +3,9 @@ import {
   View,
   TouchableWithoutFeedback,
   Animated,
+  Modal,
 } from 'react-native';
 import { BoxView } from '../BoxView';
-import { Portal } from '../Portal';
 import type {
   DefaultProps,
 
@@ -92,7 +92,7 @@ const defaultProps: Partial<PopoverProps> = {
 interface PopoverContextValue {
   opened: boolean;
   setOpened: (opened: boolean) => void;
-  targetRef: React.RefObject<View>;
+  targetRef: React.RefObject<View | null>;
   dropdownPosition: { top: number; left: number; width: number };
   setDropdownPosition: (pos: { top: number; left: number; width: number }) => void;
 }
@@ -123,7 +123,7 @@ const PopoverTarget: React.FC<PopoverTargetProps> = ({ children }) => {
     setOpened(true);
   };
 
-  return React.cloneElement(children, {
+  return React.cloneElement(children as React.ReactElement<any>, {
     ref: targetRef,
     onPress: handlePress,
   });
@@ -148,15 +148,18 @@ const PopoverDropdown: React.FC<PopoverDropdownProps> = ({ children, style, ...o
   }
 
   return (
-    <Portal>
+    <Modal
+      visible={opened}
+      transparent
+      animationType="none"
+      onRequestClose={() => setOpened(false)}
+      statusBarTranslucent
+    >
       <TouchableWithoutFeedback onPress={() => setOpened(false)}>
         <View
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
+            flex: 1,
+            backgroundColor: 'transparent',
           }}
         >
           <Animated.View
@@ -175,7 +178,7 @@ const PopoverDropdown: React.FC<PopoverDropdownProps> = ({ children, style, ...o
           </Animated.View>
         </View>
       </TouchableWithoutFeedback>
-    </Portal>
+    </Modal>
   );
 };
 

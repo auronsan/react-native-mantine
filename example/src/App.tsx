@@ -143,6 +143,11 @@ export default function App() {
             component={Examples.LoaderExample}
             options={{ title: 'Loader' }}
           />
+          <Stack.Screen
+            name="IconExample"
+            component={Examples.IconExample}
+            options={{ title: 'Icon' }}
+          />
 
           {/* Layout & Typography Examples */}
           <Stack.Screen

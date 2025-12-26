@@ -302,7 +302,7 @@ export const Tbody = forwardRef<any, TableTbodyProps>((props, ref) => {
     <BoxView ref={ref} style={style} {...others}>
       {childrenArray.map((child, index) => {
         if (!React.isValidElement(child)) return child;
-        return React.cloneElement(child as React.ReactElement, {
+        return React.cloneElement<TableTrProps>(child as React.ReactElement<TableTrProps>, {
           key: index,
           __index: index,
         });

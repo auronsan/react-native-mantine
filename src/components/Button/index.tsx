@@ -78,58 +78,58 @@ const defaultProps: Partial<ButtonProps> = {
   loaderPosition: 'left',
 };
 
-export const _Button = forwardRef<View, ButtonProps>(
-  (props, ref) => {
-    const {
-      size,
-      color,
-      type,
-      disabled,
-      children,
-      leftIcon,
-      rightIcon,
-      fullWidth,
-      variant,
+export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
+  const {
+    size,
+    color,
+    type,
+    disabled,
+    children,
+    leftIcon,
+    rightIcon,
+    fullWidth,
+    variant,
+    radius,
+    uppercase,
+    compact,
+    loading,
+    loaderPosition,
+    loaderProps,
+    gradient,
+    style,
+    ...others
+  } = useComponentDefaultProps('Button', defaultProps, props);
+
+  const { styles, sx } = useStyles(
+    {
       radius,
-      uppercase,
+      color,
+      fullWidth,
       compact,
-      loading,
-      loaderPosition,
-      loaderProps,
       gradient,
-      style,
-      ...others
-    } = useComponentDefaultProps('Button', defaultProps, props);
+      withLeftIcon: !!leftIcon,
+      withRightIcon: !!rightIcon,
+    },
+    {
+      name: 'Button',
+      variant,
+      size,
+    }
+  );
 
-    const { styles, sx} = useStyles(
-      {
-        radius,
-        color,
-        fullWidth,
-        compact,
-        gradient,
-        withLeftIcon: !!leftIcon,
-        withRightIcon: !!rightIcon,
-      },
-      {
-        name: 'Button',
-        variant,
-        size,
-      }
-    );
+  const loader = <ActivityIndicator />;
 
-    const loader = <ActivityIndicator />;
-
-    return (
-      <UnstyledButton
-        style={sx(styles.root, style)}
-        data-button
-        data-disabled={disabled || undefined}
-        data-loading={loading || undefined}
-        ref={ref}
-        {...others}
-      >
-        <BoxView style={styles.inner}>
+  return (
+    <UnstyledButton
+      style={sx(styles.root, style)}
+      data-button
+      data-disabled={disabled || undefined}
+      data-loading={loading || undefined}
+      ref={ref}
+      {...others}
+    >
+      <BoxView style={styles.inner}>
+        <BoxView style={styles.label}>
           {(leftIcon || (loading && loaderPosition === 'left')) && (
             <BoxView style={sx(styles.icon, styles.leftIcon)}>
               {loading && loaderPosition === 'left' ? loader : leftIcon}
@@ -139,24 +139,20 @@ export const _Button = forwardRef<View, ButtonProps>(
           {loading && loaderPosition === 'center' && (
             <BoxView style={styles.centerLoader}>{loader}</BoxView>
           )}
-
-          <BoxView style={styles.label}>
-            {typeof children === 'string' || typeof children === 'number' ? (
-              <Text>{children}</Text>
-            ) : (
-              children
-            )}
-          </BoxView>
-
+          {typeof children === 'string' || typeof children === 'number' ? (
+            <Text>{children}</Text>
+          ) : (
+            children
+          )}
           {(rightIcon || (loading && loaderPosition === 'right')) && (
             <BoxView style={sx(styles.icon, styles.rightIcon)}>
               {loading && loaderPosition === 'right' ? loader : rightIcon}
             </BoxView>
           )}
         </BoxView>
-      </UnstyledButton>
-    );
-  }
-) as any;
+      </BoxView>
+    </UnstyledButton>
+  );
+}) as any;
 
 export const Button = _Button;

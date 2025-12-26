@@ -1,5 +1,8 @@
 import React, { forwardRef } from 'react';
-import { TextInput as RNTextInput, type TextInputProps as RNTextInputProps } from 'react-native';
+import {
+  TextInput as RNTextInput,
+  type TextInputProps as RNTextInputProps,
+} from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type {
@@ -12,7 +15,8 @@ import { createStyles, getSize } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 import { INPUT_SIZES } from '../Input';
 
-export interface TextInputProps extends DefaultProps, Omit<RNTextInputProps, 'style'> {
+export interface TextInputProps
+  extends DefaultProps, Omit<RNTextInputProps, 'style'> {
   /** Input label */
   label?: React.ReactNode;
 
@@ -71,7 +75,10 @@ const useStyles = createStyles(
     const getVariantStyles = () => {
       if (variant === 'filled') {
         return {
-          backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[1],
+          backgroundColor:
+            theme.colorScheme === 'dark'
+              ? (theme.colors.dark || [])[5]
+              : (theme.colors.gray || [])[1],
           borderWidth: 1,
           borderColor: 'transparent',
         };
@@ -87,13 +94,20 @@ const useStyles = createStyles(
 
       // default variant
       return {
-        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[6] : theme.white,
+        backgroundColor:
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[6]
+            : theme.white,
         borderWidth: 1,
-        borderColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
+        borderColor:
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[4]
+            : (theme.colors.gray || [])[4],
       };
     };
 
-    const sizeValue = INPUT_SIZES[size as keyof typeof INPUT_SIZES] || INPUT_SIZES.md;
+    const sizeValue =
+      INPUT_SIZES[size as keyof typeof INPUT_SIZES] || INPUT_SIZES.md;
 
     return {
       wrapper: {
@@ -102,7 +116,10 @@ const useStyles = createStyles(
       label: {
         fontSize: theme.fontSizes.sm as number,
         fontWeight: '500',
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
+        color:
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[0]
+            : theme.black,
         marginBottom: theme.spacing.xs / 2,
       },
       required: {
@@ -110,7 +127,10 @@ const useStyles = createStyles(
       },
       description: {
         fontSize: theme.fontSizes.xs as number,
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
+        color:
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[2]
+            : (theme.colors.gray || [])[6],
         marginTop: theme.spacing.xs / 2,
         marginBottom: theme.spacing.xs / 2,
       },
@@ -123,23 +143,30 @@ const useStyles = createStyles(
         position: 'relative',
       },
       input: {
-        ...theme.fn.fontStyles(),
         height: sizeValue as any,
         fontSize: getSize({ size, sizes: theme.fontSizes }) as any,
         paddingHorizontal: (variant === 'unstyled' ? 0 : rem(12)) as any,
-        paddingLeft: (withIcon ? sizeValue : variant === 'unstyled' ? 0 : rem(12)) as any,
+        paddingLeft: (withIcon
+          ? sizeValue
+          : variant === 'unstyled'
+            ? 0
+            : rem(12)) as any,
         paddingRight: (withRightSection
           ? rem(rightSectionWidth || sizeValue)
           : variant === 'unstyled'
-          ? 0
-          : rem(12)) as any,
+            ? 0
+            : rem(12)) as any,
         borderRadius: theme.fn.radius(radius),
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
+        color:
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[0]
+            : theme.black,
         ...getVariantStyles(),
         ...(invalid && {
           borderColor: (theme.colors.red || [])[6],
           color: (theme.colors.red || [])[6],
         }),
+        fontFamily: theme.fontFamilyInput,
       },
       icon: {
         position: 'absolute',
@@ -171,62 +198,62 @@ const defaultProps: Partial<TextInputProps> = {
   required: false,
 };
 
-export const TextInput = forwardRef<RNTextInput, TextInputProps>((props, ref) => {
-  const {
-    label,
-    description,
-    error,
-    size,
-    radius,
-    icon,
-    rightSection,
-    rightSectionWidth,
-    required,
-    variant,
-    style,
-    wrapperStyle,
-    ...others
-  } = useComponentDefaultProps('TextInput', defaultProps, props);
-
-  const { styles, sx} = useStyles(
-    {
+export const TextInput = forwardRef<RNTextInput, TextInputProps>(
+  (props, ref) => {
+    const {
+      label,
+      description,
+      error,
+      size,
       radius,
-      invalid: !!error,
-      withIcon: !!icon,
-      withRightSection: !!rightSection,
+      icon,
+      rightSection,
       rightSectionWidth,
-    },
-    { name: 'TextInput', variant, size }
-  ) as any;
+      required,
+      variant,
+      style,
+      wrapperStyle,
+      ...others
+    } = useComponentDefaultProps('TextInput', defaultProps, props);
 
-  return (
-    <BoxView style={sx(styles.wrapper, wrapperStyle)}>
-      {label && (
-        <Text style={styles.label}>
-          {label}
-          {required && <Text style={styles.required}> *</Text>}
-        </Text>
-      )}
+    const { styles, sx } = useStyles(
+      {
+        radius,
+        invalid: !!error,
+        withIcon: !!icon,
+        withRightSection: !!rightSection,
+        rightSectionWidth,
+      },
+      { name: 'TextInput', variant, size }
+    ) as any;
 
-      {description && <Text style={styles.description}>{description}</Text>}
-
-      <BoxView style={styles.inputWrapper}>
-        {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
-
-        <RNTextInput
-          ref={ref}
-          style={sx(styles.input, style)}
-          {...others}
-        />
-
-        {rightSection && (
-          <BoxView style={styles.rightSectionContainer}>{rightSection}</BoxView>
+    return (
+      <BoxView style={sx(styles.wrapper, wrapperStyle)}>
+        {label && (
+          <Text style={styles.label}>
+            {label}
+            {required && <Text style={styles.required}> *</Text>}
+          </Text>
         )}
-      </BoxView>
 
-      {error && <Text style={styles.error}>{error}</Text>}
-    </BoxView>
-  );
-});
+        {description && <Text style={styles.description}>{description}</Text>}
+
+        <BoxView style={styles.inputWrapper}>
+          {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
+
+          <RNTextInput ref={ref} style={sx(styles.input, style)} {...others} />
+
+          {rightSection && (
+            <BoxView style={styles.rightSectionContainer}>
+              {rightSection}
+            </BoxView>
+          )}
+        </BoxView>
+
+        {error && <Text style={styles.error}>{error}</Text>}
+      </BoxView>
+    );
+  }
+);
 
 TextInput.displayName = 'TextInput';

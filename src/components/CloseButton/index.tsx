@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { BoxView } from '../BoxView';
+import { Icon } from '../Icon';
 import type { DefaultProps, MantineSize } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
@@ -81,28 +81,7 @@ const useStyles = createStyles(
 );
 
 const CloseIcon = ({ size, color }: { size: number; color: string }) => (
-  <BoxView style={{ width: size, height: size, position: 'relative' }}>
-    <BoxView
-      style={{
-        position: 'absolute',
-        width: size,
-        height: 2,
-        backgroundColor: color,
-        top: (size - 2) / 2,
-        transform: [{ rotate: '45deg' }],
-      }}
-    />
-    <BoxView
-      style={{
-        position: 'absolute',
-        width: size,
-        height: 2,
-        backgroundColor: color,
-        top: (size - 2) / 2,
-        transform: [{ rotate: '-45deg' }],
-      }}
-    />
-  </BoxView>
+  <Icon name="times" size={size} color={color} />
 );
 
 const defaultProps: Partial<CloseButtonProps> = {

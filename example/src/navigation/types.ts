@@ -18,6 +18,7 @@ export type RootStackParamList = {
   ActionIconExample: undefined;
   InputExample: undefined;
   LoaderExample: undefined;
+  IconExample: undefined;
 
   // Layout & Typography
   CenterExample: undefined;
