@@ -1,5 +1,5 @@
 import React, { forwardRef, useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
+import { Animated, Dimensions, ScrollView } from 'react-native';
 import { Paper } from '../Paper';
 import type { DefaultProps, MantineNumberSize, SpacingValue } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
@@ -84,11 +84,25 @@ const useStyles = createStyles(
     const posLeft = finalPosition && typeof finalPosition === 'object' && 'left' in finalPosition ? finalPosition.left : undefined;
     const posRight = finalPosition && typeof finalPosition === 'object' && 'right' in finalPosition ? finalPosition.right : undefined;
 
+    // Calculate max height based on viewport and position
+    const screenHeight = Dimensions.get('window').height;
+    const verticalMargin = 40; // Safety margin from screen edges
+    let maxHeight = screenHeight - verticalMargin;
+
+    // Adjust max height based on position
+    if (posTop !== undefined) {
+      maxHeight = screenHeight - posTop - verticalMargin;
+    }
+    if (posBottom !== undefined) {
+      maxHeight = screenHeight - posBottom - verticalMargin;
+    }
+
     return {
       root: {
         position: 'absolute' as const,
         width: getSize() as any,
         maxWidth: '90%' as any as any,
+        maxHeight: maxHeight as any,
         zIndex: 1000,
         ...(posTop !== undefined && { top: rem(posTop) as any }),
         ...(posBottom !== undefined && { bottom: rem(posBottom) as any }),
@@ -174,14 +188,19 @@ export const Dialog = forwardRef<any, DialogProps>((props, ref) => {
       ]}
       {...otherProps}
     >
-      <Paper
-        shadow={withShadow ? 'lg' : undefined}
-        radius={radius}
-        p={padding}
-        withBorder={withBorder}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        bounces={false}
       >
-        {children}
-      </Paper>
+        <Paper
+          shadow={withShadow ? 'lg' : undefined}
+          radius={radius}
+          p={padding}
+          withBorder={withBorder}
+        >
+          {children}
+        </Paper>
+      </ScrollView>
     </Animated.View>
   );
 });

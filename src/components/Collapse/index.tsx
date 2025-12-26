@@ -46,6 +46,7 @@ export const Collapse = forwardRef<any, CollapseProps>((props, ref) => {
   } = useComponentDefaultProps('Collapse', defaultProps, props);
 
   const [contentHeight, setContentHeight] = useState<number>(0);
+  const [isFirstLayout, setIsFirstLayout] = useState(true);
   const heightAnim = useRef(new Animated.Value(opened ? 1 : 0)).current;
   const opacityAnim = useRef(new Animated.Value(opened ? 1 : 0)).current;
 
@@ -53,10 +54,18 @@ export const Collapse = forwardRef<any, CollapseProps>((props, ref) => {
     const { height } = event.nativeEvent.layout;
     if (height > 0 && height !== contentHeight) {
       setContentHeight(height);
+      if (isFirstLayout) {
+        setIsFirstLayout(false);
+      }
     }
   };
 
   useEffect(() => {
+    // Don't animate on first render or if content height hasn't been measured yet
+    if (isFirstLayout || contentHeight === 0) {
+      return;
+    }
+
     const animations = [
       Animated.timing(heightAnim, {
         toValue: opened ? 1 : 0,
@@ -80,11 +89,11 @@ export const Collapse = forwardRef<any, CollapseProps>((props, ref) => {
         onTransitionEnd();
       }
     });
-  }, [opened, heightAnim, opacityAnim, transitionDuration, animateOpacity, onTransitionEnd]);
+  }, [opened, heightAnim, opacityAnim, transitionDuration, animateOpacity, onTransitionEnd, contentHeight, isFirstLayout]);
 
   const animatedHeight = heightAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, contentHeight || 0],
+    outputRange: [0, contentHeight],
   });
 
   return (

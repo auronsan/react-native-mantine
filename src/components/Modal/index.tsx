@@ -110,7 +110,7 @@ const useStyles = createStyles(
     return {
       overlay: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.001)',
+        backgroundColor: 'transparent',
         justifyContent: centered ? 'center' : 'flex-start',
         alignItems: 'center',
         paddingTop: (centered ? 0 : rem(60)) as any,
