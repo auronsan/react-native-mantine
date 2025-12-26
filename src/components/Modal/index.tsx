@@ -114,6 +114,7 @@ const useStyles = createStyles(
         justifyContent: centered ? 'center' : 'flex-start',
         alignItems: 'center',
         paddingTop: (centered ? 0 : rem(60)) as any,
+        zIndex: 1001, // Ensure modal content is above backdrop
       },
       container: {
         backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[7] : theme.white,
@@ -124,6 +125,7 @@ const useStyles = createStyles(
         ...(fullScreen && {
           height: '100%',
         }),
+        zIndex: 1002, // Ensure modal content is above its parent overlay
       },
       header: {
         padding: getPadding(),
@@ -260,6 +262,7 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
             opacity={overlayOpacity}
             color={overlayColor}
             onPress={handleOverlayPress}
+            zIndex={1000}
           />
         )}
 

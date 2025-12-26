@@ -83,7 +83,7 @@ export const Transition = forwardRef<any, TransitionProps>((props, ref) => {
 
   const animation = useRef(new Animated.Value(mounted ? 1 : 0)).current;
   const shouldRender = useRef(mounted);
-  const [exited, setExited] = useState(true);
+  const [_exited, setExited] = useState(true);
 
   useEffect(() => {
     if (mounted) {
