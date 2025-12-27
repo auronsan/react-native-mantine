@@ -8,6 +8,8 @@ import {
   Paper,
   createStyles,
   Group,
+  Switch,
+  useTheme,
 } from 'react-native-mantine';
 import type { RootStackParamList } from '../navigation/types';
 import { componentCategories } from '../navigation/componentData';
@@ -18,6 +20,7 @@ type HomeScreenProps = {
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { styles, theme } = useStyles();
+  const themeContext = useTheme();
 
   const totalComponents = componentCategories.reduce(
     (sum, cat) => sum + cat.components.length,
@@ -27,6 +30,18 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
+        <View style={styles.themeToggleContainer}>
+          <Group spacing={8} alignCenter>
+            <Text style={styles.themeToggleLabel}>
+              {themeContext.currentMode === 'dark' ? '🌙' : '☀️'}
+            </Text>
+            <Switch
+              checked={themeContext.currentMode === 'dark'}
+              onChange={() => themeContext.toggleMode?.()}
+              size="md"
+            />
+          </Group>
+        </View>
         <View style={styles.headerContent}>
           <Title order={1} style={styles.title}>
             React Native Mantine
@@ -126,13 +141,22 @@ const getCategoryColor = (index: number, theme: any) => {
 const useStyles = createStyles((theme) => ({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.gray?.[0] || '#f8f9fa',
+    backgroundColor: theme.light.background,
   },
   header: {
     backgroundColor: theme.colors.blue?.[6] || '#228be6',
     paddingTop: 60,
     paddingBottom: 32,
     paddingHorizontal: 20,
+  },
+  themeToggleContainer: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+    zIndex: 10,
+  },
+  themeToggleLabel: {
+    fontSize: 20,
   },
   headerContent: {
     alignItems: 'center',
@@ -193,7 +217,7 @@ const useStyles = createStyles((theme) => ({
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: theme.colors.gray?.[9] || '#212529',
+    color: theme.light.text,
     marginBottom: 4,
   },
   sectionDescription: {
@@ -215,7 +239,7 @@ const useStyles = createStyles((theme) => ({
   categoryTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: theme.colors.gray?.[9] || '#212529',
+    color: theme.light.text,
     marginBottom: 6,
   },
   categoryDescription: {

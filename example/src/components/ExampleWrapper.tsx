@@ -126,19 +126,19 @@ export const PropsTable: React.FC<PropsTableProps> = ({ props }) => {
 const useStyles = createStyles((theme) => ({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.gray?.[0] || '#f8f9fa',
+    backgroundColor: theme.light.background,
   },
   header: {
     padding: 20,
     paddingTop: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.light.backgroundSecondary,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.gray?.[2] || '#e9ecef',
   },
   title: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: theme.colors.gray?.[9] || '#212529',
+    color: theme.light.text,
     marginBottom: 6,
   },
   description: {
@@ -162,7 +162,7 @@ const useStyles = createStyles((theme) => ({
   sectionTitle: {
     fontSize: 19,
     fontWeight: '700',
-    color: theme.colors.gray?.[8] || '#343a40',
+    color: theme.light.text,
   },
   sectionDescription: {
     color: theme.colors.gray?.[6] || '#868e96',
@@ -171,7 +171,7 @@ const useStyles = createStyles((theme) => ({
     lineHeight: 20,
   },
   sectionContent: {
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.light.backgroundSecondary,
     borderWidth: 1,
     borderColor: theme.colors.gray?.[2] || '#e9ecef',
     marginBottom: 12,
@@ -194,7 +194,7 @@ const useStyles = createStyles((theme) => ({
     lineHeight: 18,
   },
   propsTable: {
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.light.backgroundSecondary,
     borderWidth: 1,
     borderColor: theme.colors.gray?.[2] || '#e9ecef',
   },
@@ -202,7 +202,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 12,
-    color: theme.colors.gray?.[8] || '#343a40',
+    color: theme.light.text,
   },
   propRow: {
     paddingVertical: 8,
@@ -216,7 +216,7 @@ const useStyles = createStyles((theme) => ({
   propName: {
     fontSize: 15,
     fontWeight: '600',
-    color: theme.colors.gray?.[9] || '#212529',
+    color: theme.light.text,
   },
   propDescription: {
     fontSize: 14,
