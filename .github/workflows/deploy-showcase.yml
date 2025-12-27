@@ -58,9 +58,9 @@ jobs:
           cp -r docs/* deployment/
 
           # Copy the showcase (if built successfully)
-          if [ -d "example/web-build" ]; then
+          if [ -d "example/dist" ]; then
             mkdir -p deployment/showcase
-            cp -r example/web-build/* deployment/showcase/
+            cp -r example/dist/* deployment/showcase/
           fi
 
       - name: Setup Pages

@@ -25,7 +25,7 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro",
-      "baseUrl": "/react-native-mantine"
+      "baseUrl": "/react-native-mantine/showcase"
     },
     "plugins": [
       "expo-font"
