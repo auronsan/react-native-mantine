@@ -4,14 +4,14 @@ name: Build and Deploy Showcase (Optional)
 # Uncomment the 'on' section below to enable automatic deployment
 # Note: This requires more setup and longer build times
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - main
 #   workflow_dispatch:
 
-on:
-  workflow_dispatch:  # Manual trigger only by default
+# on:
+#   workflow_dispatch:  # Manual trigger only by default
 
 permissions:
   contents: read
