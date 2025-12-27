@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const BASE_PATH = '/react-native-mantine/showcase';
+const BASE_PATH = '/react-native-mantine';
 const DIST_DIR = path.join(__dirname, '..', 'dist');
 
 function fixHtmlPaths(filePath) {
@@ -19,6 +19,22 @@ function fixHtmlPaths(filePath) {
   // Fix script and link tags with absolute paths
   content = content.replace(/href="\/([^"]+)"/g, `href="${BASE_PATH}/$1"`);
   content = content.replace(/src="\/([^"]+)"/g, `src="${BASE_PATH}/$1"`);
+
+  fs.writeFileSync(filePath, content, 'utf8');
+  console.log('Fixed:', filePath);
+}
+
+function fixJsPaths(filePath) {
+  console.log('Fixing paths in JS:', filePath);
+
+  let content = fs.readFileSync(filePath, 'utf8');
+
+  // Fix asset paths in JavaScript bundles (for fonts, images, etc.)
+  // This regex looks for paths like "/assets/" and prefixes them with BASE_PATH
+  content = content.replace(/(["|'])\/assets\//g, `$1${BASE_PATH}/assets/`);
+
+  // Also fix _expo paths
+  content = content.replace(/(["|'])\/_expo\//g, `$1${BASE_PATH}/_expo/`);
 
   fs.writeFileSync(filePath, content, 'utf8');
   console.log('Fixed:', filePath);
@@ -35,6 +51,8 @@ function processDirectory(dir) {
       processDirectory(filePath);
     } else if (file.endsWith('.html')) {
       fixHtmlPaths(filePath);
+    } else if (file.endsWith('.js')) {
+      fixJsPaths(filePath);
     }
   });
 }
