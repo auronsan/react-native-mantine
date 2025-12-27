@@ -20,6 +20,13 @@ function fixHtmlPaths(filePath) {
   content = content.replace(/href="\/([^"]+)"/g, `href="${BASE_PATH}/$1"`);
   content = content.replace(/src="\/([^"]+)"/g, `src="${BASE_PATH}/$1"`);
 
+  // Add background color to body to ensure proper contrast for text on web
+  // This prevents white/light text from being invisible on browsers with dark mode
+  content = content.replace(
+    /(body\s*{[^}]*overflow:\s*hidden;)/,
+    '$1\n        /* Ensure proper background color for web */\n        background-color: #f8f9fa;'
+  );
+
   fs.writeFileSync(filePath, content, 'utf8');
   console.log('Fixed:', filePath);
 }
