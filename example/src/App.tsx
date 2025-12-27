@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <Theme>
+    <Theme forceMode="light">
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Home"
