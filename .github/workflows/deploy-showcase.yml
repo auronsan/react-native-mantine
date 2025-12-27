@@ -26,7 +26,7 @@ jobs:
   build-and-deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}showcase/
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
     steps:
@@ -57,14 +57,16 @@ jobs:
 
       - name: Prepare deployment
         run: |
-          # Copy the landing page
+          # Copy the showcase to root (if built successfully)
           mkdir -p deployment
-          cp -r docs/* deployment/
-
-          # Copy the showcase (if built successfully)
           if [ -d "example/dist" ]; then
-            mkdir -p deployment/showcase
-            cp -r example/dist/* deployment/showcase/
+            cp -r example/dist/* deployment/
+          fi
+
+          # Copy the landing page to /docs subdirectory
+          if [ -d "docs" ]; then
+            mkdir -p deployment/docs
+            cp -r docs/* deployment/docs/
           fi
 
       - name: Setup Pages
