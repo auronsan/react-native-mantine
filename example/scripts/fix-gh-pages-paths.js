@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const BASE_PATH = '/react-native-mantine';
+const BASE_PATH = '/react-native-mantine/showcase';
 const DIST_DIR = path.join(__dirname, '..', 'dist');
 
 function fixHtmlPaths(filePath) {
