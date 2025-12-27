@@ -6,6 +6,7 @@ import {
   Title,
   Badge,
   Paper,
+  Group,
   createStyles,
 } from 'react-native-mantine';
 import type { RootStackParamList } from '../navigation/types';

@@ -1,4 +1,5 @@
 import type { ViewStyle } from 'react-native';
+import type React from 'react';
 
 import { BoxView } from '../BoxView';
 import type { ViewProps } from '../BoxView';
