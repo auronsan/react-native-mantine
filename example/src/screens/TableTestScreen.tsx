@@ -1,6 +1,12 @@
-import React from 'react';
 import { ScrollView, View } from 'react-native';
-import { Table, Paper, Title, Text, Badge, createStyles } from 'react-native-mantine';
+import {
+  Table,
+  Paper,
+  Title,
+  Text,
+  Badge,
+  createStyles,
+} from 'react-native-mantine';
 
 /**
  * TableTestScreen - Comprehensive test file for Table component alignment
@@ -23,7 +29,9 @@ export const TableTestScreen = () => {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
-        <Title order={1} style={styles.pageTitle}>Table Alignment Tests</Title>
+        <Title order={1} style={styles.pageTitle}>
+          Table Alignment Tests
+        </Title>
         <Text style={styles.pageSubtitle}>
           Comprehensive validation of column alignment fixes
         </Text>
@@ -36,8 +44,9 @@ export const TableTestScreen = () => {
             Test 1: Basic Column Alignment
           </Title>
           <Text style={styles.testDescription}>
-            Validates that headers and data cells align vertically with consistent content.
-            Each column should have uniform width across all rows.
+            Validates that headers and data cells align vertically with
+            consistent content. Each column should have uniform width across all
+            rows.
           </Text>
           <Paper p="md" radius="md" withBorder style={styles.testCard}>
             <Table withBorder withColumnBorders>
@@ -82,8 +91,9 @@ export const TableTestScreen = () => {
             Test 2: Variable Content Lengths
           </Title>
           <Text style={styles.testDescription}>
-            Tests alignment with significantly different content lengths in each column.
-            The widest content in each column should determine column width.
+            Tests alignment with significantly different content lengths in each
+            column. The widest content in each column should determine column
+            width.
           </Text>
           <Paper p="md" radius="md" withBorder style={styles.testCard}>
             <Table withBorder withColumnBorders>
@@ -105,7 +115,10 @@ export const TableTestScreen = () => {
                 <Table.Tr>
                   <Table.Td>AB</Table.Td>
                   <Table.Td>Med</Table.Td>
-                  <Table.Td>This is the longest content in this column and should set width</Table.Td>
+                  <Table.Td>
+                    This is the longest content in this column and should set
+                    width
+                  </Table.Td>
                   <Table.Td>22</Table.Td>
                 </Table.Tr>
                 <Table.Tr>
@@ -123,7 +136,8 @@ export const TableTestScreen = () => {
               </Table.Tbody>
             </Table>
             <Text style={styles.expectedResult}>
-              ✓ Expected: Columns expand to fit widest content, all cells in same column have equal width
+              ✓ Expected: Columns expand to fit widest content, all cells in
+              same column have equal width
             </Text>
           </Paper>
         </View>
@@ -134,7 +148,8 @@ export const TableTestScreen = () => {
             Test 3: Empty Cells Handling
           </Title>
           <Text style={styles.testDescription}>
-            Validates that empty cells maintain proper alignment and don't cause layout issues.
+            Validates that empty cells maintain proper alignment and don't cause
+            layout issues.
           </Text>
           <Paper p="md" radius="md" withBorder style={styles.testCard}>
             <Table withBorder withColumnBorders striped>
@@ -174,7 +189,8 @@ export const TableTestScreen = () => {
               </Table.Tbody>
             </Table>
             <Text style={styles.expectedResult}>
-              ✓ Expected: Empty cells maintain column width, borders remain aligned
+              ✓ Expected: Empty cells maintain column width, borders remain
+              aligned
             </Text>
           </Paper>
         </View>
@@ -185,7 +201,8 @@ export const TableTestScreen = () => {
             Test 4: Very Long Content
           </Title>
           <Text style={styles.testDescription}>
-            Tests how the table handles very long text content that could potentially break layout.
+            Tests how the table handles very long text content that could
+            potentially break layout.
           </Text>
           <Paper p="md" radius="md" withBorder style={styles.testCard}>
             <Table withBorder withColumnBorders fontSize="sm">
@@ -199,7 +216,11 @@ export const TableTestScreen = () => {
               <Table.Tbody>
                 <Table.Tr>
                   <Table.Td>A1</Table.Td>
-                  <Table.Td>This is an extremely long piece of text content designed to test how the table component handles very long strings that might wrap or extend beyond normal bounds</Table.Td>
+                  <Table.Td>
+                    This is an extremely long piece of text content designed to
+                    test how the table component handles very long strings that
+                    might wrap or extend beyond normal bounds
+                  </Table.Td>
                   <Table.Td>Normal</Table.Td>
                 </Table.Tr>
                 <Table.Tr>
@@ -209,13 +230,18 @@ export const TableTestScreen = () => {
                 </Table.Tr>
                 <Table.Tr>
                   <Table.Td>C3</Table.Td>
-                  <Table.Td>Another extremely long piece of content that should maintain consistent column width with the longest content above to ensure proper alignment across all rows</Table.Td>
+                  <Table.Td>
+                    Another extremely long piece of content that should maintain
+                    consistent column width with the longest content above to
+                    ensure proper alignment across all rows
+                  </Table.Td>
                   <Table.Td>Normal</Table.Td>
                 </Table.Tr>
               </Table.Tbody>
             </Table>
             <Text style={styles.expectedResult}>
-              ✓ Expected: Long content determines column width, all cells in column match this width
+              ✓ Expected: Long content determines column width, all cells in
+              column match this width
             </Text>
           </Paper>
         </View>
@@ -226,7 +252,8 @@ export const TableTestScreen = () => {
             Test 5: Mixed Content Types
           </Title>
           <Text style={styles.testDescription}>
-            Validates alignment with different content types including text, numbers, and components (Badges).
+            Validates alignment with different content types including text,
+            numbers, and components (Badges).
           </Text>
           <Paper p="md" radius="md" withBorder style={styles.testCard}>
             <Table withBorder withColumnBorders>
@@ -243,7 +270,9 @@ export const TableTestScreen = () => {
                   <Table.Td>John Smith</Table.Td>
                   <Table.Td>$95,000</Table.Td>
                   <Table.Td>
-                    <Badge color="green" size="sm">Active</Badge>
+                    <Badge color="green" size="sm">
+                      Active
+                    </Badge>
                   </Table.Td>
                   <Table.Td>4.8</Table.Td>
                 </Table.Tr>
@@ -251,7 +280,9 @@ export const TableTestScreen = () => {
                   <Table.Td>Jane Doe</Table.Td>
                   <Table.Td>$110,000</Table.Td>
                   <Table.Td>
-                    <Badge color="green" size="sm">Active</Badge>
+                    <Badge color="green" size="sm">
+                      Active
+                    </Badge>
                   </Table.Td>
                   <Table.Td>4.9</Table.Td>
                 </Table.Tr>
@@ -259,7 +290,9 @@ export const TableTestScreen = () => {
                   <Table.Td>Bob Johnson</Table.Td>
                   <Table.Td>$85,000</Table.Td>
                   <Table.Td>
-                    <Badge color="orange" size="sm">On Leave</Badge>
+                    <Badge color="orange" size="sm">
+                      On Leave
+                    </Badge>
                   </Table.Td>
                   <Table.Td>4.5</Table.Td>
                 </Table.Tr>
@@ -267,14 +300,17 @@ export const TableTestScreen = () => {
                   <Table.Td>Alice Williams</Table.Td>
                   <Table.Td>$105,000</Table.Td>
                   <Table.Td>
-                    <Badge color="red" size="sm">Inactive</Badge>
+                    <Badge color="red" size="sm">
+                      Inactive
+                    </Badge>
                   </Table.Td>
                   <Table.Td>4.2</Table.Td>
                 </Table.Tr>
               </Table.Tbody>
             </Table>
             <Text style={styles.expectedResult}>
-              ✓ Expected: Mixed content types (text, formatted numbers, badges) maintain alignment
+              ✓ Expected: Mixed content types (text, formatted numbers, badges)
+              maintain alignment
             </Text>
           </Paper>
         </View>
@@ -285,8 +321,8 @@ export const TableTestScreen = () => {
             Test 6: Many Columns Test
           </Title>
           <Text style={styles.testDescription}>
-            Tests alignment with many columns to ensure the width tracking system works at scale.
-            Horizontal scrolling should work smoothly.
+            Tests alignment with many columns to ensure the width tracking
+            system works at scale. Horizontal scrolling should work smoothly.
           </Text>
           <Paper p="md" radius="md" withBorder style={styles.testCard}>
             <Table withBorder withColumnBorders fontSize="xs">
@@ -336,7 +372,8 @@ export const TableTestScreen = () => {
               </Table.Tbody>
             </Table>
             <Text style={styles.expectedResult}>
-              ✓ Expected: All 8 columns maintain alignment, scroll horizontally to view all columns
+              ✓ Expected: All 8 columns maintain alignment, scroll horizontally
+              to view all columns
             </Text>
           </Paper>
         </View>
@@ -347,8 +384,8 @@ export const TableTestScreen = () => {
             Test 7: Footer + Custom Spacing
           </Title>
           <Text style={styles.testDescription}>
-            Validates alignment with footer section (Tfoot) and custom spacing settings.
-            Footer cells should align with body and header cells.
+            Validates alignment with footer section (Tfoot) and custom spacing
+            settings. Footer cells should align with body and header cells.
           </Text>
           <Paper p="md" radius="md" withBorder style={styles.testCard}>
             <Table
@@ -396,7 +433,8 @@ export const TableTestScreen = () => {
               </Table.Tfoot>
             </Table>
             <Text style={styles.expectedResult}>
-              ✓ Expected: Footer aligns with header and body columns, custom spacing applied uniformly
+              ✓ Expected: Footer aligns with header and body columns, custom
+              spacing applied uniformly
             </Text>
           </Paper>
         </View>
@@ -407,11 +445,17 @@ export const TableTestScreen = () => {
             Test 8: Comprehensive Stress Test
           </Title>
           <Text style={styles.testDescription}>
-            Ultimate test combining all edge cases: varying lengths, empty cells, mixed content,
-            borders, striping, and footer. If this aligns correctly, the fix is robust.
+            Ultimate test combining all edge cases: varying lengths, empty
+            cells, mixed content, borders, striping, and footer. If this aligns
+            correctly, the fix is robust.
           </Text>
           <Paper p="md" radius="md" withBorder style={styles.testCard}>
-            <Table withBorder withColumnBorders striped caption="Complete Alignment Validation">
+            <Table
+              withBorder
+              withColumnBorders
+              striped
+              caption="Complete Alignment Validation"
+            >
               <Table.Thead>
                 <Table.Tr>
                   <Table.Th>ID</Table.Th>
@@ -427,16 +471,22 @@ export const TableTestScreen = () => {
                   <Table.Td>Short</Table.Td>
                   <Table.Td>A</Table.Td>
                   <Table.Td>
-                    <Badge color="blue" size="sm">Pending</Badge>
+                    <Badge color="blue" size="sm">
+                      Pending
+                    </Badge>
                   </Table.Td>
                   <Table.Td>$1,234.56</Table.Td>
                 </Table.Tr>
                 <Table.Tr>
                   <Table.Td>22</Table.Td>
-                  <Table.Td>This is extremely long content that tests width calculation</Table.Td>
+                  <Table.Td>
+                    This is extremely long content that tests width calculation
+                  </Table.Td>
                   <Table.Td></Table.Td>
                   <Table.Td>
-                    <Badge color="green" size="sm">Approved</Badge>
+                    <Badge color="green" size="sm">
+                      Approved
+                    </Badge>
                   </Table.Td>
                   <Table.Td></Table.Td>
                 </Table.Tr>
@@ -445,7 +495,9 @@ export const TableTestScreen = () => {
                   <Table.Td>Medium length text</Table.Td>
                   <Table.Td>Type B Extended</Table.Td>
                   <Table.Td>
-                    <Badge color="red" size="sm">Rejected</Badge>
+                    <Badge color="red" size="sm">
+                      Rejected
+                    </Badge>
                   </Table.Td>
                   <Table.Td>$99.99</Table.Td>
                 </Table.Tr>
@@ -454,7 +506,9 @@ export const TableTestScreen = () => {
                   <Table.Td></Table.Td>
                   <Table.Td>C</Table.Td>
                   <Table.Td>
-                    <Badge color="yellow" size="sm">Review</Badge>
+                    <Badge color="yellow" size="sm">
+                      Review
+                    </Badge>
                   </Table.Td>
                   <Table.Td>$54,321.00</Table.Td>
                 </Table.Tr>
@@ -477,7 +531,8 @@ export const TableTestScreen = () => {
               </Table.Tfoot>
             </Table>
             <Text style={styles.expectedResult}>
-              ✓ Expected: Perfect alignment across all sections despite complex mixed content
+              ✓ Expected: Perfect alignment across all sections despite complex
+              mixed content
             </Text>
           </Paper>
         </View>
@@ -485,20 +540,33 @@ export const TableTestScreen = () => {
         {/* Test Summary */}
         <View style={styles.summary}>
           <Paper p="lg" radius="md" style={styles.summaryCard}>
-            <Title order={3} style={styles.summaryTitle}>Alignment Test Summary</Title>
+            <Title order={3} style={styles.summaryTitle}>
+              Alignment Test Summary
+            </Title>
             <Text style={styles.summaryText}>
               All tests validate the following fixes:
             </Text>
             <View style={styles.summaryList}>
-              <Text style={styles.summaryItem}>• Removed flex: 1 from cells to prevent equal distribution</Text>
-              <Text style={styles.summaryItem}>• Added column width tracking via onCellLayout callback</Text>
-              <Text style={styles.summaryItem}>• Implemented automatic width calculation based on content</Text>
-              <Text style={styles.summaryItem}>• Each column uses consistent width across all rows</Text>
-              <Text style={styles.summaryItem}>• Column indices properly propagated via __columnIndex prop</Text>
+              <Text style={styles.summaryItem}>
+                • Removed flex: 1 from cells to prevent equal distribution
+              </Text>
+              <Text style={styles.summaryItem}>
+                • Added column width tracking via onCellLayout callback
+              </Text>
+              <Text style={styles.summaryItem}>
+                • Implemented automatic width calculation based on content
+              </Text>
+              <Text style={styles.summaryItem}>
+                • Each column uses consistent width across all rows
+              </Text>
+              <Text style={styles.summaryItem}>
+                • Column indices properly propagated via __columnIndex prop
+              </Text>
             </View>
             <Text style={styles.summaryFooter}>
-              If all vertical borders form perfect straight lines and cells in the same column
-              have equal widths, the alignment fix is working correctly.
+              If all vertical borders form perfect straight lines and cells in
+              the same column have equal widths, the alignment fix is working
+              correctly.
             </Text>
           </Paper>
         </View>

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "example",
-    "slug": "example",
+    "name": "React Native Mantine",
+    "slug": "react-native-mantine",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,7 +23,9 @@
       "package": "mantine.example"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "baseUrl": "/react-native-mantine"
     },
     "plugins": [
       "expo-font"

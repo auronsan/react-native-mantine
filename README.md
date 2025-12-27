@@ -2,16 +2,33 @@
 
 <div align="center">
 
-[![npm version](https://img.shields.io/npm/v/react-native-mantine.svg)](https://www.npmjs.com/package/react-native-mantine)
-[![license](https://img.shields.io/npm/l/react-native-mantine.svg)](https://github.com/auronsan/react-native-mantine/blob/main/LICENSE)
-[![React Native](https://img.shields.io/badge/React%20Native-0.74.5-blue.svg)](https://reactnative.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.2.2-blue.svg)](https://www.typescriptlang.org/)
+[![npm version](https://img.shields.io/npm/v/react-native-mantine.svg?style=flat-square)](https://www.npmjs.com/package/react-native-mantine)
+[![npm downloads](https://img.shields.io/npm/dm/react-native-mantine.svg?style=flat-square)](https://www.npmjs.com/package/react-native-mantine)
+[![license](https://img.shields.io/npm/l/react-native-mantine.svg?style=flat-square)](https://github.com/auronsan/react-native-mantine/blob/main/LICENSE)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-native-mantine?style=flat-square)](https://bundlephobia.com/package/react-native-mantine)
+[![GitHub stars](https://img.shields.io/github/stars/auronsan/react-native-mantine?style=flat-square)](https://github.com/auronsan/react-native-mantine/stargazers)
+[![React Native](https://img.shields.io/badge/React%20Native-0.74.5-blue.svg?style=flat-square)](https://reactnative.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.2.2-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
 
 A comprehensive React Native component library inspired by [Mantine](https://mantine.dev/), bringing beautiful and accessible UI components to your mobile applications.
 
 [Installation](#installation) • [Components](#components) • [Usage](#usage) • [Theme](#theme-system) • [Example App](#example-app) • [Contributing](#contributing)
 
 </div>
+
+---
+
+## 🌐 Live Demo
+
+Try out all components in action without any installation:
+
+**[→ View Live Demo on GitHub Pages](https://auronsan.github.io/react-native-mantine/)**
+
+The demo showcases 70+ components running on the web via React Native Web, with:
+- Interactive component examples
+- Live code previews
+- Theme customization
+- All component variants and props
 
 ---
 
@@ -105,6 +122,9 @@ cd react-native-mantine
 # Install dependencies
 yarn install
 
+# Run on Web (recommended for quick preview)
+yarn example web
+
 # Run on iOS
 yarn example ios
 
@@ -122,6 +142,7 @@ The example app includes:
 - Theme customization demos
 - Component variant demonstrations
 - Code examples for each component
+- **Web support** via React Native Web (also available at [live demo](https://auronsan.github.io/react-native-mantine/))
 
 ---
 
@@ -148,6 +169,7 @@ react-native-mantine/
 ```bash
 # Development
 yarn example start           # Start example app
+yarn example web            # Run on web browser
 yarn example ios            # Run on iOS
 yarn example android        # Run on Android
 
@@ -160,6 +182,11 @@ yarn prettier:write        # Format code
 # Building
 yarn prepare               # Build library
 yarn clean                # Clean build artifacts
+
+# Web Deployment
+cd example
+yarn web:build             # Build for GitHub Pages
+yarn web:serve             # Serve production build locally
 ```
 
 ### Building the Library
@@ -205,9 +232,10 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 
 ## Roadmap
 
+- [x] Web platform support (via React Native Web)
+- [x] Live demo on GitHub Pages
 - [ ] Additional components (Carousel, DatePicker, ColorPicker)
 - [ ] Enhanced animations and transitions
-- [ ] Web platform support
 - [ ] Improved accessibility features
 - [ ] Performance optimizations
 - [ ] Comprehensive documentation site
@@ -221,6 +249,9 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 - iOS 13.0+
 - Android API 21+
 - React Native 0.70+
+- Web (via React Native Web)
+  - Chrome, Firefox, Safari, Edge (latest versions)
+  - Progressive Web App (PWA) compatible
 
 ---
 
@@ -258,6 +289,7 @@ The documentation includes:
 - [Documentation Site](https://auronsan.github.io/react-native-mantine/)
 - [GitHub Repository](https://github.com/auronsan/react-native-mantine)
 - [NPM Package](https://www.npmjs.com/package/react-native-mantine)
+- [GitHub Packages](https://github.com/auronsan/react-native-mantine/packages)
 - [Issue Tracker](https://github.com/auronsan/react-native-mantine/issues)
 - [Mantine (Web)](https://mantine.dev/)
 
