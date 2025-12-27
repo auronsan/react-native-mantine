@@ -46,6 +46,10 @@ jobs:
         run: |
           yarn install --immutable
 
+      - name: Build library
+        run: |
+          yarn prepare
+
       - name: Build Expo Web
         working-directory: ./example
         run: |
