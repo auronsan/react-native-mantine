@@ -50,6 +50,7 @@ export const componentCategories: ComponentCategory[] = [
       { name: 'Switch', description: 'Toggle switch with labels', route: 'SwitchExample' },
       { name: 'Checkbox', description: 'Checkbox with indeterminate state', route: 'CheckboxExample' },
       { name: 'Radio', description: 'Radio button for exclusive selections', route: 'RadioExample' },
+      { name: 'useForm', description: 'Form state management hook with validation', route: 'UseFormExample' },
     ],
   },
   {

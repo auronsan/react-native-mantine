@@ -252,6 +252,11 @@ export default function App() {
             component={Examples.RadioExample}
             options={{ title: 'Radio' }}
           />
+          <Stack.Screen
+            name="UseFormExample"
+            component={Examples.UseFormExample}
+            options={{ title: 'useForm Hook' }}
+          />
 
           {/* Overlays & Dialogs Examples */}
           <Stack.Screen
