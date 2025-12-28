@@ -15,6 +15,7 @@ import type { ReactNode } from 'react';
 import { Layout } from './constants';
 import type { MantineTheme } from './default-theme';
 import { createTheme } from './create-theme';
+import { getPrimaryShade } from './functions/fns/primary-shade';
 
 import { filterProps } from './filter-props';
 import useCachedResources from '../hooks/useCachedResources';
@@ -36,7 +37,7 @@ export const ThemeProvider = ({
   theme: MantineTheme;
   forceMode?: 'light' | 'dark';
 }): React.ReactElement => {
-  const { colors, primaryShade, primaryColor, secondaryColor } = theme;
+  const { colors, primaryColor, secondaryColor } = theme;
   const systemDarkMode = Appearance.getColorScheme();
   const [currentMode, setCurrentMode] = useState<'light' | 'dark'>(
     forceMode || systemDarkMode || 'light'
@@ -64,10 +65,14 @@ export const ThemeProvider = ({
       dark: theme.light,
     };
 
+    // Get the primary shade for the current mode
+    const themeWithMode = { ...theme, currentMode };
+    const shade = getPrimaryShade(themeWithMode);
+
     return {
       ...theme,
-      primaryTextColor: get(colors, `${primaryColor}.${primaryShade}`, 'black'),
-      primaryBgColor: get(colors, `${primaryColor}.${primaryShade}`),
+      primaryTextColor: get(colors, `${primaryColor}.${shade}`, 'black'),
+      primaryBgColor: get(colors, `${primaryColor}.${shade}`),
       secondaryBgColor: get(colors, `${secondaryColor}.0`),
       ...(currentMode === 'dark' ? darkTheme : {}),
       window: Layout.window,

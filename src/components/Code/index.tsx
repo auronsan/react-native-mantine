@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { Text } from '../Text';
 import type { TextProps } from '../Text';
 import { useTheme } from '../../theme/theme-provider';
+import { getPrimaryShade } from '../../theme/functions/fns/primary-shade';
 import { BoxView } from '../BoxView';
 import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
@@ -23,11 +24,12 @@ export const Code = forwardRef<any, CodeProps>((props, ref) => {
   const { children, color, block = false, style, withTextWrapper: shouldWrapInText = true, ...others} = props;
 
   const theme = useTheme();
+  const primaryShade = getPrimaryShade(theme);
 
   // Get background and text colors
   const backgroundColor = theme.colors.gray?.[0] || '#F6F6F6';
   const textColor = color
-    ? theme.colors[color]?.[theme.primaryShade] || color
+    ? theme.colors[color]?.[primaryShade] || color
     : theme.light.text;
 
   // Monospace font - in React Native, we can use 'Courier' or 'Courier New'

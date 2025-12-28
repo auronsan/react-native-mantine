@@ -12,4 +12,14 @@ export type Palette = [
   string,
 ];
 
-export type MantineGradient = any;
+export interface MantineGradient {
+  from: string;
+  to: string;
+  deg?: number;
+}
+
+export interface GradientConfig {
+  colors: [string, string];
+  start: { x: number; y: number };
+  end: { x: number; y: number };
+}

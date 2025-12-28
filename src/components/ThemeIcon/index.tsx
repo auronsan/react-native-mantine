@@ -12,6 +12,7 @@ import type { MantineGradient } from '../../theme/theme';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { getSize } from '../../theme';
+import { getPrimaryShade } from '../../theme/functions/fns/primary-shade';
 
 export interface ThemeIconProps extends DefaultProps {
   /** Icon */
@@ -61,7 +62,7 @@ const useStyles = createStyles(
   ) => {
     const iconSize = typeof size === 'number' ? size : getSize({ size, sizes }) as number;
     const themeColor = theme?.colors && color in theme.colors ? color : theme.primaryColor;
-    const shade = theme.primaryShade;
+    const shade = getPrimaryShade(theme);
 
     const getVariantStyles = () => {
       switch (variant) {
@@ -72,7 +73,7 @@ const useStyles = createStyles(
         case 'light':
           return {
             backgroundColor:
-              theme.colorScheme === 'dark'
+              theme.currentMode === 'dark'
                 ? theme.colors[themeColor]?.[9]
                 : theme.colors[themeColor]?.[0],
           };
@@ -131,13 +132,14 @@ export const ThemeIcon = forwardRef<any, ThemeIconProps>((props, ref) => {
   ) as any;
 
   const getGradientColors = (): [string, string] => {
+    const shade = getPrimaryShade(theme);
     const fromColor =
       gradient?.from && theme?.colors && gradient.from in theme.colors
-        ? theme.colors[gradient.from][theme.primaryShade]
+        ? theme.colors[gradient.from][shade]
         : gradient?.from || theme.colors.blue?.[6] || '#228be6';
     const toColor =
       gradient?.to && theme?.colors && gradient.to in theme.colors
-        ? theme.colors[gradient.to][theme.primaryShade]
+        ? theme.colors[gradient.to][shade]
         : gradient?.to || theme.colors.cyan?.[6] || '#22b8cf';
     return [fromColor, toColor];
   };

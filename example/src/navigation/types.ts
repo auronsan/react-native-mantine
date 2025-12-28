@@ -7,6 +7,7 @@ export type RootStackParamList = {
   Phase4Components: undefined;
   Phase5Components: undefined;
   Phase6Components: undefined;
+  StyleSystemComponents: undefined;
 
   // Core Components
   BoxViewExample: undefined;
@@ -99,6 +100,13 @@ export type RootStackParamList = {
   MultiSelectExample: undefined;
   RingProgressExample: undefined;
   TransferListExample: undefined;
+
+  // Style System Showcase
+  ShadowSystemExample: undefined;
+  GradientExample: undefined;
+  ColorPaletteExample: undefined;
+  ColorManipulationExample: undefined;
+  ResponsiveUtilitiesExample: undefined;
 };
 
 export interface ComponentCategory {

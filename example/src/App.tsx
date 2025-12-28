@@ -97,6 +97,15 @@ export default function App() {
             )}
           </Stack.Screen>
 
+          <Stack.Screen
+            name="StyleSystemComponents"
+            options={{ title: 'Style System Showcase' }}
+          >
+            {(props) => (
+              <CategoryScreen {...props} category={componentCategories[7]!} />
+            )}
+          </Stack.Screen>
+
           {/* Core Component Examples */}
           <Stack.Screen
             name="BoxViewExample"
@@ -499,6 +508,33 @@ export default function App() {
             name="TransferListExample"
             component={Examples.TransferListExample}
             options={{ title: 'TransferList' }}
+          />
+
+          {/* Style System Showcase Examples */}
+          <Stack.Screen
+            name="ShadowSystemExample"
+            component={Examples.ShadowSystemExample}
+            options={{ title: 'Shadow System' }}
+          />
+          <Stack.Screen
+            name="GradientExample"
+            component={Examples.GradientExample}
+            options={{ title: 'Gradients' }}
+          />
+          <Stack.Screen
+            name="ColorPaletteExample"
+            component={Examples.ColorPaletteExample}
+            options={{ title: 'Color Palette' }}
+          />
+          <Stack.Screen
+            name="ColorManipulationExample"
+            component={Examples.ColorManipulationExample}
+            options={{ title: 'Color Manipulation' }}
+          />
+          <Stack.Screen
+            name="ResponsiveUtilitiesExample"
+            component={Examples.ResponsiveUtilitiesExample}
+            options={{ title: 'Responsive Utilities' }}
           />
         </Stack.Navigator>
       </NavigationContainer>

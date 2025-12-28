@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import {
   Modal as RNModal,
   TouchableOpacity,
@@ -6,6 +6,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Dimensions,
+  type LayoutChangeEvent,
 } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
@@ -159,6 +161,9 @@ const useStyles = createStyles(
       body: {
         padding: getPadding(),
       },
+      scrollView: {
+        flexGrow: 0,
+      },
     };
   }
 ) as any;
@@ -207,6 +212,22 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.9)).current;
+
+  // State for managing scroll behavior
+  const [contentHeight, setContentHeight] = useState(0);
+
+  // Calculate max height: min(300px, 50% of screen height)
+  const screenHeight = Dimensions.get('window').height;
+  const maxHeight = Math.min(300, screenHeight * 0.5);
+
+  // Only enable scrolling when content exceeds max height
+  const shouldEnableScroll = contentHeight > maxHeight;
+
+  // Handle content layout changes
+  const handleContentLayout = (event: LayoutChangeEvent) => {
+    const { height } = event.nativeEvent.layout;
+    setContentHeight(height);
+  };
 
   useEffect(() => {
     if (opened) {
@@ -299,8 +320,17 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
                 </BoxView>
               )}
 
-              <ScrollView style={styles.body} showsVerticalScrollIndicator={false}>
-                {children}
+              <ScrollView
+                style={[
+                  styles.body,
+                  styles.scrollView,
+                  !fullScreen && { maxHeight },
+                ]}
+                contentContainerStyle={{ flexGrow: 0 }}
+                showsVerticalScrollIndicator={shouldEnableScroll}
+                scrollEnabled={shouldEnableScroll || fullScreen}
+              >
+                <BoxView onLayout={handleContentLayout}>{children}</BoxView>
               </ScrollView>
             </Animated.View>
           </TouchableOpacity>

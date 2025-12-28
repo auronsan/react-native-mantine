@@ -128,4 +128,16 @@ export const componentCategories: ComponentCategory[] = [
       { name: 'TransferList', description: 'Dual-list selection transfer', route: 'TransferListExample' },
     ],
   },
+  {
+    title: 'Style System Showcase',
+    description: 'New style system improvements - shadows, gradients, colors, and responsive utilities',
+    route: 'StyleSystemComponents',
+    components: [
+      { name: 'Shadow System', description: 'New shadow sizes aligned with Mantine web (xs, sm, md, lg, xl)', route: 'ShadowSystemExample' },
+      { name: 'Gradients', description: 'Gradient support for buttons and backgrounds', route: 'GradientExample' },
+      { name: 'Color Palette', description: 'Updated color system aligned with Mantine web', route: 'ColorPaletteExample' },
+      { name: 'Color Manipulation', description: 'New theme functions: lighten, darken, dimmed', route: 'ColorManipulationExample' },
+      { name: 'Responsive Utilities', description: 'Breakpoint utilities: largerThan and smallerThan', route: 'ResponsiveUtilitiesExample' },
+    ],
+  },
 ];

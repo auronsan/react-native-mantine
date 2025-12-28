@@ -6,11 +6,10 @@ export const fontStyles = (theme: MantineTheme) => () => ({
 
 /**
  * Returns font styles specifically for input components
- * Uses fontFamilyInput if available, otherwise falls back to fontFamily
  */
 export const inputFontStyles = (theme: MantineTheme) => () => {
   return {
-    fontFamily: theme.fontFamilyInput || theme.fontFamily,
+    fontFamily: theme.fontFamily,
   };
 };
 
