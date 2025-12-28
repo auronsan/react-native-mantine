@@ -1,5 +1,5 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
-import { Pressable, Animated } from 'react-native';
+import React, { forwardRef, useEffect, useRef, createContext, useContext } from 'react';
+import { Pressable, Animated, View } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, MantineColor, MantineSize } from '../../theme/types';
@@ -35,6 +35,44 @@ export interface RadioProps extends DefaultProps {
   /** Wrapper style */
   wrapperStyle?: any;
 }
+
+export interface RadioGroupProps {
+  /** Current selected value */
+  value?: string;
+
+  /** Called when value changes */
+  onChange?: (value: string) => void;
+
+  /** Radio group children */
+  children: React.ReactNode;
+
+  /** Radio group name for accessibility */
+  name?: string;
+
+  /** Radio size for all children */
+  size?: MantineSize;
+
+  /** Radio color for all children */
+  color?: MantineColor;
+
+  /** Wrapper style */
+  style?: any;
+
+  /** Spacing between radio buttons */
+  spacing?: number;
+}
+
+interface RadioGroupContextValue {
+  value?: string;
+  onChange?: (value: string) => void;
+  size?: MantineSize;
+  color?: MantineColor;
+  name?: string;
+}
+
+const RadioGroupContext = createContext<RadioGroupContextValue | undefined>(undefined);
+
+const useRadioGroupContext = () => useContext(RadioGroupContext);
 
 const sizes = {
   xs: rem(14),
@@ -103,19 +141,27 @@ const defaultProps: Partial<RadioProps> = {
   disabled: false,
 };
 
-export const Radio = forwardRef<any, RadioProps>((props, ref) => {
+const RadioComponent = forwardRef<any, RadioProps>((props, ref) => {
+  const groupContext = useRadioGroupContext();
+
   const {
     label,
-    size,
-    color,
+    size: propSize,
+    color: propColor,
     value,
-    checked,
-    onChange,
+    checked: propChecked,
+    onChange: propOnChange,
     disabled,
     style,
     wrapperStyle,
     ...others
   } = useComponentDefaultProps('Radio', defaultProps, props);
+
+  // Use group context if available, otherwise use props
+  const size = propSize || groupContext?.size || defaultProps.size;
+  const color = propColor || groupContext?.color || defaultProps.color;
+  const checked = groupContext ? groupContext.value === value : propChecked;
+  const onChange = groupContext?.onChange || propOnChange;
 
   const { styles, sx } = useStyles({ size, color, disabled }, { name: 'Radio' }) as any;
 
@@ -158,6 +204,7 @@ export const Radio = forwardRef<any, RadioProps>((props, ref) => {
       style={sx(styles.root, wrapperStyle)}
       accessibilityRole="radio"
       accessibilityState={{ checked }}
+      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
       {...others}
     >
       {radioContent}
@@ -166,4 +213,48 @@ export const Radio = forwardRef<any, RadioProps>((props, ref) => {
   );
 });
 
-Radio.displayName = 'Radio';
+RadioComponent.displayName = 'Radio';
+
+const RadioGroup = forwardRef<View, RadioGroupProps>((props, ref) => {
+  const {
+    value,
+    onChange,
+    children,
+    name,
+    size,
+    color,
+    style,
+    spacing = 12,
+  } = props;
+
+  const contextValue: RadioGroupContextValue = {
+    value,
+    onChange,
+    size,
+    color,
+    name,
+  };
+
+  return (
+    <RadioGroupContext.Provider value={contextValue}>
+      <View ref={ref} style={style}>
+        {React.Children.map(children, (child, index) => {
+          if (!React.isValidElement(child)) {
+            return child;
+          }
+          return (
+            <View key={index} style={{ marginBottom: index < React.Children.count(children) - 1 ? spacing : 0 }}>
+              {child}
+            </View>
+          );
+        })}
+      </View>
+    </RadioGroupContext.Provider>
+  );
+});
+
+RadioGroup.displayName = 'RadioGroup';
+
+export const Radio = Object.assign(RadioComponent, {
+  Group: RadioGroup,
+});
