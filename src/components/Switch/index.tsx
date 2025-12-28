@@ -19,14 +19,14 @@ export interface SwitchProps extends DefaultProps {
   /** Label position */
   labelPosition?: 'left' | 'right';
 
-  /** Checked state */
+  /** Checked state (controlled component) */
   checked?: boolean;
-
-  /** Default checked state */
-  defaultChecked?: boolean;
 
   /** Called when switch state changes */
   onChange?: (value: boolean) => void;
+
+  /** Disabled state */
+  disabled?: boolean;
 
   /** Additional styles */
   style?: any;
@@ -78,7 +78,7 @@ const defaultProps: Partial<SwitchProps> = {
   size: 'md',
   color: 'blue',
   labelPosition: 'right',
-  checked: false,
+  disabled: false,
 };
 
 export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
@@ -89,6 +89,7 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
     labelPosition,
     checked,
     onChange,
+    disabled,
     style,
     wrapperStyle,
   } = useComponentDefaultProps('Switch', defaultProps, props);
@@ -97,7 +98,9 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
   const { styles, sx } = useStyles({ labelPosition, size }, { name: 'Switch' }) as any;
 
   const handleChange = (value: boolean) => {
-    onChange?.(value);
+    if (!disabled) {
+      onChange?.(value);
+    }
   };
 
   const colorKey = color || theme.primaryColor;
@@ -126,6 +129,7 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
       trackColor={trackColor}
       thumbColor={thumbColor}
       ios_backgroundColor={trackColor.false}
+      disabled={disabled}
       style={sx(styles.switch, style)}
     />
   );
