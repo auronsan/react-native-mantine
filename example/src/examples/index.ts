@@ -33,6 +33,7 @@ export * from './phase2/PasswordInputExample';
 export * from './phase2/SwitchExample';
 export * from './phase2/CheckboxExample';
 export * from './phase2/RadioExample';
+export * from './phase2/UseFormExample';
 
 // Overlays & Dialogs
 export * from './phase3/OverlayExample';

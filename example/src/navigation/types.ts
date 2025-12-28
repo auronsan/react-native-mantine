@@ -43,6 +43,7 @@ export type RootStackParamList = {
   SwitchExample: undefined;
   CheckboxExample: undefined;
   RadioExample: undefined;
+  UseFormExample: undefined;
 
   // Overlays & Dialogs
   OverlayExample: undefined;
