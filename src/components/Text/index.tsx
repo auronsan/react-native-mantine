@@ -1,8 +1,9 @@
 import { useTheme } from '../../theme/theme-provider';
-import type { Palette } from '../../theme/theme';
+import { getPrimaryShade } from '../../theme/functions/fns/primary-shade';
 import { get } from 'lodash-es';
 import { forwardRef } from 'react';
 import { Text as DefaultText } from 'react-native';
+import type { MantineTheme } from '../../theme/default-theme';
 
 export type TextProps = DefaultText['props'] & {
   size?: string;
@@ -18,11 +19,11 @@ export type TextProps = DefaultText['props'] & {
 
 const propToColor = (
   color: string,
-  colors: { [key: string]: Palette },
-  primaryShade: number
+  theme: MantineTheme
 ): string => {
+  const primaryShade = getPrimaryShade(theme);
   const colorExistOnPalette = get(
-    colors,
+    theme.colors,
     `${color}.${primaryShade}`,
     ''
   ) as string;
@@ -47,34 +48,45 @@ export const Text = forwardRef((props: TextProps, ref: any) => {
     ...otherProps
   } = props;
 
+  const theme = useTheme();
   const {
     fontFamily,
     fontFamilyBold,
     fontFamilySemiBold,
-    colors,
-    primaryShade,
+    fontWeights,
     fontSizes,
     light,
-  } = useTheme();
+  } = theme;
+
+  // Determine font family based on weight/style
+  // On iOS/Android, some fonts need explicit family names for different weights
+  const getFontFamily = () => {
+    if (questrial) return 'Questrial';
+    if (bold) return fontFamilyBold;
+    if (semiBold) return fontFamilySemiBold;
+    return fontFamily;
+  };
+
+  // Still use fontWeight for platforms that support it well (like iOS with System font)
+  const getFontWeight = () => {
+    if (weight) return weight;
+    if (semiBold) return fontWeights.semibold;
+    if (bold) return fontWeights.bold;
+    return fontWeights.normal;
+  };
 
   return (
     <DefaultText
       ref={ref}
       style={[
         {
-          fontFamily: semiBold
-            ? fontFamilySemiBold
-            : bold
-              ? fontFamilyBold
-              : questrial
-                ? 'Questrial'
-                : fontFamily,
-          fontWeight: weight || (bold ? '900' : '300'),
+          fontFamily: getFontFamily(),
+          fontWeight: getFontWeight() as any,
           fontSize: fontSize ? fontSize : get(fontSizes, size, 16),
           color: white
             ? 'white'
             : color
-              ? propToColor(color, colors, primaryShade)
+              ? propToColor(color, theme)
               : light.text,
           ...(align ? { textAlign: align } : {}),
         },

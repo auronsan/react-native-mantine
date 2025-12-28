@@ -1,5 +1,6 @@
 import type { MantineTheme } from '../../../default-theme';
 import type { MantineColor } from '../../../types';
+import { getPrimaryShade } from '../primary-shade';
 
 export interface ThemeColorInput {
   theme: MantineTheme;
@@ -29,8 +30,8 @@ export function themeColor({ theme, color, shade }: ThemeColorInput): string {
     return color;
   }
 
-  // Use provided shade or default to primaryShade
-  const colorShade = shade !== undefined ? shade : theme.primaryShade;
+  // Use provided shade or get from theme based on color scheme
+  const colorShade = shade !== undefined ? shade : getPrimaryShade(theme);
 
   // Return the color at the specified shade
   return colorPalette[colorShade] || colorPalette[0] || color;

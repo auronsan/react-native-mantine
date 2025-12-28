@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { attachFunctions } from './functions/attach-functions';
 import type { Palette } from './theme';
 
@@ -5,54 +6,42 @@ export const DEFAULT_COLORS: {
   [key: string]: Palette;
 } = {
   dark: [
-    '#2E2E2E',
-    '#2A2A2A',
-    '#262626',
-    '#232323',
-    '#1F1F1F',
-    '#1D1D1D',
-    '#1A1A1A',
-    '#171717',
-    '#151515',
-    '#131313',
+    '#C1C2C5',
+    '#A6A7AB',
+    '#909296',
+    '#5c5f66',
+    '#373A40',
+    '#2C2E33',
+    '#25262b',
+    '#1A1B1E',
+    '#141517',
+    '#101113',
   ],
 
   gray: [
-    '#F6F6F6',
-    '#E0E0E0',
-    '#CCCCCC',
-    '#B9B9B9',
-    '#A8A8A8',
-    '#999999',
-    '#8A8A8A',
-    '#7C7C7C',
-    '#707070',
-    '#646464',
-  ],
-  gray2: [
-    '#A3A3A3',
-    '#949494',
-    '#878787',
-    '#7A7A7A',
-    '#6F6F6F',
-    '#656565',
-    '#5C5C5C',
-    '#535353',
-    '#4B4B4B',
-    '#434343',
+    '#f8f9fa',
+    '#f1f3f5',
+    '#e9ecef',
+    '#dee2e6',
+    '#ced4da',
+    '#adb5bd',
+    '#868e96',
+    '#495057',
+    '#343a40',
+    '#212529',
   ],
 
   red: [
-    '#ffeaea',
-    '#fcd4d4',
-    '#f3a8a8',
-    '#eb7877',
-    '#e4504f',
-    '#e13735',
-    '#e02928',
-    '#c71c1c',
-    '#b21518',
-    '#9c0711',
+    '#fff5f5',
+    '#ffe3e3',
+    '#ffc9c9',
+    '#ffa8a8',
+    '#ff8787',
+    '#ff6b6b',
+    '#fa5252',
+    '#f03e3e',
+    '#e03131',
+    '#c92a2a',
   ],
 
   pink: [
@@ -147,16 +136,16 @@ export const DEFAULT_COLORS: {
   ],
 
   green: [
-    '#f4ffeb',
-    '#e7fdd5',
-    '#cbfca5',
-    '#aefb71',
-    '#95f948',
-    '#86f933',
-    '#7ef928',
-    '#6bdd1e',
-    '#5dc416',
-    '#4daa04',
+    '#ebfbee',
+    '#d3f9d8',
+    '#b2f2bb',
+    '#8ce99a',
+    '#69db7c',
+    '#51cf66',
+    '#40c057',
+    '#37b24d',
+    '#2f9e44',
+    '#2b8a3e',
   ],
 
   lime: [
@@ -186,28 +175,16 @@ export const DEFAULT_COLORS: {
   ],
 
   orange: [
-    '#fff6e2',
-    '#feecce',
-    '#fbd8a0',
-    '#f7c26d',
-    '#f4b042',
-    '#f3a426',
-    '#f29f16',
-    '#d78a07',
-    '#c07900',
-    '#a76800',
-  ],
-  secondary: [
-    '#f4f4f5',
-    '#e7e7e7',
-    '#cccccc',
-    '#afafaf',
-    '#989898',
-    '#898989',
-    '#818181',
-    '#6f6f6f',
-    '#616164',
-    '#545459',
+    '#fff4e6',
+    '#ffe8cc',
+    '#ffd8a8',
+    '#ffc078',
+    '#ffa94d',
+    '#ff922b',
+    '#fd7e14',
+    '#f76707',
+    '#e8590c',
+    '#d9480f',
   ],
 };
 
@@ -215,18 +192,66 @@ const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 
 export const _DEFAULT_THEME: MantineTheme = {
-  fontFamily: 'System font',
-  fontFamilyBold: 'System font',
-  fontFamilySemiBold: 'System font',
-  fontFamilyInput: 'System font',
+  // Font configuration matches Mantine web as closely as possible
+  // Web: '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji'
+  // React Native maps to platform-specific system fonts
+  fontFamily: Platform.select({
+    ios: 'System', // San Francisco (equivalent to -apple-system)
+    android: 'Roboto', // Android system font
+    default: 'System',
+  }),
+  // Bold font family - iOS/Android don't always render fontWeight properly
+  // so we need separate font families for different weights
+  fontFamilyBold: Platform.select({
+    ios: 'System', // iOS handles bold via fontWeight with System font
+    android: 'Roboto-Bold', // Android needs explicit bold font family
+    default: 'System',
+  }),
+  // SemiBold font family
+  fontFamilySemiBold: Platform.select({
+    ios: 'System', // iOS handles semibold via fontWeight with System font
+    android: 'Roboto-Medium', // Android medium is equivalent to semibold
+    default: 'System',
+  }),
+  // Input font family - separate for form inputs
+  fontFamilyInput: Platform.select({
+    ios: 'System',
+    android: 'Roboto',
+    default: 'System',
+  }),
+  // Web: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace'
+  fontFamilyMonospace: Platform.select({
+    ios: 'Menlo', // iOS monospace font
+    android: 'monospace', // Android monospace font
+    default: 'monospace',
+  }),
+  fontWeights: {
+    thin: '100',
+    extralight: '200',
+    light: '300',
+    normal: '400',
+    medium: '500',
+    semibold: '600',
+    bold: '700',
+    extrabold: '800',
+    black: '900',
+  },
   localColor: '#1F2863',
-  primaryShade: 6,
+  primaryShade: {
+    light: 6,
+    dark: 8,
+  },
   colors: DEFAULT_COLORS,
   primaryColor: 'blue',
   secondaryColor: 'black',
   secondaryBgColor: 'white',
   white: '#ffffff',
   black: '#000000',
+  defaultGradient: {
+    from: 'blue',
+    to: 'cyan',
+    deg: 45,
+  },
   light: {
     text: '#000',
     background: '#fdfdfd',
@@ -247,13 +272,29 @@ export const _DEFAULT_THEME: MantineTheme = {
   },
   components: {},
   other: {},
-  shadows: {
-    xs: '0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1)',
-    sm: '0 1px 3px rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 0px 10px 15px -5px, rgba(0, 0, 0, 0.04) 0px 7px 7px -5px',
-    md: '0 1px 3px rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px',
-    lg: '0 1px 3px rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 0px 28px 23px -7px, rgba(0, 0, 0, 0.04) 0px 12px 12px -7px',
-    xl: '0 1px 3px rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) 0px 36px 28px -7px, rgba(0, 0, 0, 0.04) 0px 17px 17px -7px',
-  },
+  shadows: Platform.select({
+    ios: {
+      xs: { shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 1 },
+      sm: { shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.1, shadowRadius: 2 },
+      md: { shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.15, shadowRadius: 4 },
+      lg: { shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 8 },
+      xl: { shadowColor: '#000', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.25, shadowRadius: 16 },
+    },
+    android: {
+      xs: { elevation: 1 },
+      sm: { elevation: 2 },
+      md: { elevation: 4 },
+      lg: { elevation: 8 },
+      xl: { elevation: 12 },
+    },
+    default: {
+      xs: { elevation: 1 },
+      sm: { elevation: 2 },
+      md: { elevation: 4 },
+      lg: { elevation: 8 },
+      xl: { elevation: 12 },
+    },
+  }),
 
   fontSizes: {
     xs: 12,
@@ -279,9 +320,22 @@ export const _DEFAULT_THEME: MantineTheme = {
     lg: 20,
     xl: 24,
   },
+  breakpoints: {
+    xs: 576,
+    sm: 768,
+    md: 992,
+    lg: 1200,
+    xl: 1408,
+  },
   headings: {
-    fontFamily: 'System font',
-    fontWeight: 700,
+    // Headings use bold font family for proper weight rendering on iOS/Android
+    // On Android, using Roboto-Bold ensures proper bold rendering
+    fontFamily: Platform.select({
+      ios: 'System', // San Francisco (equivalent to -apple-system)
+      android: 'Roboto-Bold', // Android needs explicit bold font family
+      default: 'System',
+    }),
+    fontWeight: '700', // Matches Mantine web heading weight
     sizes: {
       h1: { fontSize: 34, lineHeight: 1.3, fontWeight: undefined },
       h2: { fontSize: 26, lineHeight: 1.35, fontWeight: undefined },
@@ -327,7 +381,7 @@ export type HeadingStyle = {
 
 export type MantineHeadings = {
   fontFamily?: string;
-  fontWeight?: number;
+  fontWeight?: string;
   sizes: {
     h1: HeadingStyle;
     h2: HeadingStyle;
@@ -338,23 +392,51 @@ export type MantineHeadings = {
   };
 };
 
+export type FontWeights = {
+  thin: string;
+  extralight: string;
+  light: string;
+  normal: string;
+  medium: string;
+  semibold: string;
+  bold: string;
+  extrabold: string;
+  black: string;
+};
+
 export type themeMode = 'dark' | 'light';
+
+type Shade = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
+export interface MantinePrimaryShade {
+  light: Shade;
+  dark: Shade;
+}
 
 export type MantineTheme = {
   fontFamily: string;
   fontFamilyBold: string;
+  fontFamilySemiBold: string;
+  fontFamilyInput: string;
+  fontFamilyMonospace: string;
+  fontWeights: FontWeights;
 
   localColor: string;
 
   currentMode?: themeMode;
   toggleMode?: () => void;
-  primaryShade: number;
+  primaryShade: Shade | MantinePrimaryShade;
   colors: { [key: string]: Palette };
   primaryColor: string;
   secondaryColor: string;
   secondaryBgColor: string;
   white: string;
   black: string;
+  defaultGradient?: {
+    from: string;
+    to: string;
+    deg: number;
+  };
 
   light: ColorScheme;
   dark: ColorScheme;
@@ -363,10 +445,16 @@ export type MantineTheme = {
     [key: string]: any;
   };
   shadows: {
-    [key: string]: string;
+    xs: any;
+    sm: any;
+    md: any;
+    lg: any;
+    xl: any;
+    [key: string]: any;
   };
   radius: ThemeSize;
   fontSizes: ThemeSize;
+  breakpoints: ThemeSize;
   headings: MantineHeadings;
   window: {
     width: number;

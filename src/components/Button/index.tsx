@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 import { UnstyledButton } from '../UnstyledButton';
 import type {
   DefaultProps,
@@ -9,7 +10,7 @@ import type {
 } from '../../theme/types';
 import type { MantineGradient } from '../../theme/theme';
 import type { LoaderProps } from '../Loader';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import useStyles from './Button.styles';
 import { BoxView } from '../BoxView';
@@ -102,7 +103,7 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Button', defaultProps, props);
 
-  const { styles, sx } = useStyles(
+  const { styles, sx, theme } = useStyles(
     {
       radius,
       color,
@@ -121,6 +122,55 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
 
   const loader = <ActivityIndicator />;
 
+  const buttonContent = (
+    <BoxView style={styles.inner}>
+      <BoxView style={styles.label}>
+        {(leftIcon || (loading && loaderPosition === 'left')) && (
+          <BoxView style={sx(styles.icon, styles.leftIcon)}>
+            {loading && loaderPosition === 'left' ? loader : leftIcon}
+          </BoxView>
+        )}
+
+        {loading && loaderPosition === 'center' && (
+          <BoxView style={styles.centerLoader}>{loader}</BoxView>
+        )}
+        {withTextWrapper(children, shouldWrapInText)}
+        {(rightIcon || (loading && loaderPosition === 'right')) && (
+          <BoxView style={sx(styles.icon, styles.rightIcon)}>
+            {loading && loaderPosition === 'right' ? loader : rightIcon}
+          </BoxView>
+        )}
+      </BoxView>
+    </BoxView>
+  );
+
+  // For gradient variant, wrap content in LinearGradient
+  if (variant === 'gradient') {
+    const gradientConfig = theme.fn.gradient(gradient);
+    const gradientStyle = StyleSheet.flatten([styles.root, style]);
+    const { backgroundColor, ...restStyle } = gradientStyle;
+
+    return (
+      <UnstyledButton
+        style={restStyle}
+        data-button
+        data-disabled={disabled || undefined}
+        data-loading={loading || undefined}
+        ref={ref}
+        {...others}
+      >
+        <LinearGradient
+          colors={gradientConfig.colors}
+          start={gradientConfig.start}
+          end={gradientConfig.end}
+          style={gradientStyles.gradient}
+        >
+          {buttonContent}
+        </LinearGradient>
+      </UnstyledButton>
+    );
+  }
+
   return (
     <UnstyledButton
       style={sx(styles.root, style)}
@@ -130,27 +180,17 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
       ref={ref}
       {...others}
     >
-      <BoxView style={styles.inner}>
-        <BoxView style={styles.label}>
-          {(leftIcon || (loading && loaderPosition === 'left')) && (
-            <BoxView style={sx(styles.icon, styles.leftIcon)}>
-              {loading && loaderPosition === 'left' ? loader : leftIcon}
-            </BoxView>
-          )}
-
-          {loading && loaderPosition === 'center' && (
-            <BoxView style={styles.centerLoader}>{loader}</BoxView>
-          )}
-          {withTextWrapper(children, shouldWrapInText)}
-          {(rightIcon || (loading && loaderPosition === 'right')) && (
-            <BoxView style={sx(styles.icon, styles.rightIcon)}>
-              {loading && loaderPosition === 'right' ? loader : rightIcon}
-            </BoxView>
-          )}
-        </BoxView>
-      </BoxView>
+      {buttonContent}
     </UnstyledButton>
   );
 }) as any;
+
+const gradientStyles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export const Button = _Button;

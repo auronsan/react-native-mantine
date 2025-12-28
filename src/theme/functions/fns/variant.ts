@@ -1,6 +1,7 @@
 import type { MantineTheme } from '../../default-theme';
 import type { MantineColor } from '../../types';
 import { themeColor } from './theme-color/theme-color';
+import { getPrimaryShade } from './primary-shade';
 
 export interface VariantInput {
   variant:
@@ -27,10 +28,9 @@ export const variant = (theme: MantineTheme) => (input: VariantInput): VariantOu
   const {
     variant,
     color = theme.primaryColor,
-    gradient,
   } = input;
 
-  const primaryShade = theme.primaryShade;
+  const primaryShade = getPrimaryShade(theme);
   const getColor = (c: string, shade: number) => themeColor({ theme, color: c, shade });
 
   switch (variant) {
@@ -91,10 +91,11 @@ export const variant = (theme: MantineTheme) => (input: VariantInput): VariantOu
     }
 
     case 'gradient': {
-      const from = gradient?.from || theme.primaryColor;
-      const to = gradient?.to || theme.primaryColor;
+      // For gradient variant, return transparent background
+      // The actual gradient rendering is handled by LinearGradient component
+      // We just need to provide the text color and border
       return {
-        background: `linear-gradient(${gradient?.deg || 45}deg, ${getColor(from, primaryShade)}, ${getColor(to, primaryShade)})`,
+        background: 'transparent',
         color: '#fff',
         border: 'transparent',
       };

@@ -70,6 +70,7 @@ export * from './Image';
 export * from './BackgroundImage';
 export * from './ThemeIcon';
 export * from './ColorSwatch';
+export * from './Gradient';
 
 // Phase 5 components - Utility Components
 export * from './Transition';

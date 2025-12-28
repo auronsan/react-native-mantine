@@ -7,6 +7,8 @@ export const ModalExample = () => {
   const [basicOpen, setBasicOpen] = useState(false);
   const [centeredOpen, setCenteredOpen] = useState(false);
   const [fullScreenOpen, setFullScreenOpen] = useState(false);
+  const [shortContentOpen, setShortContentOpen] = useState(false);
+  const [longContentOpen, setLongContentOpen] = useState(false);
 
   return (
     <ExampleWrapper
@@ -101,6 +103,91 @@ export const ModalExample = () => {
                 Close Full Screen
               </Button>
             </View>
+          </Stack>
+        </Modal>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Short Content - No Scroll"
+        description="Modal with short content that fits without scrolling"
+        variant="showcase"
+      >
+        <Button onPress={() => setShortContentOpen(true)} color="teal">
+          Open Short Content Modal
+        </Button>
+        <Modal
+          opened={shortContentOpen}
+          onClose={() => setShortContentOpen(false)}
+          title="Short Content"
+          centered
+        >
+          <Stack spacing={12}>
+            <Text>
+              This modal has minimal content that fits within the max height.
+            </Text>
+            <Text>
+              Notice there is no scroll indicator - the content just displays.
+            </Text>
+            <Button
+              variant="light"
+              onPress={() => setShortContentOpen(false)}
+            >
+              Close
+            </Button>
+          </Stack>
+        </Modal>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Long Content - With Scroll"
+        description="Modal with content exceeding max height enables scrolling"
+        variant="showcase"
+      >
+        <Button onPress={() => setLongContentOpen(true)} color="violet">
+          Open Long Content Modal
+        </Button>
+        <Modal
+          opened={longContentOpen}
+          onClose={() => setLongContentOpen(false)}
+          title="Scrollable Content"
+          centered
+        >
+          <Stack spacing={12}>
+            <Text weight="600">This modal demonstrates the scrolling behavior:</Text>
+            <Text>
+              When content exceeds the max height (300px or 50% of screen height),
+              the modal body becomes scrollable.
+            </Text>
+            <Text>
+              Notice the scroll indicator appears on the right side,
+              indicating you can scroll to see more content.
+            </Text>
+            <Text>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </Text>
+            <Text>
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </Text>
+            <Text>
+              Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur.
+            </Text>
+            <Text>
+              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+              officia deserunt mollit anim id est laborum.
+            </Text>
+            <Text>
+              The max height constraint ensures the modal doesn't take up too much
+              screen real estate, while still allowing access to all content.
+            </Text>
+            <Button
+              onPress={() => setLongContentOpen(false)}
+              fullWidth
+            >
+              Close Modal
+            </Button>
           </Stack>
         </Modal>
       </ExampleSection>
