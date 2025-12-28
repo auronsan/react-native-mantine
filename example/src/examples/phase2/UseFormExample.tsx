@@ -308,15 +308,16 @@ const SurveyForm = () => {
           <Text weight="500" size="sm">
             How would you rate our service?
           </Text>
-          {['1', '2', '3', '4', '5'].map((value) => (
-            <Radio
-              key={value}
-              label={`${value} ${value === '5' ? '(Excellent)' : value === '1' ? '(Poor)' : ''}`}
-              value={value}
-              checked={form.values.rating === value}
-              onChange={(val) => form.setFieldValue('rating', val)}
-            />
-          ))}
+          <Radio.Group
+            value={form.values.rating}
+            onChange={(val) => form.setFieldValue('rating', val)}
+          >
+            <Radio label="1 (Poor)" value="1" />
+            <Radio label="2" value="2" />
+            <Radio label="3" value="3" />
+            <Radio label="4" value="4" />
+            <Radio label="5 (Excellent)" value="5" />
+          </Radio.Group>
           {form.errors.rating && (
             <Text size="xs" style={{ color: '#fa5252' }}>
               {form.errors.rating}
