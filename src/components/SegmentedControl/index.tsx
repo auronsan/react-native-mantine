@@ -3,7 +3,12 @@ import { TouchableOpacity, Animated } from 'react-native';
 import type { LayoutChangeEvent } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
-import type { DefaultProps, MantineColor, MantineNumberSize, MantineSize } from '../../theme/types';
+import type {
+  DefaultProps,
+  MantineColor,
+  MantineNumberSize,
+  MantineSize,
+} from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
@@ -53,11 +58,36 @@ export interface SegmentedControlProps extends DefaultProps {
 }
 
 const sizes = {
-  xs: { fontSize: rem(10), paddingVertical: rem(3), paddingHorizontal: rem(6), height: rem(24) },
-  sm: { fontSize: rem(12), paddingVertical: rem(5), paddingHorizontal: rem(10), height: rem(28) },
-  md: { fontSize: rem(14), paddingVertical: rem(7), paddingHorizontal: rem(14), height: rem(32) },
-  lg: { fontSize: rem(16), paddingVertical: rem(9), paddingHorizontal: rem(16), height: rem(38) },
-  xl: { fontSize: rem(18), paddingVertical: rem(12), paddingHorizontal: rem(20), height: rem(44) },
+  xs: {
+    fontSize: rem(10),
+    paddingVertical: rem(3),
+    paddingHorizontal: rem(6),
+    height: rem(24),
+  },
+  sm: {
+    fontSize: rem(12),
+    paddingVertical: rem(5),
+    paddingHorizontal: rem(10),
+    height: rem(28),
+  },
+  md: {
+    fontSize: rem(14),
+    paddingVertical: rem(7),
+    paddingHorizontal: rem(14),
+    height: rem(32),
+  },
+  lg: {
+    fontSize: rem(16),
+    paddingVertical: rem(9),
+    paddingHorizontal: rem(16),
+    height: rem(38),
+  },
+  xl: {
+    fontSize: rem(18),
+    paddingVertical: rem(12),
+    paddingHorizontal: rem(20),
+    height: rem(44),
+  },
 };
 
 const useStyles = createStyles(
@@ -83,7 +113,10 @@ const useStyles = createStyles(
       root: {
         position: 'relative',
         flexDirection: orientation === 'horizontal' ? 'row' : 'column',
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark?.[6] : theme.colors.gray?.[1],
+        backgroundColor:
+          theme.colorScheme === 'dark'
+            ? theme.colors.dark?.[6]
+            : theme.colors.gray?.[1],
         borderRadius: theme.fn.radius(radius),
         padding: rem(4) as any,
         opacity: disabled ? 0.5 : 1,
@@ -121,10 +154,16 @@ const useStyles = createStyles(
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
       },
       inactiveLabel: {
-        color: theme.colorScheme === 'dark' ? theme.colors.dark?.[1] : theme.colors.gray?.[7],
+        color:
+          theme.colorScheme === 'dark'
+            ? theme.colors.dark?.[1]
+            : theme.colors.gray?.[7],
       },
       disabledLabel: {
-        color: theme.colorScheme === 'dark' ? theme.colors.dark?.[3] : theme.colors.gray?.[5],
+        color:
+          theme.colorScheme === 'dark'
+            ? theme.colors.dark?.[3]
+            : theme.colors.gray?.[5],
       },
     };
   }
@@ -140,121 +179,150 @@ const defaultProps: Partial<SegmentedControlProps> = {
   transitionDuration: 200,
 };
 
-export const SegmentedControl = forwardRef<any, SegmentedControlProps>((props, ref) => {
-  const {
-    value: controlledValue,
-    defaultValue,
-    onChange,
-    data,
-    size,
-    color,
-    radius,
-    disabled,
-    orientation,
-    fullWidth,
-    transitionDuration,
-    style,
-    ...others
-  } = useComponentDefaultProps('SegmentedControl', defaultProps, props);
+export const SegmentedControl = forwardRef<any, SegmentedControlProps>(
+  (props, ref) => {
+    const {
+      value: controlledValue,
+      defaultValue,
+      onChange,
+      data,
+      size,
+      color,
+      radius,
+      disabled,
+      orientation,
+      fullWidth,
+      transitionDuration,
+      style,
+      ...others
+    } = useComponentDefaultProps('SegmentedControl', defaultProps, props);
 
-  const { styles, sx } = useStyles(
-    { color, radius, disabled, orientation, fullWidth },
-    { name: 'SegmentedControl', size }
-  ) as any;
+    const { styles, sx } = useStyles(
+      { color, radius, disabled, orientation, fullWidth },
+      { name: 'SegmentedControl', size }
+    ) as any;
 
-  // Normalize data to SegmentedControlItem[]
-  const normalizedData: SegmentedControlItem[] = data.map((item) =>
-    typeof item === 'string' ? { label: item, value: item, disabled: false } : item
-  );
+    // Normalize data to SegmentedControlItem[]
+    const normalizedData: SegmentedControlItem[] = data.map((item) =>
+      typeof item === 'string'
+        ? { label: item, value: item, disabled: false }
+        : item
+    );
 
-  const [uncontrolledValue, setUncontrolledValue] = useState(
-    defaultValue ?? normalizedData[0]?.value ?? ''
-  );
-  const [segmentLayouts, setSegmentLayouts] = useState<{ x: number; y: number; width: number; height: number }[]>([]);
+    const [uncontrolledValue, setUncontrolledValue] = useState(
+      defaultValue ?? normalizedData[0]?.value ?? ''
+    );
+    const [segmentLayouts, setSegmentLayouts] = useState<
+      { x: number; y: number; width: number; height: number }[]
+    >([]);
 
-  const value = controlledValue !== undefined ? controlledValue : uncontrolledValue;
-  const activeIndex = normalizedData.findIndex((item) => item.value === value);
+    const value =
+      controlledValue !== undefined ? controlledValue : uncontrolledValue;
+    const activeIndex = normalizedData.findIndex(
+      (item) => item.value === value
+    );
 
-  const indicatorPosition = useRef(new Animated.Value(0)).current;
-  const indicatorSize = useRef(new Animated.Value(0)).current;
+    const indicatorPosition = useRef(new Animated.Value(0)).current;
+    const indicatorSize = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    if (segmentLayouts[activeIndex]) {
-      const layout = segmentLayouts[activeIndex];
-      // Indicator positions itself based on segment layout, no additional offset needed
+    useEffect(() => {
+      if (segmentLayouts[activeIndex]) {
+        const layout = segmentLayouts[activeIndex];
+        // Indicator positions itself based on segment layout, no additional offset needed
 
-      Animated.parallel([
-        Animated.timing(indicatorPosition, {
-          toValue: orientation === 'horizontal' ? layout.x : layout.y,
-          duration: transitionDuration,
-          useNativeDriver: false,
-        }),
-        Animated.timing(indicatorSize, {
-          toValue: orientation === 'horizontal' ? layout.width : layout.height,
-          duration: transitionDuration,
-          useNativeDriver: false,
-        }),
-      ]).start();
-    }
-  }, [activeIndex, segmentLayouts, orientation, transitionDuration, indicatorPosition, indicatorSize]);
+        Animated.parallel([
+          Animated.timing(indicatorPosition, {
+            toValue: orientation === 'horizontal' ? layout.x : layout.y,
+            duration: transitionDuration,
+            useNativeDriver: false,
+          }),
+          Animated.timing(indicatorSize, {
+            toValue:
+              orientation === 'horizontal' ? layout.width : layout.height,
+            duration: transitionDuration,
+            useNativeDriver: false,
+          }),
+        ]).start();
+      }
+    }, [
+      activeIndex,
+      segmentLayouts,
+      orientation,
+      transitionDuration,
+      indicatorPosition,
+      indicatorSize,
+    ]);
 
-  const handleSegmentLayout = (index: number, event: LayoutChangeEvent) => {
-    const { x, y, width, height } = event.nativeEvent.layout;
-    setSegmentLayouts((prev) => {
-      const newLayouts = [...prev];
-      newLayouts[index] = { x, y, width, height };
-      return newLayouts;
-    });
-  };
+    const handleSegmentLayout = (index: number, event: LayoutChangeEvent) => {
+      const { x, y, width, height } = event.nativeEvent.layout;
+      setSegmentLayouts((prev) => {
+        const newLayouts = [...prev];
+        newLayouts[index] = { x, y, width, height };
+        return newLayouts;
+      });
+    };
 
-  const handlePress = (item: SegmentedControlItem) => {
-    if (disabled || item.disabled) return;
+    const handlePress = (item: SegmentedControlItem) => {
+      if (disabled || item.disabled) return;
 
-    if (controlledValue === undefined) {
-      setUncontrolledValue(item.value);
-    }
-    onChange?.(item.value);
-  };
+      if (controlledValue === undefined) {
+        setUncontrolledValue(item.value);
+      }
+      onChange?.(item.value);
+    };
 
-  const indicatorStyle = {
-    [orientation === 'horizontal' ? 'left' : 'top']: indicatorPosition,
-    [orientation === 'horizontal' ? 'width' : 'height']: indicatorSize,
-    [orientation === 'horizontal' ? 'height' : 'width']: '100%',
-  };
+    // Calculate perpendicular dimension for the indicator
+    // For horizontal: use 80% of segment height
+    // For vertical: use segment width minus padding
+    const perpendicularDimension = segmentLayouts[activeIndex]
+      ? orientation === 'horizontal'
+        ? segmentLayouts[activeIndex].height * 0.8
+        : segmentLayouts[activeIndex].width - rem(4)
+      : 0;
 
-  return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
-      {segmentLayouts.length === normalizedData.length && (
-        <Animated.View style={[styles.indicator, indicatorStyle as any]} />
-      )}
+    const indicatorStyle = {
+      [orientation === 'horizontal' ? 'left' : 'top']: indicatorPosition,
+      [orientation === 'horizontal' ? 'width' : 'height']: indicatorSize,
+      [orientation === 'horizontal' ? 'height' : 'width']:
+        orientation === 'horizontal' ? '80%' : perpendicularDimension,
+    };
 
-      {normalizedData.map((item, index) => {
-        const isActive = item.value === value;
-        const isDisabled = disabled || item.disabled;
+    console.log('perpendicularDimension', perpendicularDimension);
 
-        return (
-          <TouchableOpacity
-            key={item.value}
-            style={styles.segment}
-            onPress={() => handlePress(item)}
-            disabled={isDisabled}
-            activeOpacity={0.7}
-            onLayout={(event) => handleSegmentLayout(index, event)}
-          >
-            <Text
-              style={[
-                styles.label,
-                isActive ? styles.activeLabel : styles.inactiveLabel,
-                isDisabled && styles.disabledLabel,
-              ]}
+    return (
+      <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+        {segmentLayouts.length === normalizedData.length && (
+          <Animated.View style={[styles.indicator, indicatorStyle as any]} />
+        )}
+
+        {normalizedData.map((item, index) => {
+          const isActive = item.value === value;
+          const isDisabled = disabled || item.disabled;
+
+          return (
+            <TouchableOpacity
+              key={item.value}
+              style={styles.segment}
+              onPress={() => handlePress(item)}
+              disabled={isDisabled}
+              activeOpacity={0.7}
+              onLayout={(event) => handleSegmentLayout(index, event)}
             >
-              {item.label}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
-    </BoxView>
-  );
-});
+              <Text
+                style={[
+                  styles.label,
+                  isActive ? styles.activeLabel : styles.inactiveLabel,
+                  isDisabled && styles.disabledLabel,
+                ]}
+              >
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </BoxView>
+    );
+  }
+);
 
 SegmentedControl.displayName = 'SegmentedControl';
