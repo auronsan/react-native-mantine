@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
+import { PlatformLinearGradient } from '../LinearGradient';
 import { UnstyledButton } from '../UnstyledButton';
 import type {
   DefaultProps,
@@ -150,23 +150,31 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
     const gradientStyle = StyleSheet.flatten([styles.root, style]);
     const { backgroundColor, ...restStyle } = gradientStyle;
 
+    // Extract borderRadius and other style properties for the gradient
+    const { borderRadius, borderWidth, borderColor, borderStyle, ...containerStyle } = restStyle;
+
+    const linearGradientStyle = {
+      ...gradientStyles.gradient,
+      borderRadius,
+    };
+
     return (
       <UnstyledButton
-        style={restStyle}
+        style={containerStyle}
         data-button
         data-disabled={disabled || undefined}
         data-loading={loading || undefined}
         ref={ref}
         {...others}
       >
-        <LinearGradient
+        <PlatformLinearGradient
           colors={gradientConfig.colors}
           start={gradientConfig.start}
           end={gradientConfig.end}
-          style={gradientStyles.gradient}
+          style={linearGradientStyle}
         >
           {buttonContent}
-        </LinearGradient>
+        </PlatformLinearGradient>
       </UnstyledButton>
     );
   }
@@ -190,6 +198,7 @@ const gradientStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   },
 });
 

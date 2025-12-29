@@ -2,12 +2,12 @@ import { View } from 'react-native';
 import { Table } from './index';
 
 /**
- * Example demonstrating the fixed Table component with proper column alignment.
+ * Example demonstrating the Table component with proper column alignment and flex support.
  *
- * The fix addresses the following issues:
- * 1. Removed flex: 1 from cells which caused equal spacing regardless of content
- * 2. Implemented automatic column width calculation using onLayout callbacks
- * 3. Each column now uses the maximum width of all cells in that column
+ * Features demonstrated:
+ * 1. Proper column alignment using automatic width calculation
+ * 2. Flex props support to expand table to fill available container space
+ * 3. Each column uses the maximum width of all cells in that column
  * 4. Columns align properly across all rows (thead, tbody, tfoot)
  */
 
@@ -80,6 +80,136 @@ export function TableWithVariableContent() {
           </Table.Tr>
         </Table.Tbody>
       </Table>
+    </View>
+  );
+}
+
+/**
+ * Example demonstrating flex props to make table expand to fill container.
+ * The table will stretch to fill the available vertical space when flex={1} is set.
+ */
+export function TableWithFlexContainer() {
+  return (
+    <View style={{ flex: 1, padding: 20, backgroundColor: '#f0f0f0' }}>
+      <View style={{ marginBottom: 16 }}>
+        {/* Example 1: Table with flex={1} fills the container */}
+        <View style={{ height: 400, backgroundColor: '#fff', borderRadius: 8, overflow: 'hidden' }}>
+          <Table
+            flex={1}
+            verticalSpacing="sm"
+            horizontalSpacing="sm"
+            fontSize="sm"
+            withBorder
+            withColumnBorders
+            striped
+          >
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>Product</Table.Th>
+                <Table.Th>Category</Table.Th>
+                <Table.Th>Price</Table.Th>
+                <Table.Th>Stock</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
+              <Table.Tr>
+                <Table.Td>Widget A</Table.Td>
+                <Table.Td>Electronics</Table.Td>
+                <Table.Td>$29.99</Table.Td>
+                <Table.Td>150</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>Widget B</Table.Td>
+                <Table.Td>Hardware</Table.Td>
+                <Table.Td>$49.99</Table.Td>
+                <Table.Td>75</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>Widget C</Table.Td>
+                <Table.Td>Software</Table.Td>
+                <Table.Td>$99.99</Table.Td>
+                <Table.Td>200</Table.Td>
+              </Table.Tr>
+            </Table.Tbody>
+          </Table>
+        </View>
+      </View>
+    </View>
+  );
+}
+
+/**
+ * Example demonstrating different flex configurations.
+ * Shows how flexGrow, flexShrink, and flexBasis can be used for fine-tuned control.
+ */
+export function TableWithAdvancedFlex() {
+  return (
+    <View style={{ flex: 1, padding: 20, backgroundColor: '#f5f5f5' }}>
+      {/* Container with fixed height to demonstrate flex behavior */}
+      <View style={{ height: 600, flexDirection: 'column', gap: 16 }}>
+        {/* Table 1: Using flex={1} - takes 1 part of available space */}
+        <View style={{ flex: 1, backgroundColor: '#fff', borderRadius: 8, overflow: 'hidden' }}>
+          <Table
+            flex={1}
+            withBorder
+            withColumnBorders
+            caption="Table with flex={1}"
+          >
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>Name</Table.Th>
+                <Table.Th>Status</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
+              <Table.Tr>
+                <Table.Td>Item 1</Table.Td>
+                <Table.Td>Active</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>Item 2</Table.Td>
+                <Table.Td>Pending</Table.Td>
+              </Table.Tr>
+            </Table.Tbody>
+          </Table>
+        </View>
+
+        {/* Table 2: Using flex={2} - takes 2 parts of available space */}
+        <View style={{ flex: 2, backgroundColor: '#fff', borderRadius: 8, overflow: 'hidden' }}>
+          <Table
+            flex={1}
+            withBorder
+            withColumnBorders
+            striped
+            caption="Table with flex={1} (in flex: 2 container)"
+          >
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>Task</Table.Th>
+                <Table.Th>Priority</Table.Th>
+                <Table.Th>Assignee</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
+              <Table.Tr>
+                <Table.Td>Design review</Table.Td>
+                <Table.Td>High</Table.Td>
+                <Table.Td>Alice</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>Code review</Table.Td>
+                <Table.Td>Medium</Table.Td>
+                <Table.Td>Bob</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>Testing</Table.Td>
+                <Table.Td>Low</Table.Td>
+                <Table.Td>Carol</Table.Td>
+              </Table.Tr>
+            </Table.Tbody>
+          </Table>
+        </View>
+      </View>
     </View>
   );
 }

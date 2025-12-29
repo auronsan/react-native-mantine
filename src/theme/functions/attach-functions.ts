@@ -11,6 +11,7 @@ export function attachFunctions(themeBase: any): any {
       themeColor: (color: string, shade?: number) =>
         fns.themeColor({ theme: themeBase, color, shade }),
       shadow: fns.shadow,
+      gradient: fns.gradient(themeBase),
       fontStyles: fns.fontStyles(themeBase),
       inputFontStyles: fns.inputFontStyles(themeBase),
       focusStyles: fns.focusStyles(themeBase),

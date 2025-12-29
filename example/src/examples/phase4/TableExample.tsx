@@ -217,6 +217,46 @@ export const TableExample = () => {
           </Table>
         </Paper>
       </ExampleSection>
+
+      <ExampleSection
+        title="Flex Container Support"
+        description="Table with flex props to expand and fill available space"
+      >
+        <Paper p="md" radius="md" style={{ height: 300 }}>
+          <Table
+            flex={1}
+            withBorder
+            withColumnBorders
+            striped
+            caption="Table expanding to fill container"
+          >
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>Item</Table.Th>
+                <Table.Th>Quantity</Table.Th>
+                <Table.Th>Price</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
+              <Table.Tr>
+                <Table.Td>Laptop</Table.Td>
+                <Table.Td>2</Table.Td>
+                <Table.Td>$1,200</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>Mouse</Table.Td>
+                <Table.Td>5</Table.Td>
+                <Table.Td>$25</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>Keyboard</Table.Td>
+                <Table.Td>3</Table.Td>
+                <Table.Td>$75</Table.Td>
+              </Table.Tr>
+            </Table.Tbody>
+          </Table>
+        </Paper>
+      </ExampleSection>
     </ExampleWrapper>
   );
 };

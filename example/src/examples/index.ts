@@ -68,7 +68,6 @@ export * from './phase5/ColorSwatchExample';
 export * from './phase5/TransitionExample';
 export * from './phase5/CloseButtonExample';
 export * from './phase5/CopyButtonExample';
-export * from './phase5/BurgerExample';
 
 // Navigation & Advanced
 export * from './phase6/AnchorExample';

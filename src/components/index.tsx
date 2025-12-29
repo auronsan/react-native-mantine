@@ -71,12 +71,12 @@ export * from './BackgroundImage';
 export * from './ThemeIcon';
 export * from './ColorSwatch';
 export * from './Gradient';
+export * from './LinearGradient';
 
 // Phase 5 components - Utility Components
 export * from './Transition';
 export * from './CloseButton';
 export * from './CopyButton';
-export * from './Burger';
 
 // Phase 6 components - Foundation
 export * from './Anchor';
