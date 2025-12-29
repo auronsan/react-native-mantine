@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, type ViewStyle } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { PlatformLinearGradient } from '../LinearGradient';
 import type { MantineGradient, GradientConfig } from '../../theme/theme.d';
 import { useTheme } from '../../theme/theme-provider';
 
@@ -36,14 +36,14 @@ export function Gradient({ gradient, children, style, fill = true }: GradientPro
   };
 
   return (
-    <LinearGradient
+    <PlatformLinearGradient
       colors={config.colors}
       start={config.start}
       end={config.end}
       style={containerStyle}
     >
       {children}
-    </LinearGradient>
+    </PlatformLinearGradient>
   );
 }
 

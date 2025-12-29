@@ -1,6 +1,6 @@
 import React, { forwardRef, createContext, useContext, useState, useCallback } from 'react';
 import { ScrollView } from 'react-native';
-import type { LayoutChangeEvent } from 'react-native';
+import type { LayoutChangeEvent, DimensionValue } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
 import type { DefaultProps, SpacingValue } from '../../theme/types';
@@ -58,6 +58,18 @@ export interface TableProps extends DefaultProps {
 
   /** Table caption */
   caption?: React.ReactNode;
+
+  /** Flex value for the table container (e.g., 1 to fill available space) */
+  flex?: number;
+
+  /** Flex grow value for the table container */
+  flexGrow?: number;
+
+  /** Flex shrink value for the table container */
+  flexShrink?: number;
+
+  /** Flex basis value for the table container */
+  flexBasis?: DimensionValue;
 
   /** Additional styles */
   style?: any;
@@ -134,14 +146,26 @@ const useTableStyles = createStyles(
     {
       withBorder,
       captionSide,
+      flex,
+      flexGrow,
+      flexShrink,
+      flexBasis,
     }: {
       withBorder: boolean;
       captionSide: 'top' | 'bottom';
+      flex?: number;
+      flexGrow?: number;
+      flexShrink?: number;
+      flexBasis?: DimensionValue;
     }
   ) => ({
     wrapper: {
-      // No flex: 1 here to avoid constraining the table
-    },
+      // Apply flex properties to allow table to expand in container
+      ...(flex !== undefined && { flex }),
+      ...(flexGrow !== undefined && { flexGrow }),
+      ...(flexShrink !== undefined && { flexShrink }),
+      ...(flexBasis !== undefined && { flexBasis }),
+    } as any,
     root: {
       width: '100%',
       borderCollapse: 'collapse' as any,
@@ -283,12 +307,16 @@ const Table = forwardRef<any, TableProps>((props, ref) => {
     withColumnBorders,
     captionSide,
     caption,
+    flex,
+    flexGrow,
+    flexShrink,
+    flexBasis,
     style,
     ...others
   } = useComponentDefaultProps('Table', defaultProps, props);
 
   const { styles, sx } = useTableStyles(
-    { withBorder, captionSide },
+    { withBorder, captionSide, flex, flexGrow, flexShrink, flexBasis },
     { name: 'Table' }
   ) as any;
 

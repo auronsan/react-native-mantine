@@ -53,11 +53,11 @@ export interface SegmentedControlProps extends DefaultProps {
 }
 
 const sizes = {
-  xs: { fontSize: rem(10), padding: rem(4), height: rem(24) },
-  sm: { fontSize: rem(12), padding: rem(6), height: rem(28) },
-  md: { fontSize: rem(14), padding: rem(8), height: rem(32) },
-  lg: { fontSize: rem(16), padding: rem(10), height: rem(38) },
-  xl: { fontSize: rem(18), padding: rem(12), height: rem(44) },
+  xs: { fontSize: rem(10), paddingVertical: rem(3), paddingHorizontal: rem(6), height: rem(24) },
+  sm: { fontSize: rem(12), paddingVertical: rem(5), paddingHorizontal: rem(10), height: rem(28) },
+  md: { fontSize: rem(14), paddingVertical: rem(7), paddingHorizontal: rem(14), height: rem(32) },
+  lg: { fontSize: rem(16), paddingVertical: rem(9), paddingHorizontal: rem(16), height: rem(38) },
+  xl: { fontSize: rem(18), paddingVertical: rem(12), paddingHorizontal: rem(20), height: rem(44) },
 };
 
 const useStyles = createStyles(
@@ -85,7 +85,7 @@ const useStyles = createStyles(
         flexDirection: orientation === 'horizontal' ? 'row' : 'column',
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark?.[6] : theme.colors.gray?.[1],
         borderRadius: theme.fn.radius(radius),
-        padding: rem(3) as any,
+        padding: rem(4) as any,
         opacity: disabled ? 0.5 : 1,
         ...(fullWidth && { width: '100%' }),
       },
@@ -98,15 +98,14 @@ const useStyles = createStyles(
         shadowOpacity: 0.05,
         shadowRadius: 1,
         elevation: 1,
-        margin: rem(3) as any,
         ...(theme.colorScheme === 'dark' && {
           backgroundColor: theme.colors.dark?.[5],
         }),
       },
       segment: {
         flex: 1,
-        paddingHorizontal: sizeStyles.padding as any,
-        paddingVertical: rem(6) as any,
+        paddingHorizontal: sizeStyles.paddingHorizontal as any,
+        paddingVertical: sizeStyles.paddingVertical as any,
         minHeight: sizeStyles.height as any,
         justifyContent: 'center',
         alignItems: 'center',
@@ -182,7 +181,7 @@ export const SegmentedControl = forwardRef<any, SegmentedControlProps>((props, r
   useEffect(() => {
     if (segmentLayouts[activeIndex]) {
       const layout = segmentLayouts[activeIndex];
-      // No need to adjust for margin since indicator has its own margin
+      // Indicator positions itself based on segment layout, no additional offset needed
 
       Animated.parallel([
         Animated.timing(indicatorPosition, {

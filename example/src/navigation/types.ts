@@ -79,7 +79,6 @@ export type RootStackParamList = {
   TransitionExample: undefined;
   CloseButtonExample: undefined;
   CopyButtonExample: undefined;
-  BurgerExample: undefined;
 
   // Navigation & Advanced
   AnchorExample: undefined;

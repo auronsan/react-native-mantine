@@ -138,6 +138,7 @@ const useStyles = createStyles(
         'fontSize': getSize({ size, sizes: theme.fontSizes }),
         'userSelect': 'none',
         'cursor': 'pointer',
+        'overflow': 'hidden',
 
         '&:active': theme.activeStyles,
 

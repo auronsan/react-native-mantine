@@ -195,7 +195,7 @@ export const Pagination = forwardRef<any, PaginationProps>((props, ref) => {
       return range(1, total);
     }
 
-    const leftSiblingIndex = Math.max(value - siblings!, boundaries! + 1);
+    const leftSiblingIndex = Math.max(value - siblings!, boundaries!);
     const rightSiblingIndex = Math.min(value + siblings!, total - boundaries!);
 
     const shouldShowLeftDots = leftSiblingIndex > boundaries! + 2;

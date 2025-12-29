@@ -412,11 +412,6 @@ export default function App() {
             component={Examples.CopyButtonExample}
             options={{ title: 'CopyButton' }}
           />
-          <Stack.Screen
-            name="BurgerExample"
-            component={Examples.BurgerExample}
-            options={{ title: 'Burger' }}
-          />
 
           {/* Navigation & Advanced Examples */}
           <Stack.Screen

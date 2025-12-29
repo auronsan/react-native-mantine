@@ -100,7 +100,6 @@ export const componentCategories: ComponentCategory[] = [
       { name: 'Transition', description: 'Animated mount/unmount transitions', route: 'TransitionExample' },
       { name: 'CloseButton', description: 'Universal close button', route: 'CloseButtonExample' },
       { name: 'CopyButton', description: 'Copy text to clipboard', route: 'CopyButtonExample' },
-      { name: 'Burger', description: 'Animated hamburger menu icon', route: 'BurgerExample' },
     ],
   },
   {
