@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { passwordInputProps } from '../../data/props/PasswordInputProps';
 import {
   PasswordInput,
   Paper,
@@ -152,6 +154,29 @@ export const PasswordInputExample = () => {
         description="PasswordInput with complex validation in a password change form"
       >
         <PasswordFormExample />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available PasswordInput props"
+      >
+        <PropsTable props={passwordInputProps} />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage Example"
+        description="Basic implementation code"
+      >
+        <CodeBlock
+          code={`import { PasswordInput } from 'react-native-mantine';
+
+<PasswordInput
+  label="Password"
+  placeholder="Enter password"
+  required
+  onChangeText={setPassword}
+/>`}
+        />
       </ExampleSection>
     </ExampleWrapper>
   );

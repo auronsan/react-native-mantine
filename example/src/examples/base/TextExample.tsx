@@ -1,4 +1,6 @@
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { textProps } from '../../data/props/TextProps';
 import { Stack, Text  } from 'react-native-mantine';
 
 export const TextExample = () => {
@@ -57,19 +59,62 @@ export const TextExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Font Weights"
+        description="Different font weight options"
+      >
+        <Stack spacing={16}>
+          <Text weight="300">Light (300)</Text>
+          <Text weight="400">Regular (400)</Text>
+          <Text weight="500">Medium (500)</Text>
+          <Text weight="600">Semi Bold (600)</Text>
+          <Text weight="700">Bold (700)</Text>
+        </Stack>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Custom Font Size"
+        description="Override size with custom fontSize"
+      >
+        <Stack spacing={16}>
+          <Text fontSize={12}>12px font size</Text>
+          <Text fontSize={18}>18px font size</Text>
+          <Text fontSize={24}>24px font size</Text>
+        </Stack>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Text props"
+      >
+        <PropsTable props={textProps} />
+      </ExampleSection>
+
+      <ExampleSection
         title="Usage Example"
         description="Basic implementation code"
       >
         <CodeBlock
-          code={`import { Text  } from 'react-native-mantine';
+          code={`import { Text } from 'react-native-mantine';
 
 <Text
   size="lg"
-  weight="bold"
+  weight="600"
   color="blue"
+  align="center"
 >
   Styled text
-</Text>`}
+</Text>
+
+// With custom font size
+<Text fontSize={20} color="red">
+  Custom sized text
+</Text>
+
+// Bold text
+<Text bold>Bold text</Text>
+
+// Semi-bold text
+<Text semiBold>Semi-bold text</Text>`}
         />
       </ExampleSection>
     </ExampleWrapper>

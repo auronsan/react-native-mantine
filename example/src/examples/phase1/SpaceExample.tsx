@@ -1,5 +1,7 @@
 import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { spaceProps } from '../../data/props/SpaceProps';
 import { Space, Text, Stack , Badge } from 'react-native-mantine';
 
 export const SpaceExample = () => {
@@ -16,11 +18,15 @@ export const SpaceExample = () => {
         <View style={{ backgroundColor: '#f8f9fa', padding: 16, borderRadius: 8 }}>
           <Text>First element</Text>
           <Space h="xs" />
-          <Text>After XS space</Text>
+          <Text>After XS space (4px)</Text>
+          <Space h="sm" />
+          <Text>After SM space (8px)</Text>
           <Space h="md" />
-          <Text>After MD space</Text>
+          <Text>After MD space (12px)</Text>
           <Space h="lg" />
-          <Text>After LG space</Text>
+          <Text>After LG space (16px)</Text>
+          <Space h="xl" />
+          <Text>After XL space (20px)</Text>
         </View>
       </ExampleSection>
 
@@ -40,6 +46,19 @@ export const SpaceExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Custom Spacing"
+        description="Space with custom numeric values"
+      >
+        <View style={{ backgroundColor: '#fff5f5', padding: 16, borderRadius: 8 }}>
+          <Text>Element 1</Text>
+          <Space h={30} />
+          <Text>Element 2 (30px space)</Text>
+          <Space h={50} />
+          <Text>Element 3 (50px space)</Text>
+        </View>
+      </ExampleSection>
+
+      <ExampleSection
         title="Mixed Spacing"
         description="Combining horizontal and vertical space"
       >
@@ -53,15 +72,34 @@ export const SpaceExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Space props"
+      >
+        <PropsTable props={spaceProps} />
+      </ExampleSection>
+
+      <ExampleSection
         title="Usage Example"
         description="Basic implementation code"
       >
         <CodeBlock
           code={`import { Space, Text , Badge } from 'react-native-mantine';
 
+// Vertical spacing
 <Text>First element</Text>
 <Space h="md" />
-<Text>Second element</Text>`}
+<Text>Second element</Text>
+
+// Horizontal spacing
+<View style={{ flexDirection: 'row' }}>
+  <Badge>Item 1</Badge>
+  <Space w="lg" />
+  <Badge>Item 2</Badge>
+</View>
+
+// Custom spacing
+<Space h={50} />
+<Space w={100} />`}
         />
       </ExampleSection>
     </ExampleWrapper>

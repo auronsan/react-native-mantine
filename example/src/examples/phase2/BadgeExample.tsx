@@ -1,5 +1,7 @@
 import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { badgeProps } from '../../data/props/BadgeProps';
 import { Group, Stack, Text , Badge } from 'react-native-mantine';
 
 export const BadgeExample = () => {
@@ -70,11 +72,18 @@ export const BadgeExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Badge props"
+      >
+        <PropsTable props={badgeProps} />
+      </ExampleSection>
+
+      <ExampleSection
         title="Usage Example"
         description="Basic implementation code"
       >
         <CodeBlock
-          code={`import { Badge , Badge } from 'react-native-mantine';
+          code={`import { Badge } from 'react-native-mantine';
 
 <Badge
   variant="filled"

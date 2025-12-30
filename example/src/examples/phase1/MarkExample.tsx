@@ -1,5 +1,7 @@
 import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { markProps } from '../../data/props/MarkProps';
 import { Mark, Text, Stack  } from 'react-native-mantine';
 
 export const MarkExample = () => {
@@ -60,14 +62,32 @@ export const MarkExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Mark props"
+      >
+        <PropsTable props={markProps} />
+      </ExampleSection>
+
+      <ExampleSection
         title="Usage Example"
         description="Basic implementation code"
       >
         <CodeBlock
           code={`import { Mark, Text  } from 'react-native-mantine';
 
+// Default yellow highlight
 <Text>
   This is <Mark>highlighted</Mark> text
+</Text>
+
+// Custom color
+<Text>
+  <Mark color="blue">Important</Mark> notice
+</Text>
+
+// Multiple marks
+<Text>
+  <Mark color="yellow">Warning</Mark> and <Mark color="red">Error</Mark>
 </Text>`}
         />
       </ExampleSection>

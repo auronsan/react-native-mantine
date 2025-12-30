@@ -1,4 +1,6 @@
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { boxViewProps } from '../../data/props/BoxViewProps';
 import { BoxView, Text, Stack  } from 'react-native-mantine';
 
 export const BoxViewExample = () => {
@@ -79,6 +81,13 @@ export const BoxViewExample = () => {
             <Text>Child Box 2</Text>
           </BoxView>
         </BoxView>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available BoxView props"
+      >
+        <PropsTable props={boxViewProps} />
       </ExampleSection>
 
       <ExampleSection

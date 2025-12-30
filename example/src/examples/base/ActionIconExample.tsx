@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
-import { ActionIcon, Group, Text, Stack  } from 'react-native-mantine';
+import { PropsTable } from '../../components/PropsTable';
+import { actionIconProps } from '../../data/props/ActionIconProps';
+import { ActionIcon, Group, Text, Stack } from 'react-native-mantine';
 
 export const ActionIconExample = () => {
   const [count, setCount] = useState(0);
@@ -110,11 +112,18 @@ export const ActionIconExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available ActionIcon props"
+      >
+        <PropsTable props={actionIconProps} />
+      </ExampleSection>
+
+      <ExampleSection
         title="Usage Example"
         description="Basic implementation code"
       >
         <CodeBlock
-          code={`import { ActionIcon, Text  } from 'react-native-mantine';
+          code={`import { ActionIcon, Text } from 'react-native-mantine';
 
 <ActionIcon
   color="blue"

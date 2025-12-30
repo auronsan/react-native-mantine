@@ -1,5 +1,7 @@
 import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { centerProps } from '../../data/props/CenterProps';
 import { Center, Text, Stack, Button , Badge } from 'react-native-mantine';
 
 export const CenterExample = () => {
@@ -46,14 +48,41 @@ export const CenterExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="With Padding"
+        description="Center with custom padding"
+      >
+        <Center p="xl" style={{ height: 120, backgroundColor: '#d3f9d8', borderRadius: 8 }}>
+          <Text>Centered with padding</Text>
+        </Center>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Center props"
+      >
+        <PropsTable props={centerProps} />
+      </ExampleSection>
+
+      <ExampleSection
         title="Usage Example"
         description="Basic implementation code"
       >
         <CodeBlock
           code={`import { Center, Text , Badge } from 'react-native-mantine';
 
+// Basic centering
 <Center style={{ height: 100 }}>
   <Text>Centered content</Text>
+</Center>
+
+// Full width and height
+<Center fullWidth fullHeight>
+  <Text>Centered in full container</Text>
+</Center>
+
+// With padding
+<Center p="xl" style={{ height: 120 }}>
+  <Badge>Centered badge</Badge>
 </Center>`}
         />
       </ExampleSection>

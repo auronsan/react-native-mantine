@@ -1,6 +1,8 @@
 import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
-import { Loader, Group, Text, Stack, Center  } from 'react-native-mantine';
+import { PropsTable } from '../../components/PropsTable';
+import { loaderProps } from '../../data/props/LoaderProps';
+import { Loader, Group, Text, Stack, Center } from 'react-native-mantine';
 
 export const LoaderExample = () => {
   return (
@@ -71,11 +73,18 @@ export const LoaderExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Loader props"
+      >
+        <PropsTable props={loaderProps} />
+      </ExampleSection>
+
+      <ExampleSection
         title="Usage Example"
         description="Basic implementation code"
       >
         <CodeBlock
-          code={`import { Loader  } from 'react-native-mantine';
+          code={`import { Loader } from 'react-native-mantine';
 
 <Loader
   size="md"

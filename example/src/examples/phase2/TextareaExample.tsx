@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { textareaProps } from '../../data/props/TextareaProps';
 import {
   Textarea,
   Paper,
@@ -138,6 +140,29 @@ export const TextareaExample = () => {
         description="Textarea with character count and validation"
       >
         <TextareaFormExample />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Textarea props"
+      >
+        <PropsTable props={textareaProps} />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage Example"
+        description="Basic implementation code"
+      >
+        <CodeBlock
+          code={`import { Textarea } from 'react-native-mantine';
+
+<Textarea
+  label="Description"
+  placeholder="Enter your description..."
+  minRows={4}
+  onChangeText={setText}
+/>`}
+        />
       </ExampleSection>
     </ExampleWrapper>
   );

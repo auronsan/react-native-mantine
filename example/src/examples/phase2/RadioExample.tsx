@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { radioProps, radioGroupProps } from '../../data/props/RadioProps';
 import { Radio, Stack, Paper, Text, Divider } from 'react-native-mantine';
 
 export const RadioExample = () => {
@@ -138,6 +140,56 @@ export const RadioExample = () => {
             />
           </Stack>
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Radio Props"
+        description="Complete reference of all available Radio props"
+      >
+        <PropsTable props={radioProps} />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Radio.Group Props"
+        description="Complete reference of all available Radio.Group props"
+      >
+        <PropsTable props={radioGroupProps} />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage Example"
+        description="Basic implementation code"
+      >
+        <CodeBlock
+          code={`import { Radio } from 'react-native-mantine';
+
+// Radio with Radio.Group
+<Radio.Group value={value} onChange={setValue}>
+  <Radio label="React" value="react" />
+  <Radio label="Vue" value="vue" />
+  <Radio label="Angular" value="angular" />
+</Radio.Group>
+
+// Group with custom size and color
+<Radio.Group
+  value={value}
+  onChange={setValue}
+  size="lg"
+  color="green"
+  spacing={16}
+>
+  <Radio label="Option 1" value="1" />
+  <Radio label="Option 2" value="2" />
+</Radio.Group>
+
+// Standalone radio
+<Radio
+  label="Accept terms"
+  value="terms"
+  checked={accepted}
+  onChange={handleChange}
+/>`}
+        />
       </ExampleSection>
     </ExampleWrapper>
   );
