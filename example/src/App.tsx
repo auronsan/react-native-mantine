@@ -526,6 +526,21 @@ export default function App() {
             component={Examples.ResponsiveUtilitiesExample}
             options={{ title: 'Responsive Utilities' }}
           />
+          <Stack.Screen
+            name="PrimaryColorExample"
+            component={Examples.PrimaryColorExample}
+            options={{ title: 'Primary Color System' }}
+          />
+          <Stack.Screen
+            name="VariantsExample"
+            component={Examples.VariantsExample}
+            options={{ title: 'Component Variants' }}
+          />
+          <Stack.Screen
+            name="ThemeCustomizationExample"
+            component={Examples.ThemeCustomizationExample}
+            options={{ title: 'Theme Customization' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Theme>

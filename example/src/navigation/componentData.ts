@@ -136,6 +136,9 @@ export const componentCategories: ComponentCategory[] = [
       { name: 'Color Palette', description: 'Updated color system aligned with Mantine web', route: 'ColorPaletteExample' },
       { name: 'Color Manipulation', description: 'New theme functions: lighten, darken, dimmed', route: 'ColorManipulationExample' },
       { name: 'Responsive Utilities', description: 'Breakpoint utilities: largerThan and smallerThan', route: 'ResponsiveUtilitiesExample' },
+      { name: 'Primary Color System', description: 'Understanding primaryColor and primaryShade configuration', route: 'PrimaryColorExample' },
+      { name: 'Component Variants', description: 'Complete guide to all 8 built-in component variants', route: 'VariantsExample' },
+      { name: 'Theme Customization', description: 'Customize theme with colors, typography, and spacing', route: 'ThemeCustomizationExample' },
     ],
   },
 ];

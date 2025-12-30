@@ -96,8 +96,9 @@ const useStyles = createStyles(
       switch (variant) {
         case 'filled':
           return {
-            backgroundColor:
-              theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[1],
+            backgroundColor: theme.colorScheme === 'dark'
+              ? theme.fn.themeColor('dark', 5)
+              : theme.fn.themeColor('gray', 1),
             borderWidth: 1,
             borderColor: 'transparent',
           };
@@ -108,10 +109,13 @@ const useStyles = createStyles(
           };
         default:
           return {
-            backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[6] : theme.white,
+            backgroundColor: theme.colorScheme === 'dark'
+              ? theme.fn.themeColor('dark', 6)
+              : theme.white,
             borderWidth: 1,
-            borderColor:
-              theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
+            borderColor: theme.colorScheme === 'dark'
+              ? theme.fn.themeColor('dark', 4)
+              : theme.fn.themeColor('gray', 4),
           };
       }
     };
@@ -128,12 +132,14 @@ const useStyles = createStyles(
       },
       description: {
         fontSize: theme.fontSizes.xs as number,
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
+        color: theme.colorScheme === 'dark'
+          ? theme.fn.themeColor('dark', 2)
+          : theme.fn.themeColor('gray', 6),
         marginTop: theme.spacing.xs,
       },
       error: {
         fontSize: theme.fontSizes.xs as number,
-        color: (theme.colors.red || [])[6],
+        color: theme.fn.themeColor('red', 6),
         marginTop: theme.spacing.xs,
       },
       selectWrapper: {
@@ -143,7 +149,7 @@ const useStyles = createStyles(
         borderRadius: theme.fn.radius(radius),
         ...getVariantStyles(),
         ...(error && {
-          borderColor: (theme.colors.red || [])[6],
+          borderColor: theme.fn.themeColor('red', 6),
         }),
         ...(disabled && {
           opacity: 0.6,
@@ -163,21 +169,27 @@ const useStyles = createStyles(
         }),
       },
       placeholder: {
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[3] : (theme.colors.gray || [])[5],
+        color: theme.colorScheme === 'dark'
+          ? theme.fn.themeColor('dark', 3)
+          : theme.fn.themeColor('gray', 5),
       },
       chevron: {
         paddingRight: theme.spacing.sm,
       },
       chevronText: {
         fontSize: rem(16) as any,
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
+        color: theme.colorScheme === 'dark'
+          ? theme.fn.themeColor('dark', 2)
+          : theme.fn.themeColor('gray', 6),
       },
       modalOverlay: {
         flex: 1,
         justifyContent: 'flex-end',
       },
       modalContent: {
-        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[7] : theme.white,
+        backgroundColor: theme.colorScheme === 'dark'
+          ? theme.fn.themeColor('dark', 7)
+          : theme.white,
         borderTopLeftRadius: theme.fn.radius('md'),
         borderTopRightRadius: theme.fn.radius('md'),
         maxHeight: '70%',
@@ -185,8 +197,9 @@ const useStyles = createStyles(
       modalHeader: {
         padding: theme.spacing.md,
         borderBottomWidth: 1,
-        borderBottomColor:
-          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[2],
+        borderBottomColor: theme.colorScheme === 'dark'
+          ? theme.fn.themeColor('dark', 5)
+          : theme.fn.themeColor('gray', 2),
       },
       modalTitle: {
         fontSize: theme.fontSizes.lg as number,
@@ -196,14 +209,14 @@ const useStyles = createStyles(
       option: {
         padding: theme.spacing.md,
         borderBottomWidth: 1,
-        borderBottomColor:
-          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[2],
+        borderBottomColor: theme.colorScheme === 'dark'
+          ? theme.fn.themeColor('dark', 5)
+          : theme.fn.themeColor('gray', 2),
       },
       optionSelected: {
-        backgroundColor:
-          theme.colorScheme === 'dark'
-            ? theme.fn.rgba(theme.colors[theme.primaryColor]?.[9] || theme.primaryBgColor, 0.25)
-            : theme.colors[theme.primaryColor]?.[0] || (theme.colors.gray || [])[1],
+        backgroundColor: theme.colorScheme === 'dark'
+          ? theme.fn.rgba(theme.fn.themeColor(theme.primaryColor, 9), 0.25)
+          : theme.fn.themeColor(theme.primaryColor, 0),
       },
       optionDisabled: {
         opacity: 0.4,
@@ -214,7 +227,7 @@ const useStyles = createStyles(
       },
       optionTextSelected: {
         fontWeight: '600',
-        color: theme.colors[theme.primaryColor]?.[6] || theme.primaryBgColor,
+        color: theme.fn.themeColor(theme.primaryColor),
       },
     };
   }
@@ -295,7 +308,7 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
       {label && (
         <Text style={styles.label}>
           {typeof label === 'string' ? label : label}
-          {required && <Text style={{ color: (theme.colors.red || [])[6] }}> *</Text>}
+          {required && <Text style={{ color: theme.fn.themeColor('red', 6) }}> *</Text>}
         </Text>
       )}
 

@@ -67,9 +67,9 @@ const useStyles = createStyles(
         backgroundColor:
           variant === 'transparent'
             ? 'transparent'
-            : theme.currentMode === 'dark'
-              ? theme.primaryBgColor
-              : theme.secondaryBgColor,
+            : theme.colorScheme === 'dark'
+              ? theme.fn.primaryColor()
+              : theme.fn.themeColor('gray', 1),
         borderRadius: sizeValue / 2,
         alignItems: 'center',
         justifyContent: 'center',

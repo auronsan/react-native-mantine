@@ -126,7 +126,7 @@ const getCategoryColor = (index: number, theme: any) => {
 const useStyles = createStyles((theme) => ({
   container: {
     flex: 1,
-    backgroundColor: theme.light.background,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
   },
   header: {
     backgroundColor: theme.colors.blue?.[6] || '#228be6',
@@ -193,7 +193,7 @@ const useStyles = createStyles((theme) => ({
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: theme.light.text,
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
     marginBottom: 4,
   },
   sectionDescription: {
@@ -215,7 +215,7 @@ const useStyles = createStyles((theme) => ({
   categoryTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: theme.light.text,
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
     marginBottom: 6,
   },
   categoryDescription: {

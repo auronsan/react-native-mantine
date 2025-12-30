@@ -6,9 +6,10 @@ export function size(_theme: any) {
     size,
     sizes,
   }: {
-    size: MantineNumberSize;
+    size?: MantineNumberSize | (string & {});
     sizes: Sizes;
-  }): number => {
-    return getSize({ size, sizes }) as number;
+  }): number | string => {
+    if (!size) return 0;
+    return getSize({ size: size as MantineNumberSize, sizes }) as number | string;
   };
 }

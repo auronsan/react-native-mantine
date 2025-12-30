@@ -116,8 +116,6 @@ const useItemStyles = createStyles(
     theme,
     { color, disabled }: { color: MantineColor; disabled: boolean }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-
     return {
       item: {
         flexDirection: 'row',
@@ -129,24 +127,24 @@ const useItemStyles = createStyles(
       itemHovered: {
         backgroundColor:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[5]
-            : (theme.colors.gray || [])[0],
+            ? theme.fn.themeColor('dark', 5)
+            : theme.fn.themeColor('gray', 0),
       },
       icon: {
         marginRight: theme.spacing.sm,
         color: color
-          ? colors?.[6] || colors?.[5]
+          ? theme.fn.themeColor(color, 6)
           : theme.colorScheme === 'dark'
-          ? (theme.colors.dark || [])[0]
-          : (theme.colors.gray || [])[7],
+          ? theme.fn.themeColor('dark', 0)
+          : theme.fn.themeColor('gray', 7),
       },
       label: {
         flex: 1,
         fontSize: 14,
         color: color
-          ? colors?.[6] || colors?.[5]
+          ? theme.fn.themeColor(color, 6)
           : theme.colorScheme === 'dark'
-          ? (theme.colors.dark || [])[0]
+          ? theme.fn.themeColor('dark', 0)
           : theme.black,
       },
       rightSection: {
@@ -162,7 +160,7 @@ const useLabelStyles = createStyles((theme) => ({
     paddingHorizontal: theme.spacing.md,
     fontSize: 12,
     fontWeight: '600',
-    color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
+    color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 2) : theme.fn.themeColor('gray', 6),
     textTransform: 'uppercase',
   },
 }));

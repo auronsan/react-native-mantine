@@ -1,11 +1,11 @@
 import React, { forwardRef } from 'react';
 import { BoxView } from '../BoxView';
 import type { ViewProps } from '../BoxView';
-import type { DefaultProps, MantineNumberSize } from '../../theme/types';
+import type { MantineNumberSize } from '../../theme/types';
 import { useTheme } from '../../theme/theme-provider';
 import type { FlexStyle } from 'react-native';
 
-export interface FlexProps extends DefaultProps, Omit<ViewProps, 'style'> {
+export interface FlexProps extends ViewProps {
   /** Set flex-direction property */
   direction?: FlexStyle['flexDirection'];
 

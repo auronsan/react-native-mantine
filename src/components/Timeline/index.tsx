@@ -115,16 +115,15 @@ const useTimelineItemStyles = createStyles(
       isLast: boolean;
     }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
+    const activeColor = theme.fn.themeColor(color || theme.primaryColor);
+    const inactiveColor = theme.colorScheme === 'dark'
+      ? theme.fn.themeColor('dark', 4)
+      : theme.fn.themeColor('gray', 3);
 
     const getLineStyle = () => {
       const baseStyle = {
         borderLeftWidth: lineWidth as any,
-        borderLeftColor: isActive
-          ? colors?.[6] || colors?.[5] || theme.primaryBgColor
-          : theme.colorScheme === 'dark'
-          ? theme.colors.dark?.[4]
-          : theme.colors.gray?.[3],
+        borderLeftColor: isActive ? activeColor : inactiveColor,
       };
 
       if (lineVariant === 'dashed') {
@@ -157,16 +156,12 @@ const useTimelineItemStyles = createStyles(
         height: bulletSize as any,
         borderRadius: theme.fn.radius(radius),
         backgroundColor: isActive
-          ? colors?.[6] || colors?.[5] || theme.primaryBgColor
+          ? activeColor
           : theme.colorScheme === 'dark'
-          ? theme.colors.dark?.[5]
-          : theme.colors.gray?.[2],
+          ? theme.fn.themeColor('dark', 5)
+          : theme.fn.themeColor('gray', 2),
         borderWidth: rem(2) as any,
-        borderColor: isActive
-          ? colors?.[6] || colors?.[5] || theme.primaryBgColor
-          : theme.colorScheme === 'dark'
-          ? theme.colors.dark?.[4]
-          : theme.colors.gray?.[3],
+        borderColor: isActive ? activeColor : inactiveColor,
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 1,
@@ -186,7 +181,9 @@ const useTimelineItemStyles = createStyles(
       },
       content: {
         fontSize: theme.fontSizes.sm as number,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark?.[2] : theme.colors.gray?.[7],
+        color: theme.colorScheme === 'dark'
+          ? theme.fn.themeColor('dark', 2)
+          : theme.fn.themeColor('gray', 7),
       },
     };
   }

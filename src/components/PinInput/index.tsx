@@ -95,13 +95,13 @@ const useStyles = createStyles(
         borderRadius: theme.fn.radius(radius),
         borderWidth: 1,
         borderColor: error
-          ? (theme.colors.red || [])[6]
+          ? theme.fn.themeColor('red', 6)
           : theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[4]
-            : (theme.colors.gray || [])[4],
+            ? theme.fn.themeColor('dark', 4)
+            : theme.fn.themeColor('gray', 4),
         backgroundColor:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[6]
+            ? theme.fn.themeColor('dark', 6)
             : theme.white,
         fontSize: getSize({ size, sizes: theme.fontSizes }) as any,
         textAlign: 'center',
@@ -112,8 +112,7 @@ const useStyles = createStyles(
         fontFamily: theme.fontFamilyInput,
       },
       inputFocused: {
-        borderColor:
-          theme.colors[theme.primaryColor]?.[6] || theme.primaryBgColor,
+        borderColor: theme.fn.themeColor(theme.primaryColor, 6),
         borderWidth: 2,
       },
     };

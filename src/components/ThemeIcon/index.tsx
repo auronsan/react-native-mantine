@@ -12,7 +12,6 @@ import type { MantineGradient } from '../../theme/theme';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { getSize } from '../../theme';
-import { getPrimaryShade } from '../../theme/functions/fns/primary-shade';
 
 export interface ThemeIconProps extends DefaultProps {
   /** Icon */
@@ -62,35 +61,39 @@ const useStyles = createStyles(
   ) => {
     const iconSize = typeof size === 'number' ? size : getSize({ size, sizes }) as number;
     const themeColor = theme?.colors && color in theme.colors ? color : theme.primaryColor;
-    const shade = getPrimaryShade(theme);
 
     const getVariantStyles = () => {
       switch (variant) {
-        case 'filled':
+        case 'filled': {
+          const variantStyles = theme.fn.variant({ variant: 'filled', color: themeColor });
           return {
-            backgroundColor: theme.colors[themeColor]?.[shade] || theme.colors[themeColor]?.[6],
+            backgroundColor: variantStyles.background,
           };
-        case 'light':
+        }
+        case 'light': {
+          const variantStyles = theme.fn.variant({ variant: 'light', color: themeColor });
           return {
-            backgroundColor:
-              theme.currentMode === 'dark'
-                ? theme.colors[themeColor]?.[9]
-                : theme.colors[themeColor]?.[0],
+            backgroundColor: variantStyles.background,
           };
-        case 'outline':
+        }
+        case 'outline': {
+          const variantStyles = theme.fn.variant({ variant: 'outline', color: themeColor });
           return {
-            backgroundColor: 'transparent' as const,
+            backgroundColor: variantStyles.background,
             borderWidth: 1,
-            borderColor: theme.colors[themeColor]?.[shade] || theme.colors[themeColor]?.[6],
+            borderColor: variantStyles.border,
           };
+        }
         case 'gradient':
           return {
             backgroundColor: 'transparent' as const,
           };
-        default:
+        default: {
+          const variantStyles = theme.fn.variant({ variant: 'filled', color: themeColor });
           return {
-            backgroundColor: theme.colors[themeColor]?.[shade] || theme.colors[themeColor]?.[6],
+            backgroundColor: variantStyles.background,
           };
+        }
       }
     };
 
@@ -132,15 +135,12 @@ export const ThemeIcon = forwardRef<any, ThemeIconProps>((props, ref) => {
   ) as any;
 
   const getGradientColors = (): [string, string] => {
-    const shade = getPrimaryShade(theme);
-    const fromColor =
-      gradient?.from && theme?.colors && gradient.from in theme.colors
-        ? theme.colors[gradient.from][shade]
-        : gradient?.from || theme.colors.blue?.[6] || '#228be6';
-    const toColor =
-      gradient?.to && theme?.colors && gradient.to in theme.colors
-        ? theme.colors[gradient.to][shade]
-        : gradient?.to || theme.colors.cyan?.[6] || '#22b8cf';
+    const fromColor = gradient?.from
+      ? theme.fn.themeColor(gradient.from)
+      : theme.fn.themeColor('blue');
+    const toColor = gradient?.to
+      ? theme.fn.themeColor(gradient.to)
+      : theme.fn.themeColor('cyan');
     return [fromColor, toColor];
   };
 

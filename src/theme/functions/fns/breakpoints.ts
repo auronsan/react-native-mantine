@@ -1,5 +1,5 @@
 import { Dimensions } from 'react-native';
-import type { MantineTheme } from '../../default-theme';
+import type { MantineThemeBase } from '../../types';
 
 /**
  * Default breakpoint values in pixels
@@ -20,7 +20,7 @@ export type MantineNumberSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
  */
 function getBreakpointValue(
   breakpoint: MantineNumberSize,
-  theme: MantineTheme
+  theme: MantineThemeBase
 ): number {
   if (typeof breakpoint === 'number') {
     return breakpoint;
@@ -40,7 +40,7 @@ function getBreakpointValue(
  * @param theme - The Mantine theme
  * @returns A function that takes a breakpoint and returns a boolean
  */
-export function largerThan(theme: MantineTheme) {
+export function largerThan(theme: MantineThemeBase) {
   return (breakpoint: MantineNumberSize): boolean => {
     const { width } = Dimensions.get('window');
     const breakpointValue = getBreakpointValue(breakpoint, theme);
@@ -53,7 +53,7 @@ export function largerThan(theme: MantineTheme) {
  * @param theme - The Mantine theme
  * @returns A function that takes a breakpoint and returns a boolean
  */
-export function smallerThan(theme: MantineTheme) {
+export function smallerThan(theme: MantineThemeBase) {
   return (breakpoint: MantineNumberSize): boolean => {
     const { width } = Dimensions.get('window');
     const breakpointValue = getBreakpointValue(breakpoint, theme);

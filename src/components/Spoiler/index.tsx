@@ -45,7 +45,7 @@ const useStyles = createStyles((theme) => ({
   controlText: {
     fontSize: theme.fontSizes.sm as number,
     fontWeight: '500',
-    color: theme.colors[theme.primaryColor]?.[6] || theme.primaryBgColor,
+    color: theme.fn.themeColor(theme.primaryColor, 6),
   },
 }));
 

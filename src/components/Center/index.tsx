@@ -1,9 +1,8 @@
 import React, { forwardRef } from 'react';
 import { BoxView } from '../BoxView';
 import type { ViewProps } from '../BoxView';
-import type { DefaultProps } from '../../theme/types';
 
-export interface CenterProps extends DefaultProps, Omit<ViewProps, 'style'> {
+export interface CenterProps extends ViewProps {
   /** Content that should be centered */
   children?: React.ReactNode;
 

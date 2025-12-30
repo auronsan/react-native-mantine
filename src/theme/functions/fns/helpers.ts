@@ -1,31 +1,31 @@
-import type { MantineTheme } from '../../default-theme';
+import type { MantineThemeBase } from '../../types';
 
-export const fontStyles = (theme: MantineTheme) => () => ({
+export const fontStyles = (theme: MantineThemeBase) => () => ({
   fontFamily: theme.fontFamily,
 });
 
 /**
  * Returns font styles specifically for input components
  */
-export const inputFontStyles = (theme: MantineTheme) => () => {
+export const inputFontStyles = (theme: MantineThemeBase) => () => {
   return {
     fontFamily: theme.fontFamily,
   };
 };
 
-export const focusStyles = (_theme: MantineTheme) => () => ({
+export const focusStyles = (_theme: MantineThemeBase) => () => ({
   // Focus styles for accessibility
   // In React Native, we typically don't use outline
   // but can add other focus indicators if needed
 });
 
-export const placeholderStyles = (_theme: MantineTheme) => () => ({
+export const placeholderStyles = (_theme: MantineThemeBase) => () => ({
   // Placeholder styles for inputs
   opacity: 0.6,
 });
 
 export const cover =
-  (_theme: MantineTheme) =>
+  (_theme: MantineThemeBase) =>
   (offset: number = 0) => ({
     position: 'absolute' as const,
     top: offset,
@@ -34,13 +34,13 @@ export const cover =
     left: offset,
   });
 
-export const hover = (_theme: MantineTheme) => (styles: any) => ({
+export const hover = (_theme: MantineThemeBase) => (styles: any) => ({
   // Hover styles (primarily for web, limited support in React Native)
   // Can be applied via TouchableOpacity/Pressable activeOpacity instead
   ...styles,
 });
 
-export const activeStyles = (_theme: MantineTheme) => ({
+export const activeStyles = (_theme: MantineThemeBase) => ({
   // Active/pressed state styles
   opacity: 0.8,
   transform: [{ scale: 0.98 }],

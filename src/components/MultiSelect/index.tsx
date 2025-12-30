@@ -94,8 +94,6 @@ const useStyles = createStyles(
     theme,
     { color }: { color: MantineColor; size: MantineSize }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-
     return {
       valuesContainer: {
         flexDirection: 'row',
@@ -110,7 +108,7 @@ const useStyles = createStyles(
       },
       modalContent: {
         backgroundColor:
-          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[7] : theme.white,
+          theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 7) : theme.white,
         borderTopLeftRadius: theme.radius.lg,
         borderTopRightRadius: theme.radius.lg,
         maxHeight: '80%',
@@ -120,8 +118,8 @@ const useStyles = createStyles(
         borderBottomWidth: 1,
         borderBottomColor:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[4]
-            : (theme.colors.gray || [])[2],
+            ? theme.fn.themeColor('dark', 4)
+            : theme.fn.themeColor('gray', 2),
       },
       listContainer: {
         paddingVertical: rem(8) as any as any,
@@ -135,8 +133,8 @@ const useStyles = createStyles(
       itemSelected: {
         backgroundColor:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[5]
-            : colors?.[0] || (theme.colors.gray || [])[0],
+            ? theme.fn.themeColor('dark', 5)
+            : theme.fn.themeColor(color, 0),
       },
       itemDisabled: {
         opacity: 0.4,
@@ -145,11 +143,11 @@ const useStyles = createStyles(
         flex: 1,
         fontSize: rem(14),
         marginLeft: theme.spacing.sm,
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
+        color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 0) : theme.black,
       },
       itemTextSelected: {
         fontWeight: '600',
-        color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+        color: theme.fn.themeColor(color, 6),
       },
       groupLabel: {
         paddingVertical: rem(8) as any,
@@ -158,8 +156,8 @@ const useStyles = createStyles(
         fontWeight: '600',
         color:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[2]
-            : (theme.colors.gray || [])[6],
+            ? theme.fn.themeColor('dark', 2)
+            : theme.fn.themeColor('gray', 6),
         textTransform: 'uppercase',
       },
       emptyState: {
@@ -169,16 +167,16 @@ const useStyles = createStyles(
       emptyText: {
         color:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[2]
-            : (theme.colors.gray || [])[6],
+            ? theme.fn.themeColor('dark', 2)
+            : theme.fn.themeColor('gray', 6),
       },
       footer: {
         padding: theme.spacing.md,
         borderTopWidth: 1,
         borderTopColor:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[4]
-            : (theme.colors.gray || [])[2],
+            ? theme.fn.themeColor('dark', 4)
+            : theme.fn.themeColor('gray', 2),
         flexDirection: 'row',
         justifyContent: 'space-between',
       },

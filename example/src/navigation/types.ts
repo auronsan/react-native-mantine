@@ -105,6 +105,9 @@ export type RootStackParamList = {
   ColorPaletteExample: undefined;
   ColorManipulationExample: undefined;
   ResponsiveUtilitiesExample: undefined;
+  PrimaryColorExample: undefined;
+  VariantsExample: undefined;
+  ThemeCustomizationExample: undefined;
 };
 
 export interface ComponentCategory {

@@ -63,7 +63,7 @@ const useStyles = createStyles(
       },
       label: {
         fontSize: theme.fontSizes.sm as number,
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
+        color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 0) : theme.black,
         marginLeft: labelPosition === 'right' ? theme.spacing.sm : 0,
         marginRight: labelPosition === 'left' ? theme.spacing.sm : 0,
       },
@@ -104,9 +104,8 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
   };
 
   const colorKey = color || theme.primaryColor;
-  const colors = theme.colors[colorKey] || theme.colors[theme.primaryColor];
-  const falseColor = theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[3];
-  const trueColor = colors?.[6] || colors?.[5] || theme.primaryBgColor;
+  const falseColor = theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 4) : theme.fn.themeColor('gray', 3);
+  const trueColor = theme.fn.themeColor(colorKey, 6);
   const trackColor: { false: string; true: string } = {
     false: falseColor || '#ccc',
     true: trueColor || '#000',
@@ -118,8 +117,8 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
       : checked
       ? theme.white
       : theme.colorScheme === 'dark'
-      ? (theme.colors.dark || [])[0]
-      : (theme.colors.gray || [])[1];
+      ? theme.fn.themeColor('dark', 0)
+      : theme.fn.themeColor('gray', 1);
 
   const switchComponent = (
     <RNSwitch

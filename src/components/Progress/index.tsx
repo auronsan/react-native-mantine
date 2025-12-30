@@ -71,19 +71,20 @@ const useStyles = createStyles(
       striped: boolean;
     }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
     const sizeValue = typeof size === 'number' ? rem(size) : sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
       root: {
         height: sizeValue as any,
-        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[2],
+        backgroundColor: theme.colorScheme === 'dark'
+          ? theme.fn.themeColor('dark', 4)
+          : theme.fn.themeColor('gray', 2),
         borderRadius: theme.fn.radius(radius),
         overflow: 'hidden',
       },
       bar: {
         height: '100%',
-        backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+        backgroundColor: theme.fn.themeColor(color || theme.primaryColor),
         ...(striped && {
           backgroundImage: `linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent)`,
           backgroundSize: `${sizeValue} ${sizeValue}`,
@@ -151,8 +152,6 @@ export const Progress = forwardRef<any, ProgressProps>((props, ref) => {
     }
 
     return sections.map((section, index) => {
-      const sectionColors =
-        theme.colors[section.color] || theme.colors[theme.primaryColor];
       return (
         <BoxView
           key={index}
@@ -160,7 +159,7 @@ export const Progress = forwardRef<any, ProgressProps>((props, ref) => {
             styles.section,
             {
               width: `${section.value}%`,
-              backgroundColor: sectionColors?.[6] || sectionColors?.[5] || theme.primaryBgColor,
+              backgroundColor: theme.fn.themeColor(section.color || theme.primaryColor),
             },
           ]}
         />

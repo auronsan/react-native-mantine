@@ -71,40 +71,53 @@ const useStyles = createStyles(
     },
     { variant, size }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
     const sizeStyles = sizes[size as keyof typeof sizes] || sizes.md;
 
     const getVariantStyles = () => {
       switch (variant) {
-        case 'filled':
+        case 'filled': {
+          const variantStyles = theme.fn.variant({ variant: 'filled', color });
           return {
-            backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
-            color: theme.white,
+            backgroundColor: variantStyles.background,
+            color: variantStyles.color,
           };
-        case 'light':
+        }
+        case 'light': {
+          const variantStyles = theme.fn.variant({ variant: 'light', color });
           return {
-            backgroundColor: colors?.[0] || colors?.[1] || (theme.colors.gray || [])[0],
-            color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+            backgroundColor: variantStyles.background,
+            color: variantStyles.color,
           };
-        case 'outline':
+        }
+        case 'outline': {
+          const variantStyles = theme.fn.variant({ variant: 'outline', color });
           return {
-            backgroundColor: 'transparent',
-            color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+            backgroundColor: variantStyles.background,
+            color: variantStyles.color,
             borderWidth: 1,
-            borderColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+            borderColor: variantStyles.border,
           };
+        }
         case 'dot':
           return {
-            backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : theme.white,
-            color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
+            backgroundColor: theme.colorScheme === 'dark'
+              ? theme.fn.themeColor('dark', 5)
+              : theme.white,
+            color: theme.colorScheme === 'dark'
+              ? theme.fn.themeColor('dark', 0)
+              : theme.black,
             borderWidth: 1,
-            borderColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[3],
+            borderColor: theme.colorScheme === 'dark'
+              ? theme.fn.themeColor('dark', 4)
+              : theme.fn.themeColor('gray', 3),
           };
-        default:
+        default: {
+          const variantStyles = theme.fn.variant({ variant: 'filled', color });
           return {
-            backgroundColor: colors?.[6] || theme.primaryBgColor,
-            color: theme.white,
+            backgroundColor: variantStyles.background,
+            color: variantStyles.color,
           };
+        }
       }
     };
 
@@ -137,7 +150,7 @@ const useStyles = createStyles(
         width: (dotSizes[size as keyof typeof dotSizes] || dotSizes.md) as any,
         height: (dotSizes[size as keyof typeof dotSizes] || dotSizes.md) as any,
         borderRadius: (dotSizes[size as keyof typeof dotSizes] || dotSizes.md) as any,
-        backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+        backgroundColor: theme.fn.themeColor(color || theme.primaryColor),
         marginRight: theme.spacing.xs,
       },
       label: {

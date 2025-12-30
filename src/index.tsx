@@ -1,5 +1,5 @@
 export * from './theme';
 export * from './components';
 export * from './hooks';
-export type * from './theme/theme';
+export { Theme, ThemeProvider, useTheme, useComponentDefaultProps } from './theme/theme-provider';
 export type * from './theme/types';

@@ -39,8 +39,7 @@ export const Highlight = forwardRef<any, HighlightProps>((props, ref) => {
   const highlights = Array.isArray(highlight) ? highlight : [highlight];
 
   // Get default highlight background color
-  const defaultHighlightBg =
-    theme.colors[highlightColor]?.[2] || theme.colors.yellow?.[2] || '#ffec99';
+  const defaultHighlightBg = theme.fn.themeColor(highlightColor, 2);
 
   const defaultStyles = {
     backgroundColor: defaultHighlightBg,

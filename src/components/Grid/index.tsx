@@ -56,15 +56,20 @@ const useGridStyles = createStyles(
       align: 'stretch' | 'center' | 'flex-start' | 'flex-end';
       justify: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around';
     }
-  ) => ({
-    root: {
-      flexDirection: 'row' as const,
-      flexWrap: 'wrap' as const,
-      alignItems: align,
-      justifyContent: justify,
-      margin: -theme.fn.size({ size: gutter, sizes: theme.spacing }) / 2,
-    },
-  })
+  ) => {
+    const gutterValue = theme.fn.size({ size: gutter, sizes: theme.spacing });
+    const gutterNumber = typeof gutterValue === 'number' ? gutterValue : parseFloat(gutterValue) || 0;
+
+    return {
+      root: {
+        flexDirection: 'row' as const,
+        flexWrap: 'wrap' as const,
+        alignItems: align,
+        justifyContent: justify,
+        margin: -gutterNumber / 2,
+      },
+    };
+  }
 );
 
 const useColStyles = createStyles(
@@ -86,7 +91,8 @@ const useColStyles = createStyles(
       grow: boolean;
     }
   ) => {
-    const gutterSize = theme.fn.size({ size: gutter, sizes: theme.spacing });
+    const gutterValue = theme.fn.size({ size: gutter, sizes: theme.spacing });
+    const gutterSize = typeof gutterValue === 'number' ? gutterValue : parseFloat(gutterValue) || 0;
     const colSpan = span || columns;
     const percentage = (colSpan / columns) * 100;
     const offsetPercentage = offset ? (offset / columns) * 100 : 0;
