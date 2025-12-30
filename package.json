@@ -1,6 +1,6 @@
 {
   "name": "react-native-mantine",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Make Mantine Accessable on React Native",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
