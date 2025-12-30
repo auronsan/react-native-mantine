@@ -1,5 +1,4 @@
-import type { MantineTheme } from '../../../default-theme';
-import type { MantineGradient, GradientConfig } from '../../../theme.d';
+import type { MantineThemeBase, MantineGradient, GradientConfig } from '../../../types';
 import { themeColor } from '../theme-color/theme-color';
 import { getPrimaryShade } from '../primary-shade';
 
@@ -32,7 +31,7 @@ function degToCoordinates(deg: number): { start: { x: number; y: number }; end: 
  * Creates a gradient configuration for use with expo-linear-gradient
  * Returns gradient colors and coordinates based on theme gradient settings
  */
-export function gradient(theme: MantineTheme) {
+export function gradient(theme: MantineThemeBase) {
   return (payload?: MantineGradient): GradientConfig => {
     const merged = {
       from: payload?.from || theme.defaultGradient?.from || theme.primaryColor,

@@ -63,47 +63,52 @@ const useStyles = createStyles(
     },
     { variant }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-
     const getVariantStyles = () => {
       if (disabled) {
         return {
           backgroundColor: 'transparent',
-          color: (theme.colors.gray || [])[5],
+          color: theme.fn.themeColor('gray', 5),
         };
       }
 
       if (!active) {
         return {
           backgroundColor: 'transparent',
-          color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
+          color: theme.colorScheme === 'dark'
+            ? theme.fn.themeColor('dark', 0)
+            : theme.black,
         };
       }
 
       switch (variant) {
-        case 'filled':
+        case 'filled': {
+          const variantStyles = theme.fn.variant({ variant: 'filled', color });
           return {
-            backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
-            color: theme.white,
+            backgroundColor: variantStyles.background,
+            color: variantStyles.color,
           };
-        case 'light':
+        }
+        case 'light': {
+          const variantStyles = theme.fn.variant({ variant: 'light', color });
           return {
-            backgroundColor: colors?.[0] || colors?.[1] || (theme.colors.gray || [])[0],
-            color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+            backgroundColor: variantStyles.background,
+            color: variantStyles.color,
           };
-        case 'subtle':
+        }
+        case 'subtle': {
+          const variantStyles = theme.fn.variant({ variant: 'subtle', color });
           return {
-            backgroundColor:
-              theme.colorScheme === 'dark'
-                ? 'rgba(255, 255, 255, 0.05)'
-                : 'rgba(0, 0, 0, 0.05)',
-            color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+            backgroundColor: variantStyles.background,
+            color: variantStyles.color,
           };
-        default:
+        }
+        default: {
+          const variantStyles = theme.fn.variant({ variant: 'light', color });
           return {
-            backgroundColor: colors?.[0] || colors?.[1] || (theme.colors.gray || [])[0],
-            color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+            backgroundColor: variantStyles.background,
+            color: variantStyles.color,
           };
+        }
       }
     };
 
@@ -133,10 +138,9 @@ const useStyles = createStyles(
       description: {
         fontSize: rem(12),
         marginTop: rem(2) as any,
-        color:
-          theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[2]
-            : (theme.colors.gray || [])[6],
+        color: theme.colorScheme === 'dark'
+          ? theme.fn.themeColor('dark', 2)
+          : theme.fn.themeColor('gray', 6),
       },
       rightSection: {
         marginLeft: theme.spacing.sm,

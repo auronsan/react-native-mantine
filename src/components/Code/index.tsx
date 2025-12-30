@@ -27,10 +27,10 @@ export const Code = forwardRef<any, CodeProps>((props, ref) => {
   const primaryShade = getPrimaryShade(theme);
 
   // Get background and text colors
-  const backgroundColor = theme.colors.gray?.[0] || '#F6F6F6';
+  const backgroundColor = theme.fn.themeColor('gray', 0);
   const textColor = color
-    ? theme.colors[color]?.[primaryShade] || color
-    : theme.light.text;
+    ? theme.fn.themeColor(color, primaryShade)
+    : (theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 0) : theme.fn.themeColor('gray', 9));
 
   // Monospace font - in React Native, we can use 'Courier' or 'Courier New'
   const codeStyles = {

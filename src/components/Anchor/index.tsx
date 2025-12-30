@@ -65,24 +65,23 @@ const useStyles = createStyles(
     },
     { variant }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
     const fontSize = sizes[size as keyof typeof sizes] || sizes.md;
 
     const getVariantStyles = () => {
       switch (variant) {
         case 'link':
           return {
-            color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+            color: theme.fn.themeColor(color, 6),
             textDecorationLine: underline ? 'underline' : 'none',
           };
         case 'text':
           return {
-            color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] || theme.white : theme.black,
+            color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 0) : theme.black,
             textDecorationLine: 'none',
           };
         default:
           return {
-            color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+            color: theme.fn.themeColor(color, 6),
             textDecorationLine: underline ? 'underline' : 'none',
           };
       }

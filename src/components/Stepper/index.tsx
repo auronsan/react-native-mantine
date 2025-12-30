@@ -138,7 +138,13 @@ const useStepStyles = createStyles(
       radius: MantineNumberSize;
     }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
+    const activeColor = theme.fn.themeColor(color || theme.primaryColor);
+    const inactiveBgColor = theme.colorScheme === 'dark'
+      ? theme.fn.themeColor('dark', 5)
+      : theme.fn.themeColor('gray', 1);
+    const inactiveBorderColor = theme.colorScheme === 'dark'
+      ? theme.fn.themeColor('dark', 4)
+      : theme.fn.themeColor('gray', 3);
 
     return {
       step: {
@@ -163,17 +169,9 @@ const useStepStyles = createStyles(
         width: iconSize as any,
         height: iconSize as any,
         borderRadius: theme.fn.radius(radius),
-        backgroundColor: isCompleted || isActive
-          ? colors?.[6] || colors?.[5] || theme.primaryBgColor
-          : theme.colorScheme === 'dark'
-          ? theme.colors.dark?.[5]
-          : theme.colors.gray?.[1],
+        backgroundColor: isCompleted || isActive ? activeColor : inactiveBgColor,
         borderWidth: rem(2) as any,
-        borderColor: isCompleted || isActive
-          ? colors?.[6] || colors?.[5] || theme.primaryBgColor
-          : theme.colorScheme === 'dark'
-          ? theme.colors.dark?.[4]
-          : theme.colors.gray?.[3],
+        borderColor: isCompleted || isActive ? activeColor : inactiveBorderColor,
         justifyContent: 'center',
         alignItems: 'center',
       },
@@ -181,8 +179,8 @@ const useStepStyles = createStyles(
         color: isCompleted || isActive
           ? theme.white
           : theme.colorScheme === 'dark'
-          ? theme.colors.dark?.[1]
-          : theme.colors.gray?.[6],
+          ? theme.fn.themeColor('dark', 1)
+          : theme.fn.themeColor('gray', 6),
         fontSize: theme.fontSizes.sm as number,
         fontWeight: '600',
       },
@@ -190,10 +188,10 @@ const useStepStyles = createStyles(
         height: (orientation === 'horizontal' ? rem(2) : rem(24)) as any,
         width: (orientation === 'horizontal' ? '100%' : rem(2)) as any,
         backgroundColor: isCompleted
-          ? colors?.[6] || colors?.[5] || theme.primaryBgColor
+          ? activeColor
           : theme.colorScheme === 'dark'
-          ? theme.colors.dark?.[4]
-          : theme.colors.gray?.[2],
+          ? theme.fn.themeColor('dark', 4)
+          : theme.fn.themeColor('gray', 2),
         marginHorizontal: orientation === 'horizontal' ? theme.spacing.xs : 0,
         marginVertical: orientation === 'vertical' ? theme.spacing.xs : 0,
         ...(orientation === 'horizontal' && {
@@ -216,7 +214,9 @@ const useStepStyles = createStyles(
       },
       description: {
         fontSize: theme.fontSizes.xs as number,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark?.[2] : theme.colors.gray?.[6],
+        color: theme.colorScheme === 'dark'
+          ? theme.fn.themeColor('dark', 2)
+          : theme.fn.themeColor('gray', 6),
       },
     };
   }

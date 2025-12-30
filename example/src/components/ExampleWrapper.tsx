@@ -126,19 +126,19 @@ export const PropsTable: React.FC<PropsTableProps> = ({ props }) => {
 const useStyles = createStyles((theme) => ({
   container: {
     flex: 1,
-    backgroundColor: theme.light.background,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
   },
   header: {
     padding: 20,
     paddingTop: 20,
-    backgroundColor: theme.light.backgroundSecondary,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.gray?.[2] || '#e9ecef',
   },
   title: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: theme.light.text,
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
     marginBottom: 6,
   },
   description: {
@@ -162,7 +162,7 @@ const useStyles = createStyles((theme) => ({
   sectionTitle: {
     fontSize: 19,
     fontWeight: '700',
-    color: theme.light.text,
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
   },
   sectionDescription: {
     color: theme.colors.gray?.[6] || '#868e96',
@@ -171,7 +171,7 @@ const useStyles = createStyles((theme) => ({
     lineHeight: 20,
   },
   sectionContent: {
-    backgroundColor: theme.light.backgroundSecondary,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
     borderWidth: 1,
     borderColor: theme.colors.gray?.[2] || '#e9ecef',
     marginBottom: 12,
@@ -194,7 +194,7 @@ const useStyles = createStyles((theme) => ({
     lineHeight: 18,
   },
   propsTable: {
-    backgroundColor: theme.light.backgroundSecondary,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
     borderWidth: 1,
     borderColor: theme.colors.gray?.[2] || '#e9ecef',
   },
@@ -202,7 +202,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 12,
-    color: theme.light.text,
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
   },
   propRow: {
     paddingVertical: 8,
@@ -216,7 +216,7 @@ const useStyles = createStyles((theme) => ({
   propName: {
     fontSize: 15,
     fontWeight: '600',
-    color: theme.light.text,
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
   },
   propDescription: {
     fontSize: 14,

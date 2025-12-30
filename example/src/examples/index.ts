@@ -94,3 +94,6 @@ export * from './style-system/GradientExample';
 export * from './style-system/ColorPaletteExample';
 export * from './style-system/ColorManipulationExample';
 export * from './style-system/ResponsiveUtilitiesExample';
+export * from './style-system/PrimaryColorExample';
+export * from './style-system/VariantsExample';
+export * from './style-system/ThemeCustomizationExample';

@@ -84,7 +84,7 @@ const SHADOW_CONFIG: Record<MantineShadow, { ios: ShadowStyles; android: ShadowS
  * // Android will get: { elevation: 4 }
  * const shadowStyles = shadow('md');
  */
-export function shadow(size?: MantineShadow | MantineSize): ShadowStyles {
+export function shadow(size?: MantineSize): ShadowStyles {
   if (!size) {
     return {};
   }

@@ -59,7 +59,6 @@ const useStyles = createStyles(
       size: MantineSize | number;
     }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
     const sizeValue = typeof size === 'number' ? rem(size) : sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
@@ -68,7 +67,7 @@ const useStyles = createStyles(
         height: sizeValue as any,
         borderRadius: theme.fn.radius(radius),
         overflow: 'hidden',
-        backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+        backgroundColor: theme.fn.themeColor(color, 6),
         justifyContent: 'center',
         alignItems: 'center',
       } as any,

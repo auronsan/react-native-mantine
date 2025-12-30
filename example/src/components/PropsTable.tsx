@@ -55,7 +55,7 @@ export const PropsTable: React.FC<PropsTableProps> = ({ props }) => {
 
 const useStyles = createStyles((theme) => ({
   propsTable: {
-    backgroundColor: theme.light.backgroundSecondary,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
     borderWidth: 1,
     borderColor: theme.colors.gray?.[2] || '#e9ecef',
   },
@@ -63,7 +63,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 4,
-    color: theme.light.text,
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
   },
   propsTableSubtitle: {
     fontSize: 13,

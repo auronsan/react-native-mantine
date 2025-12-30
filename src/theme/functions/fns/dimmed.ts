@@ -1,4 +1,4 @@
-import type { MantineTheme } from '../../default-theme';
+import type { MantineThemeBase } from '../../types';
 
 /**
  * Returns a dimmed text color based on the current color scheme
@@ -6,7 +6,7 @@ import type { MantineTheme } from '../../default-theme';
  * @param theme - The Mantine theme
  * @returns A function that returns the dimmed color
  */
-export function dimmed(theme: MantineTheme) {
+export function dimmed(theme: MantineThemeBase) {
   return () => {
     const colorScheme = theme.currentMode || 'light';
     return colorScheme === 'dark'

@@ -106,6 +106,144 @@ function MyComponent() {
 }
 ```
 
+### Theme Customization
+
+Customize the theme to match your brand:
+
+```tsx
+import { ThemeProvider, createTheme } from 'react-native-mantine';
+
+const theme = createTheme({
+  primaryColor: 'teal',
+  primaryShade: { light: 6, dark: 8 },
+  fontFamily: 'Inter',
+  colors: {
+    // Add custom colors
+    brand: [
+      '#e6f7ff',
+      '#bae7ff',
+      '#91d5ff',
+      '#69c0ff',
+      '#40a9ff',
+      '#1890ff',
+      '#096dd9',
+      '#0050b3',
+      '#003a8c',
+      '#002766',
+    ],
+  },
+});
+
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      {/* Your app components */}
+    </ThemeProvider>
+  );
+}
+```
+
+---
+
+## Color System
+
+React Native Mantine features a comprehensive color system aligned with Mantine web v6:
+
+### 10-Shade Color Palettes
+
+Every color includes 10 shades (0-9) for consistent theming:
+
+```tsx
+import { useMantineTheme } from 'react-native-mantine';
+
+function MyComponent() {
+  const theme = useMantineTheme();
+
+  // Access specific color shades
+  const lightBlue = theme.colors.blue[0];   // Lightest
+  const primaryBlue = theme.colors.blue[6]; // Default
+  const darkBlue = theme.colors.blue[9];    // Darkest
+
+  return (
+    <View style={{ backgroundColor: primaryBlue }}>
+      <Text>Content</Text>
+    </View>
+  );
+}
+```
+
+### Primary Color Configuration
+
+Control your app's primary color and its shades:
+
+```tsx
+const theme = createTheme({
+  primaryColor: 'blue',
+  primaryShade: {
+    light: 6,  // Shade used in light mode
+    dark: 8,   // Shade used in dark mode
+  },
+});
+
+// Use primary color in components
+<Button color="blue">Click me</Button>
+```
+
+### Theme Helper Functions
+
+Powerful utilities for color manipulation:
+
+```tsx
+const theme = useMantineTheme();
+
+// Get color at primary shade
+const primaryColor = theme.fn.themeColor('blue');
+
+// Get specific shade
+const lightBlue = theme.fn.themeColor('blue', 2);
+
+// Get variant styles
+const styles = theme.fn.variant({ variant: 'filled', color: 'blue' });
+
+// Manipulate colors
+const lighter = theme.fn.lighten('#228be6', 0.2);
+const darker = theme.fn.darken('#228be6', 0.2);
+const dimmed = theme.fn.dimmed(); // Dimmed text color
+```
+
+### Component Variants
+
+Components support 8 built-in variants:
+
+- **filled**: Solid background with white text
+- **light**: Light background with colored text
+- **outline**: Transparent background with colored border
+- **subtle**: Transparent background with colored text
+- **white**: White background with colored text
+- **default**: Gray background (adapts to color scheme)
+- **gradient**: Transparent background for gradients
+- **transparent**: Fully transparent
+
+```tsx
+<Button variant="filled" color="blue">Filled</Button>
+<Button variant="light" color="green">Light</Button>
+<Button variant="outline" color="red">Outline</Button>
+```
+
+### Available Colors
+
+14 default colors ready to use:
+
+- **Blues**: blue, cyan, teal
+- **Greens**: green, lime
+- **Warm**: yellow, orange, red
+- **Purples**: pink, grape, violet, indigo
+- **Neutrals**: dark, gray
+
+For detailed documentation, see:
+- [Color System Guide](./docs/COLOR_SYSTEM.md)
+- [Migration Guide](./docs/MIGRATION_GUIDE.md)
+
 ---
 
 ## Example App

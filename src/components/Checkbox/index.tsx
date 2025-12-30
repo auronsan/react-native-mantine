@@ -57,7 +57,6 @@ const useStyles = createStyles(
       disabled: boolean;
     }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
     const checkboxSize = sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
@@ -71,14 +70,14 @@ const useStyles = createStyles(
         height: checkboxSize as any,
         borderRadius: theme.radius.sm,
         borderWidth: 2,
-        borderColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
+        borderColor: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 4) : theme.fn.themeColor('gray', 4),
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
       },
       checked: {
-        borderColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
-        backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+        borderColor: theme.fn.themeColor(color, 6),
+        backgroundColor: theme.fn.themeColor(color, 6),
       },
       checkmark: {
         color: theme.white,
@@ -87,7 +86,7 @@ const useStyles = createStyles(
       },
       label: {
         fontSize: theme.fontSizes.sm as number,
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
+        color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 0) : theme.black,
         marginLeft: theme.spacing.sm,
         flex: 1,
       },

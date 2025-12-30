@@ -1,4 +1,3 @@
-import { get } from 'lodash-es';
 import React, {
   createContext,
   useContext,
@@ -13,9 +12,8 @@ import type { ColorSchemeName } from 'react-native';
 import type { ReactNode } from 'react';
 
 import { Layout } from './constants';
-import type { MantineTheme } from './default-theme';
+import type { MantineTheme } from './types';
 import { createTheme } from './create-theme';
-import { getPrimaryShade } from './functions/fns/primary-shade';
 
 import { filterProps } from './filter-props';
 import useCachedResources from '../hooks/useCachedResources';
@@ -37,7 +35,6 @@ export const ThemeProvider = ({
   theme: MantineTheme;
   forceMode?: 'light' | 'dark';
 }): React.ReactElement => {
-  const { colors, primaryColor, secondaryColor } = theme;
   const systemDarkMode = Appearance.getColorScheme();
   const [currentMode, setCurrentMode] = useState<'light' | 'dark'>(
     forceMode || systemDarkMode || 'light'
@@ -60,21 +57,9 @@ export const ThemeProvider = ({
   }, [currentMode]);
 
   const memoValue = useMemo(() => {
-    const darkTheme = {
-      light: theme.dark,
-      dark: theme.light,
-    };
-
-    // Get the primary shade for the current mode
-    const themeWithMode = { ...theme, currentMode };
-    const shade = getPrimaryShade(themeWithMode);
-
     return {
       ...theme,
-      primaryTextColor: get(colors, `${primaryColor}.${shade}`, 'black'),
-      primaryBgColor: get(colors, `${primaryColor}.${shade}`),
-      secondaryBgColor: get(colors, `${secondaryColor}.0`),
-      ...(currentMode === 'dark' ? darkTheme : {}),
+      colorScheme: currentMode,
       window: Layout.window,
       isSmallDevice: Layout.isSmallDevice,
       screen: Layout.screen,

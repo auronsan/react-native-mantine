@@ -1,11 +1,11 @@
 import React, { forwardRef } from 'react';
 import { BoxView } from '../BoxView';
 import type { ViewProps } from '../BoxView';
-import type { DefaultProps, MantineNumberSize } from '../../theme/types';
+import type { MantineNumberSize } from '../../theme/types';
 import { useTheme } from '../../theme/theme-provider';
 import { Dimensions } from 'react-native';
 
-export interface ContainerProps extends DefaultProps, Omit<ViewProps, 'style'> {
+export interface ContainerProps extends ViewProps {
   /** Predefined container max-width or number for max-width in px */
   size?: MantineNumberSize | number;
 

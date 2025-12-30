@@ -3,7 +3,7 @@ import { getPrimaryShade } from '../../theme/functions/fns/primary-shade';
 import { get } from 'lodash-es';
 import { forwardRef } from 'react';
 import { Text as DefaultText } from 'react-native';
-import type { MantineTheme } from '../../theme/default-theme';
+import type { MantineTheme } from "../../theme/types";
 
 export type TextProps = DefaultText['props'] & {
   size?: string;
@@ -55,7 +55,6 @@ export const Text = forwardRef((props: TextProps, ref: any) => {
     fontFamilySemiBold,
     fontWeights,
     fontSizes,
-    light,
   } = theme;
 
   // Determine font family based on weight/style
@@ -87,7 +86,7 @@ export const Text = forwardRef((props: TextProps, ref: any) => {
             ? 'white'
             : color
               ? propToColor(color, theme)
-              : light.text,
+              : theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
           ...(align ? { textAlign: align } : {}),
         },
         style,

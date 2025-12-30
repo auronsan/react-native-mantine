@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 
 import { useTheme } from './theme-provider';
 
-import type { MantineTheme } from './default-theme';
+import type { MantineTheme } from './types';
 
 type NamedStyles<T> = {
   [P in keyof T]: ViewStyle | TextStyle | ImageStyle;

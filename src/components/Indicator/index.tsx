@@ -92,7 +92,6 @@ const useStyles = createStyles(
       inline: boolean;
     }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
     const indicatorSize =
       typeof size === 'number' ? rem(size) : sizes[size as keyof typeof sizes] || sizes.md;
 
@@ -160,11 +159,11 @@ const useStyles = createStyles(
         height: indicatorSize,
         borderRadius: theme.fn.radius(radius),
         backgroundColor: disabled
-          ? theme.colors.gray?.[5] || theme.colors.gray?.[6]
-          : colors?.[6] || colors?.[5] || theme.primaryBgColor,
+          ? theme.fn.themeColor('gray', 5)
+          : theme.fn.themeColor(color, 6),
         ...(withBorder && {
           borderWidth: 2,
-          borderColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[7] : theme.white,
+          borderColor: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 7) : theme.white,
         }),
         alignItems: 'center',
         justifyContent: 'center',

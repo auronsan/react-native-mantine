@@ -76,7 +76,6 @@ const useStyles = createStyles(
     },
     { size }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
     const sizeStyles = sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
@@ -98,11 +97,11 @@ const useStyles = createStyles(
       },
       itemDefault: {
         backgroundColor: 'transparent',
-        borderColor: theme.colorScheme === 'dark' ? theme.colors.dark?.[4] : theme.colors.gray?.[3],
+        borderColor: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 4) : theme.fn.themeColor('gray', 3),
       },
       itemActive: {
-        backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
-        borderColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+        backgroundColor: theme.fn.themeColor(color, 6),
+        borderColor: theme.fn.themeColor(color, 6),
       },
       itemControl: {
         backgroundColor: 'transparent',
@@ -118,10 +117,10 @@ const useStyles = createStyles(
         color: theme.white,
       },
       labelControl: {
-        color: theme.colorScheme === 'dark' ? theme.colors.dark?.[1] : theme.colors.gray?.[7],
+        color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 1) : theme.fn.themeColor('gray', 7),
       },
       labelDisabled: {
-        color: theme.colorScheme === 'dark' ? theme.colors.dark?.[3] : theme.colors.gray?.[5],
+        color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 3) : theme.fn.themeColor('gray', 5),
       },
       dots: {
         paddingHorizontal: rem(8) as any,

@@ -86,12 +86,10 @@ const useStyles = createStyles(
       width: number | 'auto';
     }
   ) => {
-    const colors = theme.colors[color] || theme.colors.gray;
-
     return {
       tooltip: {
         position: 'absolute',
-        backgroundColor: colors?.[9] || colors?.[8] || (theme.colors.gray || [])[9],
+        backgroundColor: theme.fn.themeColor(color, 9),
         borderRadius: theme.fn.radius(radius),
         paddingVertical: rem(6) as any,
         paddingHorizontal: rem(10) as any,

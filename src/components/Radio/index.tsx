@@ -95,7 +95,6 @@ const useStyles = createStyles(
       disabled: boolean;
     }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
     const radioSize = sizes[size as keyof typeof sizes] || sizes.md;
     const innerSize = (radioSize as any as number) * 0.5;
 
@@ -110,23 +109,23 @@ const useStyles = createStyles(
         height: radioSize as any,
         borderRadius: ((radioSize as any as number) / 2) as any,
         borderWidth: 2,
-        borderColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[4],
+        borderColor: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 4) : theme.fn.themeColor('gray', 4),
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
       },
       checked: {
-        borderColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+        borderColor: theme.fn.themeColor(color, 6),
       },
       inner: {
         width: rem(innerSize) as any,
         height: rem(innerSize) as any,
         borderRadius: rem(innerSize / 2) as any,
-        backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+        backgroundColor: theme.fn.themeColor(color, 6),
       },
       label: {
         fontSize: theme.fontSizes.sm as number,
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
+        color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 0) : theme.black,
         marginLeft: theme.spacing.sm,
         flex: 1,
       },

@@ -84,45 +84,52 @@ const useStyles = createStyles(
       disabled: boolean;
     }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
     const sizeStyles = sizes[size as keyof typeof sizes] || sizes.md;
 
     const getVariantStyles = () => {
       if (!checked) {
         return {
-          backgroundColor:
-            theme.colorScheme === 'dark' ? theme.colors.dark?.[6] : theme.colors.gray?.[1],
+          backgroundColor: theme.colorScheme === 'dark'
+            ? theme.fn.themeColor('dark', 6)
+            : theme.fn.themeColor('gray', 1),
           borderWidth: 1,
-          borderColor:
-            theme.colorScheme === 'dark' ? theme.colors.dark?.[4] : theme.colors.gray?.[4],
+          borderColor: theme.colorScheme === 'dark'
+            ? theme.fn.themeColor('dark', 4)
+            : theme.fn.themeColor('gray', 4),
         };
       }
 
       switch (variant) {
-        case 'filled':
+        case 'filled': {
+          const variantStyles = theme.fn.variant({ variant: 'filled', color });
           return {
-            backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+            backgroundColor: variantStyles.background,
             borderWidth: 0,
           };
-        case 'outline':
+        }
+        case 'outline': {
+          const variantStyles = theme.fn.variant({ variant: 'outline', color });
           return {
-            backgroundColor: 'transparent',
+            backgroundColor: variantStyles.background,
             borderWidth: 1,
-            borderColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+            borderColor: variantStyles.border,
           };
-        case 'light':
+        }
+        case 'light': {
           return {
-            backgroundColor:
-              theme.colorScheme === 'dark'
-                ? theme.fn.rgba(colors?.[9] || theme.primaryBgColor, 0.25)
-                : colors?.[0] || (theme.colors.gray || [])[1],
+            backgroundColor: theme.colorScheme === 'dark'
+              ? theme.fn.rgba(theme.fn.themeColor(color || theme.primaryColor, 9), 0.25)
+              : theme.fn.themeColor(color || theme.primaryColor, 0),
             borderWidth: 0,
           };
-        default:
+        }
+        default: {
+          const variantStyles = theme.fn.variant({ variant: 'filled', color });
           return {
-            backgroundColor: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+            backgroundColor: variantStyles.background,
             borderWidth: 0,
           };
+        }
       }
     };
 
@@ -136,7 +143,7 @@ const useStyles = createStyles(
           return theme.white;
         case 'outline':
         case 'light':
-          return colors?.[6] || colors?.[5] || theme.primaryBgColor;
+          return theme.fn.themeColor(color || theme.primaryColor);
         default:
           return theme.white;
       }

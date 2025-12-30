@@ -77,8 +77,6 @@ const useStyles = createStyles(
       listHeight: number;
     }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-
     return {
       root: {
         flexDirection: 'column',
@@ -93,8 +91,8 @@ const useStyles = createStyles(
         borderWidth: 1,
         borderColor:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[4]
-            : (theme.colors.gray || [])[3],
+            ? theme.fn.themeColor('dark', 4)
+            : theme.fn.themeColor('gray', 3),
         borderRadius: theme.fn.radius(radius),
         overflow: 'hidden',
       },
@@ -103,25 +101,25 @@ const useStyles = createStyles(
         borderBottomWidth: 1,
         borderBottomColor:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[4]
-            : (theme.colors.gray || [])[3],
+            ? theme.fn.themeColor('dark', 4)
+            : theme.fn.themeColor('gray', 3),
         backgroundColor:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[6]
-            : (theme.colors.gray || [])[0],
+            ? theme.fn.themeColor('dark', 6)
+            : theme.fn.themeColor('gray', 0),
       },
       title: {
         fontSize: rem(14) as any,
         fontWeight: '600',
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
+        color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 0) : theme.black,
       },
       searchContainer: {
         padding: theme.spacing.xs,
         borderBottomWidth: 1,
         borderBottomColor:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[4]
-            : (theme.colors.gray || [])[3],
+            ? theme.fn.themeColor('dark', 4)
+            : theme.fn.themeColor('gray', 3),
       },
       itemsContainer: {
         height: listHeight as any,
@@ -134,19 +132,19 @@ const useStyles = createStyles(
         borderBottomWidth: 1,
         borderBottomColor:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[5]
-            : (theme.colors.gray || [])[1],
+            ? theme.fn.themeColor('dark', 5)
+            : theme.fn.themeColor('gray', 1),
       },
       itemSelected: {
         backgroundColor:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[5]
-            : colors?.[0] || (theme.colors.gray || [])[0],
+            ? theme.fn.themeColor('dark', 5)
+            : theme.fn.themeColor(color, 0),
       },
       itemText: {
         marginLeft: theme.spacing.sm,
         fontSize: rem(14) as any,
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
+        color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 0) : theme.black,
       },
       controls: {
         width: rem(80) as any,
@@ -164,8 +162,8 @@ const useStyles = createStyles(
       emptyText: {
         color:
           theme.colorScheme === 'dark'
-            ? (theme.colors.dark || [])[2]
-            : (theme.colors.gray || [])[6],
+            ? theme.fn.themeColor('dark', 2)
+            : theme.fn.themeColor('gray', 6),
         fontSize: rem(12) as any,
       },
     };

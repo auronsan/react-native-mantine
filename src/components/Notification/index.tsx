@@ -57,12 +57,11 @@ const useStyles = createStyles(
       withIcon: boolean;
     }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const borderColor = colors?.[6] || colors?.[5] || theme.primaryBgColor;
+    const borderColor = theme.fn.themeColor(color, 6);
 
     return {
       root: {
-        backgroundColor: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[6] : theme.white,
+        backgroundColor: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 6) : theme.white,
         borderRadius: theme.fn.radius(radius),
         padding: theme.spacing.md,
         flexDirection: 'row',
@@ -70,7 +69,7 @@ const useStyles = createStyles(
         ...(withBorder && {
           borderWidth: 1,
           borderColor:
-            theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[3],
+            theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 4) : theme.fn.themeColor('gray', 3),
           borderLeftWidth: rem(4) as any,
           borderLeftColor: borderColor,
         }),
@@ -99,7 +98,7 @@ const useStyles = createStyles(
       },
       message: {
         fontSize: theme.fontSizes.sm as number,
-        color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[2] : (theme.colors.gray || [])[6],
+        color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 2) : theme.fn.themeColor('gray', 6),
         lineHeight: theme.fontSizes.sm * 1.5,
       },
       closeButton: {
@@ -107,7 +106,7 @@ const useStyles = createStyles(
         height: rem(24) as any,
         borderRadius: rem(12) as any,
         backgroundColor:
-          theme.colorScheme === 'dark' ? (theme.colors.dark || [])[5] : (theme.colors.gray || [])[1],
+          theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 5) : theme.fn.themeColor('gray', 1),
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: theme.spacing.sm,

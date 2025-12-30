@@ -69,8 +69,6 @@ const useStyles = createStyles(
     },
     { size }
   ) => {
-    const colors = theme.colors[color] || theme.colors[theme.primaryColor];
-    const emptyColors = theme.colors[emptyColor] || theme.colors.gray;
     const sizeValue = sizes[size as keyof typeof sizes] || sizes.md;
 
     return {
@@ -86,10 +84,10 @@ const useStyles = createStyles(
         lineHeight: sizeValue as any,
       },
       symbolFilled: {
-        color: colors?.[6] || colors?.[5] || theme.primaryBgColor,
+        color: theme.fn.themeColor(color, 6),
       },
       symbolEmpty: {
-        color: emptyColors?.[3] || emptyColors?.[2] || theme.colors.gray?.[3],
+        color: theme.fn.themeColor(emptyColor, 3),
       },
       symbolHovered: {
         opacity: 0.6,

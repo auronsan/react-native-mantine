@@ -77,7 +77,7 @@ const useStyles = createStyles(
       position: 'absolute',
       fontSize: rem(14),
       fontWeight: '600',
-      color: theme.colorScheme === 'dark' ? (theme.colors.dark || [])[0] : theme.black,
+      color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 0) : theme.black,
     },
     // Simplified progress representation
     progressContainer: {
@@ -112,7 +112,7 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
 
   const rootColor =
     customRootColor ||
-    (theme.colorScheme === 'dark' ? (theme.colors.dark || [])[4] : (theme.colors.gray || [])[2]);
+    (theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 4) : theme.fn.themeColor('gray', 2));
 
   const { styles, sx} = useStyles(
     { size, thickness, rootColor },
@@ -159,9 +159,7 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
     let currentAngle = 0;
 
     return normalizedSections.map((section, index) => {
-      const colors =
-        theme.colors[section.color] || theme.colors[theme.primaryColor];
-      const sectionColor = colors?.[6] || colors?.[5] || theme.primaryBgColor;
+      const sectionColor = theme.fn.themeColor(section.color, 6);
 
       const angle = (section.percentage / 100) * 360;
       const rotation = currentAngle;

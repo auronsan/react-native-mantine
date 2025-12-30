@@ -38,11 +38,14 @@ const useStyles = createStyles(
       verticalSpacing: MantineNumberSize;
     }
   ) => {
-    const horizontalSpacing = theme.fn.size({ size: spacing, sizes: theme.spacing });
-    const rowSpacing = theme.fn.size({
+    const horizontalSpacingValue = theme.fn.size({ size: spacing, sizes: theme.spacing });
+    const horizontalSpacing = typeof horizontalSpacingValue === 'number' ? horizontalSpacingValue : parseFloat(horizontalSpacingValue) || 0;
+
+    const rowSpacingValue = theme.fn.size({
       size: verticalSpacing || spacing,
       sizes: theme.spacing,
     });
+    const rowSpacing = typeof rowSpacingValue === 'number' ? rowSpacingValue : parseFloat(rowSpacingValue) || 0;
 
     return {
       root: {
