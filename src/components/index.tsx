@@ -53,7 +53,6 @@ export * from './Chip';
 export * from './NativeSelect';
 
 // Phase 4 components - Advanced Interactions
-export * from './Slider';
 export * from './Rating';
 export * from './Stepper';
 export * from './SegmentedControl';

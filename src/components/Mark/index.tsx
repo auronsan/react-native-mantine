@@ -5,7 +5,7 @@ import { useTheme } from '../../theme/theme-provider';
 import type { WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
 export interface MarkProps extends TextProps, WithTextWrapperProps {
-  /** Background color key from theme.colors or CSS color value */
+  /** Background color key from theme.colors or color value */
   color?: string;
 
   /** Text content */

@@ -55,9 +55,9 @@ export function gradient(theme: MantineTheme) {
 }
 
 /**
- * Legacy function for web compatibility - returns CSS gradient string
+ * Legacy function for web compatibility - returns gradient string
  * Not used in React Native but kept for API compatibility
  */
-export function linearGradientCSS(deg: number, ...colors: string[]) {
+export function linearGradientString(deg: number, ...colors: string[]) {
   return `linear-gradient(${deg}deg, ${colors.join(', ')})`;
 }

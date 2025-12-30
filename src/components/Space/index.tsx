@@ -5,10 +5,10 @@ import type { DefaultProps, MantineNumberSize } from '../../theme/types';
 import { useTheme } from '../../theme/theme-provider';
 
 export interface SpaceProps extends DefaultProps, Omit<ViewProps, 'style'> {
-  /** Width, key of theme.spacing or any valid CSS value */
+  /** Width, key of theme.spacing or number value */
   w?: MantineNumberSize | number;
 
-  /** Height, key of theme.spacing or any valid CSS value */
+  /** Height, key of theme.spacing or number value */
   h?: MantineNumberSize | number;
 }
 

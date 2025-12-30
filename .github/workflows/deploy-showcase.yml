@@ -63,12 +63,6 @@ jobs:
             cp -r example/dist/* deployment/
           fi
 
-          # Copy the landing page to /docs subdirectory
-          if [ -d "docs" ]; then
-            mkdir -p deployment/docs
-            cp -r docs/* deployment/docs/
-          fi
-
       - name: Setup Pages
         uses: actions/configure-pages@v4
 

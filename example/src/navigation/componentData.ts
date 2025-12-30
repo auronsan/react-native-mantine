@@ -77,7 +77,6 @@ export const componentCategories: ComponentCategory[] = [
     description: 'Tables, lists, and complex data presentation',
     route: 'Phase4Components',
     components: [
-      { name: 'Slider', description: 'Range slider with marks and labels', route: 'SliderExample' },
       { name: 'Rating', description: 'Interactive star rating', route: 'RatingExample' },
       { name: 'Stepper', description: 'Multi-step form navigation', route: 'StepperExample' },
       { name: 'SegmentedControl', description: 'Segmented button group selector', route: 'SegmentedControlExample' },
@@ -110,7 +109,7 @@ export const componentCategories: ComponentCategory[] = [
       { name: 'Anchor', description: 'Styled link component', route: 'AnchorExample' },
       { name: 'Kbd', description: 'Keyboard shortcut display', route: 'KbdExample' },
       { name: 'Indicator', description: 'Notification dot indicator', route: 'IndicatorExample' },
-      { name: 'Grid', description: 'Flexible CSS Grid layout', route: 'GridExample' },
+      { name: 'Grid', description: 'Flexible grid layout', route: 'GridExample' },
       { name: 'SimpleGrid', description: 'Auto-responsive grid layout', route: 'SimpleGridExample' },
       { name: 'AspectRatio', description: 'Maintain fixed aspect ratio', route: 'AspectRatioExample' },
       { name: 'MediaQuery', description: 'Responsive visibility control', route: 'MediaQueryExample' },

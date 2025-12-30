@@ -50,7 +50,6 @@ export * from './phase3/ChipExample';
 export * from './phase3/NativeSelectExample';
 
 // Data Display
-export * from './phase4/SliderExample';
 export * from './phase4/RatingExample';
 export * from './phase4/StepperExample';
 export * from './phase4/SegmentedControlExample';

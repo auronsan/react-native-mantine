@@ -6,7 +6,7 @@ import { Grid, Paper, Text } from 'react-native-mantine';
 
 export const GridExample = () => {
   return (
-    <ExampleWrapper title="Grid" description="Flexible CSS Grid layout">
+    <ExampleWrapper title="Grid" description="Flexible grid layout">
       <ExampleSection title="Basic Usage" description="Grid component">
         <Paper p="md" radius="md">
           <Grid>

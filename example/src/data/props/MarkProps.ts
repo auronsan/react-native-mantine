@@ -4,7 +4,7 @@ export const markProps: PropDefinition[] = [
   {
     name: 'color',
     type: 'string',
-    description: 'Background color key from theme.colors (e.g., "yellow", "blue") or CSS color value',
+    description: 'Background color key from theme.colors (e.g., "yellow", "blue") or color value',
     default: "'yellow'",
     required: false,
   },

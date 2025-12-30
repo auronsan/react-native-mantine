@@ -26,7 +26,7 @@ export function themeColor({ theme, color, shade }: ThemeColorInput): string {
   const colorPalette = theme.colors[color];
 
   if (!colorPalette) {
-    // If color not in palette, return as is (might be a CSS color name)
+    // If color not in palette, return as is (might be a color name like 'red', 'blue', etc.)
     return color;
   }
 
