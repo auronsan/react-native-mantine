@@ -1,5 +1,7 @@
 import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { codeProps } from '../../data/props/CodeProps';
 import { Code, Text, Stack  } from 'react-native-mantine';
 
 export const CodeExample = () => {
@@ -44,6 +46,17 @@ export const CodeExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Block Code"
+        description="Code displayed as a block with more padding"
+      >
+        <Code block>
+          function greet(name) {"{"}
+            {"\n"}  return `Hello, ${"{"}name{"}"}!`;
+            {"\n"}{"}"}
+        </Code>
+      </ExampleSection>
+
+      <ExampleSection
         title="Technical Documentation"
         description="Common use case for code inline"
       >
@@ -59,15 +72,33 @@ export const CodeExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Code props"
+      >
+        <PropsTable props={codeProps} />
+      </ExampleSection>
+
+      <ExampleSection
         title="Usage Example"
         description="Basic implementation code"
       >
         <CodeBlock
           code={`import { Code, Text  } from 'react-native-mantine';
 
+// Inline code
 <Text>
   Use <Code>import</Code> statement
-</Text>`}
+</Text>
+
+// With color
+<Text>
+  Error: <Code color="red">error.message</Code>
+</Text>
+
+// Block code
+<Code block>
+  const value = 42;
+</Code>`}
         />
       </ExampleSection>
     </ExampleWrapper>

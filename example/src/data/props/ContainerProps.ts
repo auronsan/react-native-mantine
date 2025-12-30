@@ -1,0 +1,115 @@
+import type { PropDefinition } from './ButtonProps';
+
+export const containerProps: PropDefinition[] = [
+  {
+    name: 'size',
+    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | number",
+    description: 'Predefined container max-width (xs: 540, sm: 720, md: 960, lg: 1140, xl: 1320) or number for max-width in px',
+    default: "'md'",
+    required: false,
+  },
+  {
+    name: 'fluid',
+    type: 'boolean',
+    description: 'If true, container will take 100% of available width (ignores size prop)',
+    default: 'false',
+    required: false,
+  },
+  {
+    name: 'px',
+    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | number",
+    description: 'Horizontal padding from theme.spacing or number for padding in px',
+    default: "'md'",
+    required: false,
+  },
+  {
+    name: 'py',
+    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | number",
+    description: 'Vertical padding from theme.spacing or number for padding in px',
+    required: false,
+  },
+  {
+    name: 'children',
+    type: 'React.ReactNode',
+    description: 'Container content',
+    required: false,
+  },
+  {
+    name: 'style',
+    type: 'ViewStyle',
+    description: 'Additional styles to apply to the container',
+    required: false,
+  },
+  {
+    name: 'p',
+    type: 'string | number',
+    description: 'Padding on all sides (inherited from BoxView)',
+    required: false,
+  },
+  {
+    name: 'pt',
+    type: 'string | number',
+    description: 'Padding top (inherited from BoxView)',
+    required: false,
+  },
+  {
+    name: 'pb',
+    type: 'string | number',
+    description: 'Padding bottom (inherited from BoxView)',
+    required: false,
+  },
+  {
+    name: 'pl',
+    type: 'string | number',
+    description: 'Padding left (inherited from BoxView)',
+    required: false,
+  },
+  {
+    name: 'pr',
+    type: 'string | number',
+    description: 'Padding right (inherited from BoxView)',
+    required: false,
+  },
+  {
+    name: 'm',
+    type: 'string | number',
+    description: 'Margin on all sides (inherited from BoxView)',
+    required: false,
+  },
+  {
+    name: 'mx',
+    type: 'string | number',
+    description: 'Margin horizontal (inherited from BoxView)',
+    required: false,
+  },
+  {
+    name: 'my',
+    type: 'string | number',
+    description: 'Margin vertical (inherited from BoxView)',
+    required: false,
+  },
+  {
+    name: 'mt',
+    type: 'string | number',
+    description: 'Margin top (inherited from BoxView)',
+    required: false,
+  },
+  {
+    name: 'mb',
+    type: 'string | number',
+    description: 'Margin bottom (inherited from BoxView)',
+    required: false,
+  },
+  {
+    name: 'ml',
+    type: 'string | number',
+    description: 'Margin left (inherited from BoxView)',
+    required: false,
+  },
+  {
+    name: 'mr',
+    type: 'string | number',
+    description: 'Margin right (inherited from BoxView)',
+    required: false,
+  },
+];

@@ -1,4 +1,6 @@
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { notificationProps } from '../../data/props/NotificationProps';
 import { Notification , Paper } from 'react-native-mantine';
 
 export const NotificationExample = () => {
@@ -16,6 +18,30 @@ export const NotificationExample = () => {
             Your changes have been saved
           </Notification>
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Notification props"
+      >
+        <PropsTable props={notificationProps} />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage Example"
+        description="Basic implementation code"
+      >
+        <CodeBlock
+          code={`import { Notification } from 'react-native-mantine';
+
+<Notification
+  title="Success"
+  message="Your changes have been saved successfully"
+  color="green"
+  withCloseButton
+  onClose={() => console.log('Closed')}
+/>`}
+        />
       </ExampleSection>
     </ExampleWrapper>
   );

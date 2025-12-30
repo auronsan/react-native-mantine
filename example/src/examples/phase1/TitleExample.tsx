@@ -1,5 +1,7 @@
 import { View } from 'react-native';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { titleProps } from '../../data/props/TitleProps';
 import { Title, Text , Paper } from 'react-native-mantine';
 
 export const TitleExample = () => {
@@ -42,6 +44,36 @@ export const TitleExample = () => {
             </Text>
           </View>
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Title props"
+      >
+        <PropsTable props={titleProps} />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage Example"
+        description="Basic implementation code"
+      >
+        <CodeBlock
+          code={`import { Title } from 'react-native-mantine';
+
+<Title order={1}>Main Heading</Title>
+<Title order={2}>Subheading</Title>
+<Title order={3}>Section Title</Title>
+
+// With custom styling
+<Title order={2} style={{ color: '#228be6' }}>
+  Colored Title
+</Title>
+
+// With text alignment
+<Title order={1} align="center">
+  Centered Title
+</Title>`}
+        />
       </ExampleSection>
     </ExampleWrapper>
   );

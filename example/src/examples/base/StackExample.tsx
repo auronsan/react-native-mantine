@@ -1,5 +1,7 @@
 import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { stackProps } from '../../data/props/StackProps';
 import { Stack, Text, Button , Badge } from 'react-native-mantine';
 
 export const StackExample = () => {
@@ -63,16 +65,30 @@ export const StackExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Stack props"
+      >
+        <PropsTable props={stackProps} />
+      </ExampleSection>
+
+      <ExampleSection
         title="Usage Example"
         description="Basic implementation code"
       >
         <CodeBlock
           code={`import { Stack, Button , Badge } from 'react-native-mantine';
 
+// Basic stack with spacing
 <Stack spacing={16}>
   <Button>First</Button>
   <Button>Second</Button>
   <Button>Third</Button>
+</Stack>
+
+// Centered stack with padding
+<Stack spacing={12} position="center" p="md">
+  <Badge>Badge 1</Badge>
+  <Badge>Badge 2</Badge>
 </Stack>`}
         />
       </ExampleSection>

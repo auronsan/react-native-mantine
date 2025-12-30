@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { textInputProps } from '../../data/props/TextInputProps';
 import {
   TextInput,
   Paper,
@@ -125,6 +127,48 @@ export const TextInputExample = () => {
         description="TextInput components integrated with useForm hook"
       >
         <TextInputFormExample />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available TextInput props"
+      >
+        <PropsTable props={textInputProps} />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage Example"
+        description="Basic implementation code"
+      >
+        <CodeBlock
+          code={`import { TextInput } from 'react-native-mantine';
+
+// Basic TextInput
+<TextInput
+  label="Email"
+  placeholder="your@email.com"
+  value={email}
+  onChangeText={setEmail}
+/>
+
+// With description and error
+<TextInput
+  label="Password"
+  description="Must be at least 8 characters"
+  placeholder="Enter password"
+  secureTextEntry
+  error={error}
+  required
+/>
+
+// With icon and right section
+<TextInput
+  label="Search"
+  placeholder="Type to search..."
+  icon={<SearchIcon />}
+  rightSection={<ClearButton />}
+/>`}
+        />
       </ExampleSection>
     </ExampleWrapper>
   );

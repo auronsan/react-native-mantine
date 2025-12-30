@@ -1,4 +1,6 @@
 import { ScrollView } from 'react-native';
+import { PropsTable } from '../../components/PropsTable';
+import { iconProps } from '../../data/props/IconProps';
 import {
   Icon,
   Text,
@@ -204,6 +206,13 @@ export function IconExample() {
               <Text size="xs">Upload</Text>
             </Stack>
           </Group>
+        </Paper>
+
+        <Paper p={16}>
+          <Title order={3} style={{ marginBottom: 16 }}>
+            Component Props
+          </Title>
+          <PropsTable props={iconProps} />
         </Paper>
       </Stack>
     </ScrollView>

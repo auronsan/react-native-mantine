@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { checkboxProps } from '../../data/props/CheckboxProps';
 import {
   Checkbox,
   Stack,
@@ -154,6 +156,44 @@ export const CheckboxExample = () => {
         description="Checkbox components integrated with useForm hook and validation"
       >
         <CheckboxFormExample />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Checkbox props"
+      >
+        <PropsTable props={checkboxProps} />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage Example"
+        description="Basic implementation code"
+      >
+        <CodeBlock
+          code={`import { Checkbox } from 'react-native-mantine';
+
+// Basic checkbox
+<Checkbox
+  label="Accept terms and conditions"
+  checked={accepted}
+  onChange={setAccepted}
+/>
+
+// Indeterminate state
+<Checkbox
+  label="Select all"
+  checked={allSelected}
+  indeterminate={someSelected}
+  onChange={toggleAll}
+/>
+
+// Disabled checkbox
+<Checkbox
+  label="Cannot change this"
+  checked={true}
+  disabled
+/>`}
+        />
       </ExampleSection>
     </ExampleWrapper>
   );

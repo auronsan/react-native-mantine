@@ -1,4 +1,6 @@
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { themeIconProps } from '../../data/props/ThemeIconProps';
 import { Group, ThemeIcon , Paper } from 'react-native-mantine';
 
 export const ThemeIconExample = () => {
@@ -18,6 +20,41 @@ export const ThemeIconExample = () => {
             <ThemeIcon color="green" size="lg">✓</ThemeIcon>
           </Group>
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available ThemeIcon props"
+      >
+        <PropsTable props={themeIconProps} />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage Example"
+        description="Basic implementation code"
+      >
+        <CodeBlock
+          code={`import { ThemeIcon, Icon } from 'react-native-mantine';
+
+// Filled variant (default)
+<ThemeIcon color="blue" size="lg">
+  <Icon name="heart" size={20} color="white" />
+</ThemeIcon>
+
+// Light variant
+<ThemeIcon color="red" variant="light" size="md">
+  ❤️
+</ThemeIcon>
+
+// Gradient variant
+<ThemeIcon
+  variant="gradient"
+  gradient={{ from: 'blue', to: 'cyan', deg: 45 }}
+  size="xl"
+>
+  📧
+</ThemeIcon>`}
+        />
       </ExampleSection>
     </ExampleWrapper>
   );

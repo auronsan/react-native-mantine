@@ -1,6 +1,8 @@
 import { View } from 'react-native';
 import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { unstyledButtonProps } from '../../data/props/UnstyledButtonProps';
 import { Text, UnstyledButton, Stack  } from 'react-native-mantine';
 
 export const UnstyledButtonExample = () => {
@@ -83,6 +85,13 @@ export const UnstyledButtonExample = () => {
             <Text style={{ color: '#666' }}>Tap anywhere on this card to trigger an action</Text>
           </View>
         </UnstyledButton>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available UnstyledButton props"
+      >
+        <PropsTable props={unstyledButtonProps} />
       </ExampleSection>
 
       <ExampleSection

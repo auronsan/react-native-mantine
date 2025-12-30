@@ -5,6 +5,8 @@ import {
   ExampleSection,
   CodeBlock,
 } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { buttonProps } from '../../data/props/ButtonProps';
 import { Button, Stack , Badge } from 'react-native-mantine';
 
 export const ButtonExample = () => {
@@ -100,11 +102,63 @@ export const ButtonExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Compact Mode"
+        description="Reduced padding for space-constrained layouts"
+      >
+        <Stack spacing={10}>
+          <Button compact>Compact Button</Button>
+          <Button>Regular Button</Button>
+        </Stack>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Uppercase Text"
+        description="Transform button text to uppercase"
+      >
+        <Button uppercase>Uppercase Button</Button>
+      </ExampleSection>
+
+      <ExampleSection
+        title="With Icons"
+        description="Buttons with left and right icons"
+      >
+        <Stack spacing={10}>
+          <Button leftIcon={<View style={{ width: 16, height: 16, backgroundColor: 'white', borderRadius: 2 }} />}>
+            Left Icon
+          </Button>
+          <Button rightIcon={<View style={{ width: 16, height: 16, backgroundColor: 'white', borderRadius: 2 }} />}>
+            Right Icon
+          </Button>
+        </Stack>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Gradient Variant"
+        description="Button with gradient background"
+      >
+        <Stack spacing={10}>
+          <Button variant="gradient" gradient={{ from: 'blue', to: 'cyan', deg: 45 }}>
+            Blue to Cyan
+          </Button>
+          <Button variant="gradient" gradient={{ from: 'grape', to: 'pink', deg: 90 }}>
+            Grape to Pink
+          </Button>
+        </Stack>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Button props"
+      >
+        <PropsTable props={buttonProps} />
+      </ExampleSection>
+
+      <ExampleSection
         title="Usage Example"
         description="Basic implementation code"
       >
         <CodeBlock
-          code={`import { Button , Badge } from 'react-native-mantine';
+          code={`import { Button } from 'react-native-mantine';
 
 <Button
   variant="filled"
@@ -113,6 +167,23 @@ export const ButtonExample = () => {
   onPress={() => console.log('Clicked!')}
 >
   Click Me
+</Button>
+
+// With loading state
+<Button
+  loading={isLoading}
+  loaderPosition="left"
+  onPress={handleSubmit}
+>
+  Submit
+</Button>
+
+// Gradient button
+<Button
+  variant="gradient"
+  gradient={{ from: 'blue', to: 'cyan', deg: 45 }}
+>
+  Gradient Button
 </Button>`}
         />
       </ExampleSection>

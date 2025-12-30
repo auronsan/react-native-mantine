@@ -1,5 +1,7 @@
 import { View } from 'react-native';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { groupProps } from '../../data/props/GroupProps';
 import { Button, Group, Text, Stack , Badge } from 'react-native-mantine';
 
 export const GroupExample = () => {
@@ -72,16 +74,36 @@ export const GroupExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Group props"
+      >
+        <PropsTable props={groupProps} />
+      </ExampleSection>
+
+      <ExampleSection
         title="Usage Example"
         description="Basic implementation code"
       >
         <CodeBlock
           code={`import { Group, Button , Badge } from 'react-native-mantine';
 
+// Basic group with spacing
 <Group spacing={16}>
   <Button>First</Button>
   <Button>Second</Button>
   <Button>Third</Button>
+</Group>
+
+// Centered group with alignment
+<Group position="center" align="center" spacing={12}>
+  <Badge>Badge 1</Badge>
+  <Badge>Badge 2</Badge>
+</Group>
+
+// Space-between layout
+<Group position="apart">
+  <Button>Left</Button>
+  <Button>Right</Button>
 </Group>`}
         />
       </ExampleSection>

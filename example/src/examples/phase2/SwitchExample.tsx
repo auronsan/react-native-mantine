@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { switchProps } from '../../data/props/SwitchProps';
 import {
   Stack,
   Switch,
@@ -138,6 +140,44 @@ export const SwitchExample = () => {
         description="Switch components integrated with useForm hook"
       >
         <SwitchFormExample />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Switch props"
+      >
+        <PropsTable props={switchProps} />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage Example"
+        description="Basic implementation code"
+      >
+        <CodeBlock
+          code={`import { Switch } from 'react-native-mantine';
+
+// Basic switch
+<Switch
+  label="Enable notifications"
+  checked={enabled}
+  onChange={setEnabled}
+/>
+
+// With label on left
+<Switch
+  label="Dark mode"
+  labelPosition="left"
+  checked={darkMode}
+  onChange={setDarkMode}
+/>
+
+// Disabled switch
+<Switch
+  label="Cannot toggle"
+  checked={true}
+  disabled
+/>`}
+        />
       </ExampleSection>
     </ExampleWrapper>
   );
