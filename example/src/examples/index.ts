@@ -97,3 +97,5 @@ export * from './style-system/ResponsiveUtilitiesExample';
 export * from './style-system/PrimaryColorExample';
 export * from './style-system/VariantsExample';
 export * from './style-system/ThemeCustomizationExample';
+export * from './style-system/ColorSchemeConstantsExample';
+export * from './style-system/ThemeOverrideExample';

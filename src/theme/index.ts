@@ -13,6 +13,8 @@ export type {
   MantineThemeColors,
   MantinePrimaryShade,
   ColorScheme,
+  ColorSchemeValue,
+  ResolveColorSchemeValue,
 
   // Size types
   MantineSize,
@@ -77,6 +79,10 @@ export {
   dimmed,
   largerThan,
   smallerThan,
+  colorSchemeValue,
+  resolveColorSchemeValue,
+  resolveColorSchemeConstants,
+  isColorSchemeValue,
 } from './functions';
 
 // Utility exports

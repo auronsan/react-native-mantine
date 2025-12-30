@@ -16,6 +16,10 @@ import { darken } from './darken';
 import { dimmed } from './dimmed';
 import { largerThan, smallerThan } from './breakpoints';
 import * as helpers from './helpers';
+import {
+  createColorSchemeValueFunction,
+  createColorSchemeConstantsFunction,
+} from './color-scheme-value';
 
 /**
  * Collection of all theme helper functions
@@ -48,6 +52,10 @@ export const fns = {
   largerThan,
   smallerThan,
 
+  // Color scheme helpers
+  colorSchemeValue: createColorSchemeValueFunction,
+  colorSchemeConstants: createColorSchemeConstantsFunction,
+
   // Helper functions from helpers module
   ...helpers,
 };
@@ -69,3 +77,14 @@ export {
   largerThan,
   smallerThan,
 };
+
+// Re-export color scheme helpers
+export {
+  colorSchemeValue,
+  resolveColorSchemeValue,
+  resolveColorSchemeConstants,
+  isColorSchemeValue,
+  createColorSchemeValueFunction,
+  createColorSchemeConstantsFunction,
+} from './color-scheme-value';
+export type { ColorSchemeValue, ResolveColorSchemeValue } from './color-scheme-value';

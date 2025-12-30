@@ -30,15 +30,14 @@ import type { TextProps } from '../../components/Text';
 export function withTextWrapper(
   children: ReactNode,
   shouldWrap: boolean = true,
-  textStyle?: any,
-  textProps?: Omit<TextProps, 'children' | 'style'>
+  textProps?: Omit<TextProps, 'children'>
 ): ReactNode {
   if (!shouldWrap) {
     return children;
   }
 
   return (
-    <Text style={textStyle} {...textProps}>
+    <Text {...textProps}>
       {children}
     </Text>
   );

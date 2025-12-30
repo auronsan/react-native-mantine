@@ -61,8 +61,10 @@ export const Code = forwardRef<any, CodeProps>((props, ref) => {
           children,
           shouldWrapInText,
           {
-            fontFamily: 'Courier',
-            fontSize: theme.fontSizes.sm as number || 14,
+            style: {
+              fontFamily: 'Courier',
+              fontSize: theme.fontSizes.sm as number || 14,
+            },
             color: textColor,
           }
         )}

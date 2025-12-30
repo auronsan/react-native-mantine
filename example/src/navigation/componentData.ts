@@ -161,12 +161,14 @@ export const componentCategories: ComponentCategory[] = [
     components: [
       { name: 'Color Manipulation', description: 'Theme functions: lighten, darken, dimmed', route: 'ColorManipulationExample' },
       { name: 'Color Palette', description: 'Complete color system aligned with Mantine web', route: 'ColorPaletteExample' },
+      { name: 'Color Scheme Constants', description: 'Color scheme-aware constants using colorSchemeValue', route: 'ColorSchemeConstantsExample' },
       { name: 'Component Variants', description: 'Guide to all 8 built-in component variants', route: 'VariantsExample' },
       { name: 'Gradients', description: 'Gradient support for buttons and backgrounds', route: 'GradientExample' },
       { name: 'Primary Color System', description: 'primaryColor and primaryShade configuration', route: 'PrimaryColorExample' },
       { name: 'Responsive Utilities', description: 'Breakpoint utilities: largerThan and smallerThan', route: 'ResponsiveUtilitiesExample' },
       { name: 'Shadow System', description: 'Shadow sizes aligned with Mantine web (xs, sm, md, lg, xl)', route: 'ShadowSystemExample' },
       { name: 'Theme Customization', description: 'Customize colors, typography, and spacing', route: 'ThemeCustomizationExample' },
+      { name: 'Theme Override Example', description: 'Full example with colorSchemeValue and Button fix', route: 'ThemeOverrideExample' },
     ],
   },
 ];
