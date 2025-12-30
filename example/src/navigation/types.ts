@@ -1,13 +1,17 @@
 export type RootStackParamList = {
   Home: undefined;
-  BaseComponents: undefined;
-  Phase1Components: undefined;
-  Phase2Components: undefined;
-  Phase3Components: undefined;
-  Phase4Components: undefined;
-  Phase5Components: undefined;
-  Phase6Components: undefined;
-  StyleSystemComponents: undefined;
+
+  // Category routes - aligned with Mantine web structure
+  LayoutComponents: undefined;
+  ButtonComponents: undefined;
+  InputComponents: undefined;
+  NavigationComponents: undefined;
+  DataDisplayComponents: undefined;
+  OverlayComponents: undefined;
+  TypographyComponents: undefined;
+  FeedbackComponents: undefined;
+  MiscComponents: undefined;
+  ThemingComponents: undefined;
 
   // Core Components
   BoxViewExample: undefined;
