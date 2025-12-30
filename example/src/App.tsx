@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Theme } from 'react-native-mantine';
+import { Theme, colorSchemeValue } from 'react-native-mantine';
 import type { RootStackParamList } from './navigation/types';
 import { HomeScreen } from './screens/HomeScreen';
 import { CategoryScreen } from './screens/CategoryScreen';
@@ -11,9 +11,23 @@ import * as Examples from './examples';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+// Define comprehensive theme overrides with color scheme-aware constants
+// These constants automatically adapt between light and dark modes
+const themeOverride = {
+  other: {
+    // App-wide color constants
+    colors: {
+      // Text colors
+      text: colorSchemeValue('#000', '#fff'),
+      textSecondary: colorSchemeValue('#666', '#aaa'),
+      textTertiary: colorSchemeValue('#999', '#888'),
+    },
+  },
+};
+
 export default function App() {
   return (
-    <Theme forceMode="light">
+    <Theme theme={themeOverride} forceMode="light">
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Home"
@@ -34,28 +48,19 @@ export default function App() {
           />
 
           {/* Category Screens - Aligned with Mantine web structure */}
-          <Stack.Screen
-            name="LayoutComponents"
-            options={{ title: 'Layout' }}
-          >
+          <Stack.Screen name="LayoutComponents" options={{ title: 'Layout' }}>
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[0]!} />
             )}
           </Stack.Screen>
 
-          <Stack.Screen
-            name="ButtonComponents"
-            options={{ title: 'Buttons' }}
-          >
+          <Stack.Screen name="ButtonComponents" options={{ title: 'Buttons' }}>
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[1]!} />
             )}
           </Stack.Screen>
 
-          <Stack.Screen
-            name="InputComponents"
-            options={{ title: 'Inputs' }}
-          >
+          <Stack.Screen name="InputComponents" options={{ title: 'Inputs' }}>
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[2]!} />
             )}
@@ -115,10 +120,7 @@ export default function App() {
             )}
           </Stack.Screen>
 
-          <Stack.Screen
-            name="ThemingComponents"
-            options={{ title: 'Theming' }}
-          >
+          <Stack.Screen name="ThemingComponents" options={{ title: 'Theming' }}>
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[9]!} />
             )}

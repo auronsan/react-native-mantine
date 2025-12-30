@@ -100,6 +100,25 @@ export interface MantinePrimaryShade {
  */
 export type ColorScheme = 'light' | 'dark';
 
+/**
+ * Color scheme value type
+ * Represents a value that has different values for light and dark modes
+ */
+export interface ColorSchemeValue<T = any> {
+  light: T;
+  dark: T;
+}
+
+/**
+ * Type helper to resolve ColorSchemeValue types to their base types
+ * Recursively transforms ColorSchemeValue<T> to T in object structures
+ */
+export type ResolveColorSchemeValue<T> = T extends ColorSchemeValue<infer U>
+  ? U
+  : T extends Record<string, any>
+  ? { [K in keyof T]: ResolveColorSchemeValue<T[K]> }
+  : T;
+
 // ============================================================================
 // Size System Types
 // ============================================================================
@@ -413,6 +432,20 @@ export interface MantineThemeFunctions {
    * @param breakpoint - Breakpoint value
    */
   smallerThan(breakpoint: MantineNumberSize): any;
+
+  /**
+   * Get value based on current color scheme
+   * Returns different values for light and dark modes
+   * @param value - Value or ColorSchemeValue object with light/dark properties
+   */
+  colorSchemeValue<T = any>(value: T | { light: T; dark: T }): T;
+
+  /**
+   * Resolve all color scheme values in an object
+   * Useful for resolving theme constants with different light/dark values
+   * @param constants - Object containing ColorSchemeValue properties
+   */
+  colorSchemeConstants<T extends Record<string, any>>(constants: T): any;
 }
 
 // ============================================================================

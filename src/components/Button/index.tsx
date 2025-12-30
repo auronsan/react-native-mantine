@@ -120,6 +120,10 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
     }
   );
 
+  // Get the text color from the variant styles
+  // We need to cast to access the color property since TypeScript doesn't know the exact type
+  const textColor = (styles.root as any).color as string;
+
   const loader = <ActivityIndicator />;
 
   const buttonContent = (
@@ -134,7 +138,7 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
         {loading && loaderPosition === 'center' && (
           <BoxView style={styles.centerLoader}>{loader}</BoxView>
         )}
-        {withTextWrapper(children, shouldWrapInText)}
+        {withTextWrapper(children, shouldWrapInText, { color: textColor })}
         {(rightIcon || (loading && loaderPosition === 'right')) && (
           <BoxView style={sx(styles.icon, styles.rightIcon)}>
             {loading && loaderPosition === 'right' ? loader : rightIcon}

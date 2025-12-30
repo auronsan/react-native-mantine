@@ -64,6 +64,10 @@ export function attachFunctions(themeBase: MantineThemeBase): MantineTheme {
       // Responsive functions
       largerThan: fns.largerThan(themeBase),
       smallerThan: fns.smallerThan(themeBase),
+
+      // Color scheme helpers
+      colorSchemeValue: fns.colorSchemeValue(themeBase),
+      colorSchemeConstants: fns.colorSchemeConstants(themeBase),
     },
   };
 }
