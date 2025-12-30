@@ -33,10 +33,10 @@ export default function App() {
             options={{ title: 'Mantine Components' }}
           />
 
-          {/* Category Screens */}
+          {/* Category Screens - Aligned with Mantine web structure */}
           <Stack.Screen
-            name="BaseComponents"
-            options={{ title: 'Core Components' }}
+            name="LayoutComponents"
+            options={{ title: 'Layout' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[0]!} />
@@ -44,8 +44,8 @@ export default function App() {
           </Stack.Screen>
 
           <Stack.Screen
-            name="Phase1Components"
-            options={{ title: 'Layout & Typography' }}
+            name="ButtonComponents"
+            options={{ title: 'Buttons' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[1]!} />
@@ -53,8 +53,8 @@ export default function App() {
           </Stack.Screen>
 
           <Stack.Screen
-            name="Phase2Components"
-            options={{ title: 'Feedback & Forms' }}
+            name="InputComponents"
+            options={{ title: 'Inputs' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[2]!} />
@@ -62,8 +62,8 @@ export default function App() {
           </Stack.Screen>
 
           <Stack.Screen
-            name="Phase3Components"
-            options={{ title: 'Overlays & Dialogs' }}
+            name="NavigationComponents"
+            options={{ title: 'Navigation' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[3]!} />
@@ -71,8 +71,8 @@ export default function App() {
           </Stack.Screen>
 
           <Stack.Screen
-            name="Phase4Components"
-            options={{ title: 'Data Display' }}
+            name="DataDisplayComponents"
+            options={{ title: 'Data display' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[4]!} />
@@ -80,8 +80,8 @@ export default function App() {
           </Stack.Screen>
 
           <Stack.Screen
-            name="Phase5Components"
-            options={{ title: 'Media & Utilities' }}
+            name="OverlayComponents"
+            options={{ title: 'Overlays' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[5]!} />
@@ -89,8 +89,8 @@ export default function App() {
           </Stack.Screen>
 
           <Stack.Screen
-            name="Phase6Components"
-            options={{ title: 'Navigation & Advanced' }}
+            name="TypographyComponents"
+            options={{ title: 'Typography' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[6]!} />
@@ -98,11 +98,29 @@ export default function App() {
           </Stack.Screen>
 
           <Stack.Screen
-            name="StyleSystemComponents"
-            options={{ title: 'Style System Showcase' }}
+            name="FeedbackComponents"
+            options={{ title: 'Feedback' }}
           >
             {(props) => (
               <CategoryScreen {...props} category={componentCategories[7]!} />
+            )}
+          </Stack.Screen>
+
+          <Stack.Screen
+            name="MiscComponents"
+            options={{ title: 'Miscellaneous' }}
+          >
+            {(props) => (
+              <CategoryScreen {...props} category={componentCategories[8]!} />
+            )}
+          </Stack.Screen>
+
+          <Stack.Screen
+            name="ThemingComponents"
+            options={{ title: 'Theming' }}
+          >
+            {(props) => (
+              <CategoryScreen {...props} category={componentCategories[9]!} />
             )}
           </Stack.Screen>
 
