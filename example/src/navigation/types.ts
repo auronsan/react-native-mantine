@@ -61,7 +61,6 @@ export type RootStackParamList = {
   NativeSelectExample: undefined;
 
   // Data Display
-  SliderExample: undefined;
   RatingExample: undefined;
   StepperExample: undefined;
   SegmentedControlExample: undefined;

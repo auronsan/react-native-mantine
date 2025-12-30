@@ -10,7 +10,7 @@ export const colorSwatchProps: PropDefinition[] = [
   {
     name: 'color',
     type: 'string',
-    description: 'Swatch background color in any CSS valid format (hex, rgb, rgba, etc.)',
+    description: 'Swatch background color in any valid format (hex, rgb, rgba, etc.)',
     required: true,
   },
   {

@@ -37,7 +37,7 @@ export interface ButtonProps extends DefaultProps, WithTextWrapperProps {
   /** Sets button width to 100% of parent element */
   fullWidth?: boolean;
 
-  /** Key of theme.radius or any valid CSS value to set border-radius, theme.defaultRadius by default */
+  /** Key of theme.radius or number to set border-radius, theme.defaultRadius by default */
   radius?: MantineNumberSize;
 
   /** Controls button appearance */

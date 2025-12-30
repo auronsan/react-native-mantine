@@ -6,7 +6,7 @@ import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 
 export interface ColorSwatchProps extends DefaultProps {
-  /** Swatch background color in any css valid format (hex, rgb, etc.) */
+  /** Swatch background color in any valid format (hex, rgb, etc.) */
   color: string;
 
   /** Width and height in px */

@@ -331,11 +331,6 @@ export default function App() {
 
           {/* Data Display Examples */}
           <Stack.Screen
-            name="SliderExample"
-            component={Examples.SliderExample}
-            options={{ title: 'Slider' }}
-          />
-          <Stack.Screen
             name="RatingExample"
             component={Examples.RatingExample}
             options={{ title: 'Rating' }}

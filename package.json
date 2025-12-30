@@ -44,9 +44,7 @@
     "clean": "del-cli lib",
     "prepare": "bob build",
     "release": "release-it",
-    "typescript": "tsc --noEmit",
-    "docs:preview": "bash scripts/preview-docs.sh",
-    "docs:open": "open http://localhost:3000 && yarn docs:preview"
+    "typescript": "tsc --noEmit"
   },
   "keywords": [
     "react-native",
