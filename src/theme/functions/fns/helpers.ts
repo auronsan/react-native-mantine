@@ -1,7 +1,14 @@
-import type { MantineThemeBase } from '../../types';
+import type { MantineThemeBase, MantineNumberSize } from '../../types';
+import type { TextStyle } from 'react-native';
+import { getSize } from '../../get-size';
 
+/**
+ * Returns base font styles from theme
+ * Includes fontFamily and lineHeight
+ */
 export const fontStyles = (theme: MantineThemeBase) => () => ({
   fontFamily: theme.fontFamily,
+  lineHeight: theme.lineHeight,
 });
 
 /**
@@ -9,7 +16,41 @@ export const fontStyles = (theme: MantineThemeBase) => () => ({
  */
 export const inputFontStyles = (theme: MantineThemeBase) => () => {
   return {
-    fontFamily: theme.fontFamily,
+    fontFamily: theme.fontFamilyInput,
+    fontSize: theme.fontSizes.md,
+    lineHeight: theme.lineHeights.md,
+  };
+};
+
+/**
+ * Get font size from theme
+ * @param size - Size key or number
+ */
+export const fontSize = (theme: MantineThemeBase) => (size: MantineNumberSize) => {
+  return getSize({ size, sizes: theme.fontSizes });
+};
+
+/**
+ * Get line height from theme
+ * @param size - Size key or number (unitless multiplier)
+ */
+export const lineHeight = (theme: MantineThemeBase) => (size: MantineNumberSize) => {
+  return getSize({ size, sizes: theme.lineHeights });
+};
+
+/**
+ * Get heading styles by order
+ * @param order - Heading level (1-6)
+ */
+export const headingStyles = (theme: MantineThemeBase) => (order: 1 | 2 | 3 | 4 | 5 | 6) => {
+  const headingKey = `h${order}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  const heading = theme.headings.sizes[headingKey];
+
+  return {
+    fontSize: heading.fontSize,
+    lineHeight: heading.lineHeight * heading.fontSize,
+    fontWeight: (heading.fontWeight ?? theme.headings.fontWeight ?? theme.fontWeights.bold) as TextStyle['fontWeight'],
+    fontFamily: heading.fontFamily ?? theme.headings.fontFamily ?? theme.fontFamilyBold,
   };
 };
 

@@ -193,12 +193,16 @@ export const Badge = forwardRef<any, BadgeProps>((props, ref) => {
     { name: 'Badge', variant, size }
   ) as any;
 
+  // Get the text color from the variant styles
+  // We need to cast to access the color property since TypeScript doesn't know the exact type
+  const textColor = (styles.root as any).color as string;
+
   return (
     <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
       <BoxView style={styles.inner}>
         {variant === 'dot' && <BoxView style={styles.dot} />}
         {leftSection && <BoxView style={styles.leftSection}>{leftSection}</BoxView>}
-        {withTextWrapper(children, shouldWrapInText, styles.label)}
+        {withTextWrapper(children, shouldWrapInText, { ...styles.label, color: textColor })}
         {rightSection && <BoxView style={styles.rightSection}>{rightSection}</BoxView>}
       </BoxView>
     </BoxView>
