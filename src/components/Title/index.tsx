@@ -15,41 +15,24 @@ export interface TitleProps extends Omit<TextProps, 'size'>, WithTextWrapperProp
 /**
  * Title component renders heading text with appropriate styling
  * Maps order prop to h1-h6 heading styles from theme
+ * Uses theme.fn.headingStyles for consistent typography system
  */
 export const Title = forwardRef<any, TitleProps>((props, ref) => {
   const { order = 1, children, style, withTextWrapper: shouldWrapInText = true, ...others} = props;
   const theme = useTheme();
 
-  // Get heading styles from theme
-  const headingKey = `h${order}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-  const headingStyles = theme.headings.sizes[headingKey];
-
-  // Determine fontWeight - use specific value or default to bold
-  const fontWeight =
-    headingStyles.fontWeight ??
-    theme.headings.fontWeight ??
-    theme.fontWeights.bold;
-
-  // Use fontFamilyBold for headings to ensure proper rendering on iOS/Android
-  // Headings are typically bold, so we use the bold font family
-  const fontFamily = theme.headings.fontFamily || theme.fontFamilyBold;
-
   if (!shouldWrapInText) {
     return children;
   }
+
+  // Get heading styles from theme using the typography helper
+  const headingStyles = theme.fn.headingStyles(order);
 
   return (
     <Text
       ref={ref}
       style={[
-        {
-          fontSize: headingStyles.fontSize,
-          lineHeight: headingStyles.lineHeight
-            ? headingStyles.fontSize * headingStyles.lineHeight
-            : headingStyles.fontSize * 1.3,
-          fontWeight: fontWeight as any,
-          fontFamily: fontFamily,
-        },
+        headingStyles,
         style,
       ]}
       {...others}

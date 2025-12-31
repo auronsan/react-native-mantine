@@ -1,101 +1,105 @@
-// Core Components
-export * from './base/BoxViewExample';
-export * from './base/GroupExample';
-export * from './base/StackExample';
-export * from './base/TextExample';
-export * from './base/ButtonExample';
-export * from './base/UnstyledButtonExample';
-export * from './base/ActionIconExample';
-export * from './base/InputExample';
-export * from './base/LoaderExample';
-export * from './base/IconExample';
+// Layout
+export * from './layout/AspectRatioExample';
+export * from './layout/BoxViewExample';
+export * from './layout/CenterExample';
+export * from './layout/ContainerExample';
+export * from './layout/FlexExample';
+export * from './layout/GridExample';
+export * from './layout/GroupExample';
+export * from './layout/MediaQueryExample';
+export * from './layout/SimpleGridExample';
+export * from './layout/SpaceExample';
+export * from './layout/StackExample';
 
-// Layout & Typography
-export * from './phase1/CenterExample';
-export * from './phase1/ContainerExample';
-export * from './phase1/FlexExample';
-export * from './phase1/SpaceExample';
-export * from './phase1/TitleExample';
-export * from './phase1/HighlightExample';
-export * from './phase1/MarkExample';
-export * from './phase1/CodeExample';
+// Buttons
+export * from './buttons/ActionIconExample';
+export * from './buttons/ButtonExample';
+export * from './buttons/CloseButtonExample';
+export * from './buttons/CopyButtonExample';
+export * from './buttons/UnstyledButtonExample';
 
-// Feedback & Forms
-export * from './phase2/BadgeExample';
-export * from './phase2/AvatarExample';
-export * from './phase2/PaperExample';
-export * from './phase2/DividerExample';
-export * from './phase2/ProgressExample';
-export * from './phase2/SkeletonExample';
-export * from './phase2/TextInputExample';
-export * from './phase2/TextareaExample';
-export * from './phase2/PasswordInputExample';
-export * from './phase2/SwitchExample';
-export * from './phase2/CheckboxExample';
-export * from './phase2/RadioExample';
-export * from './phase2/UseFormExample';
+// Inputs
+export * from './inputs/CheckboxExample';
+export * from './inputs/ChipExample';
+export * from './inputs/InputExample';
+export * from './inputs/MultiSelectExample';
+export * from './inputs/NativeSelectExample';
+export * from './inputs/NumberInputExample';
+export * from './inputs/PasswordInputExample';
+export * from './inputs/PinInputExample';
+export * from './inputs/RadioExample';
+export * from './inputs/RatingExample';
+export * from './inputs/SegmentedControlExample';
+export * from './inputs/SelectExample';
+export * from './inputs/SwitchExample';
+export * from './inputs/TextareaExample';
+export * from './inputs/TextInputExample';
+export * from './inputs/TransferListExample';
+export * from './inputs/UseFormExample';
 
-// Overlays & Dialogs
-export * from './phase3/OverlayExample';
-export * from './phase3/ModalExample';
-export * from './phase3/DrawerExample';
-export * from './phase3/DialogExample';
-export * from './phase3/CollapseExample';
-export * from './phase3/AccordionExample';
-export * from './phase3/SpoilerExample';
-export * from './phase3/NotificationExample';
-export * from './phase3/NumberInputExample';
-export * from './phase3/PinInputExample';
-export * from './phase3/ChipExample';
-export * from './phase3/NativeSelectExample';
+// Navigation
+export * from './navigation/AnchorExample';
+export * from './navigation/BreadcrumbsExample';
+export * from './navigation/NavLinkExample';
+export * from './navigation/PaginationExample';
+export * from './navigation/StepperExample';
 
-// Data Display
-export * from './phase4/RatingExample';
-export * from './phase4/StepperExample';
-export * from './phase4/SegmentedControlExample';
-export * from './phase4/PaginationExample';
-export * from './phase4/CardExample';
-export * from './phase4/TimelineExample';
-export * from './phase4/TableExample';
-export * from './phase4/ListExample';
+// Data display
+export * from './data-display/AccordionExample';
+export * from './data-display/AvatarExample';
+export * from './data-display/BackgroundImageExample';
+export * from './data-display/BadgeExample';
+export * from './data-display/CardExample';
+export * from './data-display/ColorSwatchExample';
+export * from './data-display/ImageExample';
+export * from './data-display/IndicatorExample';
+export * from './data-display/KbdExample';
+export * from './data-display/SpoilerExample';
+export * from './data-display/ThemeIconExample';
+export * from './data-display/TimelineExample';
 
-// Media & Utilities
-export * from './phase5/ImageExample';
-export * from './phase5/BackgroundImageExample';
-export * from './phase5/ThemeIconExample';
-export * from './phase5/ColorSwatchExample';
-export * from './phase5/TransitionExample';
-export * from './phase5/CloseButtonExample';
-export * from './phase5/CopyButtonExample';
+// Overlays
+export * from './overlays/DialogExample';
+export * from './overlays/DrawerExample';
+export * from './overlays/LoadingOverlayExample';
+export * from './overlays/MenuExample';
+export * from './overlays/ModalExample';
+export * from './overlays/OverlayExample';
+export * from './overlays/PopoverExample';
+export * from './overlays/TooltipExample';
 
-// Navigation & Advanced
-export * from './phase6/AnchorExample';
-export * from './phase6/KbdExample';
-export * from './phase6/IndicatorExample';
-export * from './phase6/GridExample';
-export * from './phase6/SimpleGridExample';
-export * from './phase6/AspectRatioExample';
-export * from './phase6/MediaQueryExample';
-export * from './phase6/BlockquoteExample';
-export * from './phase6/BreadcrumbsExample';
-export * from './phase6/NavLinkExample';
-export * from './phase6/LoadingOverlayExample';
-export * from './phase6/TooltipExample';
-export * from './phase6/PopoverExample';
-export * from './phase6/MenuExample';
-export * from './phase6/SelectExample';
-export * from './phase6/MultiSelectExample';
-export * from './phase6/RingProgressExample';
-export * from './phase6/TransferListExample';
+// Typography
+export * from './typography/BlockquoteExample';
+export * from './typography/CodeExample';
+export * from './typography/HighlightExample';
+export * from './typography/ListExample';
+export * from './typography/MarkExample';
+export * from './typography/TableExample';
+export * from './typography/TextExample';
+export * from './typography/TitleExample';
 
-// Style System Showcase
-export * from './style-system/ShadowSystemExample';
-export * from './style-system/GradientExample';
-export * from './style-system/ColorPaletteExample';
-export * from './style-system/ColorManipulationExample';
-export * from './style-system/ResponsiveUtilitiesExample';
-export * from './style-system/PrimaryColorExample';
-export * from './style-system/VariantsExample';
-export * from './style-system/ThemeCustomizationExample';
-export * from './style-system/ColorSchemeConstantsExample';
-export * from './style-system/ThemeOverrideExample';
+// Feedback
+export * from './feedback/LoaderExample';
+export * from './feedback/NotificationExample';
+export * from './feedback/ProgressExample';
+export * from './feedback/RingProgressExample';
+export * from './feedback/SkeletonExample';
+
+// Miscellaneous
+export * from './miscellaneous/CollapseExample';
+export * from './miscellaneous/DividerExample';
+export * from './miscellaneous/IconExample';
+export * from './miscellaneous/PaperExample';
+export * from './miscellaneous/TransitionExample';
+
+// Theming
+export * from './theming/ColorManipulationExample';
+export * from './theming/ColorPaletteExample';
+export * from './theming/ColorSchemeConstantsExample';
+export * from './theming/GradientExample';
+export * from './theming/PrimaryColorExample';
+export * from './theming/ResponsiveUtilitiesExample';
+export * from './theming/ShadowSystemExample';
+export * from './theming/ThemeCustomizationExample';
+export * from './theming/ThemeOverrideExample';
+export * from './theming/VariantsExample';

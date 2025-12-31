@@ -105,6 +105,16 @@ export const _DEFAULT_THEME: MantineThemeBase = {
 
   lineHeight: 1.55, // Matches Mantine web default
 
+  // Line heights scale (unitless multipliers)
+  // Matches Mantine web line height scale
+  lineHeights: {
+    xs: 1.4,
+    sm: 1.45,
+    md: 1.55,
+    lg: 1.6,
+    xl: 1.65,
+  },
+
   headings: {
     // Headings use bold font family for proper weight rendering on iOS/Android
     fontFamily: Platform.select({

@@ -55,6 +55,9 @@ export function attachFunctions(themeBase: MantineThemeBase): MantineTheme {
       fontStyles: fns.fontStyles(themeBase),
       inputFontStyles: fns.inputFontStyles(themeBase),
       placeholderStyles: fns.placeholderStyles(themeBase),
+      fontSize: fns.fontSize(themeBase),
+      lineHeight: fns.lineHeight(themeBase),
+      headingStyles: fns.headingStyles(themeBase),
 
       // Layout functions
       cover: fns.cover(themeBase),

@@ -188,11 +188,13 @@ export interface FontWeights {
 
 /**
  * Heading style configuration
+ * Matches Mantine web HeadingStyle with React Native adaptations
  */
 export interface HeadingStyle {
   fontSize: number;
   lineHeight: number;
   fontWeight?: TextStyle['fontWeight'];
+  fontFamily?: string;
 }
 
 /**
@@ -400,6 +402,24 @@ export interface MantineThemeFunctions {
   inputFontStyles(): TextStyle;
 
   /**
+   * Get font size from theme
+   * @param size - Size key or number
+   */
+  fontSize(size: MantineNumberSize): number;
+
+  /**
+   * Get line height from theme
+   * @param size - Size key or number (unitless multiplier)
+   */
+  lineHeight(size: MantineNumberSize): number;
+
+  /**
+   * Get heading styles by order
+   * @param order - Heading level (1-6)
+   */
+  headingStyles(order: 1 | 2 | 3 | 4 | 5 | 6): TextStyle;
+
+  /**
    * Get focus styles
    */
   focusStyles(): ViewStyle;
@@ -475,6 +495,7 @@ export interface MantineTheme {
   fontWeights: FontWeights;
   fontSizes: MantineSizes;
   lineHeight: number;
+  lineHeights: MantineSizes;
   headings: MantineHeadings;
 
   // Spacing & Layout
@@ -545,6 +566,7 @@ export type MantineThemeOverride = {
   fontWeights?: Partial<FontWeights>;
   fontSizes?: Partial<MantineSizes>;
   lineHeight?: number;
+  lineHeights?: Partial<MantineSizes>;
   headings?: Partial<MantineHeadings>;
   spacing?: Partial<MantineSizes>;
   radius?: Partial<MantineSizes>;
