@@ -96,6 +96,7 @@ export * from './miscellaneous/TransitionExample';
 export * from './theming/ColorManipulationExample';
 export * from './theming/ColorPaletteExample';
 export * from './theming/ColorSchemeConstantsExample';
+export * from './theming/CustomFontsExample';
 export * from './theming/GradientExample';
 export * from './theming/PrimaryColorExample';
 export * from './theming/ResponsiveUtilitiesExample';

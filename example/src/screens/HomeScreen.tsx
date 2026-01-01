@@ -4,9 +4,7 @@ import {
   Stack,
   Text,
   Title,
-  Badge,
   Paper,
-  Group,
   createStyles,
 } from 'react-native-mantine';
 import type { RootStackParamList } from '../navigation/types';
@@ -19,11 +17,6 @@ type HomeScreenProps = {
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { styles, theme } = useStyles();
 
-  const totalComponents = componentCategories.reduce(
-    (sum, cat) => sum + cat.components.length,
-    0
-  );
-
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
@@ -34,18 +27,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <Text style={styles.subtitle}>
             A comprehensive component library for React Native
           </Text>
-
-          <View style={styles.statsContainer}>
-            <View style={styles.statBox}>
-              <Text style={styles.statNumber}>{totalComponents}</Text>
-              <Text style={styles.statLabel}>Components</Text>
-            </View>
-            <View style={styles.statDivider} />
-            <View style={styles.statBox}>
-              <Text style={styles.statNumber}>{componentCategories.length}</Text>
-              <Text style={styles.statLabel}>Categories</Text>
-            </View>
-          </View>
         </View>
       </View>
 
@@ -75,23 +56,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   { backgroundColor: getCategoryColor(index, theme) }
                 ]}
               >
-                <Group position="apart" alignCenter style={styles.categoryHeader}>
-                  <View style={styles.categoryInfo}>
-                    <Title order={3} style={styles.categoryTitle}>
-                      {category.title}
-                    </Title>
-                    <Text style={styles.categoryDescription}>
-                      {category.description}
-                    </Text>
-                  </View>
-                  <Badge
-                    size="xl"
-                    variant="light"
-                    style={styles.badge}
-                  >
-                    {category.components.length}
-                  </Badge>
-                </Group>
+                <View style={styles.categoryInfo}>
+                  <Title order={3} style={styles.categoryTitle}>
+                    {category.title}
+                  </Title>
+                  <Text style={styles.categoryDescription}>
+                    {category.description}
+                  </Text>
+                </View>
               </Paper>
             </TouchableOpacity>
           ))}
@@ -149,39 +121,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: 16,
     textAlign: 'center',
     opacity: 0.95,
-    marginBottom: 24,
     lineHeight: 22,
-  },
-  statsContainer: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    minWidth: 240,
-  },
-  statBox: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  statNumber: {
-    color: '#ffffff',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  statLabel: {
-    color: '#ffffff',
-    fontSize: 12,
-    opacity: 0.9,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  statDivider: {
-    width: 1,
-    height: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    marginHorizontal: 16,
   },
   content: {
     padding: 20,
@@ -205,12 +145,8 @@ const useStyles = createStyles((theme) => ({
     borderWidth: 1,
     borderColor: theme.colors.gray?.[3] || '#dee2e6',
   },
-  categoryHeader: {
-    marginBottom: 0,
-  },
   categoryInfo: {
     flex: 1,
-    marginRight: 12,
   },
   categoryTitle: {
     fontSize: 20,
@@ -222,11 +158,6 @@ const useStyles = createStyles((theme) => ({
     fontSize: 14,
     color: theme.colors.gray?.[7] || '#495057',
     lineHeight: 19,
-  },
-  badge: {
-    minWidth: 44,
-    height: 44,
-    borderRadius: 22,
   },
   footer: {
     marginTop: 24,

@@ -6,9 +6,11 @@ import { Table } from './index';
  *
  * Features demonstrated:
  * 1. Proper column alignment using automatic width calculation
- * 2. Flex props support to expand table to fill available container space
+ * 2. Flex props support to expand table to fill available container space vertically
  * 3. Each column uses the maximum width of all cells in that column
  * 4. Columns align properly across all rows (thead, tbody, tfoot)
+ * 5. Horizontal scrolling enabled for tables wider than container
+ * 6. Proper flex layout with wrapper BoxView and inner ScrollView
  */
 
 const elements = [
@@ -86,53 +88,52 @@ export function TableWithVariableContent() {
 
 /**
  * Example demonstrating flex props to make table expand to fill container.
- * The table will stretch to fill the available vertical space when flex={1} is set.
+ * The table wrapper will stretch to fill the available vertical space when flex={1} is set.
+ * The outer BoxView wrapper receives the flex properties, allowing proper vertical expansion.
  */
 export function TableWithFlexContainer() {
   return (
     <View style={{ flex: 1, padding: 20, backgroundColor: '#f0f0f0' }}>
-      <View style={{ marginBottom: 16 }}>
-        {/* Example 1: Table with flex={1} fills the container */}
-        <View style={{ height: 400, backgroundColor: '#fff', borderRadius: 8, overflow: 'hidden' }}>
-          <Table
-            flex={1}
-            verticalSpacing="sm"
-            horizontalSpacing="sm"
-            fontSize="sm"
-            withBorder
-            withColumnBorders
-            striped
-          >
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Product</Table.Th>
-                <Table.Th>Category</Table.Th>
-                <Table.Th>Price</Table.Th>
-                <Table.Th>Stock</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              <Table.Tr>
-                <Table.Td>Widget A</Table.Td>
-                <Table.Td>Electronics</Table.Td>
-                <Table.Td>$29.99</Table.Td>
-                <Table.Td>150</Table.Td>
-              </Table.Tr>
-              <Table.Tr>
-                <Table.Td>Widget B</Table.Td>
-                <Table.Td>Hardware</Table.Td>
-                <Table.Td>$49.99</Table.Td>
-                <Table.Td>75</Table.Td>
-              </Table.Tr>
-              <Table.Tr>
-                <Table.Td>Widget C</Table.Td>
-                <Table.Td>Software</Table.Td>
-                <Table.Td>$99.99</Table.Td>
-                <Table.Td>200</Table.Td>
-              </Table.Tr>
-            </Table.Tbody>
-          </Table>
-        </View>
+      {/* Container with fixed height to demonstrate flex behavior */}
+      <View style={{ height: 400, backgroundColor: '#fff', borderRadius: 8, overflow: 'hidden' }}>
+        <Table
+          flex={1}
+          verticalSpacing="sm"
+          horizontalSpacing="sm"
+          fontSize="sm"
+          withBorder
+          withColumnBorders
+          striped
+        >
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Product</Table.Th>
+              <Table.Th>Category</Table.Th>
+              <Table.Th>Price</Table.Th>
+              <Table.Th>Stock</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            <Table.Tr>
+              <Table.Td>Widget A</Table.Td>
+              <Table.Td>Electronics</Table.Td>
+              <Table.Td>$29.99</Table.Td>
+              <Table.Td>150</Table.Td>
+            </Table.Tr>
+            <Table.Tr>
+              <Table.Td>Widget B</Table.Td>
+              <Table.Td>Hardware</Table.Td>
+              <Table.Td>$49.99</Table.Td>
+              <Table.Td>75</Table.Td>
+            </Table.Tr>
+            <Table.Tr>
+              <Table.Td>Widget C</Table.Td>
+              <Table.Td>Software</Table.Td>
+              <Table.Td>$99.99</Table.Td>
+              <Table.Td>200</Table.Td>
+            </Table.Tr>
+          </Table.Tbody>
+        </Table>
       </View>
     </View>
   );

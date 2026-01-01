@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect, useRef, useMemo } from 'react';
 import { View, Animated } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
@@ -119,23 +119,32 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
     { name: 'RingProgress' }
   ) as any;
 
-  // Animation values for each section
-  const animatedValues = useRef(
-    sections.map(() => new Animated.Value(0))
-  ).current;
+  // Create a stable reference for animated values
+  const animatedValuesRef = useRef<Map<number, Animated.Value>>(new Map());
+
+  // Get or create animated value for a section index
+  const getAnimatedValue = (index: number, initialValue: number = 0) => {
+    if (!animatedValuesRef.current.has(index)) {
+      animatedValuesRef.current.set(index, new Animated.Value(initialValue));
+    }
+    return animatedValuesRef.current.get(index)!;
+  };
 
   // Update animation values when sections change
   useEffect(() => {
-    // Ensure we have the right number of animated values
-    while (animatedValues.length < sections.length) {
-      animatedValues.push(new Animated.Value(0));
-    }
+    // Clean up unused animated values
+    const currentIndices = new Set(sections.map((_, i) => i));
+    const keysToDelete: number[] = [];
+    animatedValuesRef.current.forEach((_, key) => {
+      if (!currentIndices.has(key)) {
+        keysToDelete.push(key);
+      }
+    });
+    keysToDelete.forEach(key => animatedValuesRef.current.delete(key));
 
     // Animate each section
     const animations = sections.map((section, index) => {
-      const animValue = animatedValues[index];
-      if (!animValue) return Animated.timing(new Animated.Value(0), { toValue: 0, duration: 0, useNativeDriver: false });
-
+      const animValue = getAnimatedValue(index, 0);
       return Animated.timing(animValue, {
         toValue: section.value,
         duration: 1000,
@@ -144,59 +153,83 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
     });
 
     Animated.parallel(animations).start();
-  }, [sections, animatedValues]);
+  }, [sections]);
 
-  // Calculate total value and normalize sections
-  const normalizedSections = sections.map((section, index) => ({
-    ...section,
-    percentage: (section.value / 100) * 100,
-    animatedValue: animatedValues[index] || new Animated.Value(0),
-  }));
+  // Memoize normalized sections to prevent unnecessary recalculations
+  const normalizedSections = useMemo(() => {
+    return sections.map((section, index) => ({
+      ...section,
+      percentage: section.value,
+      animatedValue: getAnimatedValue(index, 0),
+    }));
+  }, [sections]);
 
-  // Render animated ring using borders and transforms
-  // Note: This is a basic implementation. For full SVG support, use react-native-svg
+  // Render animated ring using circular segments
+  // Note: This is a simplified implementation. For full SVG support, use react-native-svg
   const renderSections = () => {
-    let currentAngle = 0;
+    let accumulatedAngle = 0;
 
     return normalizedSections.map((section, index) => {
       const sectionColor = theme.fn.themeColor(section.color, 6);
+      const startAngle = accumulatedAngle;
 
-      const angle = (section.percentage / 100) * 360;
-      const rotation = currentAngle;
-      currentAngle += angle;
+      // Create an array to hold segments for this section
+      const sectionSegments = [];
 
-      // Animate the opacity for a smooth appearance
-      const animatedOpacity = section.animatedValue.interpolate({
-        inputRange: [0, section.value],
-        outputRange: [0, 1],
-      });
+      // Create 8 segments for smoother circular rendering (each 45 degrees)
+      const totalSegments = 8;
+      const segmentAngle = 360 / totalSegments;
 
-      // Animated scale for smooth growth effect
-      const animatedScale = section.animatedValue.interpolate({
-        inputRange: [0, section.value],
-        outputRange: [0.8, 1],
-      });
+      for (let i = 0; i < totalSegments; i++) {
+        const segmentStartDegrees = i * segmentAngle;
+        const segmentEndDegrees = (i + 1) * segmentAngle;
 
-      // Simplified representation - just show colored arcs with animation
-      return (
-        <Animated.View
-          key={index}
-          style={{
-            position: 'absolute',
-            width: size!,
-            height: size!,
-            borderRadius: size! / 2,
-            borderWidth: thickness,
-            borderColor: 'transparent',
-            borderTopColor: sectionColor,
-            transform: [
-              { rotate: `${rotation}deg` },
-              { scale: animatedScale },
-            ],
-            opacity: animatedOpacity,
-          }}
-        />
-      );
+        // Calculate opacity based on progress through this segment
+        const segmentOpacity = section.animatedValue.interpolate({
+          inputRange: [
+            (segmentStartDegrees / 360) * 100,
+            (segmentEndDegrees / 360) * 100,
+          ],
+          outputRange: [0, 1],
+          extrapolate: 'clamp',
+        });
+
+        // Determine which border(s) to show for this segment
+        const borderConfig: any = {
+          borderColor: 'transparent',
+        };
+
+        // Map segments to borders (simplified circular approximation)
+        const borderIndex = i % 4;
+        const borders: Array<'borderTopColor' | 'borderRightColor' | 'borderBottomColor' | 'borderLeftColor'> = [
+          'borderTopColor',
+          'borderRightColor',
+          'borderBottomColor',
+          'borderLeftColor'
+        ];
+        borderConfig[borders[borderIndex]!] = sectionColor;
+
+        sectionSegments.push(
+          <Animated.View
+            key={`section-${index}-segment-${i}`}
+            style={{
+              position: 'absolute',
+              width: size!,
+              height: size!,
+              borderRadius: size! / 2,
+              borderWidth: thickness,
+              ...borderConfig,
+              transform: [{ rotate: `${startAngle + segmentStartDegrees}deg` }],
+              opacity: segmentOpacity,
+            }}
+          />
+        );
+      }
+
+      // Update accumulated angle for next section
+      accumulatedAngle += (section.percentage / 100) * 360;
+
+      return sectionSegments;
     });
   };
 
