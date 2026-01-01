@@ -163,6 +163,7 @@ export const componentCategories: ComponentCategory[] = [
       { name: 'Color Palette', description: 'Complete color system aligned with Mantine web', route: 'ColorPaletteExample' },
       { name: 'Color Scheme Constants', description: 'Color scheme-aware constants using colorSchemeValue', route: 'ColorSchemeConstantsExample' },
       { name: 'Component Variants', description: 'Guide to all 8 built-in component variants', route: 'VariantsExample' },
+      { name: 'Custom Fonts', description: 'Load and configure custom fonts with ThemeProvider', route: 'CustomFontsExample' },
       { name: 'Gradients', description: 'Gradient support for buttons and backgrounds', route: 'GradientExample' },
       { name: 'Primary Color System', description: 'primaryColor and primaryShade configuration', route: 'PrimaryColorExample' },
       { name: 'Responsive Utilities', description: 'Breakpoint utilities: largerThan and smallerThan', route: 'ResponsiveUtilitiesExample' },

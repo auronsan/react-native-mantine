@@ -114,6 +114,7 @@ export type RootStackParamList = {
   ThemeCustomizationExample: undefined;
   ColorSchemeConstantsExample: undefined;
   ThemeOverrideExample: undefined;
+  CustomFontsExample: undefined;
 };
 
 export interface ComponentCategory {

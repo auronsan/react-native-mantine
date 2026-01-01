@@ -160,11 +160,13 @@ const useTableStyles = createStyles(
     }
   ) => ({
     wrapper: {
-      // Apply flex properties to allow table to expand in container
+      // Apply flex properties to outer wrapper to allow table to expand in container
       ...(flex !== undefined && { flex }),
       ...(flexGrow !== undefined && { flexGrow }),
       ...(flexShrink !== undefined && { flexShrink }),
       ...(flexBasis !== undefined && { flexBasis }),
+      // Ensure wrapper doesn't restrict vertical growth
+      flexDirection: 'column' as any,
     } as any,
     root: {
       width: '100%',
@@ -348,16 +350,18 @@ const Table = forwardRef<any, TableProps>((props, ref) => {
         onCellLayout,
       }}
     >
-      <ScrollView
-        horizontal
-        style={styles.wrapper}
-        showsHorizontalScrollIndicator
-      >
-        <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
-          {caption && <Text style={styles.caption}>{caption}</Text>}
-          {children}
-        </BoxView>
-      </ScrollView>
+      <BoxView style={styles.wrapper}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
+          <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+            {caption && <Text style={styles.caption}>{caption}</Text>}
+            {children}
+          </BoxView>
+        </ScrollView>
+      </BoxView>
     </TableContext.Provider>
   );
 });

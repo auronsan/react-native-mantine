@@ -601,6 +601,21 @@ export default function App() {
             component={Examples.ThemeCustomizationExample}
             options={{ title: 'Theme Customization' }}
           />
+          <Stack.Screen
+            name="ColorSchemeConstantsExample"
+            component={Examples.ColorSchemeConstantsExample}
+            options={{ title: 'Color Scheme Constants' }}
+          />
+          <Stack.Screen
+            name="ThemeOverrideExample"
+            component={Examples.ThemeOverrideExample}
+            options={{ title: 'Theme Override Example' }}
+          />
+          <Stack.Screen
+            name="CustomFontsExample"
+            component={Examples.CustomFontsExample}
+            options={{ title: 'Custom Fonts' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Theme>
