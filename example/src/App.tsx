@@ -421,14 +421,14 @@ export default function App() {
             options={{ title: 'Timeline' }}
           />
           <Stack.Screen
-            name="TableExample"
-            component={Examples.TableExample}
-            options={{ title: 'Table' }}
-          />
-          <Stack.Screen
             name="ListExample"
             component={Examples.ListExample}
             options={{ title: 'List' }}
+          />
+          <Stack.Screen
+            name="TableExample"
+            component={Examples.TableExample}
+            options={{ title: 'Table' }}
           />
 
           {/* Media & Utilities Examples */}

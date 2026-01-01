@@ -71,8 +71,8 @@ export type RootStackParamList = {
   PaginationExample: undefined;
   CardExample: undefined;
   TimelineExample: undefined;
-  TableExample: undefined;
   ListExample: undefined;
+  TableExample: undefined;
 
   // Media & Utilities
   ImageExample: undefined;
