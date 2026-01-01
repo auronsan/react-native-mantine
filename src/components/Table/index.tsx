@@ -1,374 +1,271 @@
-import React, { forwardRef, createContext, useContext, useState, useCallback } from 'react';
-import { ScrollView } from 'react-native';
-import type { LayoutChangeEvent, DimensionValue } from 'react-native';
+import React, { forwardRef } from 'react';
+import { View, ScrollView } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
-import type { DefaultProps, SpacingValue } from '../../theme/types';
+import type { DefaultProps, MantineNumberSize } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
-import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
-
-interface TableContextValue {
-  striped: boolean;
-  highlightOnHover: boolean;
-  withBorder: boolean;
-  withColumnBorders: boolean;
-  fontSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  verticalSpacing: SpacingValue;
-  horizontalSpacing: SpacingValue;
-  columnWidths: number[];
-  onCellLayout: (columnIndex: number, width: number) => void;
-}
-
-const TableContext = createContext<TableContextValue | null>(null);
-
-const useTableContext = () => {
-  const context = useContext(TableContext);
-  return context;
-};
 
 export interface TableProps extends DefaultProps {
-  /** Table children (Thead, Tbody, Tfoot) */
-  children?: React.ReactNode;
-
-  /** Horizontal scroll on overflow */
-  horizontalSpacing?: SpacingValue;
-
-  /** Vertical spacing between rows */
-  verticalSpacing?: SpacingValue;
-
-  /** Font size */
-  fontSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-
-  /** Add striped rows styling */
+  /** If true every odd row of table will have gray background color */
   striped?: boolean;
 
-  /** Highlight row on hover */
+  /** If true row will have hover color */
   highlightOnHover?: boolean;
+
+  /** Table caption position */
+  captionSide?: 'top' | 'bottom';
+
+  /** Horizontal cells spacing from theme.spacing or any valid value */
+  horizontalSpacing?: MantineNumberSize;
+
+  /** Vertical cells spacing from theme.spacing or any valid value */
+  verticalSpacing?: MantineNumberSize;
+
+  /** Sets font size of all text inside table */
+  fontSize?: MantineNumberSize;
 
   /** Add border to table */
   withBorder?: boolean;
 
-  /** Add borders between columns */
+  /** Add border to columns */
   withColumnBorders?: boolean;
 
-  /** Caption position */
-  captionSide?: 'top' | 'bottom';
-
-  /** Table caption */
-  caption?: React.ReactNode;
-
-  /** Flex value for the table container (e.g., 1 to fill available space) */
-  flex?: number;
-
-  /** Flex grow value for the table container */
-  flexGrow?: number;
-
-  /** Flex shrink value for the table container */
-  flexShrink?: number;
-
-  /** Flex basis value for the table container */
-  flexBasis?: DimensionValue;
+  /** Table children (THead, TBody, TFoot, Caption) */
+  children?: React.ReactNode;
 
   /** Additional styles */
   style?: any;
+
+  /** Enable horizontal scrolling */
+  horizontallyScrollable?: boolean;
 }
 
-export interface TableTheadProps extends DefaultProps {
-  /** Thead children */
+interface TableCellProps extends DefaultProps {
+  /** Cell content */
+  children?: React.ReactNode;
+
+  /** Additional styles */
+  style?: any;
+
+  /** Column span */
+  colSpan?: number;
+}
+
+interface TableRowProps extends DefaultProps {
+  /** Row content */
   children?: React.ReactNode;
 
   /** Additional styles */
   style?: any;
 }
 
-export interface TableTbodyProps extends DefaultProps {
-  /** Tbody children */
+interface TableSectionProps extends DefaultProps {
+  /** Section content */
   children?: React.ReactNode;
 
   /** Additional styles */
   style?: any;
 }
 
-export interface TableTfootProps extends DefaultProps {
-  /** Tfoot children */
+interface TableCaptionProps extends DefaultProps {
+  /** Caption content */
   children?: React.ReactNode;
 
   /** Additional styles */
   style?: any;
 }
 
-export interface TableTrProps extends DefaultProps {
-  /** Tr children */
-  children?: React.ReactNode;
-
-  /** Additional styles */
-  style?: any;
-
-  /** Internal row index */
-  __index?: number;
-}
-
-export interface TableThProps extends DefaultProps, WithTextWrapperProps {
-  /** Th children */
-  children?: React.ReactNode;
-
-  /** Additional styles */
-  style?: any;
-
-  /** Internal column index */
-  __columnIndex?: number;
-}
-
-export interface TableTdProps extends DefaultProps, WithTextWrapperProps {
-  /** Td children */
-  children?: React.ReactNode;
-
-  /** Additional styles */
-  style?: any;
-
-  /** Internal column index */
-  __columnIndex?: number;
-}
-
-const fontSizes = {
-  xs: rem(10),
-  sm: rem(12),
-  md: rem(14),
-  lg: rem(16),
-  xl: rem(18),
-};
-
-const useTableStyles = createStyles(
+const useStyles = createStyles(
   (
     theme,
     {
-      withBorder,
-      captionSide,
-      flex,
-      flexGrow,
-      flexShrink,
-      flexBasis,
-    }: {
-      withBorder: boolean;
-      captionSide: 'top' | 'bottom';
-      flex?: number;
-      flexGrow?: number;
-      flexShrink?: number;
-      flexBasis?: DimensionValue;
-    }
-  ) => ({
-    wrapper: {
-      // Apply flex properties to outer wrapper to allow table to expand in container
-      ...(flex !== undefined && { flex }),
-      ...(flexGrow !== undefined && { flexGrow }),
-      ...(flexShrink !== undefined && { flexShrink }),
-      ...(flexBasis !== undefined && { flexBasis }),
-      // Ensure wrapper doesn't restrict vertical growth
-      flexDirection: 'column' as any,
-    } as any,
-    root: {
-      width: '100%',
-      borderCollapse: 'collapse' as any,
-      ...(withBorder && {
-        borderWidth: 1,
-        borderColor:
-          theme.colorScheme === 'dark'
-            ? theme.colors.dark?.[4]
-            : theme.colors.gray?.[3],
-      }),
-    },
-    caption: {
-      fontSize: theme.fontSizes.sm as number,
-      color:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark?.[2]
-          : theme.colors.gray?.[6],
-      paddingVertical: theme.spacing.xs,
-      textAlign: 'center',
-      ...(captionSide === 'bottom' && { order: 1 }),
-    },
-  })
-);
-
-const useTableHeadStyles = createStyles((theme) => ({
-  thead: {
-    borderBottomWidth: 1,
-    borderBottomColor:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark?.[4]
-        : theme.colors.gray?.[3],
-  },
-}));
-
-const useTableRowStyles = createStyles(
-  (
-    theme,
-    {
-      striped,
-      isEven,
-    }: {
-      striped: boolean;
-      highlightOnHover: boolean;
-      isEven: boolean;
-    }
-  ) => ({
-    tr: {
-      flexDirection: 'row',
-      borderBottomWidth: 1,
-      borderBottomColor:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark?.[4]
-          : theme.colors.gray?.[3],
-      ...(striped &&
-        isEven && {
-          backgroundColor:
-            theme.colorScheme === 'dark'
-              ? theme.colors.dark?.[6]
-              : theme.colors.gray?.[0],
-        }),
-    },
-  })
-);
-
-const useTableCellStyles = createStyles(
-  (
-    theme,
-    {
-      fontSize,
-      verticalSpacing,
       horizontalSpacing,
+      verticalSpacing,
+      fontSize,
+      withBorder,
       withColumnBorders,
-      isHeader,
-      width,
+      striped,
     }: {
-      fontSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-      verticalSpacing: SpacingValue;
-      horizontalSpacing: SpacingValue;
+      horizontalSpacing: MantineNumberSize;
+      verticalSpacing: MantineNumberSize;
+      fontSize: MantineNumberSize;
+      withBorder: boolean;
       withColumnBorders: boolean;
-      isHeader: boolean;
-      width?: number;
+      striped: boolean;
     }
   ) => {
-    const getVerticalPadding = () => {
-      if (typeof verticalSpacing === 'number') return rem(verticalSpacing);
-      return theme.spacing[verticalSpacing] || theme.spacing.xs;
+    const borderColor =
+      theme.colorScheme === 'dark'
+        ? (theme.colors.dark || [])[4]
+        : (theme.colors.gray || [])[3];
+
+    const getSpacing = (size: MantineNumberSize) => {
+      if (typeof size === 'number') return rem(size);
+      return theme.spacing[size] || theme.spacing.xs;
     };
 
-    const getHorizontalPadding = () => {
-      if (typeof horizontalSpacing === 'number') return rem(horizontalSpacing);
-      return theme.spacing[horizontalSpacing] || theme.spacing.xs;
+    const getFontSize = (size: MantineNumberSize) => {
+      if (typeof size === 'number') return size;
+      return theme.fontSizes[size] || theme.fontSizes.sm;
     };
+
+    const hPadding = getSpacing(horizontalSpacing);
+    const vPadding = getSpacing(verticalSpacing);
+    const cellFontSize = getFontSize(fontSize);
 
     return {
-      cell: {
-        // Remove flex: 1 to prevent equal spacing
-        // Use explicit width when available for column alignment
-        ...(width && { width }),
-        paddingVertical: getVerticalPadding() as any,
-        paddingHorizontal: getHorizontalPadding() as any,
-        fontSize: fontSizes[fontSize],
-        color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-        textAlign: 'left',
-        ...(withColumnBorders && {
-          borderRightWidth: 1,
-          borderRightColor:
-            theme.colorScheme === 'dark'
-              ? theme.colors.dark?.[4]
-              : theme.colors.gray?.[3],
-        }),
-        ...(isHeader && {
-          fontWeight: '600',
-        }),
+      root: {
+        width: '100%',
+        backgroundColor: 'transparent',
       },
+      scrollView: {
+        width: '100%',
+      },
+      container: {
+        flexDirection: 'column' as const,
+        borderWidth: withBorder ? 1 : 0,
+        borderColor: withBorder ? borderColor : 'transparent',
+        borderStyle: 'solid' as const,
+      },
+      caption: {
+        paddingHorizontal: hPadding,
+        paddingVertical: theme.spacing.xs,
+        fontSize: theme.fontSizes.sm,
+        color:
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[2]
+            : (theme.colors.gray || [])[6],
+        textAlign: 'left' as const,
+      },
+      captionTop: {
+        marginBottom: 0,
+      },
+      captionBottom: {
+        marginTop: 0,
+      },
+      thead: {
+        flexDirection: 'column' as const,
+      },
+      tbody: {
+        flexDirection: 'column' as const,
+      },
+      tfoot: {
+        flexDirection: 'column' as const,
+      },
+      tr: {
+        flexDirection: 'row' as const,
+      },
+      th: {
+        flex: 1,
+        paddingHorizontal: hPadding,
+        paddingVertical: vPadding,
+        borderBottomWidth: 1,
+        borderBottomColor: borderColor,
+        borderBottomStyle: 'solid' as const,
+        borderRightWidth: withColumnBorders ? 1 : 0,
+        borderRightColor: withColumnBorders ? borderColor : 'transparent',
+        borderRightStyle: 'solid' as const,
+        justifyContent: 'center' as const,
+      },
+      thText: {
+        fontWeight: 'bold' as const,
+        color:
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[0]
+            : (theme.colors.gray || [])[7],
+        fontSize: cellFontSize,
+      },
+      td: {
+        flex: 1,
+        paddingHorizontal: hPadding,
+        paddingVertical: vPadding,
+        borderTopWidth: 1,
+        borderTopColor: borderColor,
+        borderTopStyle: 'solid' as const,
+        borderRightWidth: withColumnBorders ? 1 : 0,
+        borderRightColor: withColumnBorders ? borderColor : 'transparent',
+        borderRightStyle: 'solid' as const,
+        justifyContent: 'center' as const,
+      },
+      tdText: {
+        color:
+          theme.colorScheme === 'dark'
+            ? (theme.colors.dark || [])[0]
+            : theme.black,
+        fontSize: cellFontSize,
+      },
+      firstBodyRow: {
+        borderTopWidth: 0,
+      },
+      lastCell: {
+        borderRightWidth: 0,
+      },
+      stripedRow: striped
+        ? {
+            backgroundColor:
+              theme.colorScheme === 'dark'
+                ? (theme.colors.dark || [])[6]
+                : (theme.colors.gray || [])[0],
+          }
+        : {},
     };
   }
 );
 
 const defaultProps: Partial<TableProps> = {
-  horizontalSpacing: 'xs',
-  verticalSpacing: 'xs',
-  fontSize: 'sm',
   striped: false,
   highlightOnHover: false,
+  captionSide: 'top',
+  horizontalSpacing: 'xs',
+  fontSize: 'sm',
+  verticalSpacing: 7,
   withBorder: false,
   withColumnBorders: false,
-  captionSide: 'top',
+  horizontallyScrollable: false,
 };
 
-const Table = forwardRef<any, TableProps>((props, ref) => {
-  const {
-    children,
-    horizontalSpacing,
-    verticalSpacing,
-    fontSize,
-    striped,
-    highlightOnHover: _highlightOnHover,
-    withBorder,
-    withColumnBorders,
-    captionSide,
-    caption,
-    flex,
-    flexGrow,
-    flexShrink,
-    flexBasis,
-    style,
-    ...others
-  } = useComponentDefaultProps('Table', defaultProps, props);
+// Context to share table configuration with child components
+interface TableContextValue {
+  styles: any;
+  sx: any;
+  striped: boolean;
+  highlightOnHover: boolean;
+}
 
-  const { styles, sx } = useTableStyles(
-    { withBorder, captionSide, flex, flexGrow, flexShrink, flexBasis },
-    { name: 'Table' }
-  ) as any;
+const TableContext = React.createContext<TableContextValue | null>(null);
 
-  // Track column widths to ensure alignment across rows
-  const [columnWidths, setColumnWidths] = useState<number[]>([]);
+const useTableContext = () => {
+  const context = React.useContext(TableContext);
+  if (!context) {
+    throw new Error('Table compound components must be used within Table');
+  }
+  return context;
+};
 
-  const onCellLayout = useCallback((columnIndex: number, width: number) => {
-    setColumnWidths((prevWidths) => {
-      const newWidths = [...prevWidths];
-      // Store the maximum width for each column to ensure all cells in that column have the same width
-      if (!newWidths[columnIndex] || width > newWidths[columnIndex]) {
-        newWidths[columnIndex] = width;
-      }
-      return newWidths;
-    });
-  }, []);
+// Table Caption Component
+const TableCaption = forwardRef<View, TableCaptionProps>((props, ref) => {
+  const { children, style, ...others } = props;
+  const { styles, sx } = useTableContext();
 
   return (
-    <TableContext.Provider
-      value={{
-        striped: striped!,
-        highlightOnHover: _highlightOnHover!,
-        withBorder: withBorder!,
-        withColumnBorders: withColumnBorders!,
-        fontSize: fontSize!,
-        verticalSpacing: verticalSpacing!,
-        horizontalSpacing: horizontalSpacing!,
-        columnWidths,
-        onCellLayout,
-      }}
-    >
-      <BoxView style={styles.wrapper}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator
-          contentContainerStyle={{ flexGrow: 1 }}
-        >
-          <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
-            {caption && <Text style={styles.caption}>{caption}</Text>}
-            {children}
-          </BoxView>
-        </ScrollView>
-      </BoxView>
-    </TableContext.Provider>
+    <BoxView ref={ref} style={sx(styles.caption, style)} {...others}>
+      {typeof children === 'string' ? (
+        <Text style={styles.caption}>{children}</Text>
+      ) : (
+        children
+      )}
+    </BoxView>
   );
 });
 
-const Thead = forwardRef<any, TableTheadProps>((props, ref) => {
+TableCaption.displayName = 'Table.Caption';
+
+// Table Head Component
+const THead = forwardRef<View, TableSectionProps>((props, ref) => {
   const { children, style, ...others } = props;
-  const { styles, sx } = useTableHeadStyles({}, { name: 'Thead' }) as any;
+  const { styles, sx } = useTableContext();
 
   return (
     <BoxView ref={ref} style={sx(styles.thead, style)} {...others}>
@@ -377,177 +274,196 @@ const Thead = forwardRef<any, TableTheadProps>((props, ref) => {
   );
 });
 
-const Tbody = forwardRef<any, TableTbodyProps>((props, ref) => {
-  const { children, style, ...others } = props;
+THead.displayName = 'Table.THead';
 
-  const childrenArray = React.Children.toArray(children);
+// Table Body Component
+const TBody = forwardRef<View, TableSectionProps>((props, ref) => {
+  const { children, style, ...others } = props;
+  const { styles, sx, striped } = useTableContext();
+
+  // Process children to add row styling
+  const processedChildren = React.Children.map(children, (child, index) => {
+    if (!React.isValidElement(child)) return child;
+
+    const isOddRow = index % 2 === 1;
+    const childProps = child.props as any;
+    const rowStyle = [
+      childProps.style,
+      striped && isOddRow && styles.stripedRow,
+    ].filter(Boolean);
+
+    return React.cloneElement(child as React.ReactElement<any>, {
+      'style': rowStyle.length > 0 ? rowStyle : childProps.style,
+      'data-index': index,
+      'data-first': index === 0,
+    });
+  });
 
   return (
-    <BoxView ref={ref} style={style} {...others}>
-      {childrenArray.map((child, index) => {
-        if (!React.isValidElement(child)) return child;
-        return React.cloneElement<TableTrProps>(
-          child as React.ReactElement<TableTrProps>,
-          {
-            key: index,
-            __index: index,
-          }
-        );
-      })}
+    <BoxView ref={ref} style={sx(styles.tbody, style)} {...others}>
+      {processedChildren}
     </BoxView>
   );
 });
 
-const Tfoot = forwardRef<any, TableTfootProps>((props, ref) => {
+TBody.displayName = 'Table.TBody';
+
+// Table Footer Component
+const TFoot = forwardRef<View, TableSectionProps>((props, ref) => {
   const { children, style, ...others } = props;
+  const { styles, sx } = useTableContext();
 
   return (
-    <BoxView ref={ref} style={style} {...others}>
+    <BoxView ref={ref} style={sx(styles.tfoot, style)} {...others}>
       {children}
     </BoxView>
   );
 });
 
-const Tr = forwardRef<any, TableTrProps>((props, ref) => {
-  const { children, style, __index, ...others } = props;
-  const context = useTableContext();
+TFoot.displayName = 'Table.TFoot';
 
-  const { styles, sx } = useTableRowStyles(
-    {
-      striped: context?.striped ?? false,
-      highlightOnHover: context?.highlightOnHover ?? false,
-      isEven: (__index ?? 0) % 2 === 0,
-    },
-    { name: 'Tr' }
-  ) as any;
-
-  // Add column indices to children (Th and Td components)
-  const childrenArray = React.Children.toArray(children);
-  const childrenWithColumnIndex = childrenArray.map((child, index) => {
-    if (!React.isValidElement(child)) return child;
-    return React.cloneElement<TableThProps | TableTdProps>(
-      child as React.ReactElement<TableThProps | TableTdProps>,
-      {
-        __columnIndex: index,
-      }
-    );
-  });
+// Table Row Component
+const Tr = forwardRef<View, TableRowProps>((props, ref) => {
+  const { children, style, ...others } = props;
+  const { styles, sx } = useTableContext();
 
   return (
     <BoxView ref={ref} style={sx(styles.tr, style)} {...others}>
-      {childrenWithColumnIndex}
+      {children}
     </BoxView>
   );
 });
 
-const Th = forwardRef<any, TableThProps>((props, ref) => {
-  const { children, style, withTextWrapper: shouldWrapInText = true, __columnIndex, ...others } = props;
-  const context = useTableContext();
-
-  const columnIndex = __columnIndex ?? 0;
-  const columnWidth = context?.columnWidths?.[columnIndex];
-
-  const { styles, sx } = useTableCellStyles(
-    {
-      fontSize: context?.fontSize ?? 'sm',
-      verticalSpacing: context?.verticalSpacing ?? 'xs',
-      horizontalSpacing: context?.horizontalSpacing ?? 'xs',
-      withColumnBorders: context?.withColumnBorders ?? false,
-      isHeader: true,
-      width: columnWidth,
-    },
-    { name: 'Th' }
-  ) as any;
-
-  const handleLayout = useCallback(
-    (event: LayoutChangeEvent) => {
-      const { width } = event.nativeEvent.layout;
-      if (context?.onCellLayout && width > 0) {
-        context.onCellLayout(columnIndex, width);
-      }
-    },
-    [context, columnIndex]
-  );
-
-  return (
-    <BoxView
-      ref={ref}
-      style={sx(styles.cell, style)}
-      onLayout={handleLayout}
-      {...others}
-    >
-      {withTextWrapper(children, shouldWrapInText, styles.cell)}
-    </BoxView>
-  );
-});
-
-const Td = forwardRef<any, TableTdProps>((props, ref) => {
-  const { children, style, withTextWrapper: shouldWrapInText = true, __columnIndex, ...others } = props;
-  const context = useTableContext();
-
-  const columnIndex = __columnIndex ?? 0;
-  const columnWidth = context?.columnWidths?.[columnIndex];
-
-  const { styles, sx } = useTableCellStyles(
-    {
-      fontSize: context?.fontSize ?? 'sm',
-      verticalSpacing: context?.verticalSpacing ?? 'xs',
-      horizontalSpacing: context?.horizontalSpacing ?? 'xs',
-      withColumnBorders: context?.withColumnBorders ?? false,
-      isHeader: false,
-      width: columnWidth,
-    },
-    { name: 'Td' }
-  ) as any;
-
-  const handleLayout = useCallback(
-    (event: LayoutChangeEvent) => {
-      const { width } = event.nativeEvent.layout;
-      if (context?.onCellLayout && width > 0) {
-        context.onCellLayout(columnIndex, width);
-      }
-    },
-    [context, columnIndex]
-  );
-
-  return (
-    <BoxView
-      ref={ref}
-      style={sx(styles.cell, style)}
-      onLayout={handleLayout}
-      {...others}
-    >
-      {withTextWrapper(children, shouldWrapInText, styles.cell)}
-    </BoxView>
-  );
-});
-
-Table.displayName = 'Table';
-Thead.displayName = 'Table.Thead';
-Tbody.displayName = 'Table.Tbody';
-Tfoot.displayName = 'Table.Tfoot';
 Tr.displayName = 'Table.Tr';
+
+// Table Header Cell Component
+const Th = forwardRef<View, TableCellProps>((props, ref) => {
+  const { children, style, colSpan, ...others } = props;
+  const { styles, sx } = useTableContext();
+
+  const cellStyle = [styles.th, colSpan && { flex: colSpan }, style].filter(
+    Boolean
+  );
+
+  return (
+    <BoxView ref={ref} style={sx(...cellStyle)} {...others}>
+      {typeof children === 'string' ? (
+        <Text style={styles.thText}>{children}</Text>
+      ) : (
+        children
+      )}
+    </BoxView>
+  );
+});
+
 Th.displayName = 'Table.Th';
+
+// Table Data Cell Component
+const Td = forwardRef<View, TableCellProps>((props, ref) => {
+  const { children, style, colSpan, ...others } = props;
+  const { styles, sx } = useTableContext();
+  const isFirstRow = (others as any)['data-first'];
+
+  const cellStyle = [
+    styles.td,
+    isFirstRow && styles.firstBodyRow,
+    colSpan && { flex: colSpan },
+    style,
+  ].filter(Boolean);
+
+  return (
+    <BoxView ref={ref} style={sx(...cellStyle)} {...others}>
+      <Text style={styles.tdText}>{children}</Text>
+    </BoxView>
+  );
+});
+
 Td.displayName = 'Table.Td';
 
-// Attach sub-components with proper typing
-interface TableComponent extends React.ForwardRefExoticComponent<
-  TableProps & React.RefAttributes<any>
-> {
-  Thead: typeof Thead;
-  Tbody: typeof Tbody;
-  Tfoot: typeof Tfoot;
-  Tr: typeof Tr;
-  Th: typeof Th;
-  Td: typeof Td;
-}
+// Main Table Component
+export const _Table = forwardRef<View, TableProps>((props, ref) => {
+  const {
+    striped,
+    highlightOnHover,
+    captionSide,
+    horizontalSpacing,
+    verticalSpacing,
+    fontSize,
+    withBorder,
+    withColumnBorders,
+    children,
+    style,
+    horizontallyScrollable,
+    ...others
+  } = useComponentDefaultProps('Table', defaultProps, props);
 
-const TableWithSubComponents = Table as TableComponent;
-TableWithSubComponents.Thead = Thead;
-TableWithSubComponents.Tbody = Tbody;
-TableWithSubComponents.Tfoot = Tfoot;
-TableWithSubComponents.Tr = Tr;
-TableWithSubComponents.Th = Th;
-TableWithSubComponents.Td = Td;
+  const { styles, sx } = useStyles(
+    {
+      horizontalSpacing,
+      verticalSpacing,
+      fontSize,
+      withBorder,
+      withColumnBorders,
+      striped,
+    },
+    { name: 'Table' }
+  ) as any;
 
-export { TableWithSubComponents as Table };
+  const contextValue: TableContextValue = {
+    styles,
+    sx,
+    striped: striped || false,
+    highlightOnHover: highlightOnHover || false,
+  };
+
+  const tableContent = (
+    <BoxView ref={ref} style={sx(styles.container, style)} {...others}>
+      {captionSide === 'top' &&
+        React.Children.toArray(children).find(
+          (child) =>
+            React.isValidElement(child) &&
+            (child.type as any).displayName === 'Table.Caption'
+        )}
+      {React.Children.toArray(children).filter(
+        (child) =>
+          React.isValidElement(child) &&
+          (child.type as any).displayName !== 'Table.Caption'
+      )}
+      {captionSide === 'bottom' &&
+        React.Children.toArray(children).find(
+          (child) =>
+            React.isValidElement(child) &&
+            (child.type as any).displayName === 'Table.Caption'
+        )}
+    </BoxView>
+  );
+
+  return (
+    <TableContext.Provider value={contextValue}>
+      {horizontallyScrollable ? (
+        <ScrollView
+          horizontal
+          style={styles.scrollView}
+          showsHorizontalScrollIndicator={true}
+        >
+          {tableContent}
+        </ScrollView>
+      ) : (
+        tableContent
+      )}
+    </TableContext.Provider>
+  );
+}) as any;
+
+_Table.displayName = 'Table';
+
+// Attach compound components
+export const Table = Object.assign(_Table, {
+  Caption: TableCaption,
+  THead,
+  TBody,
+  TFoot,
+  Tr,
+  Th,
+  Td,
+});

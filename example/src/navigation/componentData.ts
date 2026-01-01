@@ -125,7 +125,7 @@ export const componentCategories: ComponentCategory[] = [
       { name: 'Highlight', description: 'Highlight specific text portions', route: 'HighlightExample' },
       { name: 'List', description: 'Ordered and unordered lists', route: 'ListExample' },
       { name: 'Mark', description: 'Marked/highlighted inline text', route: 'MarkExample' },
-      { name: 'Table', description: 'Styled data table', route: 'TableExample' },
+      { name: 'Table', description: 'Render data in rows and columns', route: 'TableExample' },
       { name: 'Text', description: 'Typography component with theme support', route: 'TextExample' },
       { name: 'Title', description: 'Semantic heading with size variants', route: 'TitleExample' },
     ],

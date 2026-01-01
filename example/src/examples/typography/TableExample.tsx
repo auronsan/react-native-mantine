@@ -1,262 +1,462 @@
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
-import { Table, Paper, Badge } from 'react-native-mantine';
+import { ScrollView } from 'react-native';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { Table, Paper, Badge, Text, Stack } from 'react-native-mantine';
 
-// Sample data
-const employees = [
-  { id: 1, name: 'John Doe', position: 'Software Engineer', department: 'Engineering', salary: 95000, status: 'Active' },
-  { id: 2, name: 'Jane Smith', position: 'Product Manager', department: 'Product', salary: 110000, status: 'Active' },
-  { id: 3, name: 'Bob Johnson', position: 'Designer', department: 'Design', salary: 85000, status: 'Active' },
-  { id: 4, name: 'Alice Williams', position: 'Data Scientist', department: 'Engineering', salary: 105000, status: 'On Leave' },
-  { id: 5, name: 'Charlie Brown', position: 'DevOps Engineer', department: 'Engineering', salary: 98000, status: 'Active' },
+const tableProps = [
+  {
+    name: 'striped',
+    type: 'boolean',
+    default: 'false',
+    description: 'If true, every odd row will have a gray background color',
+  },
+  {
+    name: 'highlightOnHover',
+    type: 'boolean',
+    default: 'false',
+    description: 'If true, rows will have a hover color (note: limited on mobile)',
+  },
+  {
+    name: 'captionSide',
+    type: "'top' | 'bottom'",
+    default: "'top'",
+    description: 'Table caption position',
+  },
+  {
+    name: 'horizontalSpacing',
+    type: 'MantineNumberSize',
+    default: "'xs'",
+    description: 'Horizontal cells spacing from theme.spacing or any valid value',
+  },
+  {
+    name: 'verticalSpacing',
+    type: 'MantineNumberSize',
+    default: '7',
+    description: 'Vertical cells spacing from theme.spacing or any valid value',
+  },
+  {
+    name: 'fontSize',
+    type: 'MantineNumberSize',
+    default: "'sm'",
+    description: 'Sets font size of all text inside table',
+  },
+  {
+    name: 'withBorder',
+    type: 'boolean',
+    default: 'false',
+    description: 'Add border to table',
+  },
+  {
+    name: 'withColumnBorders',
+    type: 'boolean',
+    default: 'false',
+    description: 'Add border to columns',
+  },
+  {
+    name: 'horizontallyScrollable',
+    type: 'boolean',
+    default: 'false',
+    description: 'Enable horizontal scrolling for wide tables',
+  },
 ];
 
-const products = [
-  { name: 'React Native Mantine', category: 'Library', downloads: '10K+', rating: 4.8 },
-  { name: 'TypeScript', category: 'Language', downloads: '100M+', rating: 4.9 },
-  { name: 'Expo', category: 'Framework', downloads: '50M+', rating: 4.7 },
-  { name: 'React Navigation', category: 'Library', downloads: '75M+', rating: 4.8 },
+const elements = [
+  { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
+  { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
+  { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
+  { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
+  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
 ];
 
 export const TableExample = () => {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Active': return 'green';
-      case 'On Leave': return 'orange';
-      default: return 'gray';
-    }
-  };
-
   return (
     <ExampleWrapper
       title="Table"
-      description="Styled data table for displaying tabular data"
+      description="Render data in rows and columns with support for styling and borders"
     >
-      <ExampleSection
-        title="Basic Table"
-        description="Simple table with headers and data"
-        variant="showcase"
-      >
-        <Paper p="md" radius="md" withBorder>
-          <Table>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Name</Table.Th>
-                <Table.Th>Category</Table.Th>
-                <Table.Th>Downloads</Table.Th>
-                <Table.Th>Rating</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {products.map((product, index) => (
-                <Table.Tr key={index}>
-                  <Table.Td>{product.name}</Table.Td>
-                  <Table.Td>{product.category}</Table.Td>
-                  <Table.Td>{product.downloads}</Table.Td>
-                  <Table.Td>{product.rating}</Table.Td>
+      <ScrollView>
+        <ExampleSection
+          title="Basic Usage"
+          description="Simple table with headers and data cells"
+        >
+          <Paper p="md" radius="md">
+            <Table>
+              <Table.THead>
+                <Table.Tr>
+                  <Table.Th>Element</Table.Th>
+                  <Table.Th>Symbol</Table.Th>
+                  <Table.Th>Mass</Table.Th>
                 </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
-        </Paper>
-      </ExampleSection>
-
-      <ExampleSection
-        title="With Border"
-        description="Table with borders and column borders"
-      >
-        <Paper p="md" radius="md">
-          <Table withBorder withColumnBorders>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>ID</Table.Th>
-                <Table.Th>Name</Table.Th>
-                <Table.Th>Position</Table.Th>
-                <Table.Th>Department</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {employees.slice(0, 3).map((employee) => (
-                <Table.Tr key={employee.id}>
-                  <Table.Td>{employee.id}</Table.Td>
-                  <Table.Td>{employee.name}</Table.Td>
-                  <Table.Td>{employee.position}</Table.Td>
-                  <Table.Td>{employee.department}</Table.Td>
+              </Table.THead>
+              <Table.TBody>
+                <Table.Tr>
+                  <Table.Td>Carbon</Table.Td>
+                  <Table.Td>C</Table.Td>
+                  <Table.Td>12.011</Table.Td>
                 </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
-        </Paper>
-      </ExampleSection>
+                <Table.Tr>
+                  <Table.Td>Nitrogen</Table.Td>
+                  <Table.Td>N</Table.Td>
+                  <Table.Td>14.007</Table.Td>
+                </Table.Tr>
+                <Table.Tr>
+                  <Table.Td>Yttrium</Table.Td>
+                  <Table.Td>Y</Table.Td>
+                  <Table.Td>88.906</Table.Td>
+                </Table.Tr>
+              </Table.TBody>
+            </Table>
+          </Paper>
+        </ExampleSection>
 
-      <ExampleSection
-        title="Striped Rows"
-        description="Table with alternating row colors"
-      >
-        <Paper p="md" radius="md">
-          <Table striped>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Name</Table.Th>
-                <Table.Th>Position</Table.Th>
-                <Table.Th>Salary</Table.Th>
-                <Table.Th>Status</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {employees.map((employee) => (
-                <Table.Tr key={employee.id}>
-                  <Table.Td>{employee.name}</Table.Td>
-                  <Table.Td>{employee.position}</Table.Td>
-                  <Table.Td>${employee.salary.toLocaleString()}</Table.Td>
+        <ExampleSection
+          title="With Border"
+          description="Add borders to table"
+        >
+          <Paper p="md" radius="md">
+            <Table withBorder>
+              <Table.THead>
+                <Table.Tr>
+                  <Table.Th>Name</Table.Th>
+                  <Table.Th>Symbol</Table.Th>
+                  <Table.Th>Mass</Table.Th>
+                </Table.Tr>
+              </Table.THead>
+              <Table.TBody>
+                {elements.map((element) => (
+                  <Table.Tr key={element.name}>
+                    <Table.Td>{element.name}</Table.Td>
+                    <Table.Td>{element.symbol}</Table.Td>
+                    <Table.Td>{element.mass}</Table.Td>
+                  </Table.Tr>
+                ))}
+              </Table.TBody>
+            </Table>
+          </Paper>
+        </ExampleSection>
+
+        <ExampleSection
+          title="Striped Rows"
+          description="Alternate row background colors"
+        >
+          <Paper p="md" radius="md">
+            <Table striped withBorder>
+              <Table.THead>
+                <Table.Tr>
+                  <Table.Th>Position</Table.Th>
+                  <Table.Th>Name</Table.Th>
+                  <Table.Th>Symbol</Table.Th>
+                  <Table.Th>Mass</Table.Th>
+                </Table.Tr>
+              </Table.THead>
+              <Table.TBody>
+                {elements.map((element) => (
+                  <Table.Tr key={element.name}>
+                    <Table.Td>{element.position}</Table.Td>
+                    <Table.Td>{element.name}</Table.Td>
+                    <Table.Td>{element.symbol}</Table.Td>
+                    <Table.Td>{element.mass}</Table.Td>
+                  </Table.Tr>
+                ))}
+              </Table.TBody>
+            </Table>
+          </Paper>
+        </ExampleSection>
+
+        <ExampleSection
+          title="With Column Borders"
+          description="Add vertical borders between columns"
+        >
+          <Paper p="md" radius="md">
+            <Table withBorder withColumnBorders>
+              <Table.THead>
+                <Table.Tr>
+                  <Table.Th>Element</Table.Th>
+                  <Table.Th>Symbol</Table.Th>
+                  <Table.Th>Mass</Table.Th>
+                </Table.Tr>
+              </Table.THead>
+              <Table.TBody>
+                {elements.slice(0, 3).map((element) => (
+                  <Table.Tr key={element.name}>
+                    <Table.Td>{element.name}</Table.Td>
+                    <Table.Td>{element.symbol}</Table.Td>
+                    <Table.Td>{element.mass}</Table.Td>
+                  </Table.Tr>
+                ))}
+              </Table.TBody>
+            </Table>
+          </Paper>
+        </ExampleSection>
+
+        <ExampleSection
+          title="Custom Spacing"
+          description="Control horizontal and vertical cell spacing"
+        >
+          <Paper p="md" radius="md">
+            <Table
+              withBorder
+              horizontalSpacing="xl"
+              verticalSpacing="md"
+            >
+              <Table.THead>
+                <Table.Tr>
+                  <Table.Th>Element</Table.Th>
+                  <Table.Th>Symbol</Table.Th>
+                </Table.Tr>
+              </Table.THead>
+              <Table.TBody>
+                <Table.Tr>
+                  <Table.Td>Carbon</Table.Td>
+                  <Table.Td>C</Table.Td>
+                </Table.Tr>
+                <Table.Tr>
+                  <Table.Td>Nitrogen</Table.Td>
+                  <Table.Td>N</Table.Td>
+                </Table.Tr>
+              </Table.TBody>
+            </Table>
+          </Paper>
+        </ExampleSection>
+
+        <ExampleSection
+          title="Custom Font Size"
+          description="Adjust text size within table"
+        >
+          <Paper p="md" radius="md">
+            <Stack spacing={16}>
+              <Table withBorder fontSize="xs">
+                <Table.THead>
+                  <Table.Tr>
+                    <Table.Th>Small Text (xs)</Table.Th>
+                    <Table.Th>Symbol</Table.Th>
+                  </Table.Tr>
+                </Table.THead>
+                <Table.TBody>
+                  <Table.Tr>
+                    <Table.Td>Carbon</Table.Td>
+                    <Table.Td>C</Table.Td>
+                  </Table.Tr>
+                </Table.TBody>
+              </Table>
+
+              <Table withBorder fontSize="lg">
+                <Table.THead>
+                  <Table.Tr>
+                    <Table.Th>Large Text (lg)</Table.Th>
+                    <Table.Th>Symbol</Table.Th>
+                  </Table.Tr>
+                </Table.THead>
+                <Table.TBody>
+                  <Table.Tr>
+                    <Table.Td>Carbon</Table.Td>
+                    <Table.Td>C</Table.Td>
+                  </Table.Tr>
+                </Table.TBody>
+              </Table>
+            </Stack>
+          </Paper>
+        </ExampleSection>
+
+        <ExampleSection
+          title="With Caption"
+          description="Add a caption to describe the table"
+        >
+          <Paper p="md" radius="md">
+            <Table withBorder captionSide="top">
+              <Table.Caption>Chemical Elements</Table.Caption>
+              <Table.THead>
+                <Table.Tr>
+                  <Table.Th>Element</Table.Th>
+                  <Table.Th>Symbol</Table.Th>
+                </Table.Tr>
+              </Table.THead>
+              <Table.TBody>
+                <Table.Tr>
+                  <Table.Td>Carbon</Table.Td>
+                  <Table.Td>C</Table.Td>
+                </Table.Tr>
+                <Table.Tr>
+                  <Table.Td>Nitrogen</Table.Td>
+                  <Table.Td>N</Table.Td>
+                </Table.Tr>
+              </Table.TBody>
+            </Table>
+          </Paper>
+        </ExampleSection>
+
+        <ExampleSection
+          title="Caption at Bottom"
+          description="Position caption below the table"
+        >
+          <Paper p="md" radius="md">
+            <Table withBorder captionSide="bottom">
+              <Table.Caption>Source: Periodic Table of Elements</Table.Caption>
+              <Table.THead>
+                <Table.Tr>
+                  <Table.Th>Element</Table.Th>
+                  <Table.Th>Symbol</Table.Th>
+                </Table.Tr>
+              </Table.THead>
+              <Table.TBody>
+                <Table.Tr>
+                  <Table.Td>Carbon</Table.Td>
+                  <Table.Td>C</Table.Td>
+                </Table.Tr>
+              </Table.TBody>
+            </Table>
+          </Paper>
+        </ExampleSection>
+
+        <ExampleSection
+          title="With Custom Content"
+          description="Use React Native components inside table cells"
+        >
+          <Paper p="md" radius="md">
+            <Table withBorder>
+              <Table.THead>
+                <Table.Tr>
+                  <Table.Th>Element</Table.Th>
+                  <Table.Th>Symbol</Table.Th>
+                  <Table.Th>Status</Table.Th>
+                </Table.Tr>
+              </Table.THead>
+              <Table.TBody>
+                <Table.Tr>
                   <Table.Td>
-                    <Badge color={getStatusColor(employee.status)} size="sm">
-                      {employee.status}
-                    </Badge>
+                    <Text weight={600}>Carbon</Text>
+                  </Table.Td>
+                  <Table.Td>C</Table.Td>
+                  <Table.Td>
+                    <Badge color="green" variant="filled">Active</Badge>
                   </Table.Td>
                 </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
-        </Paper>
-      </ExampleSection>
-
-      <ExampleSection
-        title="With Caption"
-        description="Table with caption at top"
-      >
-        <Paper p="md" radius="md">
-          <Table caption="Employee Directory" withBorder>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Name</Table.Th>
-                <Table.Th>Department</Table.Th>
-                <Table.Th>Position</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {employees.slice(0, 3).map((employee) => (
-                <Table.Tr key={employee.id}>
-                  <Table.Td>{employee.name}</Table.Td>
-                  <Table.Td>{employee.department}</Table.Td>
-                  <Table.Td>{employee.position}</Table.Td>
+                <Table.Tr>
+                  <Table.Td>
+                    <Text weight={600}>Nitrogen</Text>
+                  </Table.Td>
+                  <Table.Td>N</Table.Td>
+                  <Table.Td>
+                    <Badge color="blue" variant="filled">Stable</Badge>
+                  </Table.Td>
                 </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
-        </Paper>
-      </ExampleSection>
-
-      <ExampleSection
-        title="Custom Spacing"
-        description="Table with custom horizontal and vertical spacing"
-      >
-        <Paper p="md" radius="md">
-          <Table
-            horizontalSpacing="lg"
-            verticalSpacing="md"
-            fontSize="md"
-            withBorder
-          >
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Product</Table.Th>
-                <Table.Th>Category</Table.Th>
-                <Table.Th>Rating</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {products.slice(0, 3).map((product, index) => (
-                <Table.Tr key={index}>
-                  <Table.Td>{product.name}</Table.Td>
-                  <Table.Td>{product.category}</Table.Td>
-                  <Table.Td>⭐ {product.rating}</Table.Td>
+                <Table.Tr>
+                  <Table.Td>
+                    <Text weight={600}>Yttrium</Text>
+                  </Table.Td>
+                  <Table.Td>Y</Table.Td>
+                  <Table.Td>
+                    <Badge color="orange" variant="filled">Rare</Badge>
+                  </Table.Td>
                 </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
-        </Paper>
-      </ExampleSection>
+              </Table.TBody>
+            </Table>
+          </Paper>
+        </ExampleSection>
 
-      <ExampleSection
-        title="With Footer"
-        description="Table with footer section"
-      >
-        <Paper p="md" radius="md">
-          <Table withBorder>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Department</Table.Th>
-                <Table.Th>Employees</Table.Th>
-                <Table.Th>Avg Salary</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              <Table.Tr>
-                <Table.Td>Engineering</Table.Td>
-                <Table.Td>3</Table.Td>
-                <Table.Td>$99,333</Table.Td>
-              </Table.Tr>
-              <Table.Tr>
-                <Table.Td>Product</Table.Td>
-                <Table.Td>1</Table.Td>
-                <Table.Td>$110,000</Table.Td>
-              </Table.Tr>
-              <Table.Tr>
-                <Table.Td>Design</Table.Td>
-                <Table.Td>1</Table.Td>
-                <Table.Td>$85,000</Table.Td>
-              </Table.Tr>
-            </Table.Tbody>
-            <Table.Tfoot>
-              <Table.Tr>
-                <Table.Th>Total</Table.Th>
-                <Table.Th>5</Table.Th>
-                <Table.Th>$98,600</Table.Th>
-              </Table.Tr>
-            </Table.Tfoot>
-          </Table>
-        </Paper>
-      </ExampleSection>
+        <ExampleSection
+          title="Horizontally Scrollable"
+          description="Enable horizontal scrolling for wide tables"
+        >
+          <Paper p="md" radius="md">
+            <Table withBorder horizontallyScrollable>
+              <Table.THead>
+                <Table.Tr>
+                  <Table.Th>Position</Table.Th>
+                  <Table.Th>Element Name</Table.Th>
+                  <Table.Th>Symbol</Table.Th>
+                  <Table.Th>Atomic Mass</Table.Th>
+                  <Table.Th>Discovered</Table.Th>
+                  <Table.Th>Category</Table.Th>
+                </Table.Tr>
+              </Table.THead>
+              <Table.TBody>
+                <Table.Tr>
+                  <Table.Td>6</Table.Td>
+                  <Table.Td>Carbon</Table.Td>
+                  <Table.Td>C</Table.Td>
+                  <Table.Td>12.011</Table.Td>
+                  <Table.Td>Ancient</Table.Td>
+                  <Table.Td>Nonmetal</Table.Td>
+                </Table.Tr>
+                <Table.Tr>
+                  <Table.Td>7</Table.Td>
+                  <Table.Td>Nitrogen</Table.Td>
+                  <Table.Td>N</Table.Td>
+                  <Table.Td>14.007</Table.Td>
+                  <Table.Td>1772</Table.Td>
+                  <Table.Td>Nonmetal</Table.Td>
+                </Table.Tr>
+              </Table.TBody>
+            </Table>
+          </Paper>
+        </ExampleSection>
 
-      <ExampleSection
-        title="Flex Container Support"
-        description="Table with flex props to expand and fill available space"
-      >
-        <Paper p="md" radius="md" style={{ height: 300 }}>
-          <Table
-            flex={1}
-            withBorder
-            withColumnBorders
-            striped
-            caption="Table expanding to fill container"
-          >
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Item</Table.Th>
-                <Table.Th>Quantity</Table.Th>
-                <Table.Th>Price</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              <Table.Tr>
-                <Table.Td>Laptop</Table.Td>
-                <Table.Td>2</Table.Td>
-                <Table.Td>$1,200</Table.Td>
-              </Table.Tr>
-              <Table.Tr>
-                <Table.Td>Mouse</Table.Td>
-                <Table.Td>5</Table.Td>
-                <Table.Td>$25</Table.Td>
-              </Table.Tr>
-              <Table.Tr>
-                <Table.Td>Keyboard</Table.Td>
-                <Table.Td>3</Table.Td>
-                <Table.Td>$75</Table.Td>
-              </Table.Tr>
-            </Table.Tbody>
-          </Table>
-        </Paper>
-      </ExampleSection>
+        <ExampleSection
+          title="Component Props"
+          description="Complete reference of all available Table props"
+        >
+          <PropsTable props={tableProps} />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Usage Example"
+          description="Basic implementation code"
+        >
+          <CodeBlock
+            code={`import { Table } from 'react-native-mantine';
+
+// Basic table
+<Table>
+  <Table.THead>
+    <Table.Tr>
+      <Table.Th>Name</Table.Th>
+      <Table.Th>Symbol</Table.Th>
+      <Table.Th>Mass</Table.Th>
+    </Table.Tr>
+  </Table.THead>
+  <Table.TBody>
+    <Table.Tr>
+      <Table.Td>Carbon</Table.Td>
+      <Table.Td>C</Table.Td>
+      <Table.Td>12.011</Table.Td>
+    </Table.Tr>
+    <Table.Tr>
+      <Table.Td>Nitrogen</Table.Td>
+      <Table.Td>N</Table.Td>
+      <Table.Td>14.007</Table.Td>
+    </Table.Tr>
+  </Table.TBody>
+</Table>
+
+// With all features
+<Table
+  striped
+  withBorder
+  withColumnBorders
+  horizontalSpacing="md"
+  verticalSpacing="sm"
+  fontSize="md"
+>
+  <Table.Caption>Chemical Elements</Table.Caption>
+  <Table.THead>
+    <Table.Tr>
+      <Table.Th>Element</Table.Th>
+      <Table.Th>Symbol</Table.Th>
+    </Table.Tr>
+  </Table.THead>
+  <Table.TBody>
+    {elements.map((element) => (
+      <Table.Tr key={element.name}>
+        <Table.Td>{element.name}</Table.Td>
+        <Table.Td>{element.symbol}</Table.Td>
+      </Table.Tr>
+    ))}
+  </Table.TBody>
+</Table>`}
+          />
+        </ExampleSection>
+      </ScrollView>
     </ExampleWrapper>
   );
 };

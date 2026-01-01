@@ -61,7 +61,6 @@ export * from './Pagination';
 // Phase 4 components - Data Display
 export * from './Card';
 export * from './Timeline';
-export * from './Table';
 export * from './List';
 
 // Phase 5 components - Images & Media
@@ -106,3 +105,6 @@ export * from './MultiSelect';
 // Phase 6 components - Specialized
 export * from './RingProgress';
 export * from './TransferList';
+
+// Phase 7 components - Typography
+export * from './Table';

@@ -1,5 +1,12 @@
 import { ScrollView, View } from 'react-native';
-import { Text, Title, Divider, createStyles, Paper, Badge } from 'react-native-mantine';
+import {
+  Text,
+  Title,
+  Divider,
+  createStyles,
+  Paper,
+  Badge,
+} from 'react-native-mantine';
 
 interface ExampleWrapperProps {
   title: string;
@@ -17,10 +24,10 @@ export const ExampleWrapper: React.FC<ExampleWrapperProps> = ({
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
-        <Title order={2} style={styles.title}>{title}</Title>
-        {description && (
-          <Text style={styles.description}>{description}</Text>
-        )}
+        <Title order={2} style={styles.title}>
+          {title}
+        </Title>
+        {description && <Text style={styles.description}>{description}</Text>}
       </View>
       <View style={styles.content}>{children}</View>
     </ScrollView>
@@ -57,11 +64,7 @@ export const ExampleSection: React.FC<ExampleSectionProps> = ({
       {description && (
         <Text style={styles.sectionDescription}>{description}</Text>
       )}
-      <Paper
-        p="md"
-        radius="md"
-        style={styles.sectionContent}
-      >
+      <Paper p="md" radius="md" style={styles.sectionContent}>
         {children}
       </Paper>
       <Divider style={styles.divider} />
@@ -74,7 +77,10 @@ interface CodeBlockProps {
   language?: string;
 }
 
-export const CodeBlock: React.FC<CodeBlockProps> = ({ code, language = 'tsx' }) => {
+export const CodeBlock: React.FC<CodeBlockProps> = ({
+  code,
+  language = 'tsx',
+}) => {
   const { styles } = useStyles();
 
   return (
@@ -103,7 +109,9 @@ export const PropsTable: React.FC<PropsTableProps> = ({ props }) => {
 
   return (
     <Paper p="md" radius="md" style={styles.propsTable}>
-      <Title order={5} style={styles.propsTableTitle}>Component Props</Title>
+      <Title order={5} style={styles.propsTableTitle}>
+        Component Props
+      </Title>
       {props.map((prop, index) => (
         <View key={prop.name} style={styles.propRow}>
           <View style={styles.propHeader}>
@@ -126,19 +134,26 @@ export const PropsTable: React.FC<PropsTableProps> = ({ props }) => {
 const useStyles = createStyles((theme) => ({
   container: {
     flex: 1,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    backgroundColor:
+      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
   },
   header: {
     padding: 20,
     paddingTop: 20,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    backgroundColor:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[6]
+        : theme.colors.gray[0],
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.gray?.[2] || '#e9ecef',
   },
   title: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[0]
+        : theme.colors.gray[9],
     marginBottom: 6,
   },
   description: {
@@ -162,7 +177,10 @@ const useStyles = createStyles((theme) => ({
   sectionTitle: {
     fontSize: 19,
     fontWeight: '700',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[0]
+        : theme.colors.gray[9],
   },
   sectionDescription: {
     color: theme.colors.gray?.[6] || '#868e96',
@@ -171,10 +189,14 @@ const useStyles = createStyles((theme) => ({
     lineHeight: 20,
   },
   sectionContent: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    backgroundColor:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[6]
+        : theme.colors.gray[0],
     borderWidth: 1,
     borderColor: theme.colors.gray?.[2] || '#e9ecef',
     marginBottom: 12,
+    width: '100%',
   },
   divider: {
     marginTop: 4,
@@ -194,15 +216,22 @@ const useStyles = createStyles((theme) => ({
     lineHeight: 18,
   },
   propsTable: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    backgroundColor:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[6]
+        : theme.colors.gray[0],
     borderWidth: 1,
     borderColor: theme.colors.gray?.[2] || '#e9ecef',
+    width: '100%',
   },
   propsTableTitle: {
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 12,
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[0]
+        : theme.colors.gray[9],
   },
   propRow: {
     paddingVertical: 8,
@@ -216,7 +245,10 @@ const useStyles = createStyles((theme) => ({
   propName: {
     fontSize: 15,
     fontWeight: '600',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[0]
+        : theme.colors.gray[9],
   },
   propDescription: {
     fontSize: 14,
