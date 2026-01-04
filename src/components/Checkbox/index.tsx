@@ -116,7 +116,14 @@ export const Checkbox = forwardRef<any, CheckboxProps>((props, ref) => {
     ...otherProps
   } = useComponentDefaultProps('Checkbox', defaultProps, props);
 
-  const { styles, sx } = useStyles({ size, color, disabled}, { name: 'Checkbox' }) as any;
+  const { styles, sx } = useStyles(
+    {
+      size: size ?? defaultProps.size ?? 'md',
+      color: color ?? defaultProps.color ?? 'blue',
+      disabled: disabled ?? defaultProps.disabled ?? false
+    },
+    { name: 'Checkbox' }
+  ) as any;
 
   const scaleAnim = useRef(new Animated.Value(checked ? 1 : 0)).current;
 

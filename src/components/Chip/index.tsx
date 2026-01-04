@@ -209,7 +209,14 @@ export const Chip = forwardRef<any, ChipProps>((props, ref) => {
   const checked = controlledChecked !== undefined ? controlledChecked : uncontrolledChecked;
 
   const { styles, sx} = useStyles(
-    { size, color, radius, variant, checked, disabled },
+    {
+      size: size ?? defaultProps.size ?? 'sm',
+      color: color ?? defaultProps.color ?? 'blue',
+      radius: radius ?? defaultProps.radius ?? 'xl',
+      variant: variant ?? defaultProps.variant ?? 'filled',
+      checked,
+      disabled: disabled ?? defaultProps.disabled ?? false
+    },
     { name: 'Chip' }
   ) as any;
 
@@ -306,7 +313,10 @@ export const ChipGroup = forwardRef<any, ChipGroupProps>((props, ref) => {
 
   const value = controlledValue !== undefined ? controlledValue : uncontrolledValue;
 
-  const { styles, sx } = useGroupStyles({ spacing}, { name: 'ChipGroup' }) as any;
+  const { styles, sx } = useGroupStyles(
+    { spacing: spacing ?? defaultGroupProps.spacing ?? 'sm' },
+    { name: 'ChipGroup' }
+  ) as any;
 
   const handleChipChange = (chipValue: string, checked: boolean) => {
     let newValue: string | string[];

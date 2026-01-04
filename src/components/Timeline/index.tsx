@@ -217,7 +217,10 @@ const TimelineRoot = forwardRef<any, TimelineProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Timeline', defaultProps, props);
 
-  const { styles, sx } = useTimelineStyles({ align }, { name: 'Timeline' }) as any;
+  const { styles, sx } = useTimelineStyles(
+    { align: align ?? defaultProps.align ?? 'left' },
+    { name: 'Timeline' }
+  ) as any;
 
   const childrenArray = React.Children.toArray(children);
   const itemsCount = childrenArray.length;
@@ -225,12 +228,12 @@ const TimelineRoot = forwardRef<any, TimelineProps>((props, ref) => {
   return (
     <TimelineContext.Provider
       value={{
-        color: color!,
-        radius: radius || 'sm',
-        lineWidth: lineWidth!,
-        bulletSize: bulletSize!,
-        align: align!,
-        reverseActive: reverseActive!,
+        color: color ?? defaultProps.color ?? 'blue',
+        radius: radius ?? 'sm',
+        lineWidth: lineWidth ?? defaultProps.lineWidth ?? 2,
+        bulletSize: bulletSize ?? defaultProps.bulletSize ?? 20,
+        align: align ?? defaultProps.align ?? 'left',
+        reverseActive: reverseActive ?? defaultProps.reverseActive ?? false,
       }}
     >
       <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
@@ -289,7 +292,7 @@ export const TimelineItem = forwardRef<
       bulletSize,
       align: context.align,
       isActive,
-      lineVariant: lineVariant!,
+      lineVariant: lineVariant ?? defaultItemProps.lineVariant ?? 'solid',
       isLast,
     },
     { name: 'TimelineItem' }

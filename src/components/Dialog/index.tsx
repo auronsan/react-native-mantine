@@ -163,7 +163,14 @@ export const Dialog = forwardRef<any, DialogProps>((props, ref) => {
     ...otherProps
   } = useComponentDefaultProps('Dialog', defaultProps, props);
 
-  const { styles, sx } = useStyles({ size, position, centered }, { name: 'Dialog' }) as any;
+  const { styles, sx } = useStyles(
+    {
+      size: size ?? defaultProps.size ?? 'md',
+      position,
+      centered
+    },
+    { name: 'Dialog' }
+  ) as any;
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;

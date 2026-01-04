@@ -210,7 +210,16 @@ export const Indicator = forwardRef<any, IndicatorProps>((props, ref) => {
   } = useComponentDefaultProps('Indicator', defaultProps, props);
 
   const { styles, sx} = useStyles(
-    { color, size, radius, withBorder, position, offset, disabled, inline },
+    {
+      color: color ?? defaultProps.color ?? 'red',
+      size: size ?? defaultProps.size ?? 'md',
+      radius: radius ?? defaultProps.radius ?? 'xl',
+      withBorder: withBorder ?? defaultProps.withBorder ?? false,
+      position: position ?? defaultProps.position ?? 'top-end',
+      offset: offset ?? defaultProps.offset ?? 0,
+      disabled: disabled ?? defaultProps.disabled ?? false,
+      inline: inline ?? defaultProps.inline ?? false
+    },
     { name: 'Indicator' }
   ) as any;
 

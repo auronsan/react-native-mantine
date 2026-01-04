@@ -194,7 +194,14 @@ export const Drawer = forwardRef<any, DrawerProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Drawer', defaultProps, props);
 
-  const { styles, sx } = useStyles({ size: size!, padding: padding!, position: position! }, { name: 'Drawer' }) as any;
+  const { styles, sx } = useStyles(
+    {
+      size: size ?? defaultProps.size ?? 'md',
+      padding: padding ?? defaultProps.padding ?? 'md',
+      position: position ?? defaultProps.position ?? 'left'
+    },
+    { name: 'Drawer' }
+  ) as any;
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;

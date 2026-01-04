@@ -134,7 +134,12 @@ export const Image = forwardRef<any, ImageProps>((props, ref) => {
   const [error, setError] = useState(false);
 
   const { styles, sx } = useStyles(
-    { width, height, radius, fit },
+    {
+      width,
+      height,
+      radius: radius ?? defaultProps.radius ?? 0,
+      fit: fit ?? defaultProps.fit ?? 'cover'
+    },
     { name: 'Image' }
   ) as any;
 

@@ -82,7 +82,12 @@ export const ColorSwatch = forwardRef<any, ColorSwatchProps>((props, ref) => {
     useComponentDefaultProps('ColorSwatch', defaultProps, props);
 
   const { styles, sx} = useStyles(
-    { color, size, radius, withShadow },
+    {
+      color: color ?? '#000',
+      size: size ?? defaultProps.size ?? 25,
+      radius: radius ?? defaultProps.radius ?? 'xl',
+      withShadow: withShadow ?? defaultProps.withShadow ?? true
+    },
     { name: 'ColorSwatch' }
   ) as any;
 

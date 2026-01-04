@@ -139,7 +139,13 @@ export const Divider = forwardRef<any, DividerProps>((props, ref) => {
   } = useComponentDefaultProps('Divider', defaultProps, props);
 
   const { styles, sx} = useStyles(
-    { orientation, color, size, variant, labelPosition },
+    {
+      orientation: orientation ?? defaultProps.orientation ?? 'horizontal',
+      color,
+      size: size ?? defaultProps.size ?? 'sm',
+      variant: variant ?? defaultProps.variant ?? 'solid',
+      labelPosition: labelPosition ?? defaultProps.labelPosition ?? 'center'
+    },
     { name: 'Divider' }
   ) as any;
 

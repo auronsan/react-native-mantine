@@ -85,7 +85,13 @@ export const Blockquote = forwardRef<any, BlockquoteProps>((props, ref) => {
   const { color, icon, cite, radius, children, style, withTextWrapper: shouldWrapInText} =
     useComponentDefaultProps('Blockquote', defaultProps, props);
 
-  const { styles, sx, ...others} = useStyles({ color, radius}, { name: 'Blockquote' }) as any;
+  const { styles, sx, ...others} = useStyles(
+    {
+      color: color ?? defaultProps.color ?? 'blue',
+      radius: radius ?? defaultProps.radius ?? 'sm'
+    },
+    { name: 'Blockquote' }
+  ) as any;
 
   return (
     <BoxView ref={ref} style={sx(styles.root, style)} {...others}>

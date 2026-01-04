@@ -282,7 +282,10 @@ const MenuItem = forwardRef<any, MenuItemProps>((props, ref) => {
   const [isPressed, setIsPressed] = React.useState(false);
 
   const { styles, sx } = useItemStyles(
-    { color, disabled },
+    {
+      color: color ?? 'blue',
+      disabled: disabled ?? defaultItemProps.disabled ?? false
+    },
     { name: 'MenuItem' }
   ) as any;
 
