@@ -76,7 +76,13 @@ export const Overlay = forwardRef<any, OverlayProps>((props, ref) => {
     useComponentDefaultProps('Overlay', defaultProps, props);
 
   const { styles, sx} = useStyles(
-    { opacity, color, zIndex, radius, fixed },
+    {
+      opacity: opacity ?? defaultProps.opacity ?? 0.6,
+      color: color ?? defaultProps.color ?? '#000',
+      zIndex: zIndex ?? defaultProps.zIndex ?? 1000,
+      radius: radius ?? defaultProps.radius ?? 0,
+      fixed: fixed ?? defaultProps.fixed ?? false
+    },
     { name: 'Overlay' }
   ) as any;
 

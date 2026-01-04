@@ -209,7 +209,10 @@ const ListRoot = forwardRef<any, ListProps>((props, ref) => {
   } = useComponentDefaultProps('List', defaultProps, props);
 
   const { styles, sx} = useListStyles(
-    { withPadding, spacing },
+    {
+      withPadding: withPadding ?? defaultProps.withPadding ?? false,
+      spacing: spacing ?? defaultProps.spacing ?? 'xs'
+    },
     { name: 'List' }
   ) as any;
 

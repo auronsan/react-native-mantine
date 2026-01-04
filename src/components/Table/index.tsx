@@ -399,12 +399,12 @@ export const _Table = forwardRef<View, TableProps>((props, ref) => {
 
   const { styles, sx } = useStyles(
     {
-      horizontalSpacing,
-      verticalSpacing,
-      fontSize,
-      withBorder,
-      withColumnBorders,
-      striped,
+      horizontalSpacing: horizontalSpacing ?? defaultProps.horizontalSpacing ?? 'xs',
+      verticalSpacing: verticalSpacing ?? defaultProps.verticalSpacing ?? 7,
+      fontSize: fontSize ?? defaultProps.fontSize ?? 'sm',
+      withBorder: withBorder ?? defaultProps.withBorder ?? false,
+      withColumnBorders: withColumnBorders ?? defaultProps.withColumnBorders ?? false,
+      striped: striped ?? defaultProps.striped ?? false,
     },
     { name: 'Table' }
   ) as any;

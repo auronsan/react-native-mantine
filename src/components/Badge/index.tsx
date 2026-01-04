@@ -189,8 +189,16 @@ export const Badge = forwardRef<any, BadgeProps>((props, ref) => {
   } = useComponentDefaultProps('Badge', defaultProps, props);
 
   const { styles, sx} = useStyles(
-    { color, radius, fullWidth },
-    { name: 'Badge', variant, size }
+    {
+      color: color ?? defaultProps.color ?? 'blue',
+      radius: radius ?? defaultProps.radius ?? 'xl',
+      fullWidth: fullWidth ?? defaultProps.fullWidth ?? false
+    },
+    {
+      name: 'Badge',
+      variant: variant ?? defaultProps.variant ?? 'light',
+      size: size ?? defaultProps.size ?? 'md'
+    }
   ) as any;
 
   // Get the text color from the variant styles

@@ -117,13 +117,16 @@ export const Card = forwardRef<any, CardProps>((props, ref) => {
     ...otherProps
   } = useComponentDefaultProps('Card', defaultCardProps, props);
 
-  const { styles, sx } = useCardStyles({ padding}, { name: 'Card' }) as any;
+  const { styles, sx } = useCardStyles(
+    { padding: padding ?? defaultCardProps.padding ?? 'md' },
+    { name: 'Card' }
+  ) as any;
 
   // Use p prop for Paper, padding for Card internal logic
   const paperPadding = p !== undefined ? p : 0;
 
   return (
-    <CardContext.Provider value={{ padding: padding! }}>
+    <CardContext.Provider value={{ padding: padding ?? defaultCardProps.padding ?? 'md' }}>
       <Paper ref={ref} p={paperPadding} style={sx(styles.root, style)} {...otherProps}>
         {children}
       </Paper>
@@ -145,8 +148,8 @@ export const CardSection = forwardRef<any, CardSectionProps>((props, ref) => {
   const { styles, sx} = useCardSectionStyles(
     {
       padding,
-      withBorder,
-      inheritPadding,
+      withBorder: withBorder ?? defaultCardSectionProps.withBorder ?? false,
+      inheritPadding: inheritPadding ?? defaultCardSectionProps.inheritPadding ?? false,
       cardPadding: cardContext?.padding,
     },
     { name: 'CardSection' }

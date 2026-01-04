@@ -111,8 +111,13 @@ export const Anchor = forwardRef<RNText, AnchorProps>((props, ref) => {
     useComponentDefaultProps('Anchor', defaultProps, props);
 
   const { styles, sx} = useStyles(
-    { color, size, weight, underline },
-    { name: 'Anchor', variant }
+    {
+      color: color ?? defaultProps.color ?? 'blue',
+      size: size ?? defaultProps.size ?? 'md',
+      weight: weight ?? defaultProps.weight ?? '400',
+      underline: underline ?? defaultProps.underline ?? true
+    },
+    { name: 'Anchor', variant: variant ?? defaultProps.variant ?? 'link' }
   ) as any;
 
   const handlePress = () => {

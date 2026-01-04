@@ -102,7 +102,11 @@ export const SimpleGrid = forwardRef<any, SimpleGridProps>((props, ref) => {
   }, [dimensions, breakpoints, cols, spacing]);
 
   const { styles, sx } = useStyles(
-    { cols: activeCols, spacing: activeSpacing, verticalSpacing },
+    {
+      cols: activeCols ?? cols ?? defaultProps.cols ?? 1,
+      spacing: activeSpacing ?? spacing ?? defaultProps.spacing ?? 'md',
+      verticalSpacing: verticalSpacing ?? spacing ?? defaultProps.spacing ?? 'md'
+    },
     { name: 'SimpleGrid' }
   ) as any;
 

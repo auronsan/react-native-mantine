@@ -204,7 +204,7 @@ export const Rating = forwardRef<any, RatingProps>((props, ref) => {
 
   return (
     <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
-      {Array.from({ length: count! }, (_, index) => renderSymbol(index))}
+      {Array.from({ length: count ?? defaultProps.count ?? 5 }, (_, index) => renderSymbol(index))}
     </BoxView>
   );
 });

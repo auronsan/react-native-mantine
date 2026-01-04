@@ -130,7 +130,12 @@ export const ThemeIcon = forwardRef<any, ThemeIconProps>((props, ref) => {
     useComponentDefaultProps('ThemeIcon', defaultProps, props);
 
   const { styles, sx, theme} = useStyles(
-    { color, size, radius, variant },
+    {
+      color: color ?? defaultProps.color ?? 'blue',
+      size: size ?? defaultProps.size ?? 'md',
+      radius: radius ?? defaultProps.radius ?? 'sm',
+      variant: (variant ?? defaultProps.variant ?? 'filled') as 'filled' | 'light' | 'gradient' | 'outline'
+    },
     { name: 'ThemeIcon' }
   ) as any;
 

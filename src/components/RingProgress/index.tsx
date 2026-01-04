@@ -115,7 +115,11 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
     (theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 4) : theme.fn.themeColor('gray', 2));
 
   const { styles, sx} = useStyles(
-    { size, thickness, rootColor },
+    {
+      size: size ?? defaultProps.size ?? 120,
+      thickness: thickness ?? defaultProps.thickness ?? 12,
+      rootColor
+    },
     { name: 'RingProgress' }
   ) as any;
 
@@ -214,9 +218,9 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
             key={`section-${index}-segment-${i}`}
             style={{
               position: 'absolute',
-              width: size!,
-              height: size!,
-              borderRadius: size! / 2,
+              width: size ?? defaultProps.size ?? 120,
+              height: size ?? defaultProps.size ?? 120,
+              borderRadius: (size ?? defaultProps.size ?? 120) / 2,
               borderWidth: thickness,
               ...borderConfig,
               transform: [{ rotate: `${startAngle + segmentStartDegrees}deg` }],

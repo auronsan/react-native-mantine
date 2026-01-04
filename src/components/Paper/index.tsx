@@ -81,7 +81,15 @@ export const Paper = forwardRef<any, PaperProps>((props, ref) => {
   const { shadow, radius, p, withBorder, children, style} =
     useComponentDefaultProps('Paper', defaultProps, props);
 
-  const { styles, sx, ...others} = useStyles({ shadow, radius, p, withBorder}, { name: 'Paper' }) as any;
+  const { styles, sx, ...others} = useStyles(
+    {
+      shadow,
+      radius: radius ?? defaultProps.radius ?? 'sm',
+      p,
+      withBorder: withBorder ?? defaultProps.withBorder ?? false
+    },
+    { name: 'Paper' }
+  ) as any;
 
   return (
     <BoxView ref={ref} style={sx(styles.root, style)} {...others}>

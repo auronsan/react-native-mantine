@@ -229,7 +229,7 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
 
   return (
     <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
-      {Array.from({ length: length! }, (_, index) => {
+      {Array.from({ length: length ?? defaultProps.length ?? 4 }, (_, index) => {
         const inputValue = value.charAt(index) || '';
         const displayValue = inputValue === ' ' ? '' : inputValue;
 

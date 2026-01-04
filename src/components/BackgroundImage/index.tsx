@@ -57,7 +57,7 @@ export const BackgroundImage = forwardRef<any, BackgroundImageProps>((props, ref
   } = useComponentDefaultProps('BackgroundImage', defaultProps, props);
 
   const { styles, sx} = useStyles(
-    { radius },
+    { radius: radius ?? defaultProps.radius ?? 0 },
     { name: 'BackgroundImage' }
   ) as any;
 

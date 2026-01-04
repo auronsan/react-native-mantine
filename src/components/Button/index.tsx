@@ -105,18 +105,18 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
 
   const { styles, sx, theme } = useStyles(
     {
-      radius,
-      color,
-      fullWidth,
-      compact,
+      radius: radius ?? defaultProps.radius ?? 'sm',
+      color: color ?? 'blue',
+      fullWidth: fullWidth ?? false,
+      compact: compact ?? false,
       gradient,
       withLeftIcon: !!leftIcon,
       withRightIcon: !!rightIcon,
     },
     {
       name: 'Button',
-      variant,
-      size,
+      variant: variant ?? defaultProps.variant ?? 'filled',
+      size: size ?? defaultProps.size ?? 'sm',
     }
   );
 

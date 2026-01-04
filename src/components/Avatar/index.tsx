@@ -121,7 +121,11 @@ export const Avatar = forwardRef<any, AvatarProps>((props, ref) => {
   const [imageError, setImageError] = useState(false);
 
   const { styles, sx} = useStyles(
-    { color, radius, size },
+    {
+      color: color ?? defaultProps.color ?? 'gray',
+      radius: radius ?? defaultProps.radius ?? 'xl',
+      size: size ?? defaultProps.size ?? 'md'
+    },
     { name: 'Avatar' }
   ) as any;
 

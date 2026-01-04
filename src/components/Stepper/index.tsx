@@ -245,7 +245,10 @@ export const Stepper = forwardRef<any, StepperProps>((props, ref) => {
     ...others
   } = useComponentDefaultProps('Stepper', defaultProps, props);
 
-  const { styles, sx } = useStepperStyles({ orientation }, { name: 'Stepper' }) as any;
+  const { styles, sx } = useStepperStyles(
+    { orientation: orientation ?? defaultProps.orientation ?? 'horizontal' },
+    { name: 'Stepper' }
+  ) as any;
 
   const iconSizeKey = (size || 'md') as keyof typeof iconSizes;
   const iconSize = iconSizeProp || iconSizes[iconSizeKey] || iconSizes.md;
@@ -266,11 +269,11 @@ export const Stepper = forwardRef<any, StepperProps>((props, ref) => {
       value={{
         active,
         onStepClick,
-        orientation: orientation!,
-        color: color!,
-        size: size!,
+        orientation: orientation ?? defaultProps.orientation ?? 'horizontal',
+        color: color ?? defaultProps.color ?? 'blue',
+        size: size ?? defaultProps.size ?? 'md',
         iconSize,
-        allowNextStepsSelect: allowNextStepsSelect!,
+        allowNextStepsSelect: allowNextStepsSelect ?? defaultProps.allowNextStepsSelect ?? true,
       }}
     >
       <BoxView ref={ref} style={sx(styles.root, style)} {...others}>

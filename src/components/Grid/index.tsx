@@ -130,7 +130,11 @@ export const Grid = Object.assign(
       useComponentDefaultProps('Grid', defaultGridProps, props);
 
     const { styles, sx} = useGridStyles(
-      { gutter, align, justify },
+      {
+        gutter: gutter ?? defaultGridProps.gutter ?? 'md',
+        align: align ?? defaultGridProps.align ?? 'stretch',
+        justify: justify ?? defaultGridProps.justify ?? 'flex-start'
+      },
       { name: 'Grid' }
     ) as any;
 
@@ -155,7 +159,14 @@ export const Grid = Object.assign(
           useComponentDefaultProps('GridCol', defaultColProps, props);
 
         const { styles, sx} = useColStyles(
-          { span, offset, order, columns, gutter, grow },
+          {
+            span: span ?? defaultColProps.span ?? 12,
+            offset: offset ?? defaultColProps.offset ?? 0,
+            order: order ?? defaultColProps.order ?? 0,
+            columns,
+            gutter,
+            grow
+          },
           { name: 'GridCol' }
         ) as any;
 
