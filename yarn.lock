@@ -4001,7 +4001,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.11.0, acorn@npm:^8.14.1, acorn@npm:^8.15.0, acorn@npm:^8.4.1, acorn@npm:^8.9.0":
+"acorn@npm:^8.11.0, acorn@npm:^8.15.0, acorn@npm:^8.4.1, acorn@npm:^8.9.0":
   version: 8.15.0
   resolution: "acorn@npm:8.15.0"
   bin:
@@ -14649,14 +14649,14 @@ __metadata:
   linkType: hard
 
 "vm2@npm:^3.9.19":
-  version: 3.10.3
-  resolution: "vm2@npm:3.10.3"
+  version: 3.11.5
+  resolution: "vm2@npm:3.11.5"
   dependencies:
-    acorn: ^8.14.1
+    acorn: ^8.15.0
     acorn-walk: ^8.3.4
   bin:
     vm2: bin/vm2
-  checksum: 69540bc1509c33d278ebd6bc73230af8694ef26bfa040e5f3ba27d06162c5727f9399ccdba7319802008a902110692a8253da60ba9350ba57239ec4afe519624
+  checksum: f45b09f28df96696bb5869b0c0e9acf0a91d9dbc27c0e64b0e500480c6de33d92d645bd5b2bc56a9466ee4b8f856d02eb45d1b165d4b957cc7e5f10d9dccdc77
   languageName: node
   linkType: hard
 
