@@ -191,7 +191,7 @@ const defaultProps: Partial<IndicatorProps> = {
   withPulse: false,
 };
 
-export const Indicator = forwardRef<any, IndicatorProps>((props, ref) => {
+const _Indicator = forwardRef<any, IndicatorProps>((props, ref) => {
   const {
     color,
     size,
@@ -245,4 +245,5 @@ export const Indicator = forwardRef<any, IndicatorProps>((props, ref) => {
   );
 });
 
+export const Indicator = React.memo(_Indicator);
 Indicator.displayName = 'Indicator';

@@ -126,7 +126,7 @@ const defaultProps: Partial<DividerProps> = {
   variant: 'solid',
 };
 
-export const Divider = forwardRef<any, DividerProps>((props, ref) => {
+const _Divider = forwardRef<any, DividerProps>((props, ref) => {
   const {
     orientation,
     color,
@@ -164,4 +164,5 @@ export const Divider = forwardRef<any, DividerProps>((props, ref) => {
   );
 });
 
+export const Divider = React.memo(_Divider);
 Divider.displayName = 'Divider';

@@ -115,6 +115,43 @@ export type RootStackParamList = {
   ColorSchemeConstantsExample: undefined;
   ThemeOverrideExample: undefined;
   CustomFontsExample: undefined;
+
+  // Mantine v7+ sync components
+  AffixExample: undefined;
+  AngleSliderExample: undefined;
+  AppShellExample: undefined;
+  ColorInputExample: undefined;
+  ColorPickerExample: undefined;
+  ComboboxExample: undefined;
+  DataListExample: undefined;
+  EmptyStateExample: undefined;
+  FieldsetExample: undefined;
+  FileButtonExample: undefined;
+  FileInputExample: undefined;
+  FloatingIndicatorExample: undefined;
+  FloatingWindowExample: undefined;
+  HoverCardExample: undefined;
+  InputBaseExample: undefined;
+  JsonInputExample: undefined;
+  MarqueeExample: undefined;
+  MaskInputExample: undefined;
+  MenubarExample: undefined;
+  NumberFormatterExample: undefined;
+  OverflowListExample: undefined;
+  PillExample: undefined;
+  PillsInputExample: undefined;
+  PortalExample: undefined;
+  RollingNumberExample: undefined;
+  ScrollAreaExample: undefined;
+  ScrollerExample: undefined;
+  SemiCircleProgressExample: undefined;
+  SplitterExample: undefined;
+  TableOfContentsExample: undefined;
+  TagsInputExample: undefined;
+  TreeExample: undefined;
+  TreeSelectExample: undefined;
+  TypographyExample: undefined;
+  VisuallyHiddenExample: undefined;
 };
 
 export interface ComponentCategory {

@@ -1,10 +1,12 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { BoxView } from '../BoxView';
 import type { ViewProps } from '../BoxView';
 import type { DefaultProps, MantineNumberSize } from '../../theme/types';
 import { useTheme } from '../../theme/theme-provider';
 
-export interface SpaceProps extends DefaultProps, Omit<ViewProps, 'style'> {
+export interface SpaceProps
+  extends DefaultProps,
+    Omit<ViewProps, 'style' | 'testID'> {
   /** Width, key of theme.spacing or number value */
   w?: MantineNumberSize | number;
 
@@ -15,7 +17,7 @@ export interface SpaceProps extends DefaultProps, Omit<ViewProps, 'style'> {
 /**
  * Space component adds horizontal or vertical spacing between elements
  */
-export const Space = forwardRef<any, SpaceProps>((props, ref) => {
+const _Space = forwardRef<any, SpaceProps>((props, ref) => {
   const { style, w, h, ...others} = props;
 
   const theme = useTheme();
@@ -45,4 +47,5 @@ export const Space = forwardRef<any, SpaceProps>((props, ref) => {
   );
 });
 
+export const Space = React.memo(_Space);
 Space.displayName = 'Space';

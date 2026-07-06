@@ -174,6 +174,8 @@ export const Rating = forwardRef<any, RatingProps>((props, ref) => {
         disabled={readOnly}
         style={styles.symbolWrapper}
         activeOpacity={0.7}
+        accessibilityRole="button"
+        accessibilityLabel={`${index + 1} of ${count} stars`}
       >
         <BoxView>
           {fillPercentage > 0 ? (
@@ -203,7 +205,14 @@ export const Rating = forwardRef<any, RatingProps>((props, ref) => {
   };
 
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+    <BoxView
+      ref={ref}
+      style={sx(styles.root, style)}
+      accessibilityRole="adjustable"
+      accessibilityValue={{ min: 0, max: count ?? defaultProps.count ?? 5, now: value }}
+      accessibilityLabel={`Rating: ${value} out of ${count ?? defaultProps.count ?? 5} stars`}
+      {...others}
+    >
       {Array.from({ length: count ?? defaultProps.count ?? 5 }, (_, index) => renderSymbol(index))}
     </BoxView>
   );

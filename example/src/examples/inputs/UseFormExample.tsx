@@ -52,6 +52,7 @@ const BasicLoginForm = () => {
       email: isEmail('Invalid email address'),
       password: minLength(6, 'Password must be at least 6 characters'),
     },
+    validateInputOnBlur: true,
   });
 
   const handleSubmit = (values: LoginFormValues) => {
@@ -61,23 +62,21 @@ const BasicLoginForm = () => {
   return (
     <Paper p="md" radius="md">
       <Stack spacing={15}>
+        <Text size="sm" style={{ color: '#868e96', marginBottom: 10 }}>
+          Uses getInputProps for simplified field binding with automatic validation on blur
+        </Text>
+
         <TextInput
           label="Email"
           placeholder="your@email.com"
-          value={form.values.email}
-          onChangeText={(text) => form.setFieldValue('email', text)}
-          error={form.errors.email}
-          onBlur={() => form.setFieldTouched('email')}
+          {...form.getInputProps('email')}
         />
 
         <TextInput
           label="Password"
           placeholder="Your password"
           secureTextEntry
-          value={form.values.password}
-          onChangeText={(text) => form.setFieldValue('password', text)}
-          error={form.errors.password}
-          onBlur={() => form.setFieldTouched('password')}
+          {...form.getInputProps('password')}
         />
 
         <Group spacing={10}>
@@ -94,6 +93,11 @@ const BasicLoginForm = () => {
             </Text>
           </Paper>
         )}
+
+        <Text size="xs" style={{ color: '#868e96' }}>
+          Email valid: {form.isValid('email') ? 'Yes' : 'No'} | Password valid:{' '}
+          {form.isValid('password') ? 'Yes' : 'No'}
+        </Text>
       </Stack>
     </Paper>
   );
@@ -381,6 +385,152 @@ const SurveyForm = () => {
   );
 };
 
+const ValidationApiDemo = () => {
+  const [validationLog, setValidationLog] = useState<string[]>([]);
+
+  const form = useForm({
+    initialValues: {
+      username: '',
+      email: '',
+      phone: '',
+    },
+    validate: {
+      username: [
+        isNotEmpty('Username is required'),
+        minLength(3, 'Username must be at least 3 characters'),
+      ],
+      email: isEmail('Invalid email address'),
+      phone: (value: string) => {
+        if (!value) return 'Phone number is required';
+        if (!/^\d{10}$/.test(value)) return 'Phone must be 10 digits';
+        return null;
+      },
+    },
+  });
+
+  const addLog = (message: string) => {
+    setValidationLog((prev) => [...prev.slice(-4), message]);
+  };
+
+  const handleValidateField = (field: keyof typeof form.values) => {
+    const result = form.validateField(field);
+    addLog(
+      `validateField('${field}'): ${result.hasError ? `Error - ${result.error}` : 'Valid'}`
+    );
+  };
+
+  const handleValidateAll = () => {
+    const result = form.validate();
+    addLog(
+      `validate(): ${result.hasErrors ? `${Object.keys(result.errors).length} errors` : 'All valid'}`
+    );
+  };
+
+  const handleCheckValid = (field?: keyof typeof form.values) => {
+    const isFieldValid = field ? form.isValid(field) : form.isValid();
+    const target = field ? `field '${field}'` : 'form';
+    addLog(`isValid(${field ? `'${field}'` : ''}): ${target} is ${isFieldValid ? 'valid' : 'invalid'}`);
+  };
+
+  return (
+    <Paper p="md" radius="md">
+      <Stack spacing={15}>
+        <Text size="sm" weight="500">
+          Test Enhanced Validation API
+        </Text>
+
+        <TextInput
+          label="Username"
+          placeholder="Enter username (min 3 chars)"
+          {...form.getInputProps('username')}
+        />
+
+        <TextInput
+          label="Email"
+          placeholder="your@email.com"
+          {...form.getInputProps('email')}
+        />
+
+        <TextInput
+          label="Phone"
+          placeholder="1234567890"
+          keyboardType="phone-pad"
+          {...form.getInputProps('phone')}
+        />
+
+        <Divider />
+
+        <Text size="sm" weight="500">
+          Validation Methods:
+        </Text>
+
+        <Group spacing={5}>
+          <Button size="xs" onPress={() => handleValidateField('username')}>
+            Validate Username
+          </Button>
+          <Button size="xs" onPress={() => handleValidateField('email')}>
+            Validate Email
+          </Button>
+          <Button size="xs" onPress={() => handleValidateField('phone')}>
+            Validate Phone
+          </Button>
+        </Group>
+
+        <Group spacing={5}>
+          <Button size="xs" variant="outline" onPress={handleValidateAll}>
+            Validate All
+          </Button>
+          <Button size="xs" variant="outline" onPress={() => handleCheckValid()}>
+            Check Form Valid
+          </Button>
+        </Group>
+
+        <Group spacing={5}>
+          <Button size="xs" variant="light" onPress={() => handleCheckValid('username')}>
+            Check Username
+          </Button>
+          <Button size="xs" variant="light" onPress={() => handleCheckValid('email')}>
+            Check Email
+          </Button>
+          <Button size="xs" variant="light" onPress={() => handleCheckValid('phone')}>
+            Check Phone
+          </Button>
+        </Group>
+
+        <Group spacing={5}>
+          <Button size="xs" onPress={() => form.setFieldError('username', 'Custom error!')}>
+            Set Error
+          </Button>
+          <Button size="xs" onPress={() => form.clearFieldError('username')}>
+            Clear Error
+          </Button>
+          <Button size="xs" onPress={() => form.clearErrors()}>
+            Clear All Errors
+          </Button>
+        </Group>
+
+        {validationLog.length > 0 && (
+          <>
+            <Divider />
+            <Text size="sm" weight="500">
+              Validation Log:
+            </Text>
+            <Paper p="sm" style={{ backgroundColor: '#f8f9fa' }}>
+              <Stack spacing={3}>
+                {validationLog.map((log, index) => (
+                  <Text key={index} size="xs" style={{ fontFamily: 'monospace' }}>
+                    {log}
+                  </Text>
+                ))}
+              </Stack>
+            </Paper>
+          </>
+        )}
+      </Stack>
+    </Paper>
+  );
+};
+
 export const UseFormExample = () => {
   return (
     <ExampleWrapper
@@ -407,6 +557,13 @@ export const UseFormExample = () => {
           description="Form with radio buttons, select, and textarea with character count"
         >
           <SurveyForm />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Validation API Demo"
+          description="Demonstrates enhanced validation methods with detailed feedback"
+        >
+          <ValidationApiDemo />
         </ExampleSection>
 
         <ExampleSection

@@ -84,6 +84,12 @@ export interface NumberInputProps
 
   /** Wrapper style */
   wrapperStyle?: any;
+
+  /** Accessibility label for the input */
+  accessibilityLabel?: string;
+
+  /** Accessibility hint for the input */
+  accessibilityHint?: string;
 }
 
 const useStyles = createStyles(
@@ -249,6 +255,8 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
     icon,
     style,
     wrapperStyle,
+    accessibilityLabel,
+    accessibilityHint,
     ...others
   } = useComponentDefaultProps('NumberInput', defaultProps, props);
 
@@ -336,6 +344,7 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
         {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
 
         <TextInput
+          {...others}
           ref={ref}
           value={value === '' ? '' : String(value)}
           onChangeText={handleChange}
@@ -348,7 +357,9 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
           keyboardType="numeric"
           editable={!disabled}
           style={styles.input}
-          {...others}
+          accessibilityLabel={accessibilityLabel || (typeof label === 'string' ? label : undefined)}
+          accessibilityHint={accessibilityHint}
+          accessibilityRole="spinbutton"
         />
 
         {!hideControls && (
@@ -361,6 +372,9 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
                 (min !== undefined && typeof value === 'number' && value <= min)
               }
               activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel="Decrement"
+              accessibilityHint="Decrease the value"
             >
               <Text style={styles.controlText}>−</Text>
             </TouchableOpacity>
@@ -373,6 +387,9 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
                 (max !== undefined && typeof value === 'number' && value >= max)
               }
               activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel="Increment"
+              accessibilityHint="Increase the value"
             >
               <Text style={styles.controlText}>+</Text>
             </TouchableOpacity>
@@ -387,7 +404,7 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
       )}
 
       {error && (
-        <Text style={styles.error}>
+        <Text style={styles.error} accessibilityRole="alert" accessibilityLiveRegion="polite">
           {typeof error === 'string' ? error : error}
         </Text>
       )}

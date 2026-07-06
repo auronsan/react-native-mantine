@@ -78,6 +78,9 @@ export interface StepProps extends DefaultProps {
   /** Allow step to be selected */
   allowStepSelect?: boolean;
 
+  /** Accessibility label for the step */
+  accessibilityLabel?: string;
+
   /** Additional styles */
   style?: any;
 
@@ -306,6 +309,7 @@ export const Step = forwardRef<any, StepProps & { __stepIndex?: number; __isLast
       state,
       color: stepColor,
       allowStepSelect,
+      accessibilityLabel,
       style,
       children,
       __stepIndex,
@@ -342,12 +346,19 @@ export const Step = forwardRef<any, StepProps & { __stepIndex?: number; __isLast
 
     const StepWrapper = canClick ? TouchableOpacity : BoxView;
 
+    const stepLabel = accessibilityLabel ||
+      (typeof label === 'string' ? `Step ${stepIndex + 1}: ${label}` : `Step ${stepIndex + 1}`);
+    const stepStatus = isActive ? 'active' : (isCompleted ? 'completed' : 'pending');
+
     return (
       <StepWrapper
         ref={ref}
         style={styles.step}
         onPress={canClick ? handleClick : undefined}
         activeOpacity={canClick ? 0.7 : 1}
+        accessibilityLabel={`${stepLabel}, ${stepStatus}`}
+        accessibilityRole={canClick ? 'button' : undefined}
+        accessibilityState={isActive ? { selected: true } : undefined}
         {...others}
       >
         <BoxView style={styles.stepWrapper}>

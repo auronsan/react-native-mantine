@@ -12,6 +12,19 @@ import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
+/**
+ * Props for the Badge component
+ *
+ * @property {MantineColor} [color='blue'] - Badge color from theme
+ * @property {Variants<'filled' | 'light' | 'outline' | 'dot'>} [variant='light'] - Controls badge appearance. 'filled' for solid color, 'light' for lighter background, 'outline' for bordered, 'dot' for badge with indicator dot
+ * @property {MantineSize} [size='md'] - Badge size. One of: 'xs', 'sm', 'md', 'lg', 'xl'
+ * @property {MantineNumberSize} [radius='xl'] - Key of theme.radius or any valid value to set border-radius
+ * @property {boolean} [fullWidth=false] - Sets badge width to 100% of parent element
+ * @property {React.ReactNode} [leftSection] - Section displayed on the left side of badge
+ * @property {React.ReactNode} [rightSection] - Section displayed on the right side of badge
+ * @property {React.ReactNode} [children] - Badge content (text or other components)
+ * @property {any} [style] - Additional styles to apply to the badge
+ */
 export interface BadgeProps extends DefaultProps, WithTextWrapperProps {
   /** Badge color from theme */
   color?: MantineColor;
@@ -42,11 +55,11 @@ export interface BadgeProps extends DefaultProps, WithTextWrapperProps {
 }
 
 const sizes = {
-  xs: { fontSize: rem(9), height: rem(16) as any, paddingHorizontal: rem(6) as any },
-  sm: { fontSize: rem(10), height: rem(18) as any, paddingHorizontal: rem(8) as any },
-  md: { fontSize: rem(11), height: rem(20) as any, paddingHorizontal: rem(10) as any },
-  lg: { fontSize: rem(13), height: rem(26) as any, paddingHorizontal: rem(12) as any },
-  xl: { fontSize: rem(16), height: rem(32) as any, paddingHorizontal: rem(16) as any },
+  xs: { fontSize: rem(9), height: rem(16), paddingHorizontal: rem(6) },
+  sm: { fontSize: rem(10), height: rem(18), paddingHorizontal: rem(8) },
+  md: { fontSize: rem(11), height: rem(20), paddingHorizontal: rem(10) },
+  lg: { fontSize: rem(13), height: rem(26), paddingHorizontal: rem(12) },
+  xl: { fontSize: rem(16), height: rem(32), paddingHorizontal: rem(16) },
 };
 
 const dotSizes = {
@@ -147,9 +160,9 @@ const useStyles = createStyles(
         marginLeft: theme.spacing.xs / 2,
       },
       dot: {
-        width: (dotSizes[size as keyof typeof dotSizes] || dotSizes.md) as any,
-        height: (dotSizes[size as keyof typeof dotSizes] || dotSizes.md) as any,
-        borderRadius: (dotSizes[size as keyof typeof dotSizes] || dotSizes.md) as any,
+        width: dotSizes[size as keyof typeof dotSizes] || dotSizes.md,
+        height: dotSizes[size as keyof typeof dotSizes] || dotSizes.md,
+        borderRadius: dotSizes[size as keyof typeof dotSizes] || dotSizes.md,
         backgroundColor: theme.fn.themeColor(color || theme.primaryColor),
         marginRight: theme.spacing.xs,
       },
@@ -173,7 +186,27 @@ const defaultProps: Partial<BadgeProps> = {
   withTextWrapper: true,
 };
 
-export const Badge = forwardRef<any, BadgeProps>((props, ref) => {
+/**
+ * Badge component displays a small label or indicator with customizable appearance
+ *
+ * @example
+ * ```tsx
+ * // Basic badge
+ * <Badge>New</Badge>
+ *
+ * // Colored badge with variant
+ * <Badge color="red" variant="filled">Error</Badge>
+ *
+ * // Badge with dot indicator
+ * <Badge variant="dot">Active</Badge>
+ *
+ * // Badge with sections
+ * <Badge leftSection={<Icon />} rightSection="99+">
+ *   Notifications
+ * </Badge>
+ * ```
+ */
+const _Badge = forwardRef<any, BadgeProps>((props, ref) => {
   const {
     color,
     variant,
@@ -217,4 +250,5 @@ export const Badge = forwardRef<any, BadgeProps>((props, ref) => {
   );
 });
 
+export const Badge = React.memo(_Badge);
 Badge.displayName = 'Badge';

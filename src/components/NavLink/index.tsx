@@ -42,6 +42,9 @@ export interface NavLinkProps extends DefaultProps, WithTextWrapperProps {
   /** Called when link is pressed */
   onPress?: () => void;
 
+  /** Accessibility label for the link */
+  accessibilityLabel?: string;
+
   /** Additional styles */
   style?: any;
 
@@ -175,6 +178,7 @@ export const NavLink = forwardRef<any, NavLinkProps>((props, ref) => {
     disabled,
     children,
     onPress,
+    accessibilityLabel,
     style,
     disableIfNoPress,
     withTextWrapper: shouldWrapInText,
@@ -194,6 +198,9 @@ export const NavLink = forwardRef<any, NavLinkProps>((props, ref) => {
         ref={ref}
         onPress={isDisabled ? undefined : onPress}
         style={sx(styles.root, isDisabled && { opacity: 0.6 }, style)}
+        accessibilityRole={onPress ? 'button' : 'link'}
+        accessibilityState={{ selected: active, disabled: isDisabled }}
+        accessibilityLabel={accessibilityLabel || (typeof label === 'string' ? label : undefined)}
         {...others}
       >
         {icon && <BoxView style={styles.icon}>{icon}</BoxView>}

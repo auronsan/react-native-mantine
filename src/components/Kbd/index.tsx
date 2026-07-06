@@ -66,7 +66,7 @@ const defaultProps: Partial<KbdProps> = {
   withTextWrapper: true,
 };
 
-export const Kbd = forwardRef<any, KbdProps>((props, ref) => {
+const _Kbd = forwardRef<any, KbdProps>((props, ref) => {
   const { size, children, style, withTextWrapper: shouldWrapInText, ...otherProps} = useComponentDefaultProps(
     'Kbd',
     defaultProps,
@@ -82,4 +82,5 @@ export const Kbd = forwardRef<any, KbdProps>((props, ref) => {
   );
 });
 
+export const Kbd = React.memo(_Kbd);
 Kbd.displayName = 'Kbd';

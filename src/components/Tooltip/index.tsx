@@ -67,6 +67,9 @@ export interface TooltipProps extends DefaultProps {
   /** Target element */
   children: React.ReactElement;
 
+  /** Accessibility label for the tooltip content */
+  accessibilityLabel?: string;
+
   /** Additional styles */
   style?: any;
 }
@@ -151,6 +154,7 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
     trigger,
     withArrow,
     children,
+    accessibilityLabel,
     style,
     ...others
   } = useComponentDefaultProps('Tooltip', defaultProps, props);
@@ -208,9 +212,11 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
       ? { onLongPress: show }
       : { onPress: show, onPressOut: hide };
 
+  const tooltipLabel = typeof label === 'string' ? label : accessibilityLabel;
   const childWithRef = React.cloneElement(children as React.ReactElement<any>, {
     ref: targetRef,
     ...triggerProps,
+    accessibilityHint: tooltipLabel ? `Shows tooltip: ${tooltipLabel}` : undefined,
   });
 
   return (
@@ -241,6 +247,8 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
                     zIndex,
                   },
                 ]}
+                accessibilityLabel={accessibilityLabel || (typeof label === 'string' ? label : undefined)}
+                accessibilityRole="text"
                 {...others}
               >
                 {typeof label === 'string' ? (

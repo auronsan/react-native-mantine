@@ -12,6 +12,18 @@ import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
+/**
+ * Props for the Avatar component
+ *
+ * @property {string | null} [src] - Image URL to display in the avatar
+ * @property {string} [alt] - Image alt text. Also used to generate initials when image fails to load
+ * @property {MantineSize | number} [size='md'] - Avatar size. Can be a predefined size ('xs', 'sm', 'md', 'lg', 'xl') or a custom number
+ * @property {MantineNumberSize} [radius='xl'] - Key of theme.radius or any valid value to set border-radius
+ * @property {MantineColor} [color='gray'] - Avatar background color from theme (used for placeholder)
+ * @property {React.ReactNode} [children] - Custom placeholder component to show when image is not available
+ * @property {Partial<ImageProps>} [imageProps] - Additional props passed to the React Native Image component
+ * @property {any} [style] - Additional styles to apply to the avatar container
+ */
 export interface AvatarProps extends DefaultProps {
   /** Image url */
   src?: string | null;
@@ -105,7 +117,27 @@ const getInitials = (name: string): string => {
   return ((names[0]?.[0] || '') + (names[names.length - 1]?.[0] || '')).toUpperCase();
 };
 
-export const Avatar = forwardRef<any, AvatarProps>((props, ref) => {
+/**
+ * Avatar component displays user profile images with automatic fallback to initials
+ *
+ * @example
+ * ```tsx
+ * // Basic avatar with image
+ * <Avatar src="https://example.com/avatar.jpg" alt="John Doe" />
+ *
+ * // Avatar with initials fallback
+ * <Avatar alt="Jane Smith" color="blue" />
+ *
+ * // Custom size avatar
+ * <Avatar src="https://example.com/avatar.jpg" size={80} />
+ *
+ * // Avatar with custom placeholder
+ * <Avatar color="red">
+ *   <Icon name="user" />
+ * </Avatar>
+ * ```
+ */
+const _Avatar = forwardRef<any, AvatarProps>((props, ref) => {
   const {
     src,
     alt,
@@ -164,4 +196,5 @@ export const Avatar = forwardRef<any, AvatarProps>((props, ref) => {
   );
 });
 
+export const Avatar = React.memo(_Avatar);
 Avatar.displayName = 'Avatar';

@@ -25,6 +25,19 @@ const useAccordionContext = () => {
   return context;
 };
 
+/**
+ * Props for the Accordion component
+ *
+ * @property {React.ReactNode} children - Accordion items
+ * @property {boolean} [multiple] - Allow multiple items to be opened simultaneously
+ * @property {string | string[]} [defaultValue] - Default opened items (uncontrolled)
+ * @property {string | string[]} [value] - Controlled opened items
+ * @property {(value: string | string[]) => void} [onChange] - Callback fired when opened items change
+ * @property {'default' | 'contained' | 'separated'} [variant] - Visual variant style
+ * @property {MantineNumberSize} [radius] - Border radius from theme or custom value
+ * @property {SpacingValue} [spacing] - Spacing between items (separated variant only)
+ * @property {any} [style] - Additional style overrides
+ */
 export interface AccordionProps extends DefaultProps {
   /** Accordion items */
   children: React.ReactNode;
@@ -54,6 +67,15 @@ export interface AccordionProps extends DefaultProps {
   style?: any;
 }
 
+/**
+ * Props for the Accordion.Item component
+ *
+ * @property {string} value - Unique identifier for the item
+ * @property {React.ReactNode} [label] - Item label/title displayed in the control
+ * @property {React.ReactNode} [children] - Item content displayed when expanded
+ * @property {string} [accessibilityLabel] - Label for screen readers
+ * @property {any} [style] - Additional style overrides
+ */
 export interface AccordionItemProps extends DefaultProps {
   /** Unique item value */
   value: string;
@@ -64,10 +86,19 @@ export interface AccordionItemProps extends DefaultProps {
   /** Item content */
   children?: React.ReactNode;
 
+  /** Accessibility label for the accordion item */
+  accessibilityLabel?: string;
+
   /** Additional styles */
   style?: any;
 }
 
+/**
+ * Props for the Accordion.Control component
+ *
+ * @property {React.ReactNode} [children] - Control content (custom clickable header)
+ * @property {any} [style] - Additional style overrides
+ */
 export interface AccordionControlProps extends DefaultProps {
   /** Control content */
   children?: React.ReactNode;
@@ -76,6 +107,12 @@ export interface AccordionControlProps extends DefaultProps {
   style?: any;
 }
 
+/**
+ * Props for the Accordion.Panel component
+ *
+ * @property {React.ReactNode} [children] - Panel content displayed when accordion item is expanded
+ * @property {any} [style] - Additional style overrides
+ */
 export interface AccordionPanelProps extends DefaultProps {
   /** Panel content */
   children?: React.ReactNode;
@@ -164,6 +201,47 @@ const defaultAccordionProps: Partial<AccordionProps> = {
   spacing: 'md',
 };
 
+/**
+ * Accordion component for React Native Mantine
+ *
+ * A collapsible content container that allows users to expand and collapse sections
+ * of related content. Supports single or multiple expanded items, multiple visual
+ * variants, and compound component pattern for flexible customization.
+ *
+ * @example
+ * ```tsx
+ * // Basic accordion
+ * <Accordion defaultValue="item-1">
+ *   <Accordion.Item value="item-1" label="First item">
+ *     <Text>First item content</Text>
+ *   </Accordion.Item>
+ *   <Accordion.Item value="item-2" label="Second item">
+ *     <Text>Second item content</Text>
+ *   </Accordion.Item>
+ * </Accordion>
+ *
+ * // Multiple items can be opened
+ * <Accordion multiple variant="separated">
+ *   <Accordion.Item value="colors" label="Colors">
+ *     <Text>Color picker content</Text>
+ *   </Accordion.Item>
+ *   <Accordion.Item value="fonts" label="Typography">
+ *     <Text>Font settings content</Text>
+ *   </Accordion.Item>
+ * </Accordion>
+ *
+ * // Controlled accordion
+ * <Accordion
+ *   value={opened}
+ *   onChange={setOpened}
+ *   variant="contained"
+ * >
+ *   <Accordion.Item value="details" label="Details">
+ *     <Text>Detailed information</Text>
+ *   </Accordion.Item>
+ * </Accordion>
+ * ```
+ */
 export const Accordion = forwardRef<any, AccordionProps>((props, ref) => {
   const {
     children,
@@ -257,11 +335,14 @@ interface SimpleAccordionItemProps extends AccordionItemProps {
 }
 
 const SimpleAccordionItem = forwardRef<any, SimpleAccordionItemProps>((props, ref) => {
-  const { value, label, children, style, ...others} = props;
+  const { value, label, children, style, accessibilityLabel, ...others} = props;
   const context = useAccordionContext();
   const { styles, sx} = useAccordionItemStyles({}, { name: 'AccordionItem' }) as any;
 
   const isOpen = context.value.includes(value);
+
+  const defaultAccessibilityLabel =
+    accessibilityLabel || (typeof label === 'string' ? label : 'Accordion item');
 
   return (
     <BoxView ref={ref} style={sx(styles.item, style)} {...others}>
@@ -269,6 +350,9 @@ const SimpleAccordionItem = forwardRef<any, SimpleAccordionItemProps>((props, re
         style={styles.control}
         onPress={() => context.onChange(value)}
         activeOpacity={0.7}
+        accessibilityRole="button"
+        accessibilityState={{ expanded: isOpen }}
+        accessibilityLabel={defaultAccessibilityLabel}
       >
         {typeof label === 'string' ? <Text style={styles.label}>{label}</Text> : label}
         <BoxView style={styles.icon}>

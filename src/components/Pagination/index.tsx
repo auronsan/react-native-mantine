@@ -238,6 +238,9 @@ export const Pagination = forwardRef<any, PaginationProps>((props, ref) => {
         onPress={() => handlePageChange(pageNumber)}
         disabled={disabled}
         activeOpacity={0.7}
+        accessibilityRole="button"
+        accessibilityLabel={`Page ${pageNumber}`}
+        accessibilityState={{ selected: isActive }}
       >
         <Text style={[styles.label, isActive ? styles.labelActive : styles.labelDefault]}>
           {pageNumber}
@@ -257,6 +260,8 @@ export const Pagination = forwardRef<any, PaginationProps>((props, ref) => {
           onPress={() => handlePageChange(1)}
           disabled={disabled || !canGoPrevious}
           activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="First page"
         >
           <Text
             style={[
@@ -276,6 +281,8 @@ export const Pagination = forwardRef<any, PaginationProps>((props, ref) => {
           onPress={() => handlePageChange(value - 1)}
           disabled={disabled || !canGoPrevious}
           activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="Previous page"
         >
           <Text
             style={[
@@ -297,6 +304,8 @@ export const Pagination = forwardRef<any, PaginationProps>((props, ref) => {
           onPress={() => handlePageChange(value + 1)}
           disabled={disabled || !canGoNext}
           activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="Next page"
         >
           <Text
             style={[
@@ -316,6 +325,8 @@ export const Pagination = forwardRef<any, PaginationProps>((props, ref) => {
           onPress={() => handlePageChange(total)}
           disabled={disabled || !canGoNext}
           activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="Last page"
         >
           <Text
             style={[

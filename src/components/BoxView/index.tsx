@@ -41,7 +41,7 @@ export type ViewProps = DefaultView['props'] & {
   mr?: string | number; // margin right
 };
 
-export const BoxView = forwardRef((props: ViewProps, ref: any) => {
+export const BoxView = forwardRef<DefaultView, ViewProps>((props, ref) => {
   const {
     style,
     fullWidth,
@@ -116,3 +116,5 @@ export const BoxView = forwardRef((props: ViewProps, ref: any) => {
     />
   );
 });
+
+BoxView.displayName = 'BoxView';

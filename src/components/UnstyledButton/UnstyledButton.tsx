@@ -1,7 +1,11 @@
 import React, { forwardRef } from 'react';
 import { BoxView } from '../BoxView';
 import useStyles from './UnstyledButton.styles';
-import { TouchableOpacity } from 'react-native';
+import {
+  TouchableOpacity,
+  type AccessibilityRole,
+  type AccessibilityState,
+} from 'react-native';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 
 export interface UnstyledButtonProps {
@@ -10,13 +14,17 @@ export interface UnstyledButtonProps {
   onPress?: (payload: any) => void;
   disabled?: boolean;
   activeOpacity?: number;
+  accessibilityLabel?: string;
+  accessibilityRole?: AccessibilityRole;
+  accessibilityState?: AccessibilityState;
+  testID?: string;
 }
 
 export const UnstyledButton = forwardRef<
   any,
   UnstyledButtonProps & { style?: any }
 >((props, ref) => {
-  const { variant, style, children, onPress, disabled, activeOpacity, ...others } =
+  const { variant, style, children, onPress, disabled, activeOpacity, accessibilityLabel, accessibilityRole, accessibilityState, testID, ...others } =
     useComponentDefaultProps('UnstyledButton', {}, props);
 
   const { styles } = useStyles({
@@ -28,6 +36,10 @@ export const UnstyledButton = forwardRef<
       onPress={typeof onPress === 'function' ? onPress : () => {}}
       disabled={disabled}
       activeOpacity={activeOpacity !== undefined ? activeOpacity : 0.7}
+      accessibilityRole={accessibilityRole ?? 'button'}
+      accessibilityState={accessibilityState ?? { disabled }}
+      accessibilityLabel={accessibilityLabel}
+      testID={testID}
     >
       <BoxView ref={ref} style={[styles.root, style]} {...others}>
         {children}
@@ -35,3 +47,5 @@ export const UnstyledButton = forwardRef<
     </TouchableOpacity>
   );
 });
+
+UnstyledButton.displayName = 'UnstyledButton';

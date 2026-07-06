@@ -1,5 +1,4 @@
 import React, { forwardRef } from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
 import { BoxView } from '../BoxView';
 import type {
   DefaultProps,
@@ -12,6 +11,18 @@ import type { MantineGradient } from '../../theme/theme';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { getSize } from '../../theme';
+
+// Optional import for expo-linear-gradient
+let LinearGradient: any = null;
+let gradientAvailable = false;
+try {
+  const module = require('expo-linear-gradient');
+  LinearGradient = module.LinearGradient;
+  gradientAvailable = true;
+} catch (error) {
+  // expo-linear-gradient not available
+  console.warn('expo-linear-gradient not available. ThemeIcon gradient variant will fall back to solid color. Install expo-linear-gradient for gradient support.');
+}
 
 export interface ThemeIconProps extends DefaultProps {
   /** Icon */
@@ -125,7 +136,7 @@ const defaultProps: Partial<ThemeIconProps> = {
   gradient: { from: 'blue', to: 'cyan', deg: 45 },
 };
 
-export const ThemeIcon = forwardRef<any, ThemeIconProps>((props, ref) => {
+const _ThemeIcon = forwardRef<any, ThemeIconProps>((props, ref) => {
   const { color, variant, gradient, size, radius, children, style, ...others} =
     useComponentDefaultProps('ThemeIcon', defaultProps, props);
 
@@ -150,16 +161,27 @@ export const ThemeIcon = forwardRef<any, ThemeIconProps>((props, ref) => {
   };
 
   if (variant === 'gradient') {
+    // If expo-linear-gradient is available, use it
+    if (gradientAvailable && LinearGradient) {
+      return (
+        <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+          <LinearGradient
+            colors={getGradientColors()}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.gradient}
+          >
+            {children}
+          </LinearGradient>
+        </BoxView>
+      );
+    }
+
+    // Fallback: use solid color (first color from gradient)
+    const fallbackColor = getGradientColors()[0];
     return (
-      <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
-        <LinearGradient
-          colors={getGradientColors()}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.gradient}
-        >
-          {children}
-        </LinearGradient>
+      <BoxView ref={ref} style={sx(styles.root, { backgroundColor: fallbackColor }, style)} {...others}>
+        {children}
       </BoxView>
     );
   }
@@ -171,4 +193,5 @@ export const ThemeIcon = forwardRef<any, ThemeIconProps>((props, ref) => {
   );
 });
 
+export const ThemeIcon = React.memo(_ThemeIcon);
 ThemeIcon.displayName = 'ThemeIcon';

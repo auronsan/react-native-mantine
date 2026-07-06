@@ -16,8 +16,32 @@ import useStyles from './Button.styles';
 import { BoxView } from '../BoxView';
 import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
-export type ButtonStylesNames = any;
+export type ButtonStylesNames = 'root' | 'icon' | 'leftIcon' | 'rightIcon' | 'inner' | 'label';
 
+/**
+ * Props for the Button component
+ *
+ * @property {MantineSize} [size] - Predefined button size (xs, sm, md, lg, xl)
+ * @property {'submit' | 'button' | 'reset'} [type] - Button type attribute
+ * @property {MantineColor} [color] - Button color from theme
+ * @property {React.ReactNode} [leftIcon] - Icon displayed before button label
+ * @property {React.ReactNode} [rightIcon] - Icon displayed after button label
+ * @property {boolean} [fullWidth] - Sets button width to 100% of parent element
+ * @property {MantineNumberSize} [radius] - Border radius from theme or custom value
+ * @property {Variants<'filled' | 'outline' | 'light' | 'white' | 'default' | 'subtle' | 'gradient'>} [variant] - Controls button appearance style
+ * @property {MantineGradient} [gradient] - Gradient settings (only applies to gradient variant)
+ * @property {boolean} [uppercase] - Transforms text to uppercase
+ * @property {boolean} [compact] - Reduces vertical and horizontal spacing
+ * @property {boolean} [loading] - Shows loading indicator and disables interaction
+ * @property {LoaderProps} [loaderProps] - Props passed to the Loader component
+ * @property {'left' | 'right' | 'center'} [loaderPosition] - Position of loader relative to label
+ * @property {React.ReactNode} [children] - Button label content
+ * @property {boolean} [disabled] - Disables button interaction
+ * @property {(payload: any) => void} [onPress] - Callback fired when button is pressed
+ * @property {string} [accessibilityLabel] - Label for screen readers
+ * @property {string} [testID] - Test identifier for automated testing
+ * @property {any} [style] - Additional style overrides
+ */
 export interface ButtonProps extends DefaultProps, WithTextWrapperProps {
   /** Predefined button size */
   size?: MantineSize;
@@ -69,6 +93,15 @@ export interface ButtonProps extends DefaultProps, WithTextWrapperProps {
   /** Disabled state */
   disabled?: boolean;
 
+  /** Callback fired when button is pressed */
+  onPress?: (payload: any) => void;
+
+  /** Accessibility label for screen readers */
+  accessibilityLabel?: string;
+
+  /** Test ID for testing */
+  testID?: string;
+
   style?: any;
 }
 
@@ -100,6 +133,8 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
     gradient,
     style,
     withTextWrapper: shouldWrapInText,
+    accessibilityLabel,
+    testID,
     ...others
   } = useComponentDefaultProps('Button', defaultProps, props);
 
@@ -165,10 +200,10 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
     return (
       <UnstyledButton
         style={containerStyle}
-        data-button
-        data-disabled={disabled || undefined}
-        data-loading={loading || undefined}
+        disabled={disabled || loading}
         ref={ref}
+        accessibilityLabel={accessibilityLabel}
+        testID={testID}
         {...others}
       >
         <PlatformLinearGradient
@@ -186,17 +221,47 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
   return (
     <UnstyledButton
       style={sx(styles.root, style)}
-      data-button
-      data-disabled={disabled || undefined}
-      data-loading={loading || undefined}
+      disabled={disabled || loading}
       ref={ref}
+      accessibilityLabel={accessibilityLabel}
+      testID={testID}
       {...others}
     >
       {buttonContent}
     </UnstyledButton>
   );
-}) as any;
+});
 
+_Button.displayName = 'Button';
+
+/**
+ * Button component for React Native Mantine
+ *
+ * A customizable button component with support for multiple variants, sizes, colors,
+ * icons, loading states, and gradient backgrounds. Provides consistent styling and
+ * behavior across your React Native application.
+ *
+ * @example
+ * ```tsx
+ * // Basic button
+ * <Button>Click me</Button>
+ *
+ * // Button with icon and variant
+ * <Button variant="outline" color="red" leftIcon={<Icon />}>
+ *   Delete
+ * </Button>
+ *
+ * // Loading button
+ * <Button loading loaderPosition="center">
+ *   Processing...
+ * </Button>
+ *
+ * // Gradient button
+ * <Button variant="gradient" gradient={{ from: 'blue', to: 'cyan' }}>
+ *   Gradient
+ * </Button>
+ * ```
+ */
 const gradientStyles = StyleSheet.create({
   gradient: {
     flex: 1,

@@ -14,6 +14,26 @@ import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
+/**
+ * Props for the Drawer component
+ *
+ * @property {boolean} opened - Controls whether the drawer is opened or closed
+ * @property {() => void} onClose - Callback fired when drawer should be closed
+ * @property {React.ReactNode} [title] - Drawer title displayed in the header
+ * @property {React.ReactNode} [children] - Drawer content
+ * @property {MantineNumberSize | number} [size='md'] - Drawer size. Can be predefined size ('xs', 'sm', 'md', 'lg', 'xl') or custom number
+ * @property {SpacingValue} [padding='md'] - Drawer padding from theme spacing
+ * @property {('left' | 'right' | 'top' | 'bottom')} [position='left'] - Position from which drawer slides in
+ * @property {boolean} [closeOnClickOutside=true] - If false, drawer cannot be closed by clicking outside
+ * @property {boolean} [withOverlay=true] - If true, drawer will show a semi-transparent overlay
+ * @property {number} [overlayOpacity=0.6] - Opacity of the overlay (0-1)
+ * @property {string} [overlayColor='#000'] - Color of the overlay
+ * @property {boolean} [withCloseButton=true] - If true, close button will be shown in header
+ * @property {any} [style] - Additional styles to apply to the drawer container
+ * @property {number} [transitionDuration=250] - Animation duration in milliseconds
+ * @property {number} [zIndex=1000] - Z-index of the drawer modal
+ * @property {string} [accessibilityLabel] - Accessibility label for the drawer
+ */
 export interface DrawerProps extends DefaultProps {
   /** Drawer opened state */
   opened: boolean;
@@ -59,6 +79,9 @@ export interface DrawerProps extends DefaultProps {
 
   /** Z-index */
   zIndex?: number;
+
+  /** Accessibility label for the drawer */
+  accessibilityLabel?: string;
 }
 
 const sizes = {
@@ -175,6 +198,40 @@ const defaultProps: Partial<DrawerProps> = {
   zIndex: 1000,
 };
 
+/**
+ * Drawer component displays a modal panel that slides in from the edge of the screen
+ *
+ * @example
+ * ```tsx
+ * // Basic drawer
+ * const [opened, setOpened] = useState(false);
+ * <Drawer opened={opened} onClose={() => setOpened(false)} title="Settings">
+ *   <Text>Drawer content goes here</Text>
+ * </Drawer>
+ *
+ * // Right-side drawer with custom size
+ * <Drawer
+ *   opened={opened}
+ *   onClose={close}
+ *   position="right"
+ *   size="lg"
+ *   title="Navigation"
+ * >
+ *   <Menu items={menuItems} />
+ * </Drawer>
+ *
+ * // Bottom drawer without overlay
+ * <Drawer
+ *   opened={opened}
+ *   onClose={close}
+ *   position="bottom"
+ *   withOverlay={false}
+ *   closeOnClickOutside={false}
+ * >
+ *   <FilterPanel />
+ * </Drawer>
+ * ```
+ */
 export const Drawer = forwardRef<any, DrawerProps>((props, ref) => {
   const {
     opened,
@@ -191,6 +248,7 @@ export const Drawer = forwardRef<any, DrawerProps>((props, ref) => {
     withCloseButton,
     style,
     transitionDuration,
+    accessibilityLabel,
     ...others
   } = useComponentDefaultProps('Drawer', defaultProps, props);
 
@@ -270,6 +328,7 @@ export const Drawer = forwardRef<any, DrawerProps>((props, ref) => {
       animationType="none"
       onRequestClose={onClose}
       statusBarTranslucent
+      accessibilityViewIsModal={true}
     >
       {/* Full screen overlay backdrop */}
       {withOverlay && (
@@ -291,13 +350,20 @@ export const Drawer = forwardRef<any, DrawerProps>((props, ref) => {
               transform: getTransform(),
             },
           ]}
+          accessibilityLabel={accessibilityLabel}
+          accessible={true}
           {...others}
         >
           {(title || withCloseButton) && (
             <BoxView style={styles.header}>
               {typeof title === 'string' ? <Text style={styles.title}>{title}</Text> : title}
               {withCloseButton && (
-                <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={onClose}
+                  accessibilityLabel="Close"
+                  accessibilityRole="button"
+                >
                   <Text style={styles.closeButtonText}>×</Text>
                 </TouchableOpacity>
               )}

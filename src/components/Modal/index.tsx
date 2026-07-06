@@ -17,6 +17,28 @@ import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
+/**
+ * Props for the Modal component
+ *
+ * @property {boolean} opened - Controls whether modal is visible
+ * @property {() => void} onClose - Callback fired when modal is closed
+ * @property {React.ReactNode} [title] - Modal title displayed in header
+ * @property {React.ReactNode} [children] - Modal content
+ * @property {MantineNumberSize | 'full'} [size] - Modal width (xs, sm, md, lg, xl, full, or custom number)
+ * @property {SpacingValue} [padding] - Modal content padding
+ * @property {MantineNumberSize} [radius] - Border radius from theme or custom value
+ * @property {boolean} [closeOnClickOutside] - Allows closing modal by clicking outside
+ * @property {boolean} [centered] - Centers modal vertically on screen
+ * @property {boolean} [withOverlay] - Shows semi-transparent overlay behind modal
+ * @property {number} [overlayOpacity] - Opacity of the overlay (0-1)
+ * @property {string} [overlayColor] - Color of the overlay
+ * @property {boolean} [withCloseButton] - Shows close button in header
+ * @property {boolean} [fullScreen] - Makes modal take full screen
+ * @property {any} [style] - Additional style overrides
+ * @property {number} [transitionDuration] - Animation duration in milliseconds
+ * @property {number} [zIndex] - Z-index for modal stacking
+ * @property {string} [accessibilityLabel] - Label for screen readers
+ */
 export interface ModalProps extends DefaultProps {
   /** Modal opened state */
   opened: boolean;
@@ -68,6 +90,9 @@ export interface ModalProps extends DefaultProps {
 
   /** Z-index */
   zIndex?: number;
+
+  /** Accessibility label for the modal */
+  accessibilityLabel?: string;
 }
 
 const sizes = {
@@ -183,6 +208,44 @@ const defaultProps: Partial<ModalProps> = {
   zIndex: 1000,
 };
 
+/**
+ * Modal component for React Native Mantine
+ *
+ * A flexible modal dialog component with customizable size, positioning, overlay,
+ * and animations. Supports full-screen mode, scrollable content, and keyboard
+ * avoidance. Built on React Native's Modal with enhanced styling and features.
+ *
+ * @example
+ * ```tsx
+ * // Basic modal
+ * <Modal opened={opened} onClose={() => setOpened(false)} title="My Modal">
+ *   <Text>Modal content here</Text>
+ * </Modal>
+ *
+ * // Centered modal with custom size
+ * <Modal
+ *   opened={opened}
+ *   onClose={close}
+ *   title="Settings"
+ *   size="lg"
+ *   centered
+ * >
+ *   <Text>Settings content</Text>
+ * </Modal>
+ *
+ * // Full screen modal
+ * <Modal
+ *   opened={opened}
+ *   onClose={close}
+ *   fullScreen
+ *   title="Details"
+ * >
+ *   <ScrollView>
+ *     <Text>Scrollable full screen content</Text>
+ *   </ScrollView>
+ * </Modal>
+ * ```
+ */
 export const Modal = forwardRef<any, ModalProps>((props, ref) => {
   const {
     opened,
@@ -202,6 +265,7 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
     style,
     transitionDuration,
     zIndex,
+    accessibilityLabel,
     ...others
   } = useComponentDefaultProps('Modal', defaultProps, props);
 
@@ -272,6 +336,7 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
       animationType="none"
       onRequestClose={onClose}
       statusBarTranslucent
+      accessibilityViewIsModal={true}
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -303,6 +368,8 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
                   transform: [{ scale: scaleAnim }],
                 },
               ]}
+              accessibilityLabel={accessibilityLabel}
+              accessible={true}
               {...others}
             >
               {(title || withCloseButton) && (
@@ -313,7 +380,12 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
                     title
                   )}
                   {withCloseButton && (
-                    <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+                    <TouchableOpacity
+                      style={styles.closeButton}
+                      onPress={onClose}
+                      accessibilityLabel="Close"
+                      accessibilityRole="button"
+                    >
                       <Text style={styles.closeButtonText}>×</Text>
                     </TouchableOpacity>
                   )}

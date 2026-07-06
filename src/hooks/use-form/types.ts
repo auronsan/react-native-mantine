@@ -32,6 +32,22 @@ export type FormDirty<Values = Record<string, any>> = Partial<
 >;
 
 /**
+ * Form field validation result
+ */
+export interface FormFieldValidationResult {
+  hasError: boolean;
+  error: string | null;
+}
+
+/**
+ * Form validation result
+ */
+export interface FormValidationResult {
+  hasErrors: boolean;
+  errors: FormErrors;
+}
+
+/**
  * Form field status
  */
 export interface FormFieldStatus {
@@ -45,7 +61,6 @@ export interface FormFieldStatus {
  */
 export interface FormInputProps<T = any> {
   value: T;
-  onChange?: (value: T) => void;
   onChangeText?: (text: string) => void;
   error?: string;
   onBlur?: () => void;
@@ -128,14 +143,14 @@ export interface UseFormReturnType<Values = Record<string, any>> {
   /** Reset form to initial values */
   reset: () => void;
 
-  /** Validate a specific field */
-  validateField: <K extends keyof Values>(field: K) => boolean;
+  /** Validate a specific field and return validation result */
+  validateField: <K extends keyof Values>(field: K) => FormFieldValidationResult;
 
-  /** Validate entire form */
-  validate: () => boolean;
+  /** Validate entire form and return validation result */
+  validate: () => FormValidationResult;
 
-  /** Check if form is valid */
-  isValid: () => boolean;
+  /** Check if a specific field or entire form is valid */
+  isValid: <K extends keyof Values>(field?: K) => boolean;
 
   /** Check if form is dirty */
   isDirty: () => boolean;

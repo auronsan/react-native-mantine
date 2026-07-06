@@ -44,6 +44,9 @@ export interface DialogProps extends DefaultProps {
 
   /** Animation duration in ms */
   transitionDuration?: number;
+
+  /** Accessibility label for the dialog */
+  accessibilityLabel?: string;
 }
 
 const sizes = {
@@ -160,6 +163,7 @@ export const Dialog = forwardRef<any, DialogProps>((props, ref) => {
     withBorder,
     style,
     transitionDuration,
+    accessibilityLabel,
     ...otherProps
   } = useComponentDefaultProps('Dialog', defaultProps, props);
 
@@ -219,6 +223,8 @@ export const Dialog = forwardRef<any, DialogProps>((props, ref) => {
           transform: [{ translateY: slideAnim }],
         },
       ]}
+      accessibilityRole="alert"
+      accessibilityLabel={accessibilityLabel}
       {...otherProps}
     >
       <ScrollView

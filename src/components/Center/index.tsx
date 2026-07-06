@@ -14,7 +14,7 @@ export interface CenterProps extends ViewProps {
  * Center component centers its children horizontally and vertically
  * Uses flexbox to achieve centering
  */
-export const Center = forwardRef<any, CenterProps>((props, ref) => {
+const _Center = forwardRef<any, CenterProps>((props, ref) => {
   const { children, style, inline, ...others} = props;
 
   return (
@@ -36,4 +36,5 @@ export const Center = forwardRef<any, CenterProps>((props, ref) => {
   );
 });
 
+export const Center = React.memo(_Center);
 Center.displayName = 'Center';

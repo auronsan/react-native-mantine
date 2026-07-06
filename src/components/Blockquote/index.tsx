@@ -81,7 +81,7 @@ const defaultProps: Partial<BlockquoteProps> = {
   withTextWrapper: true,
 };
 
-export const Blockquote = forwardRef<any, BlockquoteProps>((props, ref) => {
+const _Blockquote = forwardRef<any, BlockquoteProps>((props, ref) => {
   const { color, icon, cite, radius, children, style, withTextWrapper: shouldWrapInText} =
     useComponentDefaultProps('Blockquote', defaultProps, props);
 
@@ -106,4 +106,5 @@ export const Blockquote = forwardRef<any, BlockquoteProps>((props, ref) => {
   );
 });
 
+export const Blockquote = React.memo(_Blockquote);
 Blockquote.displayName = 'Blockquote';

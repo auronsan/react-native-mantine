@@ -1,6 +1,5 @@
 import { useTheme } from '../../theme/theme-provider';
 import { getPrimaryShade } from '../../theme/functions/fns/primary-shade';
-import { get } from 'lodash-es';
 import { forwardRef } from 'react';
 import { Text as DefaultText, type TextStyle } from 'react-native';
 import type { MantineTheme, MantineSize, MantineNumberSize } from "../../theme/types";
@@ -60,18 +59,14 @@ const propToColor = (
   theme: MantineTheme
 ): string => {
   const primaryShade = getPrimaryShade(theme);
-  const colorExistOnPalette = get(
-    theme.colors,
-    `${color}.${primaryShade}`,
-    ''
-  ) as string;
+  const colorExistOnPalette = theme.colors[color]?.[primaryShade] ?? '';
   if (colorExistOnPalette) {
     return colorExistOnPalette;
   }
   return color;
 };
 
-export const Text = forwardRef((props: TextProps, ref: any) => {
+export const Text = forwardRef<DefaultText, TextProps>((props, ref) => {
   const {
     style,
     color,
@@ -193,3 +188,5 @@ export const Text = forwardRef((props: TextProps, ref: any) => {
     />
   );
 });
+
+Text.displayName = 'Text';

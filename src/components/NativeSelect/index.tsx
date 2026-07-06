@@ -61,6 +61,12 @@ export interface NativeSelectProps extends DefaultProps {
   /** Icon on the left */
   icon?: React.ReactNode;
 
+  /** Accessibility label */
+  accessibilityLabel?: string;
+
+  /** Accessibility hint */
+  accessibilityHint?: string;
+
   /** Additional styles */
   style?: any;
 
@@ -258,6 +264,8 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
     disabled,
     placeholder,
     icon,
+    accessibilityLabel,
+    accessibilityHint,
     style,
     wrapperStyle,
     required,
@@ -303,6 +311,9 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
     }
   };
 
+  const defaultAccessibilityLabel =
+    accessibilityLabel || (typeof label === 'string' ? label : 'Select');
+
   return (
     <BoxView style={sx(styles.wrapper, wrapperStyle)}>
       {label && (
@@ -318,6 +329,9 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
         onPress={handlePress}
         disabled={disabled}
         activeOpacity={0.7}
+        accessibilityRole="button"
+        accessibilityLabel={defaultAccessibilityLabel}
+        accessibilityHint={accessibilityHint}
         {...others}
       >
         {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
@@ -377,6 +391,9 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
                     onPress={() => handleSelect(item.value)}
                     disabled={item.disabled}
                     activeOpacity={0.7}
+                    accessibilityRole="menuitem"
+                    accessibilityState={{ selected: item.value === value }}
+                    accessibilityLabel={item.label}
                   >
                     <Text
                       style={sx(

@@ -77,7 +77,7 @@ const defaultProps: Partial<ColorSwatchProps> = {
   withShadow: true,
 };
 
-export const ColorSwatch = forwardRef<any, ColorSwatchProps>((props, ref) => {
+const _ColorSwatch = forwardRef<any, ColorSwatchProps>((props, ref) => {
   const { color, size, radius, withShadow, children, onPress, style, ...others} =
     useComponentDefaultProps('ColorSwatch', defaultProps, props);
 
@@ -108,4 +108,5 @@ export const ColorSwatch = forwardRef<any, ColorSwatchProps>((props, ref) => {
   return content;
 });
 
+export const ColorSwatch = React.memo(_ColorSwatch);
 ColorSwatch.displayName = 'ColorSwatch';

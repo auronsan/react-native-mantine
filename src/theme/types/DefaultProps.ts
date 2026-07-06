@@ -1,4 +1,6 @@
-type StyleObject = any;
+import type { StyleProp, ViewStyle } from 'react-native';
+
+type StyleObject = StyleProp<ViewStyle>;
 export type ClassNames<StylesNames extends string> = Partial<
   Record<StylesNames, string>
 >;
@@ -14,5 +16,5 @@ export type Styles<
     ) => Partial<Record<StylesNames, StyleObject>>);
 
 export interface DefaultProps {
-  style?: any;
+  style?: StyleProp<ViewStyle>;
 }

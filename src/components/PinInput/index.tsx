@@ -52,6 +52,12 @@ export interface PinInputProps extends DefaultProps {
 
   /** Input style */
   inputStyle?: any;
+
+  /** Accessibility label for the PIN input */
+  accessibilityLabel?: string;
+
+  /** Accessibility hint for the PIN input */
+  accessibilityHint?: string;
 }
 
 const sizes = {
@@ -146,6 +152,8 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
     spacing,
     style,
     inputStyle,
+    accessibilityLabel,
+    accessibilityHint,
     ...others
   } = useComponentDefaultProps('PinInput', defaultProps, props);
 
@@ -250,6 +258,8 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
             keyboardType={type === 'number' ? 'number-pad' : 'default'}
             editable={!disabled}
             selectTextOnFocus
+            accessibilityLabel={accessibilityLabel || `PIN digit ${index + 1} of ${length}`}
+            accessibilityHint={accessibilityHint || 'Enter a single character'}
             style={sx(
               styles.input,
               focusedIndex === index && styles.inputFocused,

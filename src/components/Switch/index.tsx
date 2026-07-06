@@ -6,6 +6,20 @@ import type { DefaultProps, MantineColor, MantineSize } from '../../theme/types'
 import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 
+/**
+ * Props for the Switch component
+ *
+ * @property {React.ReactNode} [label] - Label text displayed next to the switch
+ * @property {MantineSize} [size] - Switch size (xs, sm, md, lg, xl)
+ * @property {MantineColor} [color] - Switch color from theme when checked
+ * @property {'left' | 'right'} [labelPosition] - Position of label relative to switch
+ * @property {boolean} [checked] - Controlled checked state
+ * @property {(value: boolean) => void} [onChange] - Callback fired when switch state changes
+ * @property {boolean} [disabled] - Disables switch interaction
+ * @property {string} [accessibilityLabel] - Label for screen readers
+ * @property {any} [style] - Additional style overrides for the switch
+ * @property {any} [wrapperStyle] - Style overrides for the wrapper container
+ */
 export interface SwitchProps extends DefaultProps {
   /** Switch label */
   label?: React.ReactNode;
@@ -27,6 +41,9 @@ export interface SwitchProps extends DefaultProps {
 
   /** Disabled state */
   disabled?: boolean;
+
+  /** Accessibility label */
+  accessibilityLabel?: string;
 
   /** Additional styles */
   style?: any;
@@ -81,6 +98,36 @@ const defaultProps: Partial<SwitchProps> = {
   disabled: false,
 };
 
+/**
+ * Switch component for React Native Mantine
+ *
+ * A toggle switch component for binary on/off states. Supports customizable sizes,
+ * colors, labels, and label positioning. Built on React Native's native Switch
+ * component with Mantine theming.
+ *
+ * @example
+ * ```tsx
+ * // Basic switch
+ * <Switch checked={enabled} onChange={setEnabled} />
+ *
+ * // With label
+ * <Switch
+ *   label="Enable notifications"
+ *   checked={notifications}
+ *   onChange={setNotifications}
+ * />
+ *
+ * // Custom color and size
+ * <Switch
+ *   label="Dark mode"
+ *   labelPosition="left"
+ *   color="violet"
+ *   size="lg"
+ *   checked={darkMode}
+ *   onChange={setDarkMode}
+ * />
+ * ```
+ */
 export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
   const {
     label,
@@ -90,6 +137,7 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
     checked,
     onChange,
     disabled,
+    accessibilityLabel,
     style,
     wrapperStyle,
   } = useComponentDefaultProps('Switch', defaultProps, props);
@@ -120,6 +168,9 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
       ? theme.fn.themeColor('dark', 0)
       : theme.fn.themeColor('gray', 1);
 
+  const defaultAccessibilityLabel =
+    accessibilityLabel || (typeof label === 'string' ? label : 'Switch');
+
   const switchComponent = (
     <RNSwitch
       ref={ref}
@@ -130,6 +181,9 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
       ios_backgroundColor={trackColor.false}
       disabled={disabled}
       style={sx(styles.switch, style)}
+      accessibilityRole="switch"
+      accessibilityState={{ checked: checked || false }}
+      accessibilityLabel={defaultAccessibilityLabel}
     />
   );
 
