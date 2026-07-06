@@ -14,6 +14,25 @@ import type {
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 
 
+/**
+ * Props for the Popover component
+ *
+ * @property {('top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end')} [position='bottom'] - Popover position relative to target element
+ * @property {number | 'target'} [width=260] - Popover width in pixels or 'target' to match target width
+ * @property {MantineNumberSize} [radius='md'] - Border radius from theme
+ * @property {('xs' | 'sm' | 'md' | 'lg' | 'xl')} [shadow='md'] - Popover shadow from theme
+ * @property {boolean} [withArrow=false] - If true, popover will have a pointing arrow
+ * @property {number} [arrowSize=7] - Arrow size in pixels
+ * @property {number} [arrowOffset=5] - Arrow offset from the edge
+ * @property {boolean} [closeOnClickOutside=true] - If true, popover closes when clicking outside
+ * @property {boolean} [closeOnEscape=true] - If true, popover closes on escape key (web only)
+ * @property {boolean} [opened] - Controlled opened state
+ * @property {(opened: boolean) => void} [onChange] - Callback fired when popover state changes
+ * @property {number} [zIndex=1000] - Z-index of the popover modal
+ * @property {React.ReactNode} children - Popover children (Popover.Target and Popover.Dropdown)
+ * @property {string} [accessibilityLabel] - Accessibility label for the popover
+ * @property {any} [style] - Additional styles
+ */
 export interface PopoverProps extends DefaultProps {
   /** Popover position relative to target */
   position?:
@@ -62,14 +81,28 @@ export interface PopoverProps extends DefaultProps {
   /** Popover content */
   children: React.ReactNode;
 
+  /** Accessibility label for the popover */
+  accessibilityLabel?: string;
+
   /** Additional styles */
   style?: any;
 }
 
+/**
+ * Props for Popover.Target component
+ *
+ * @property {React.ReactElement} children - Single React element that triggers the popover
+ */
 export interface PopoverTargetProps {
   children: React.ReactElement;
 }
 
+/**
+ * Props for Popover.Dropdown component
+ *
+ * @property {React.ReactNode} children - Dropdown content
+ * @property {any} [style] - Additional styles
+ */
 export interface PopoverDropdownProps extends DefaultProps {
   children: React.ReactNode;
   style?: any;
@@ -95,6 +128,7 @@ interface PopoverContextValue {
   targetRef: React.RefObject<View | null>;
   dropdownPosition: { top: number; left: number; width: number };
   setDropdownPosition: (pos: { top: number; left: number; width: number }) => void;
+  accessibilityLabel?: string;
 }
 
 const PopoverContext = React.createContext<PopoverContextValue | null>(null);
@@ -108,7 +142,7 @@ const usePopoverContext = () => {
 };
 
 const PopoverTarget: React.FC<PopoverTargetProps> = ({ children }) => {
-  const { setOpened, targetRef, setDropdownPosition } = usePopoverContext();
+  const { opened, setOpened, targetRef, setDropdownPosition } = usePopoverContext();
 
   const handlePress = () => {
     if (targetRef.current) {
@@ -126,11 +160,13 @@ const PopoverTarget: React.FC<PopoverTargetProps> = ({ children }) => {
   return React.cloneElement(children as React.ReactElement<any>, {
     ref: targetRef,
     onPress: handlePress,
+    accessibilityRole: 'button',
+    accessibilityState: { expanded: opened },
   });
 };
 
 const PopoverDropdown: React.FC<PopoverDropdownProps> = ({ children, style, ...others }) => {
-  const { opened, setOpened, dropdownPosition } = usePopoverContext();
+  const { opened, setOpened, dropdownPosition, accessibilityLabel } = usePopoverContext();
   const opacity = useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
@@ -172,6 +208,8 @@ const PopoverDropdown: React.FC<PopoverDropdownProps> = ({ children, style, ...o
               },
               style,
             ]}
+            accessibilityLabel={accessibilityLabel}
+            accessibilityViewIsModal={true}
             {...others}
           >
             {children}
@@ -182,6 +220,47 @@ const PopoverDropdown: React.FC<PopoverDropdownProps> = ({ children, style, ...o
   );
 };
 
+/**
+ * Popover component displays floating content relative to a target element
+ *
+ * @example
+ * ```tsx
+ * // Basic popover
+ * <Popover>
+ *   <Popover.Target>
+ *     <Button>Click me</Button>
+ *   </Popover.Target>
+ *   <Popover.Dropdown>
+ *     <Text>Popover content goes here</Text>
+ *   </Popover.Dropdown>
+ * </Popover>
+ *
+ * // Controlled popover with arrow
+ * <Popover
+ *   opened={opened}
+ *   onChange={setOpened}
+ *   position="top"
+ *   withArrow
+ * >
+ *   <Popover.Target>
+ *     <IconButton icon={<IconInfo />} />
+ *   </Popover.Target>
+ *   <Popover.Dropdown>
+ *     <Text>This is additional information</Text>
+ *   </Popover.Dropdown>
+ * </Popover>
+ *
+ * // Popover with custom width and position
+ * <Popover width={300} position="bottom-start">
+ *   <Popover.Target>
+ *     <Button>Show details</Button>
+ *   </Popover.Target>
+ *   <Popover.Dropdown>
+ *     <DetailedContent />
+ *   </Popover.Dropdown>
+ * </Popover>
+ * ```
+ */
 export const Popover = Object.assign(
   forwardRef<any, PopoverProps>((props, ref) => {
     const {
@@ -198,6 +277,7 @@ export const Popover = Object.assign(
       onChange,
       zIndex,
       children,
+      accessibilityLabel,
       style,
       ...others
     } = useComponentDefaultProps('Popover', defaultProps, props);
@@ -226,6 +306,7 @@ export const Popover = Object.assign(
       targetRef,
       dropdownPosition,
       setDropdownPosition,
+      accessibilityLabel,
     };
 
     return (

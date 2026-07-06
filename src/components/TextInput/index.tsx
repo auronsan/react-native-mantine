@@ -15,6 +15,24 @@ import { createStyles, getSize } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 import { INPUT_SIZES } from '../Input';
 
+/**
+ * Props for the TextInput component
+ *
+ * @property {React.ReactNode} [label] - Label displayed above the input
+ * @property {React.ReactNode} [description] - Description text displayed below the label
+ * @property {React.ReactNode} [error] - Error message displayed below the input
+ * @property {MantineSize} [size] - Input size (xs, sm, md, lg, xl)
+ * @property {MantineNumberSize} [radius] - Border radius from theme or custom value
+ * @property {React.ReactNode} [icon] - Icon displayed on the left side of input
+ * @property {React.ReactNode} [rightSection] - Content displayed on the right side of input
+ * @property {number} [rightSectionWidth] - Width of the right section in pixels
+ * @property {boolean} [required] - Displays required asterisk next to label
+ * @property {'default' | 'filled' | 'unstyled'} [variant] - Input visual variant
+ * @property {any} [style] - Additional style overrides for the input
+ * @property {any} [wrapperStyle] - Style overrides for the wrapper container
+ * @property {string} [accessibilityLabel] - Label for screen readers
+ * @property {string} [accessibilityHint] - Hint for screen readers
+ */
 export interface TextInputProps
   extends DefaultProps, Omit<RNTextInputProps, 'style'> {
   /** Input label */
@@ -52,6 +70,12 @@ export interface TextInputProps
 
   /** Input wrapper style */
   wrapperStyle?: any;
+
+  /** Accessibility label for the input */
+  accessibilityLabel?: string;
+
+  /** Accessibility hint for the input */
+  accessibilityHint?: string;
 }
 
 const useStyles = createStyles(
@@ -198,6 +222,41 @@ const defaultProps: Partial<TextInputProps> = {
   required: false,
 };
 
+/**
+ * TextInput component for React Native Mantine
+ *
+ * A fully-featured text input component with label, description, error states,
+ * icons, and multiple visual variants. Supports all React Native TextInput props
+ * while providing consistent theming and accessibility features.
+ *
+ * @example
+ * ```tsx
+ * // Basic text input
+ * <TextInput label="Name" placeholder="Enter your name" />
+ *
+ * // With icon and description
+ * <TextInput
+ *   label="Email"
+ *   description="We'll never share your email"
+ *   icon={<EmailIcon />}
+ *   placeholder="you@example.com"
+ * />
+ *
+ * // Error state
+ * <TextInput
+ *   label="Password"
+ *   error="Password is too short"
+ *   required
+ * />
+ *
+ * // With right section
+ * <TextInput
+ *   label="Search"
+ *   rightSection={<SearchButton />}
+ *   variant="filled"
+ * />
+ * ```
+ */
 export const TextInput = forwardRef<RNTextInput, TextInputProps>(
   (props, ref) => {
     const {
@@ -213,6 +272,8 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
       variant,
       style,
       wrapperStyle,
+      accessibilityLabel,
+      accessibilityHint,
       ...others
     } = useComponentDefaultProps('TextInput', defaultProps, props);
 
@@ -241,7 +302,13 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
         <BoxView style={styles.inputWrapper}>
           {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
 
-          <RNTextInput ref={ref} style={sx(styles.input, style)} {...others} />
+          <RNTextInput
+            ref={ref}
+            style={sx(styles.input, style)}
+            accessibilityLabel={accessibilityLabel || (typeof label === 'string' ? label : undefined)}
+            accessibilityHint={accessibilityHint}
+            {...others}
+          />
 
           {rightSection && (
             <BoxView style={styles.rightSectionContainer}>
@@ -250,7 +317,11 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
           )}
         </BoxView>
 
-        {error && <Text style={styles.error}>{error}</Text>}
+        {error && (
+          <Text style={styles.error} accessibilityRole="alert" accessibilityLiveRegion="polite">
+            {error}
+          </Text>
+        )}
       </BoxView>
     );
   }

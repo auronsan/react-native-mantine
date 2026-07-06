@@ -85,6 +85,12 @@ export interface MultiSelectProps extends DefaultProps {
   /** Icon displayed on the left side */
   icon?: React.ReactNode;
 
+  /** Accessibility label */
+  accessibilityLabel?: string;
+
+  /** Accessibility hint */
+  accessibilityHint?: string;
+
   /** Additional styles */
   style?: any;
 }
@@ -225,6 +231,8 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
       maxDropdownHeight,
       maxSelectedValues,
       icon,
+      accessibilityLabel,
+      accessibilityHint,
       style,
       ...others
     } = useComponentDefaultProps('MultiSelect', defaultProps, props);
@@ -310,11 +318,18 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
       );
     };
 
+    const defaultAccessibilityLabel =
+      accessibilityLabel || (typeof label === 'string' ? label : 'Multi select');
+
     return (
       <>
         <TouchableOpacity
           onPress={() => !disabled && setOpened(true)}
           disabled={disabled}
+          accessibilityRole="button"
+          accessibilityState={{ expanded: opened }}
+          accessibilityLabel={defaultAccessibilityLabel}
+          accessibilityHint={accessibilityHint}
         >
           <TextInput
             ref={ref}
@@ -374,6 +389,9 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
                     ]}
                     onPress={() => !item.disabled && handleToggle(item.value)}
                     disabled={item.disabled}
+                    accessibilityRole="checkbox"
+                    accessibilityState={{ checked: currentValue.includes(item.value) }}
+                    accessibilityLabel={item.label}
                   >
                     <Checkbox
                       checked={currentValue.includes(item.value)}
@@ -406,6 +424,9 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
                         ]}
                         onPress={() => !item.disabled && handleToggle(item.value)}
                         disabled={item.disabled}
+                        accessibilityRole="checkbox"
+                        accessibilityState={{ checked: currentValue.includes(item.value) }}
+                        accessibilityLabel={item.label}
                       >
                         <Checkbox
                           checked={currentValue.includes(item.value)}

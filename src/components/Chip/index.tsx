@@ -44,6 +44,9 @@ export interface ChipProps extends DefaultProps, WithTextWrapperProps {
   /** Icon to display when checked */
   icon?: React.ReactNode;
 
+  /** Accessibility label */
+  accessibilityLabel?: string;
+
   /** Additional styles */
   style?: any;
 
@@ -58,11 +61,11 @@ export interface ChipProps extends DefaultProps, WithTextWrapperProps {
 }
 
 const sizes = {
-  xs: { height: rem(24) as any, fontSize: rem(10), paddingHorizontal: rem(8) as any },
-  sm: { height: rem(28) as any, fontSize: rem(12), paddingHorizontal: rem(10) as any },
-  md: { height: rem(32) as any, fontSize: rem(14), paddingHorizontal: rem(12) as any },
-  lg: { height: rem(36) as any, fontSize: rem(16), paddingHorizontal: rem(14) as any },
-  xl: { height: rem(42) as any, fontSize: rem(18), paddingHorizontal: rem(16) as any },
+  xs: { height: rem(24), fontSize: rem(10), paddingHorizontal: rem(8) },
+  sm: { height: rem(28), fontSize: rem(12), paddingHorizontal: rem(10) },
+  md: { height: rem(32), fontSize: rem(14), paddingHorizontal: rem(12) },
+  lg: { height: rem(36), fontSize: rem(16), paddingHorizontal: rem(14) },
+  xl: { height: rem(42), fontSize: rem(18), paddingHorizontal: rem(16) },
 };
 
 const useStyles = createStyles(
@@ -154,8 +157,8 @@ const useStyles = createStyles(
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        height: sizeStyles.height as any,
-        paddingHorizontal: sizeStyles.paddingHorizontal as any,
+        height: sizeStyles.height,
+        paddingHorizontal: sizeStyles.paddingHorizontal,
         borderRadius: theme.fn.radius(radius),
         ...getVariantStyles(),
         ...(disabled && {
@@ -163,11 +166,11 @@ const useStyles = createStyles(
         }),
       },
       icon: {
-        marginRight: rem(6) as any,
+        marginRight: rem(6),
       },
       text: {
-        fontSize: sizeStyles.fontSize as any,
-        fontWeight: (checked ? '600' : '500') as any,
+        fontSize: sizeStyles.fontSize,
+        fontWeight: checked ? '600' : '500',
         color: getTextColor(),
       },
     };
@@ -196,6 +199,7 @@ export const Chip = forwardRef<any, ChipProps>((props, ref) => {
     onChange,
     disabled,
     icon,
+    accessibilityLabel,
     style,
     textStyle,
     value,
@@ -232,6 +236,9 @@ export const Chip = forwardRef<any, ChipProps>((props, ref) => {
 
   const showIcon = checked && icon;
 
+  const defaultAccessibilityLabel =
+    accessibilityLabel || (typeof children === 'string' ? children : 'Chip');
+
   return (
     <TouchableOpacity
       ref={ref}
@@ -239,6 +246,9 @@ export const Chip = forwardRef<any, ChipProps>((props, ref) => {
       onPress={handlePress}
       disabled={disabled}
       activeOpacity={0.7}
+      accessibilityRole={type === 'radio' ? 'radio' : 'checkbox'}
+      accessibilityState={{ checked: checked || false }}
+      accessibilityLabel={defaultAccessibilityLabel}
       {...others}
     >
       {showIcon && <BoxView style={styles.icon}>{icon}</BoxView>}

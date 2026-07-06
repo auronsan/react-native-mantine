@@ -13,6 +13,9 @@ export interface BreadcrumbsProps extends DefaultProps {
   /** Breadcrumb items */
   children?: React.ReactNode;
 
+  /** Accessibility label for the breadcrumbs navigation */
+  accessibilityLabel?: string;
+
   /** Additional styles */
   style?: any;
 }
@@ -35,7 +38,7 @@ const defaultProps: Partial<BreadcrumbsProps> = {
 };
 
 export const Breadcrumbs = forwardRef<any, BreadcrumbsProps>((props, ref) => {
-  const { separator, children, style, ...others} = useComponentDefaultProps(
+  const { separator, children, accessibilityLabel, style, ...others} = useComponentDefaultProps(
     'Breadcrumbs',
     defaultProps,
     props
@@ -46,7 +49,13 @@ export const Breadcrumbs = forwardRef<any, BreadcrumbsProps>((props, ref) => {
   const items = Children.toArray(children);
 
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+    <BoxView
+      ref={ref}
+      style={sx(styles.root, style)}
+      accessibilityRole="list"
+      accessibilityLabel={accessibilityLabel || 'Breadcrumb navigation'}
+      {...others}
+    >
       {items.map((item, index) => (
         <React.Fragment key={index}>
           {item}

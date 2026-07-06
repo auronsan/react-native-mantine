@@ -616,6 +616,183 @@ export default function App() {
             component={Examples.CustomFontsExample}
             options={{ title: 'Custom Fonts' }}
           />
+
+          {/* Mantine v7+ sync examples */}
+          <Stack.Screen
+            name="PillExample"
+            component={Examples.PillExample}
+            options={{ title: 'Pill' }}
+          />
+          <Stack.Screen
+            name="PillsInputExample"
+            component={Examples.PillsInputExample}
+            options={{ title: 'PillsInput' }}
+          />
+          <Stack.Screen
+            name="TagsInputExample"
+            component={Examples.TagsInputExample}
+            options={{ title: 'TagsInput' }}
+          />
+          <Stack.Screen
+            name="FieldsetExample"
+            component={Examples.FieldsetExample}
+            options={{ title: 'Fieldset' }}
+          />
+          <Stack.Screen
+            name="NumberFormatterExample"
+            component={Examples.NumberFormatterExample}
+            options={{ title: 'NumberFormatter' }}
+          />
+          <Stack.Screen
+            name="VisuallyHiddenExample"
+            component={Examples.VisuallyHiddenExample}
+            options={{ title: 'VisuallyHidden' }}
+          />
+          <Stack.Screen
+            name="SemiCircleProgressExample"
+            component={Examples.SemiCircleProgressExample}
+            options={{ title: 'SemiCircleProgress' }}
+          />
+          <Stack.Screen
+            name="AngleSliderExample"
+            component={Examples.AngleSliderExample}
+            options={{ title: 'AngleSlider' }}
+          />
+          <Stack.Screen
+            name="RollingNumberExample"
+            component={Examples.RollingNumberExample}
+            options={{ title: 'RollingNumber' }}
+          />
+          <Stack.Screen
+            name="MarqueeExample"
+            component={Examples.MarqueeExample}
+            options={{ title: 'Marquee' }}
+          />
+          <Stack.Screen
+            name="FloatingIndicatorExample"
+            component={Examples.FloatingIndicatorExample}
+            options={{ title: 'FloatingIndicator' }}
+          />
+          <Stack.Screen
+            name="TreeExample"
+            component={Examples.TreeExample}
+            options={{ title: 'Tree' }}
+          />
+          <Stack.Screen
+            name="TreeSelectExample"
+            component={Examples.TreeSelectExample}
+            options={{ title: 'TreeSelect' }}
+          />
+          <Stack.Screen
+            name="DataListExample"
+            component={Examples.DataListExample}
+            options={{ title: 'DataList' }}
+          />
+          <Stack.Screen
+            name="EmptyStateExample"
+            component={Examples.EmptyStateExample}
+            options={{ title: 'EmptyState' }}
+          />
+          <Stack.Screen
+            name="OverflowListExample"
+            component={Examples.OverflowListExample}
+            options={{ title: 'OverflowList' }}
+          />
+          <Stack.Screen
+            name="TypographyExample"
+            component={Examples.TypographyExample}
+            options={{ title: 'Typography' }}
+          />
+          <Stack.Screen
+            name="InputBaseExample"
+            component={Examples.InputBaseExample}
+            options={{ title: 'InputBase' }}
+          />
+          <Stack.Screen
+            name="JsonInputExample"
+            component={Examples.JsonInputExample}
+            options={{ title: 'JsonInput' }}
+          />
+          <Stack.Screen
+            name="MaskInputExample"
+            component={Examples.MaskInputExample}
+            options={{ title: 'MaskInput' }}
+          />
+          <Stack.Screen
+            name="ColorPickerExample"
+            component={Examples.ColorPickerExample}
+            options={{ title: 'ColorPicker' }}
+          />
+          <Stack.Screen
+            name="ColorInputExample"
+            component={Examples.ColorInputExample}
+            options={{ title: 'ColorInput' }}
+          />
+          <Stack.Screen
+            name="FileButtonExample"
+            component={Examples.FileButtonExample}
+            options={{ title: 'FileButton' }}
+          />
+          <Stack.Screen
+            name="FileInputExample"
+            component={Examples.FileInputExample}
+            options={{ title: 'FileInput' }}
+          />
+          <Stack.Screen
+            name="AffixExample"
+            component={Examples.AffixExample}
+            options={{ title: 'Affix' }}
+          />
+          <Stack.Screen
+            name="AppShellExample"
+            component={Examples.AppShellExample}
+            options={{ title: 'AppShell' }}
+          />
+          <Stack.Screen
+            name="HoverCardExample"
+            component={Examples.HoverCardExample}
+            options={{ title: 'HoverCard' }}
+          />
+          <Stack.Screen
+            name="PortalExample"
+            component={Examples.PortalExample}
+            options={{ title: 'Portal' }}
+          />
+          <Stack.Screen
+            name="ScrollAreaExample"
+            component={Examples.ScrollAreaExample}
+            options={{ title: 'ScrollArea' }}
+          />
+          <Stack.Screen
+            name="ComboboxExample"
+            component={Examples.ComboboxExample}
+            options={{ title: 'Combobox' }}
+          />
+          <Stack.Screen
+            name="FloatingWindowExample"
+            component={Examples.FloatingWindowExample}
+            options={{ title: 'FloatingWindow' }}
+          />
+          <Stack.Screen
+            name="MenubarExample"
+            component={Examples.MenubarExample}
+            options={{ title: 'Menubar' }}
+          />
+          <Stack.Screen
+            name="ScrollerExample"
+            component={Examples.ScrollerExample}
+            options={{ title: 'Scroller' }}
+          />
+          <Stack.Screen
+            name="SplitterExample"
+            component={Examples.SplitterExample}
+            options={{ title: 'Splitter' }}
+          />
+          <Stack.Screen
+            name="TableOfContentsExample"
+            component={Examples.TableOfContentsExample}
+            options={{ title: 'TableOfContents' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Theme>

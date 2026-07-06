@@ -290,7 +290,12 @@ export const SegmentedControl = forwardRef<any, SegmentedControlProps>(
     console.log('perpendicularDimension', perpendicularDimension);
 
     return (
-      <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+      <BoxView
+        ref={ref}
+        style={sx(styles.root, style)}
+        accessibilityRole="tablist"
+        {...others}
+      >
         {segmentLayouts.length === normalizedData.length && (
           <Animated.View style={[styles.indicator, indicatorStyle as any]} />
         )}
@@ -307,6 +312,9 @@ export const SegmentedControl = forwardRef<any, SegmentedControlProps>(
               disabled={isDisabled}
               activeOpacity={0.7}
               onLayout={(event) => handleSegmentLayout(index, event)}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: isActive, disabled: isDisabled }}
+              accessibilityLabel={typeof item.label === 'string' ? item.label : undefined}
             >
               <Text
                 style={[

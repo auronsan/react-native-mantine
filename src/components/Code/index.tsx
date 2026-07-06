@@ -20,7 +20,7 @@ export interface CodeProps extends Omit<TextProps, 'children'>, WithTextWrapperP
 /**
  * Code component renders inline code or code blocks with monospace font
  */
-export const Code = forwardRef<any, CodeProps>((props, ref) => {
+const _Code = forwardRef<any, CodeProps>((props, ref) => {
   const { children, color, block = false, style, withTextWrapper: shouldWrapInText = true, ...others} = props;
 
   const theme = useTheme();
@@ -89,4 +89,5 @@ export const Code = forwardRef<any, CodeProps>((props, ref) => {
   );
 });
 
+export const Code = React.memo(_Code);
 Code.displayName = 'Code';

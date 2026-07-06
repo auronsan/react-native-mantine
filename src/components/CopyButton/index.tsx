@@ -1,7 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import * as Clipboard from 'expo-clipboard';
 import type { DefaultProps } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
+
+// Optional import for expo-clipboard
+let Clipboard: any = null;
+let clipboardAvailable = false;
+try {
+  Clipboard = require('expo-clipboard');
+  clipboardAvailable = true;
+} catch (error) {
+  // expo-clipboard not available
+  console.warn('expo-clipboard not available. CopyButton will not function. Install expo-clipboard for clipboard support.');
+}
 
 export interface CopyButtonProps extends DefaultProps {
   /** Value to copy to clipboard */
@@ -37,6 +47,11 @@ export const CopyButton: React.FC<CopyButtonProps> = (props) => {
   }, []);
 
   const copy = async () => {
+    if (!clipboardAvailable || !Clipboard?.setStringAsync) {
+      console.warn('Clipboard functionality is not available. Please install expo-clipboard.');
+      return;
+    }
+
     try {
       await Clipboard.setStringAsync(value);
       setCopied(true);

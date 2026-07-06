@@ -16,7 +16,7 @@ export interface MarkProps extends TextProps, WithTextWrapperProps {
  * Mark component renders text with a background color (like HTML mark tag)
  * Default background is yellow
  */
-export const Mark = forwardRef<any, MarkProps>((props, ref) => {
+const _Mark = forwardRef<any, MarkProps>((props, ref) => {
   const { children, color = 'yellow', style, withTextWrapper: shouldWrapInText = true, ...others} = props;
 
   const theme = useTheme();
@@ -53,4 +53,5 @@ export const Mark = forwardRef<any, MarkProps>((props, ref) => {
   );
 });
 
+export const Mark = React.memo(_Mark);
 Mark.displayName = 'Mark';

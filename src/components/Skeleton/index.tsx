@@ -82,7 +82,7 @@ const defaultProps: Partial<SkeletonProps> = {
   visible: true,
 };
 
-export const Skeleton = forwardRef<any, SkeletonProps>((props, ref) => {
+const _Skeleton = forwardRef<any, SkeletonProps>((props, ref) => {
   const {
     height,
     width,
@@ -146,4 +146,5 @@ export const Skeleton = forwardRef<any, SkeletonProps>((props, ref) => {
   );
 });
 
+export const Skeleton = React.memo(_Skeleton);
 Skeleton.displayName = 'Skeleton';

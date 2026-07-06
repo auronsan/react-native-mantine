@@ -18,6 +18,14 @@ import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
 
+/**
+ * Data item structure for Select component options
+ *
+ * @property {string} value - Unique value for the option
+ * @property {string} label - Display label for the option
+ * @property {boolean} [disabled] - Disables selection of this option
+ * @property {string} [group] - Group name for organizing options
+ */
 export interface SelectDataItem {
   value: string;
   label: string;
@@ -25,6 +33,32 @@ export interface SelectDataItem {
   group?: string;
 }
 
+/**
+ * Props for the Select component
+ *
+ * @property {(string | SelectDataItem)[]} data - Array of select options (strings or objects)
+ * @property {string} [value] - Currently selected value (controlled)
+ * @property {string} [defaultValue] - Default value for uncontrolled component
+ * @property {(value: string) => void} [onChange] - Callback fired when selection changes
+ * @property {string} [placeholder] - Placeholder text when no value selected
+ * @property {React.ReactNode} [label] - Label displayed above the select
+ * @property {React.ReactNode} [description] - Description text below the label
+ * @property {React.ReactNode} [error] - Error message displayed below the select
+ * @property {MantineSize} [size] - Select size (xs, sm, md, lg, xl)
+ * @property {MantineNumberSize} [radius] - Border radius from theme or custom value
+ * @property {MantineColor} [color] - Highlight color for selected items
+ * @property {boolean} [disabled] - Disables select interaction
+ * @property {boolean} [searchable] - Enables search/filter functionality
+ * @property {string} [searchPlaceholder] - Placeholder for search input
+ * @property {boolean} [clearable] - Shows clear button to reset selection
+ * @property {string} [clearButtonLabel] - Label for clear button
+ * @property {number} [maxDropdownHeight] - Maximum height of dropdown in pixels
+ * @property {React.ReactNode} [icon] - Icon displayed on the left side
+ * @property {React.ReactNode} [rightSection] - Content displayed on the right side
+ * @property {string} [accessibilityLabel] - Label for screen readers
+ * @property {string} [accessibilityHint] - Hint for screen readers
+ * @property {any} [style] - Additional style overrides
+ */
 export interface SelectProps extends DefaultProps {
   /** Select data */
   data: (string | SelectDataItem)[];
@@ -82,6 +116,12 @@ export interface SelectProps extends DefaultProps {
 
   /** Right section */
   rightSection?: React.ReactNode;
+
+  /** Accessibility label */
+  accessibilityLabel?: string;
+
+  /** Accessibility hint */
+  accessibilityHint?: string;
 
   /** Additional styles */
   style?: any;
@@ -182,6 +222,48 @@ const normalizeData = (data: (string | SelectDataItem)[]): SelectDataItem[] => {
   );
 };
 
+/**
+ * Select component for React Native Mantine
+ *
+ * A dropdown select component with support for searchable options, grouped items,
+ * clearable selection, and customizable styling. Displays options in a modal
+ * bottom sheet for native mobile experience.
+ *
+ * @example
+ * ```tsx
+ * // Basic select
+ * <Select
+ *   data={['React', 'Vue', 'Angular']}
+ *   value={framework}
+ *   onChange={setFramework}
+ *   placeholder="Pick one"
+ * />
+ *
+ * // Searchable select with groups
+ * <Select
+ *   label="Country"
+ *   searchable
+ *   clearable
+ *   data={[
+ *     { value: 'us', label: 'United States', group: 'North America' },
+ *     { value: 'ca', label: 'Canada', group: 'North America' },
+ *     { value: 'uk', label: 'United Kingdom', group: 'Europe' }
+ *   ]}
+ *   value={country}
+ *   onChange={setCountry}
+ * />
+ *
+ * // With icon and description
+ * <Select
+ *   label="Language"
+ *   description="Choose your preferred language"
+ *   icon={<LanguageIcon />}
+ *   data={languages}
+ *   value={language}
+ *   onChange={setLanguage}
+ * />
+ * ```
+ */
 export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
   const {
     data,
@@ -203,6 +285,8 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
     maxDropdownHeight,
     icon,
     rightSection,
+    accessibilityLabel,
+    accessibilityHint,
     style,
     ...others
   } = useComponentDefaultProps('Select', defaultProps, props);
@@ -255,6 +339,9 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
     }
   });
 
+  const defaultAccessibilityLabel =
+    accessibilityLabel || (typeof label === 'string' ? label : 'Select');
+
   return (
     <>
       <TextInput
@@ -271,6 +358,10 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
         editable={!disabled}
         onPress={() => !disabled && setOpened(true)}
         style={style}
+        accessibilityRole="button"
+        accessibilityState={{ expanded: opened }}
+        accessibilityLabel={defaultAccessibilityLabel}
+        accessibilityHint={accessibilityHint}
         {...others}
       />
 
@@ -320,6 +411,9 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
                   ]}
                   onPress={() => !item.disabled && handleSelect(item.value)}
                   disabled={item.disabled}
+                  accessibilityRole="menuitem"
+                  accessibilityState={{ selected: currentValue === item.value }}
+                  accessibilityLabel={item.label}
                 >
                   <Text
                     style={[
@@ -345,6 +439,9 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
                       ]}
                       onPress={() => !item.disabled && handleSelect(item.value)}
                       disabled={item.disabled}
+                      accessibilityRole="menuitem"
+                      accessibilityState={{ selected: currentValue === item.value }}
+                      accessibilityLabel={item.label}
                     >
                       <Text
                         style={[

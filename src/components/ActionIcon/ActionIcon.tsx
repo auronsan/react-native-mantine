@@ -11,6 +11,10 @@ export type ActionIconProps = {
   variant?: 'filled' | 'light' | 'outline' | 'transparent' | 'default';
   style?: any;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
+  disabled?: boolean;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
+  testID?: string;
 };
 
 export const ActionIcon = forwardRef<any, ActionIconProps>(
@@ -21,6 +25,11 @@ export const ActionIcon = forwardRef<any, ActionIconProps>(
       variant = 'default',
       style,
       size = 'md',
+      disabled,
+      accessibilityLabel,
+      accessibilityHint,
+      testID,
+      ...others
     },
     ref
   ) => {
@@ -29,13 +38,22 @@ export const ActionIcon = forwardRef<any, ActionIconProps>(
       <TouchableOpacity
         ref={ref}
         onPress={typeof onPress === 'function' ? onPress : () => {}}
+        disabled={disabled}
+        accessibilityRole="button"
+        accessibilityState={{ disabled }}
+        accessibilityLabel={accessibilityLabel}
+        accessibilityHint={accessibilityHint}
+        testID={testID}
         style={[styles.container, style]}
+        {...others}
       >
         <BoxView style={styles.iconWrapper}>{children}</BoxView>
       </TouchableOpacity>
     );
   }
 );
+
+ActionIcon.displayName = 'ActionIcon';
 
 export const sizes = {
   xs: 18,

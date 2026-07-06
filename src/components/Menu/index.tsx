@@ -16,6 +16,22 @@ import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
 
+/**
+ * Props for the Menu component
+ *
+ * @property {boolean} [opened] - Controlled opened state
+ * @property {(opened: boolean) => void} [onChange] - Callback fired when menu state changes
+ * @property {('bottom' | 'top' | 'left' | 'right' | 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end')} [position='bottom-start'] - Menu dropdown position relative to target
+ * @property {number | 'target'} [width=200] - Menu width in pixels or 'target' to match target width
+ * @property {boolean} [closeOnItemClick=true] - If true, menu closes when an item is clicked
+ * @property {boolean} [closeOnClickOutside=true] - If true, menu closes when clicking outside
+ * @property {('xs' | 'sm' | 'md' | 'lg' | 'xl')} [shadow='md'] - Menu shadow from theme
+ * @property {MantineNumberSize} [radius='sm'] - Border radius from theme
+ * @property {number} [zIndex=1000] - Z-index of the menu modal
+ * @property {React.ReactNode} children - Menu children (Menu.Target, Menu.Dropdown, etc.)
+ * @property {string} [accessibilityLabel] - Accessibility label for the menu
+ * @property {any} [style] - Additional styles
+ */
 export interface MenuProps extends DefaultProps {
   /** Controlled opened state */
   opened?: boolean;
@@ -55,19 +71,44 @@ export interface MenuProps extends DefaultProps {
   /** Menu children */
   children: React.ReactNode;
 
+  /** Accessibility label for the menu */
+  accessibilityLabel?: string;
+
   /** Additional styles */
   style?: any;
 }
 
+/**
+ * Props for Menu.Target component
+ *
+ * @property {React.ReactElement} children - Single React element that triggers the menu
+ */
 export interface MenuTargetProps {
   children: React.ReactElement;
 }
 
+/**
+ * Props for Menu.Dropdown component
+ *
+ * @property {React.ReactNode} children - Dropdown content (Menu.Item, Menu.Label, Menu.Divider)
+ * @property {any} [style] - Additional styles
+ */
 export interface MenuDropdownProps extends DefaultProps {
   children: React.ReactNode;
   style?: any;
 }
 
+/**
+ * Props for Menu.Item component
+ *
+ * @property {React.ReactNode} [icon] - Icon displayed on the left side
+ * @property {MantineColor} [color] - Item color from theme
+ * @property {React.ReactNode} children - Item content
+ * @property {() => void} [onPress] - Callback fired when item is pressed
+ * @property {boolean} [disabled=false] - If true, item is disabled
+ * @property {React.ReactNode} [rightSection] - Content displayed on the right side
+ * @property {any} [style] - Additional styles
+ */
 export interface MenuItemProps extends DefaultProps, WithTextWrapperProps {
   /** Item icon */
   icon?: React.ReactNode;
@@ -91,11 +132,22 @@ export interface MenuItemProps extends DefaultProps, WithTextWrapperProps {
   style?: any;
 }
 
+/**
+ * Props for Menu.Label component
+ *
+ * @property {React.ReactNode} children - Label text
+ * @property {any} [style] - Additional styles
+ */
 export interface MenuLabelProps extends DefaultProps, WithTextWrapperProps {
   children: React.ReactNode;
   style?: any;
 }
 
+/**
+ * Props for Menu.Divider component
+ *
+ * @property {any} [style] - Additional styles
+ */
 export interface MenuDividerProps extends DefaultProps {
   style?: any;
 }
@@ -172,6 +224,7 @@ interface MenuContextValue {
   targetRef: React.RefObject<View | null>;
   dropdownPosition: { top: number; left: number; width: number };
   setDropdownPosition: (pos: { top: number; left: number; width: number }) => void;
+  accessibilityLabel?: string;
 }
 
 const MenuContext = React.createContext<MenuContextValue | null>(null);
@@ -200,7 +253,7 @@ const defaultItemProps: Partial<MenuItemProps> = {
 };
 
 const MenuTarget: React.FC<MenuTargetProps> = ({ children }) => {
-  const { setOpened, targetRef, setDropdownPosition } = useMenuContext();
+  const { opened, setOpened, targetRef, setDropdownPosition } = useMenuContext();
 
   const handlePress = () => {
     if (targetRef.current) {
@@ -218,11 +271,13 @@ const MenuTarget: React.FC<MenuTargetProps> = ({ children }) => {
   return React.cloneElement(children as React.ReactElement<any>, {
     ref: targetRef,
     onPress: handlePress,
+    accessibilityRole: 'button',
+    accessibilityState: { expanded: opened },
   });
 };
 
 const MenuDropdown: React.FC<MenuDropdownProps> = ({ children, style, ...others }) => {
-  const { opened, setOpened, dropdownPosition } = useMenuContext();
+  const { opened, setOpened, dropdownPosition, accessibilityLabel } = useMenuContext();
   const opacity = useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
@@ -265,6 +320,8 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ children, style, ...others 
             },
             style,
           ]}
+          accessibilityLabel={accessibilityLabel}
+          accessibilityRole="menu"
           {...others}
         >
           {children}
@@ -306,6 +363,7 @@ const MenuItem = forwardRef<any, MenuItemProps>((props, ref) => {
       disabled={disabled}
       activeOpacity={0.7}
       style={sx(styles.item, isPressed && styles.itemHovered, style)}
+      accessibilityRole="menuitem"
       {...others}
     >
       {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
@@ -331,6 +389,39 @@ const MenuDivider = forwardRef<any, MenuDividerProps>((props, ref) => {
   return <Divider ref={ref} style={style} {...others} />;
 });
 
+/**
+ * Menu component displays a dropdown list of actions
+ *
+ * @example
+ * ```tsx
+ * // Basic menu
+ * <Menu>
+ *   <Menu.Target>
+ *     <Button>Toggle Menu</Button>
+ *   </Menu.Target>
+ *   <Menu.Dropdown>
+ *     <Menu.Item icon={<IconSettings />}>Settings</Menu.Item>
+ *     <Menu.Item icon={<IconUser />}>Profile</Menu.Item>
+ *     <Menu.Divider />
+ *     <Menu.Item color="red" icon={<IconLogout />}>Logout</Menu.Item>
+ *   </Menu.Dropdown>
+ * </Menu>
+ *
+ * // Controlled menu with labels
+ * <Menu opened={opened} onChange={setOpened}>
+ *   <Menu.Target>
+ *     <Button>Actions</Button>
+ *   </Menu.Target>
+ *   <Menu.Dropdown>
+ *     <Menu.Label>Application</Menu.Label>
+ *     <Menu.Item>Settings</Menu.Item>
+ *     <Menu.Item>Messages</Menu.Item>
+ *     <Menu.Label>Danger zone</Menu.Label>
+ *     <Menu.Item color="red">Delete account</Menu.Item>
+ *   </Menu.Dropdown>
+ * </Menu>
+ * ```
+ */
 export const Menu = Object.assign(
   forwardRef<any, MenuProps>((props, ref) => {
     const {
@@ -344,6 +435,7 @@ export const Menu = Object.assign(
       radius,
       zIndex,
       children,
+      accessibilityLabel,
       style,
       ...others
     } = useComponentDefaultProps('Menu', defaultMenuProps, props);
@@ -373,6 +465,7 @@ export const Menu = Object.assign(
       targetRef,
       dropdownPosition,
       setDropdownPosition,
+      accessibilityLabel,
     };
 
     return (

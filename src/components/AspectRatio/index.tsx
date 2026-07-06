@@ -35,7 +35,7 @@ const defaultProps: Partial<AspectRatioProps> = {
   ratio: 1,
 };
 
-export const AspectRatio = forwardRef<any, AspectRatioProps>((props, ref) => {
+const _AspectRatio = forwardRef<any, AspectRatioProps>((props, ref) => {
   const { ratio, children, style, ...others} = useComponentDefaultProps(
     'AspectRatio',
     defaultProps,
@@ -65,4 +65,5 @@ export const AspectRatio = forwardRef<any, AspectRatioProps>((props, ref) => {
   );
 });
 
+export const AspectRatio = React.memo(_AspectRatio);
 AspectRatio.displayName = 'AspectRatio';

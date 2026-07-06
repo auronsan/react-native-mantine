@@ -15,10 +15,17 @@ export interface PasswordInputProps extends Omit<TextInputProps, 'rightSection' 
 
   /** Custom visibility toggle icon */
   visibilityToggleIcon?: (visible: boolean) => React.ReactNode;
+
+  /** Accessibility label for the password input */
+  accessibilityLabel?: string;
+
+  /** Accessibility hint for the password input */
+  accessibilityHint?: string;
 }
 
 const defaultProps: Partial<PasswordInputProps> = {
   visibilityToggleLabel: 'Toggle password visibility',
+  accessibilityLabel: 'Password',
 };
 
 const DefaultEyeIcon = ({ visible }: { visible: boolean }) => (
@@ -52,8 +59,9 @@ export const PasswordInput = forwardRef<RNTextInput, PasswordInputProps>((props,
   const toggleButton = (
     <Pressable
       onPress={handleToggle}
-      accessibilityLabel={visibilityToggleLabel}
+      accessibilityLabel={visible ? 'Hide password' : 'Show password'}
       accessibilityRole="button"
+      accessibilityHint={visibilityToggleLabel}
       style={{
         padding: 8,
         justifyContent: 'center',

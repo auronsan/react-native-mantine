@@ -11,6 +11,12 @@ export interface TextareaProps extends Omit<TextInputProps, 'multiline'> {
 
   /** Auto-grow textarea to fit content */
   autosize?: boolean;
+
+  /** Accessibility label for the textarea */
+  accessibilityLabel?: string;
+
+  /** Accessibility hint for the textarea */
+  accessibilityHint?: string;
 }
 
 const defaultProps: Partial<TextareaProps> = {

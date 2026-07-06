@@ -3,7 +3,7 @@
  * Aligned with Mantine web v6 architecture
  */
 
-import type { TextStyle, ViewStyle } from 'react-native';
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 // ============================================================================
 // Color System Types
@@ -619,7 +619,8 @@ export type Variants<T> = T | (string & {});
  */
 export interface DefaultProps {
   className?: string;
-  style?: any;
+  style?: StyleProp<ViewStyle>;
   sx?: any;
   unstyled?: boolean;
+  testID?: string;
 }

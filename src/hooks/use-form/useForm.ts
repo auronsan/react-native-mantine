@@ -2,6 +2,8 @@ import { useCallback, useRef, useState } from 'react';
 import type {
   FormErrors,
   FormFieldStatus,
+  FormFieldValidationResult,
+  FormValidationResult,
   FormInputProps,
   FormSubmitHandler,
   FormTouched,
@@ -226,50 +228,59 @@ export function useForm<Values extends Record<string, any> = Record<string, any>
   }, []);
 
   /**
-   * Validate a specific field
+   * Validate a specific field and return validation result
    */
   const validateField = useCallback(
-    <K extends keyof Values>(field: K): boolean => {
+    <K extends keyof Values>(field: K): FormFieldValidationResult => {
       if (!validationRules) {
-        return true;
+        return { hasError: false, error: null };
       }
 
       const error = validateFieldValue(field, values[field], validationRules);
       if (error) {
         setFieldError(field, error);
-        return false;
+        return { hasError: true, error };
       }
 
       clearFieldError(field);
-      return true;
+      return { hasError: false, error: null };
     },
     [values, validationRules, setFieldError, clearFieldError]
   );
 
   /**
-   * Validate entire form
+   * Validate entire form and return validation result
    */
-  const validate = useCallback((): boolean => {
+  const validate = useCallback((): FormValidationResult => {
     if (!validationRules) {
-      return true;
+      return { hasErrors: false, errors: {} };
     }
 
     const newErrors = validateAllValues(values, validationRules);
     setErrorsState(newErrors);
-    return Object.keys(newErrors).length === 0;
+    const hasErrors = Object.keys(newErrors).length > 0;
+    return { hasErrors, errors: newErrors };
   }, [values, validationRules]);
 
   /**
-   * Check if form is valid
+   * Check if a specific field or entire form is valid
    */
-  const isValid = useCallback((): boolean => {
-    if (!validationRules) {
-      return true;
-    }
+  const isValid = useCallback(
+    <K extends keyof Values>(field?: K): boolean => {
+      if (!validationRules) {
+        return true;
+      }
 
-    const validationErrors = validateAllValues(values, validationRules);
-    return Object.keys(validationErrors).length === 0;
-  }, [values, validationRules]);
+      if (field !== undefined) {
+        const error = validateFieldValue(field, values[field], validationRules);
+        return error === null;
+      }
+
+      const validationErrors = validateAllValues(values, validationRules);
+      return Object.keys(validationErrors).length === 0;
+    },
+    [values, validationRules]
+  );
 
   /**
    * Check if form is dirty
@@ -328,6 +339,7 @@ export function useForm<Values extends Record<string, any> = Record<string, any>
 
   /**
    * Get props to spread on input component
+   * Returns props optimized for React Native components (uses onChangeText)
    */
   const getInputProps = useCallback(
     <K extends keyof Values>(
@@ -338,7 +350,7 @@ export function useForm<Values extends Record<string, any> = Record<string, any>
         withFocus?: boolean;
       } = {}
     ): FormInputProps<Values[K]> => {
-      const { type = 'input', withError = true, withFocus = true } = options;
+      const { withError = true, withFocus = true } = options;
 
       const baseProps: FormInputProps<Values[K]> = {
         value: values[field],
@@ -356,32 +368,12 @@ export function useForm<Values extends Record<string, any> = Record<string, any>
         };
       }
 
-      // Handle different input types
-      if (type === 'checkbox') {
-        return {
-          ...baseProps,
-          onChange: (value: Values[K]) => {
-            setFieldValue(field, value);
-          },
-        };
-      }
-
-      if (type === 'radio' || type === 'select') {
-        return {
-          ...baseProps,
-          onChange: (value: Values[K]) => {
-            setFieldValue(field, value);
-          },
-        };
-      }
-
-      // Default text input
-      return {
-        ...baseProps,
-        onChangeText: (text: string) => {
-          setFieldValue(field, text as any);
-        },
+      // Add change handler for text inputs (default for React Native)
+      baseProps.onChangeText = (text: string) => {
+        setFieldValue(field, text as any);
       };
+
+      return baseProps;
     },
     [values, errors, setFieldValue, setFieldTouched]
   );
@@ -395,8 +387,8 @@ export function useForm<Values extends Record<string, any> = Record<string, any>
         event?.preventDefault?.();
 
         // Validate form
-        const isFormValid = validate();
-        if (!isFormValid) {
+        const validationResult = validate();
+        if (validationResult.hasErrors) {
           return;
         }
 
