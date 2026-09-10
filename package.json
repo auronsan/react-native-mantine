@@ -1,7 +1,7 @@
 {
   "name": "react-native-mantine",
   "version": "1.0.0",
-  "description": "Mantine for React Native: 118 themeable, accessible components for iOS, Android and Web",
+  "description": "Mantine for React Native: 117 themeable, accessible components for iOS, Android and Web. Pure TypeScript, New Architecture ready, 99% test coverage.",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
@@ -50,7 +50,11 @@
     "design-system",
     "mantine",
     "theme",
-    "typescript"
+    "typescript",
+    "new-architecture",
+    "fabric",
+    "accessibility",
+    "production-ready"
   ],
   "repository": {
     "type": "git",
