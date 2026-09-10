@@ -1,18 +1,8 @@
 import React, { useImperativeHandle, useRef, useState } from 'react';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
-
-// Optional import for expo-document-picker
-let DocumentPicker: any = null;
-let pickerAvailable = false;
-try {
-  DocumentPicker = require('expo-document-picker');
-  pickerAvailable = true;
-} catch (error) {
-  // expo-document-picker not available
-  console.warn(
-    'expo-document-picker not available. FileButton and FileInput will not be able to open the file picker. Install expo-document-picker for file selection support.'
-  );
-}
+import { useAdapter } from '../../adapters/context';
+import { getAdapter } from '../../adapters/registry';
+import type { MantineAdapters } from '../../adapters/types';
 
 /** Normalized picked file, mapped from expo-document-picker assets */
 export interface PickedFile {
@@ -40,18 +30,23 @@ export interface PickFilesOptions {
 /**
  * Opens the document picker and resolves with the normalized selection,
  * or null when the user cancels or the picker is unavailable.
+ *
+ * `picker` defaults to the `documentPicker` adapter from `configureMantine`
+ * (or expo-document-picker when installed); components pass the value from
+ * `useAdapter('documentPicker')` so `<ThemeProvider adapters>` is honoured.
  */
 export async function pickFiles(
-  options: PickFilesOptions = {}
+  options: PickFilesOptions = {},
+  picker: MantineAdapters['documentPicker'] = getAdapter('documentPicker')
 ): Promise<PickedFile[] | null> {
-  if (!pickerAvailable || !DocumentPicker?.getDocumentAsync) {
+  if (typeof picker !== 'function') {
     console.warn(
-      'File picking is not available. Please install expo-document-picker.'
+      'File picking is not available. Install expo-document-picker or provide a documentPicker adapter via <ThemeProvider adapters> or configureMantine.'
     );
     return null;
   }
 
-  const result = await DocumentPicker.getDocumentAsync({
+  const result = await picker({
     type: options.accept ?? '*/*',
     multiple: options.multiple ?? false,
     copyToCacheDirectory: true,
@@ -108,6 +103,8 @@ export function FileButton<Multiple extends boolean = false>(
 
   const [loading, setLoading] = useState(false);
   const lastSelectionRef = useRef<PickedFile[] | null>(null);
+  // Warns at press time (inside pickFiles) instead of render time
+  const picker = useAdapter('documentPicker', { warn: false });
 
   useImperativeHandle(resetRef, () => () => {
     lastSelectionRef.current = null;
@@ -120,7 +117,7 @@ export function FileButton<Multiple extends boolean = false>(
 
     setLoading(true);
     try {
-      const files = await pickFiles({ multiple: !!multiple, accept });
+      const files = await pickFiles({ multiple: !!multiple, accept }, picker);
       if (files) {
         lastSelectionRef.current = files;
         onChange(

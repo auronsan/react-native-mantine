@@ -1,17 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { DefaultProps } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
-
-// Optional import for expo-clipboard
-let Clipboard: any = null;
-let clipboardAvailable = false;
-try {
-  Clipboard = require('expo-clipboard');
-  clipboardAvailable = true;
-} catch (error) {
-  // expo-clipboard not available
-  console.warn('expo-clipboard not available. CopyButton will not function. Install expo-clipboard for clipboard support.');
-}
+import { useAdapter } from '../../adapters/context';
 
 export interface CopyButtonProps extends DefaultProps {
   /** Value to copy to clipboard */
@@ -38,6 +28,10 @@ export const CopyButton: React.FC<CopyButtonProps> = (props) => {
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Clipboard implementation: ThemeProvider adapters / configureMantine,
+  // otherwise expo-clipboard when installed. Warns at copy time instead of render time.
+  const clipboard = useAdapter('clipboard', { warn: false });
+
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
@@ -47,13 +41,15 @@ export const CopyButton: React.FC<CopyButtonProps> = (props) => {
   }, []);
 
   const copy = async () => {
-    if (!clipboardAvailable || !Clipboard?.setStringAsync) {
-      console.warn('Clipboard functionality is not available. Please install expo-clipboard.');
+    if (!clipboard?.setStringAsync) {
+      console.warn(
+        'Clipboard functionality is not available. Install expo-clipboard or provide a clipboard adapter via <ThemeProvider adapters> or configureMantine.'
+      );
       return;
     }
 
     try {
-      await Clipboard.setStringAsync(value);
+      await clipboard.setStringAsync(value);
       setCopied(true);
 
       if (timeoutRef.current) {

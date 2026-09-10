@@ -1,17 +1,6 @@
 import React from 'react';
 import { Platform, View, type ViewStyle, StyleSheet, type ColorValue } from 'react-native';
-
-// Optional import for expo-linear-gradient
-let ExpoLinearGradient: any = null;
-let gradientAvailable = false;
-try {
-  const module = require('expo-linear-gradient');
-  ExpoLinearGradient = module.LinearGradient;
-  gradientAvailable = true;
-} catch (error) {
-  // expo-linear-gradient not available, will fall back to solid color
-  console.warn('expo-linear-gradient not available. Gradients will fall back to solid colors. Install expo-linear-gradient for gradient support.');
-}
+import { useAdapter } from '../../adapters/context';
 
 export interface LinearGradientProps {
   colors: readonly [ColorValue, ColorValue, ...ColorValue[]];
@@ -23,8 +12,10 @@ export interface LinearGradientProps {
 
 /**
  * Platform-specific LinearGradient wrapper
- * - Uses expo-linear-gradient on iOS and Android (native) when available
- * - Falls back to solid color (first color) when expo-linear-gradient is not available
+ * - On iOS and Android uses the `LinearGradient` adapter: a component passed via
+ *   `<ThemeProvider adapters={{ LinearGradient }}>` or `configureMantine`, otherwise
+ *   expo-linear-gradient when it is installed
+ * - Falls back to solid color (first color) when no gradient implementation is available
  * - Uses CSS linear gradients on web for proper React Native Web support
  */
 export function PlatformLinearGradient({
@@ -34,6 +25,10 @@ export function PlatformLinearGradient({
   style,
   children,
 }: LinearGradientProps) {
+  const LinearGradient = useAdapter('LinearGradient', {
+    warn: Platform.OS !== 'web',
+  });
+
   // On web, use CSS linear gradients
   if (Platform.OS === 'web') {
     const angle = calculateGradientAngle(start, end);
@@ -48,12 +43,12 @@ export function PlatformLinearGradient({
     return <View style={webStyle}>{children}</View>;
   }
 
-  // On native platforms, try to use expo-linear-gradient if available
-  if (gradientAvailable && ExpoLinearGradient) {
+  // On native platforms, use the gradient implementation if available
+  if (LinearGradient) {
     return (
-      <ExpoLinearGradient colors={colors} start={start} end={end} style={style}>
+      <LinearGradient colors={colors} start={start} end={end} style={style}>
         {children}
-      </ExpoLinearGradient>
+      </LinearGradient>
     );
   }
 

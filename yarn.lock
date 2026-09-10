@@ -12595,6 +12595,7 @@ __metadata:
     typescript: ^5.2.2
   peerDependencies:
     expo-clipboard: ~8.0.8
+    expo-document-picker: "*"
     expo-font: ~14.0.10
     expo-linear-gradient: ~15.0.8
     react: "*"
@@ -12602,6 +12603,8 @@ __metadata:
     react-native-vector-icons: ^10.0.0
   peerDependenciesMeta:
     expo-clipboard:
+      optional: true
+    expo-document-picker:
       optional: true
     expo-font:
       optional: true

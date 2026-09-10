@@ -1,17 +1,8 @@
 import { forwardRef } from 'react';
+import type React from 'react';
 import { Text, type TextStyle } from 'react-native';
 import { useTheme } from '../../theme/theme-provider';
-
-// Optional import for react-native-vector-icons
-let FontAwesomeIcon: any = null;
-let iconsAvailable = false;
-try {
-  FontAwesomeIcon = require('react-native-vector-icons/FontAwesome').default;
-  iconsAvailable = true;
-} catch (error) {
-  // react-native-vector-icons not available
-  console.warn('react-native-vector-icons not available. Icon component will display the icon name as text. Install react-native-vector-icons for icon support.');
-}
+import { useAdapter } from '../../adapters/context';
 
 export interface IconProps {
   /** Icon name from FontAwesome */
@@ -43,8 +34,11 @@ const defaultProps: Partial<IconProps> = {
 };
 
 /**
- * Icon component using react-native-vector-icons with FontAwesome
- * Falls back to displaying icon name as text if react-native-vector-icons is not installed
+ * Icon component rendered through the `Icon` adapter: a component passed via
+ * `<ThemeProvider adapters={{ Icon }}>` or `configureMantine({ Icon })`
+ * (e.g. FontAwesome from @expo/vector-icons), otherwise
+ * react-native-vector-icons/FontAwesome when it is installed.
+ * Falls back to displaying the icon name as text when nothing is available.
  *
  * @example
  * ```tsx
@@ -67,15 +61,17 @@ export const Icon = forwardRef<any, IconProps>((props, ref) => {
   };
 
   const theme = useTheme();
+  const IconComponent: React.ComponentType<any> | undefined =
+    useAdapter('Icon');
 
   const iconColor = color || (useThemeColor
     ? (theme.colorScheme === 'dark' ? theme.colors.dark?.[0] : theme.black)
     : undefined);
 
-  // If react-native-vector-icons is available, use it
-  if (iconsAvailable && FontAwesomeIcon) {
+  // If an icon implementation is available, use it
+  if (IconComponent) {
     return (
-      <FontAwesomeIcon
+      <IconComponent
         ref={ref}
         name={name}
         size={size}

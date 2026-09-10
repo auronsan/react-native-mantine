@@ -11,18 +11,7 @@ import type { MantineGradient } from '../../theme/theme';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { getSize } from '../../theme';
-
-// Optional import for expo-linear-gradient
-let LinearGradient: any = null;
-let gradientAvailable = false;
-try {
-  const module = require('expo-linear-gradient');
-  LinearGradient = module.LinearGradient;
-  gradientAvailable = true;
-} catch (error) {
-  // expo-linear-gradient not available
-  console.warn('expo-linear-gradient not available. ThemeIcon gradient variant will fall back to solid color. Install expo-linear-gradient for gradient support.');
-}
+import { useAdapter } from '../../adapters/context';
 
 export interface ThemeIconProps extends DefaultProps {
   /** Icon */
@@ -140,6 +129,12 @@ const _ThemeIcon = forwardRef<any, ThemeIconProps>((props, ref) => {
   const { color, variant, gradient, size, radius, children, style, ...others} =
     useComponentDefaultProps('ThemeIcon', defaultProps, props);
 
+  // Gradient implementation: ThemeProvider adapters / configureMantine,
+  // otherwise expo-linear-gradient when installed
+  const LinearGradient = useAdapter('LinearGradient', {
+    warn: variant === 'gradient',
+  });
+
   const { styles, sx, theme} = useStyles(
     {
       color: color ?? defaultProps.color ?? 'blue',
@@ -161,8 +156,8 @@ const _ThemeIcon = forwardRef<any, ThemeIconProps>((props, ref) => {
   };
 
   if (variant === 'gradient') {
-    // If expo-linear-gradient is available, use it
-    if (gradientAvailable && LinearGradient) {
+    // If a gradient implementation is available, use it
+    if (LinearGradient) {
       return (
         <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
           <LinearGradient

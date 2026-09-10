@@ -1,7 +1,7 @@
 {
   "name": "react-native-mantine",
   "version": "0.20.0",
-  "description": "Make Mantine Accessable on React Native",
+  "description": "Mantine for React Native: 118 themeable, accessible components for iOS, Android and Web",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
@@ -19,7 +19,6 @@
     }
   },
   "files": [
-    "src",
     "lib",
     "android",
     "ios",
@@ -45,12 +44,23 @@
     "clean": "del-cli lib",
     "prepare": "bob build",
     "release": "release-it",
-    "typescript": "tsc --noEmit"
+    "typescript": "tsc --noEmit",
+    "docs:props": "node --no-warnings scripts/generate-props.ts"
   },
   "keywords": [
     "react-native",
+    "expo",
     "ios",
-    "android"
+    "android",
+    "react-native-web",
+    "ui",
+    "ui-library",
+    "components",
+    "component-library",
+    "design-system",
+    "mantine",
+    "theme",
+    "typescript"
   ],
   "repository": {
     "type": "git",
@@ -61,7 +71,7 @@
   "bugs": {
     "url": "https://github.com/auronsan/react-native-mantine/issues"
   },
-  "homepage": "https://github.com/auronsan/react-native-mantine#readme",
+  "homepage": "https://auronsan.github.io/react-native-mantine/",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -128,6 +138,7 @@
   },
   "peerDependencies": {
     "expo-clipboard": "~8.0.8",
+    "expo-document-picker": "*",
     "expo-font": "~14.0.10",
     "expo-linear-gradient": "~15.0.8",
     "react": "*",
@@ -136,6 +147,9 @@
   },
   "peerDependenciesMeta": {
     "expo-clipboard": {
+      "optional": true
+    },
+    "expo-document-picker": {
       "optional": true
     },
     "expo-font": {
@@ -201,7 +215,8 @@
     },
     "plugins": {
       "@release-it/conventional-changelog": {
-        "preset": "angular"
+        "preset": "angular",
+        "infile": "CHANGELOG.md"
       }
     }
   },

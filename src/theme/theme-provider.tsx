@@ -17,11 +17,15 @@ import { createTheme } from './create-theme';
 
 import { filterProps } from './filter-props';
 import useCachedResources from '../hooks/useCachedResources';
+import { AdaptersContext } from '../adapters/context';
+import type { MantineAdapters } from '../adapters/types';
 
 type ThemeProps = {
   children: ReactNode;
   theme?: Partial<MantineTheme>;
   forceMode?: 'light' | 'dark';
+  /** Optional native integrations (icons, gradients, clipboard, ...) */
+  adapters?: Partial<MantineAdapters>;
 };
 
 export const ThemeContext = createContext<any>(null);
@@ -30,10 +34,13 @@ export const ThemeProvider = ({
   children,
   theme,
   forceMode,
+  adapters,
 }: {
   children: React.ReactNode;
   theme: MantineTheme;
   forceMode?: 'light' | 'dark';
+  /** Optional native integrations (icons, gradients, clipboard, ...) */
+  adapters?: Partial<MantineAdapters>;
 }): React.ReactElement => {
   const systemDarkMode = Appearance.getColorScheme();
   const [currentMode, setCurrentMode] = useState<'light' | 'dark'>(
@@ -72,8 +79,16 @@ export const ThemeProvider = ({
     };
   }, [currentMode, theme]);
 
+  // Only provide the adapters context when adapters are given so an outer
+  // AdaptersContext.Provider (if any) keeps working unchanged.
+  const content = adapters ? (
+    <AdaptersContext.Provider value={adapters}>{children}</AdaptersContext.Provider>
+  ) : (
+    children
+  );
+
   return (
-    <ThemeContext.Provider value={memoValue}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={memoValue}>{content}</ThemeContext.Provider>
   );
 };
 
@@ -83,8 +98,9 @@ export const Theme = ({
   children,
   theme: themeOverwrite,
   forceMode,
+  adapters,
 }: ThemeProps): React.ReactElement => {
-  const loaded = useCachedResources();
+  const loaded = useCachedResources({ loadFonts: adapters?.loadFonts });
 
   const theme = useMemo(() => {
     return createTheme(themeOverwrite);
@@ -94,7 +110,7 @@ export const Theme = ({
     return <ActivityIndicator />;
   }
   return (
-    <ThemeProvider theme={theme} forceMode={forceMode}>
+    <ThemeProvider theme={theme} forceMode={forceMode} adapters={adapters}>
       {children}
     </ThemeProvider>
   );

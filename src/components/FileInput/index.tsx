@@ -5,6 +5,7 @@ import { CloseButton } from '../CloseButton';
 import { InputBase, type InputBaseProps } from '../InputBase';
 import { pickFiles, type PickedFile } from '../FileButton';
 import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
+import { useAdapter } from '../../adapters/context';
 
 export type FileInputValue<Multiple extends boolean = false> =
   Multiple extends true ? PickedFile[] : PickedFile | null;
@@ -82,6 +83,8 @@ export const FileInput = forwardRef<View, FileInputProps<boolean>>(
     } = useComponentDefaultProps('FileInput', defaultProps as any, props);
 
     const theme = useTheme();
+    // Warns at press time (inside pickFiles) instead of render time
+    const picker = useAdapter('documentPicker', { warn: false });
 
     const [internalValue, setInternalValue] = useState<
       PickedFile[] | PickedFile | null
@@ -100,7 +103,7 @@ export const FileInput = forwardRef<View, FileInputProps<boolean>>(
     };
 
     const handlePress = async () => {
-      const files = await pickFiles({ multiple: !!multiple, accept });
+      const files = await pickFiles({ multiple: !!multiple, accept }, picker);
       if (files) {
         setValue(multiple ? files : (files[0] ?? null));
       }
