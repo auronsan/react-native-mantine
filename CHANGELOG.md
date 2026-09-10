@@ -1,5 +1,12 @@
 
 
+## [1.0.2](https://github.com/auronsan/react-native-mantine/compare/v1.0.1...v1.0.2) (2026-09-10)
+
+
+### Bug Fixes
+
+* **theme:** follow forceMode changes after mount ([fa1e25b](https://github.com/auronsan/react-native-mantine/commit/fa1e25b0fd2a85f4a6f5e4ce96f18db73725915d))
+
 ## [1.0.1](https://github.com/auronsan/react-native-mantine/compare/v1.0.0...v1.0.1) (2026-09-10)
 
 
