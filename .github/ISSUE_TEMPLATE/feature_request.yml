@@ -1,0 +1,17 @@
+name: Feature request
+description: A component, prop, or behavior you need
+labels: [enhancement]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What do you need?
+      description: If Mantine web has it, link the Mantine docs page.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Use case
+    validations:
+      required: true

@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Question or discussion
+    url: https://github.com/auronsan/react-native-mantine/discussions
+    about: Ask usage questions and share what you built
+  - name: Security report
+    url: https://github.com/auronsan/react-native-mantine/security/advisories/new
+    about: Report a vulnerability privately

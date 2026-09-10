@@ -7,6 +7,7 @@
 [![npm version](https://img.shields.io/npm/v/react-native-mantine.svg?style=flat-square)](https://www.npmjs.com/package/react-native-mantine)
 [![npm downloads](https://img.shields.io/npm/dm/react-native-mantine.svg?style=flat-square)](https://www.npmjs.com/package/react-native-mantine)
 [![CI](https://img.shields.io/github/actions/workflow/status/auronsan/react-native-mantine/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/auronsan/react-native-mantine/actions/workflows/ci.yml)
+[![coverage](https://img.shields.io/badge/coverage-99%25-brightgreen.svg?style=flat-square)](https://github.com/auronsan/react-native-mantine/actions/workflows/ci.yml)
 [![license](https://img.shields.io/npm/l/react-native-mantine.svg?style=flat-square)](https://github.com/auronsan/react-native-mantine/blob/main/LICENSE)
 [![React Native](https://img.shields.io/badge/React%20Native-0.81-blue.svg?style=flat-square)](https://reactnative.dev/)
 [![Expo](https://img.shields.io/badge/Expo-54-000020.svg?style=flat-square&logo=expo)](https://expo.dev/)
@@ -37,6 +38,26 @@
 - **Cross-platform** - iOS, Android and Web (via React Native Web)
 - **Form Management** - `useForm` hook with validation, error handling and state management
 
+## Production readiness
+
+react-native-mantine is used in production apps and is maintained as a stable library. What that means concretely:
+
+| | |
+| --- | --- |
+| **Supported React Native** | 0.72 and newer, including the New Architecture (Fabric and TurboModules). The library is pure TypeScript with no native code, so there is nothing to link and nothing that breaks on architecture changes. The showcase runs on Expo SDK 54 with the New Architecture enabled. |
+| **Supported React** | 18.2 and 19 |
+| **Expo** | SDK 50 and newer, managed or bare. Expo is not required. |
+| **Web** | React Native Web 0.19 and newer |
+| **Runtime dependencies** | None. Every native integration (icons, gradients, clipboard, document picker, fonts) is an optional adapter you choose. |
+| **Package** | ESM and CommonJS builds, `sideEffects: false` for tree shaking, TypeScript declarations for every export |
+| **Tests** | 1,900+ tests across every component and hook, 99% statement and 85% branch coverage, with a 95% / 80% threshold enforced in CI; CI runs typecheck, lint, tests and the build on every commit and pull request |
+| **Accessibility** | Interactive components ship `accessibilityRole`, `accessibilityState`, `accessibilityValue` and derived labels, and always let you override them |
+| **Versioning** | Semantic versioning with Conventional Commits. Breaking changes only in a major release, announced in [CHANGELOG.md](CHANGELOG.md) with a migration note. Deprecated props keep working for at least one minor release and warn in development. |
+| **Security** | Dependabot enabled, transitive advisories pinned, private reporting via [SECURITY.md](SECURITY.md) |
+| **License** | MIT |
+
+If you hit something that blocks a production rollout, [open an issue](https://github.com/auronsan/react-native-mantine/issues/new/choose). Blocking bugs are treated as the top priority.
+
 ## Installation
 
 ```bash
@@ -59,7 +80,7 @@ npm install react react-native
 
 ## Icons and native integrations
 
-react-native-mantine does not depend on any icon or gradient package. Pass the implementations you already use through `Theme` / `ThemeProvider`, or through `configureMantine` outside React. When nothing is passed, the library uses `react-native-vector-icons`, `expo-linear-gradient`, `expo-clipboard`, `expo-document-picker` and `expo-font` if they happen to be installed, and otherwise degrades gracefully: icon names render as text and gradients render as a solid first color.
+react-native-mantine does not depend on any icon, gradient or SVG package. Pass the implementations you already use through `Theme` / `ThemeProvider`, or through `configureMantine` outside React. When nothing is passed, the library uses `react-native-vector-icons`, `expo-linear-gradient`, `expo-clipboard`, `expo-document-picker`, `expo-font` and `react-native-svg` if they happen to be installed, and otherwise degrades gracefully: icon names render as text, gradients render as a solid first color, and `RingProgress` draws its ring from Views instead of SVG arcs.
 
 ### Expo
 
@@ -116,6 +137,7 @@ configureMantine({ Icon: FontAwesome, LinearGradient }); // e.g. in index.js
 | `clipboard`      | `CopyButton`              | `{ setStringAsync(text) }`                               | `expo-clipboard`       |
 | `documentPicker` | `FileButton`, `FileInput` | `(opts) => Promise<{ canceled, assets }>` (Expo shape)   | `expo-document-picker` |
 | `loadFonts`      | `Theme`                   | `(fonts) => Promise<void>`                               | `expo-font`            |
+| `svg`            | `RingProgress`            | `{ Svg, Circle }`                                        | `react-native-svg`     |
 
 ```ts
 import Clipboard from '@react-native-clipboard/clipboard';
