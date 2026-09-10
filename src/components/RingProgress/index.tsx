@@ -6,14 +6,27 @@ import type { DefaultProps, MantineColor } from '../../theme/types';
 import { useComponentDefaultProps, useTheme } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
+import { useAdapter } from '../../adapters/context';
+
+// Animated wrappers are created once per Circle implementation
+const animatedCircleCache = new WeakMap<object, React.ComponentType<any>>();
+const getAnimatedCircle = (Circle: React.ComponentType<any>) => {
+  let cached = animatedCircleCache.get(Circle);
+  if (!cached) {
+    cached = Animated.createAnimatedComponent(Circle as any);
+    animatedCircleCache.set(Circle, cached);
+  }
+  return cached;
+};
 
 /**
- * NOTE: This is a simplified version of RingProgress.
- * For full SVG-based circular progress, install react-native-svg:
- * yarn add react-native-svg
+ * Circular progress made of one or more colored sections.
  *
- * This version uses View-based rendering with transform rotation.
- * For production use, consider implementing with react-native-svg.
+ * Rendering: when an `svg` adapter is available (react-native-svg installed,
+ * or `{ Svg, Circle }` passed via `Theme adapters` / `configureMantine`) the
+ * ring is drawn with stroke-dasharray arcs, which is pixel-accurate and
+ * supports `roundCaps`. Otherwise a View-based ring built from rotated border
+ * segments is used, so the component works with zero native dependencies.
  */
 
 export interface RingProgressSection {
@@ -79,7 +92,6 @@ const useStyles = createStyles(
       fontWeight: '600',
       color: theme.colorScheme === 'dark' ? theme.fn.themeColor('dark', 0) : theme.black,
     },
-    // Simplified progress representation
     progressContainer: {
       position: 'absolute',
       width: size,
@@ -168,8 +180,55 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
     }));
   }, [sections]);
 
-  // Render animated ring using circular segments
-  // Note: This is a simplified implementation. For full SVG support, use react-native-svg
+  const svg = useAdapter('svg', { warn: false });
+  const ringSize = size ?? defaultProps.size ?? 120;
+  const ringThickness = thickness ?? defaultProps.thickness ?? 12;
+
+  // SVG renderer: one arc per section, animated through strokeDashoffset
+  const renderSvgSections = () => {
+    if (!svg) return null;
+    const { Svg, Circle } = svg;
+    const AnimatedCircle = getAnimatedCircle(Circle);
+    const radius = (ringSize - ringThickness) / 2;
+    const circumference = 2 * Math.PI * radius;
+    const center = ringSize / 2;
+    let accumulated = 0;
+
+    const arcs = normalizedSections.map((section, index) => {
+      const sectionColor = theme.fn.themeColor(section.color, 6);
+      const rotation = -90 + (accumulated / 100) * 360;
+      accumulated += section.percentage;
+      const dashOffset = section.animatedValue.interpolate({
+        inputRange: [0, 100],
+        outputRange: [circumference, 0],
+        extrapolate: 'clamp',
+      });
+      return (
+        <AnimatedCircle
+          key={`section-${index}`}
+          cx={center}
+          cy={center}
+          r={radius}
+          stroke={sectionColor}
+          strokeWidth={ringThickness}
+          strokeLinecap={roundCaps ? 'round' : 'butt'}
+          strokeDasharray={`${circumference} ${circumference}`}
+          strokeDashoffset={dashOffset}
+          fill="none"
+          transform={`rotate(${rotation} ${center} ${center})`}
+        />
+      );
+    });
+
+    return (
+      <Svg width={ringSize} height={ringSize} testID="ring-progress-svg">
+        <Circle cx={center} cy={center} r={radius} stroke={rootColor} strokeWidth={ringThickness} fill="none" />
+        {arcs}
+      </Svg>
+    );
+  };
+
+  // View renderer (no native dependencies): rotated border segments
   const renderSections = () => {
     let accumulatedAngle = 0;
 
@@ -237,10 +296,31 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
     });
   };
 
+  const accessibilityNow = Math.min(
+    100,
+    Math.max(
+      0,
+      sections.reduce((total, section) => total + (section.value || 0), 0)
+    )
+  );
+
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
-      <View style={styles.track} />
-      <View style={styles.progressContainer}>{renderSections()}</View>
+    <BoxView
+      ref={ref}
+      style={sx(styles.root, style)}
+      accessibilityRole="progressbar"
+      accessibilityValue={{ min: 0, max: 100, now: accessibilityNow }}
+      accessibilityLabel={typeof label === 'string' ? label : undefined}
+      {...others}
+    >
+      {svg ? (
+        renderSvgSections()
+      ) : (
+        <>
+          <View style={styles.track} />
+          <View style={styles.progressContainer}>{renderSections()}</View>
+        </>
+      )}
       {label && (
         typeof label === 'string' ? (
           <Text style={styles.label}>{label}</Text>
@@ -253,32 +333,3 @@ export const RingProgress = forwardRef<any, RingProgressProps>((props, ref) => {
 });
 
 RingProgress.displayName = 'RingProgress';
-
-/**
- * USAGE NOTE:
- * This is a simplified implementation of RingProgress.
- * For production-quality circular progress with accurate rendering,
- * install react-native-svg and implement using SVG circles with
- * stroke-dasharray and stroke-dashoffset.
- *
- * Example with react-native-svg:
- * ```tsx
- * import Svg, { Circle } from 'react-native-svg';
- *
- * const circumference = 2 * Math.PI * radius;
- * const strokeDashoffset = circumference - (percentage / 100) * circumference;
- *
- * <Svg width={size} height={size}>
- *   <Circle
- *     cx={size / 2}
- *     cy={size / 2}
- *     r={radius}
- *     stroke={color}
- *     strokeWidth={thickness}
- *     strokeDasharray={circumference}
- *     strokeDashoffset={strokeDashoffset}
- *     fill="none"
- *   />
- * </Svg>
- * ```
- */

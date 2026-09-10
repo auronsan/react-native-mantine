@@ -45,7 +45,7 @@ export interface AdapterDocumentPickerResult {
  * Optional native integrations. Every field is optional: when a field is
  * missing the library tries the matching optional dependency
  * (react-native-vector-icons, expo-linear-gradient, expo-clipboard,
- * expo-document-picker, expo-font) and otherwise falls back gracefully.
+ * expo-document-picker, expo-font, react-native-svg) and otherwise falls back gracefully.
  */
 export interface MantineAdapters {
   /** Icon component, e.g. FontAwesome from @expo/vector-icons */
@@ -64,6 +64,12 @@ export interface MantineAdapters {
 
   /** Font loader, mirrors expo-font loadAsync */
   loadFonts?: (fonts: Record<string, any>) => Promise<void>;
+
+  /**
+   * SVG primitives, e.g. `{ Svg, Circle }` from react-native-svg. Used by
+   * RingProgress for pixel-accurate arcs; without it a View-based ring is drawn.
+   */
+  svg?: { Svg: React.ComponentType<any>; Circle: React.ComponentType<any> };
 }
 
 export type AdapterName = keyof MantineAdapters;

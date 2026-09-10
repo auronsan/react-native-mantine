@@ -20,6 +20,7 @@ const MISSING_MESSAGES: { [K in AdapterName]: string } = {
     'No documentPicker adapter available. FileButton and FileInput will not be able to open the file picker. Install expo-document-picker, or pass a documentPicker function via <ThemeProvider adapters={{ documentPicker }}> or configureMantine({ documentPicker }).',
   loadFonts:
     'No loadFonts adapter available. Custom fonts will not be loaded. Install expo-font, or pass a loadFonts function via <ThemeProvider adapters={{ loadFonts }}> or configureMantine({ loadFonts }).',
+  svg: 'No svg adapter available. RingProgress will use its View-based renderer. Install react-native-svg, or pass { Svg, Circle } via <ThemeProvider adapters={{ svg }}> or configureMantine({ svg }).',
 };
 
 const warned = new Set<AdapterName>();

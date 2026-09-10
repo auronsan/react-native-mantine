@@ -54,6 +54,17 @@ const loaders: {
     }
   },
 
+  svg: () => {
+    try {
+      const mod = require('react-native-svg');
+      const Svg = mod?.Svg ?? mod?.default;
+      const Circle = mod?.Circle;
+      return Svg && Circle ? { Svg, Circle } : undefined;
+    } catch (error) {
+      return undefined;
+    }
+  },
+
   loadFonts: () => {
     try {
       const mod = require('expo-font');
