@@ -124,7 +124,10 @@ describe('createStyles type inference', () => {
         return {
           button: {
             backgroundColor: params.color,
-            padding: typeof size === 'number' ? size : theme.spacing[size] || theme.spacing.md,
+            padding:
+              typeof size === 'number'
+                ? size
+                : theme.spacing[size] || theme.spacing.md,
             borderRadius: theme.radius.md,
           },
           text: {

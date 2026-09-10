@@ -30,8 +30,16 @@ jobs:
       - name: Lint
         run: yarn lint
 
-      - name: Test
-        run: yarn test --ci
+      - name: Test (with coverage thresholds)
+        run: yarn test --ci --coverage
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/lcov-report
+          retention-days: 14
 
       - name: Build library
         run: yarn prepare

@@ -173,7 +173,20 @@ describe('Badge', () => {
 
   it('uppercases text by default', () => {
     render(<Badge>lowercase text</Badge>);
-    expect(screen.getByText('lowercase text')).toBeTruthy();
+    const label = screen.getByText('lowercase text');
+    expect(label).toHaveStyle({ textTransform: 'uppercase', fontWeight: '700' });
+    // Label styles are passed as `style`, not spread as Text props
+    expect(label.props.textTransform).toBeUndefined();
+    expect(label.props.fontWeight).toBeUndefined();
+  });
+
+  it('renders a square badge when radius is 0', () => {
+    render(
+      <Badge radius={0} testID="badge">
+        Square
+      </Badge>
+    );
+    expect(screen.getByTestId('badge')).toHaveStyle({ borderRadius: 0 });
   });
 
   it('renders with dot variant showing indicator', () => {
