@@ -1,5 +1,12 @@
 
 
+## [1.0.1](https://github.com/auronsan/react-native-mantine/compare/v1.0.0...v1.0.1) (2026-09-10)
+
+
+### Bug Fixes
+
+* **stepper:** lay out steps correctly in both orientations ([c925d22](https://github.com/auronsan/react-native-mantine/commit/c925d221c2eb7a189e74106cf6578c74290e8110))
+
 # [1.0.0](https://github.com/auronsan/react-native-mantine/compare/v0.21.0...v1.0.0) (2026-09-10)
 
 
