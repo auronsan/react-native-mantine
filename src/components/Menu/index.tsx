@@ -1,9 +1,11 @@
-import React, { forwardRef, useState, useRef } from 'react';
+import React, { forwardRef, useState, useRef, useCallback } from 'react';
 import {
   View,
   TouchableOpacity,
   Animated,
   Modal,
+  useWindowDimensions,
+  type LayoutChangeEvent,
 } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Divider } from '../Divider';
@@ -15,19 +17,30 @@ import type {
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { withTextWrapper, type WithTextWrapperProps } from '../../theme/utils/withTextWrapper';
+import {
+  computeFloatingPosition,
+  type FloatingPosition,
+  type FloatingRect,
+} from '../Popover/position';
+import { measureTarget, useEscapeKey } from '../Popover/use-floating';
+
+export type MenuPosition = FloatingPosition;
+export type MenuShadow = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 /**
  * Props for the Menu component
  *
  * @property {boolean} [opened] - Controlled opened state
  * @property {(opened: boolean) => void} [onChange] - Callback fired when menu state changes
- * @property {('bottom' | 'top' | 'left' | 'right' | 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end')} [position='bottom-start'] - Menu dropdown position relative to target
+ * @property {MenuPosition} [position='bottom-start'] - Menu dropdown position relative to target (`top | bottom | left | right` with optional `-start` / `-end`)
  * @property {number | 'target'} [width=200] - Menu width in pixels or 'target' to match target width
+ * @property {number} [offset=4] - Gap between target and dropdown in pixels
  * @property {boolean} [closeOnItemClick=true] - If true, menu closes when an item is clicked
  * @property {boolean} [closeOnClickOutside=true] - If true, menu closes when clicking outside
+ * @property {boolean} [closeOnEscape=true] - If true, menu closes on escape key (web only)
  * @property {('xs' | 'sm' | 'md' | 'lg' | 'xl')} [shadow='md'] - Menu shadow from theme
  * @property {MantineNumberSize} [radius='sm'] - Border radius from theme
- * @property {number} [zIndex=1000] - Z-index of the menu modal
+ * @property {number} [zIndex=1000] - Z-index of the menu dropdown
  * @property {React.ReactNode} children - Menu children (Menu.Target, Menu.Dropdown, etc.)
  * @property {string} [accessibilityLabel] - Accessibility label for the menu
  * @property {any} [style] - Additional styles
@@ -40,18 +53,13 @@ export interface MenuProps extends DefaultProps {
   onChange?: (opened: boolean) => void;
 
   /** Menu position */
-  position?:
-    | 'bottom'
-    | 'top'
-    | 'left'
-    | 'right'
-    | 'bottom-start'
-    | 'bottom-end'
-    | 'top-start'
-    | 'top-end';
+  position?: MenuPosition;
 
   /** Menu width */
   width?: number | 'target';
+
+  /** Gap between target and dropdown in px */
+  offset?: number;
 
   /** Close menu on item click */
   closeOnItemClick?: boolean;
@@ -59,8 +67,11 @@ export interface MenuProps extends DefaultProps {
   /** Close menu on click outside */
   closeOnClickOutside?: boolean;
 
+  /** Close menu on escape key (web only) */
+  closeOnEscape?: boolean;
+
   /** Menu shadow */
-  shadow?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  shadow?: MenuShadow;
 
   /** Border radius */
   radius?: MantineNumberSize;
@@ -152,16 +163,22 @@ export interface MenuDividerProps extends DefaultProps {
   style?: any;
 }
 
-// TODO: Implement Menu component styling
-/* Placeholder for future Menu dropdown implementation
-const useMenuStyles = createStyles(
-  (theme, { radius, shadow }: { radius: MantineNumberSize; shadow: string }) => ({
-    dropdown: {
-      // Menu dropdown styles will be implemented here
-    },
-  })
+const useDropdownStyles = createStyles(
+  (theme, { radius, shadow }: { radius: MantineNumberSize; shadow?: MenuShadow }) => {
+    const dark = theme.colorScheme === 'dark';
+    return {
+      dropdown: {
+        position: 'absolute',
+        backgroundColor: dark ? theme.fn.themeColor('dark', 6) : theme.white,
+        borderWidth: 1,
+        borderColor: dark ? theme.fn.themeColor('dark', 4) : theme.fn.themeColor('gray', 2),
+        borderRadius: theme.fn.radius(radius),
+        paddingVertical: 4,
+        ...(shadow ? theme.fn.shadow(shadow) : {}),
+      },
+    };
+  }
 );
-*/
 
 const useItemStyles = createStyles(
   (
@@ -221,11 +238,21 @@ interface MenuContextValue {
   opened: boolean;
   setOpened: (opened: boolean) => void;
   closeOnItemClick: boolean;
+  closeOnClickOutside: boolean;
+  closeOnEscape: boolean;
   targetRef: React.RefObject<View | null>;
-  dropdownPosition: { top: number; left: number; width: number };
-  setDropdownPosition: (pos: { top: number; left: number; width: number }) => void;
+  targetRect: FloatingRect | null;
+  setTargetRect: (rect: FloatingRect) => void;
   accessibilityLabel?: string;
+  position: MenuPosition;
+  width: number | 'target';
+  offset: number;
+  radius: MantineNumberSize;
+  shadow?: MenuShadow;
+  zIndex?: number;
 }
+
+const ZERO_RECT: FloatingRect = { x: 0, y: 0, width: 0, height: 0 };
 
 const MenuContext = React.createContext<MenuContextValue | null>(null);
 
@@ -240,8 +267,10 @@ const useMenuContext = () => {
 const defaultMenuProps: Partial<MenuProps> = {
   position: 'bottom-start',
   width: 200,
+  offset: 4,
   closeOnItemClick: true,
   closeOnClickOutside: true,
+  closeOnEscape: true,
   shadow: 'md',
   radius: 'sm',
   zIndex: 1000,
@@ -253,35 +282,52 @@ const defaultItemProps: Partial<MenuItemProps> = {
 };
 
 const MenuTarget: React.FC<MenuTargetProps> = ({ children }) => {
-  const { opened, setOpened, targetRef, setDropdownPosition } = useMenuContext();
+  const { opened, setOpened, targetRef, setTargetRect } = useMenuContext();
 
   const handlePress = () => {
-    if (targetRef.current) {
-      targetRef.current.measureInWindow((x, y, width, height) => {
-        setDropdownPosition({
-          top: y + height + 4,
-          left: x,
-          width,
-        });
-      });
-    }
+    measureTarget(targetRef, setTargetRect);
     setOpened(true);
   };
+
+  const childProps = (children as React.ReactElement<any>).props ?? {};
 
   return React.cloneElement(children as React.ReactElement<any>, {
     ref: targetRef,
     onPress: handlePress,
-    accessibilityRole: 'button',
-    accessibilityState: { expanded: opened },
+    accessibilityRole: childProps.accessibilityRole ?? 'button',
+    accessibilityState: { expanded: opened, ...childProps.accessibilityState },
   });
 };
 
 const MenuDropdown: React.FC<MenuDropdownProps> = ({ children, style, ...others }) => {
-  const { opened, setOpened, dropdownPosition, accessibilityLabel } = useMenuContext();
+  const {
+    opened,
+    setOpened,
+    targetRef,
+    targetRect,
+    setTargetRect,
+    accessibilityLabel,
+    closeOnClickOutside,
+    closeOnEscape,
+    position,
+    width,
+    offset,
+    radius,
+    shadow,
+    zIndex,
+  } = useMenuContext();
   const opacity = useRef(new Animated.Value(0)).current;
+  const [dropdownSize, setDropdownSize] = useState({ width: 0, height: 0 });
+  const windowSize = useWindowDimensions();
+  const { styles } = useDropdownStyles({ radius, shadow }, { name: 'Menu' });
+
+  const close = useCallback(() => setOpened(false), [setOpened]);
 
   React.useEffect(() => {
     if (opened) {
+      // Re-measure on every open so controlled menus (opened without a
+      // target press) are positioned from the current target rect.
+      measureTarget(targetRef, setTargetRect);
       Animated.timing(opacity, {
         toValue: 1,
         duration: 150,
@@ -290,21 +336,45 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ children, style, ...others 
     }
   }, [opened, opacity]);
 
+  useEscapeKey(opened && closeOnEscape, close);
+
+  const handleLayout = (event: LayoutChangeEvent) => {
+    const { width: w, height: h } = event.nativeEvent.layout;
+    setDropdownSize((prev) =>
+      prev.width === w && prev.height === h ? prev : { width: w, height: h }
+    );
+  };
+
   if (!opened) {
     return null;
   }
+
+  const resolvedWidth =
+    width === 'target' ? targetRect?.width || undefined : width;
+
+  const placement = computeFloatingPosition({
+    position,
+    target: targetRect ?? ZERO_RECT,
+    dropdown: {
+      width: dropdownSize.width || (typeof resolvedWidth === 'number' ? resolvedWidth : 0),
+      height: dropdownSize.height,
+    },
+    window: windowSize,
+    offset,
+  });
 
   return (
     <Modal
       visible={opened}
       transparent
       animationType="none"
-      onRequestClose={() => setOpened(false)}
+      onRequestClose={close}
       statusBarTranslucent
     >
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => setOpened(false)}
+        onPress={closeOnClickOutside ? close : undefined}
+        accessible={false}
         style={{
           flex: 1,
           backgroundColor: 'transparent',
@@ -312,17 +382,20 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ children, style, ...others 
       >
         <Animated.View
           style={[
+            styles.dropdown,
             {
-              position: 'absolute',
-              top: dropdownPosition.top,
-              left: dropdownPosition.left,
+              top: placement.top,
+              left: placement.left,
+              width: resolvedWidth,
               opacity,
+              zIndex,
             },
             style,
           ]}
           accessibilityLabel={accessibilityLabel}
           accessibilityRole="menu"
           {...others}
+          onLayout={handleLayout}
         >
           {children}
         </Animated.View>
@@ -364,10 +437,12 @@ const MenuItem = forwardRef<any, MenuItemProps>((props, ref) => {
       activeOpacity={0.7}
       style={sx(styles.item, isPressed && styles.itemHovered, style)}
       accessibilityRole="menuitem"
+      accessibilityState={{ disabled: !!disabled }}
+      accessibilityLabel={typeof children === 'string' ? children : undefined}
       {...others}
     >
       {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
-      {withTextWrapper(children, shouldWrapInText, styles.label)}
+      {withTextWrapper(children, shouldWrapInText, { style: styles.label })}
       {rightSection && <BoxView style={styles.rightSection}>{rightSection}</BoxView>}
     </TouchableOpacity>
   );
@@ -379,7 +454,7 @@ const MenuLabel = forwardRef<any, MenuLabelProps>((props, ref) => {
 
   return (
     <BoxView ref={ref} style={sx(styles.label, style)} {...others}>
-      {withTextWrapper(children, shouldWrapInText, styles.label)}
+      {withTextWrapper(children, shouldWrapInText, { style: styles.label })}
     </BoxView>
   );
 });
@@ -429,8 +504,10 @@ export const Menu = Object.assign(
       onChange,
       position,
       width,
+      offset,
       closeOnItemClick,
       closeOnClickOutside,
+      closeOnEscape,
       shadow,
       radius,
       zIndex,
@@ -441,11 +518,7 @@ export const Menu = Object.assign(
     } = useComponentDefaultProps('Menu', defaultMenuProps, props);
 
     const [opened, setOpened] = useState(false);
-    const [dropdownPosition, setDropdownPosition] = useState({
-      top: 0,
-      left: 0,
-      width: 0,
-    });
+    const [targetRect, setTargetRect] = useState<FloatingRect | null>(null);
     const targetRef = useRef<View>(null);
 
     const isControlled = controlledOpened !== undefined;
@@ -462,15 +535,23 @@ export const Menu = Object.assign(
       opened: isOpened,
       setOpened: handleSetOpened,
       closeOnItemClick: closeOnItemClick ?? true,
+      closeOnClickOutside: closeOnClickOutside ?? true,
+      closeOnEscape: closeOnEscape ?? true,
       targetRef,
-      dropdownPosition,
-      setDropdownPosition,
+      targetRect,
+      setTargetRect,
       accessibilityLabel,
+      position: position ?? 'bottom-start',
+      width: width ?? 200,
+      offset: offset ?? 4,
+      radius: radius ?? 'sm',
+      shadow,
+      zIndex,
     };
 
     return (
       <MenuContext.Provider value={contextValue}>
-        <BoxView ref={ref} {...others}>
+        <BoxView ref={ref} style={style} {...others}>
           {children}
         </BoxView>
       </MenuContext.Provider>

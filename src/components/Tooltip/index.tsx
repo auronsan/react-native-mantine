@@ -5,6 +5,8 @@ import {
   Animated,
   Platform,
   Modal,
+  useWindowDimensions,
+  type LayoutChangeEvent,
 } from 'react-native';
 import { Text } from '../Text';
 import type {
@@ -15,21 +17,22 @@ import type {
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
 import { rem } from '../../theme/utils/rem';
+import {
+  computeFloatingPosition,
+  DEFAULT_FLOATING_OFFSET,
+  type FloatingPosition,
+  type FloatingRect,
+} from '../Popover/position';
+import { measureTarget } from '../Popover/use-floating';
+
+export type TooltipPosition = FloatingPosition;
 
 export interface TooltipProps extends DefaultProps {
   /** Tooltip label */
   label: React.ReactNode;
 
-  /** Tooltip position relative to target */
-  position?:
-    | 'top'
-    | 'bottom'
-    | 'left'
-    | 'right'
-    | 'top-start'
-    | 'top-end'
-    | 'bottom-start'
-    | 'bottom-end';
+  /** Tooltip position relative to target (`top | bottom | left | right` with optional `-start` / `-end`) */
+  position?: TooltipPosition;
 
   /** Tooltip color from theme */
   color?: MantineColor;
@@ -61,8 +64,17 @@ export interface TooltipProps extends DefaultProps {
   /** Trigger mode - press or longPress */
   trigger?: 'press' | 'longPress';
 
-  /** Tooltip arrow size */
+  /** If true, tooltip will have an arrow pointing at the target */
   withArrow?: boolean;
+
+  /** Arrow size in px */
+  arrowSize?: number;
+
+  /** Arrow offset from the edge for `-start` / `-end` positions */
+  arrowOffset?: number;
+
+  /** Gap between target and tooltip in px */
+  offset?: number;
 
   /** Target element */
   children: React.ReactElement;
@@ -89,10 +101,11 @@ const useStyles = createStyles(
       width: number | 'auto';
     }
   ) => {
+    const backgroundColor = theme.fn.themeColor(color, 9);
     return {
       tooltip: {
         position: 'absolute',
-        backgroundColor: theme.fn.themeColor(color, 9),
+        backgroundColor,
         borderRadius: theme.fn.radius(radius),
         paddingVertical: rem(6) as any,
         paddingHorizontal: rem(10) as any,
@@ -111,6 +124,11 @@ const useStyles = createStyles(
             elevation: 5,
           },
         }),
+      },
+      arrow: {
+        position: 'absolute',
+        backgroundColor,
+        transform: [{ rotate: '45deg' }],
       },
       label: {
         color: theme.white,
@@ -136,7 +154,12 @@ const defaultProps: Partial<TooltipProps> = {
   disabled: false,
   trigger: 'longPress',
   withArrow: false,
+  arrowSize: 4,
+  arrowOffset: 5,
+  offset: DEFAULT_FLOATING_OFFSET,
 };
+
+const ZERO_RECT: FloatingRect = { x: 0, y: 0, width: 0, height: 0 };
 
 export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
   const {
@@ -153,6 +176,9 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
     disabled,
     trigger,
     withArrow,
+    arrowSize,
+    arrowOffset,
+    offset,
     children,
     accessibilityLabel,
     style,
@@ -160,9 +186,11 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
   } = useComponentDefaultProps('Tooltip', defaultProps, props);
 
   const [visible, setVisible] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const [targetRect, setTargetRect] = useState<FloatingRect | null>(null);
+  const [tooltipSize, setTooltipSize] = useState({ width: 0, height: 0 });
   const targetRef = useRef<View>(null);
   const opacity = useRef(new Animated.Value(0)).current;
+  const windowSize = useWindowDimensions();
 
   const { styles, sx } = useStyles(
     { color, radius, multiline, width },
@@ -172,16 +200,17 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
   const isControlled = controlledOpened !== undefined;
   const isVisible = isControlled ? controlledOpened : visible;
 
+  React.useEffect(() => {
+    if (isVisible) {
+      // Measure on open so controlled tooltips are positioned too.
+      measureTarget(targetRef, setTargetRect);
+    }
+  }, [isVisible]);
+
   const show = () => {
     if (disabled) return;
 
-    if (targetRef.current) {
-      targetRef.current.measureInWindow((x, y, width, _height) => {
-        const top = y - 40; // Simple positioning, can be improved
-        const left = x + width / 2 - 50;
-        setTooltipPosition({ top, left });
-      });
-    }
+    measureTarget(targetRef, setTargetRect);
 
     if (!isControlled) {
       setTimeout(() => {
@@ -207,16 +236,36 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
     }
   };
 
+  const handleLayout = (event: LayoutChangeEvent) => {
+    const { width: w, height: h } = event.nativeEvent.layout;
+    setTooltipSize((prev) =>
+      prev.width === w && prev.height === h ? prev : { width: w, height: h }
+    );
+  };
+
   const triggerProps =
     trigger === 'longPress'
       ? { onLongPress: show }
       : { onPress: show, onPressOut: hide };
 
   const tooltipLabel = typeof label === 'string' ? label : accessibilityLabel;
+  const childProps = (children as React.ReactElement<any>).props ?? {};
   const childWithRef = React.cloneElement(children as React.ReactElement<any>, {
     ref: targetRef,
     ...triggerProps,
-    accessibilityHint: tooltipLabel ? `Shows tooltip: ${tooltipLabel}` : undefined,
+    accessibilityHint:
+      childProps.accessibilityHint ??
+      (tooltipLabel ? `Shows tooltip: ${tooltipLabel}` : undefined),
+  });
+
+  const placement = computeFloatingPosition({
+    position: position ?? 'top',
+    target: targetRect ?? ZERO_RECT,
+    dropdown: tooltipSize,
+    window: windowSize,
+    offset,
+    arrowSize: withArrow ? arrowSize : 0,
+    arrowOffset,
   });
 
   return (
@@ -241,8 +290,8 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
                 style={[
                   sx(styles.tooltip, style),
                   {
-                    top: tooltipPosition.top,
-                    left: tooltipPosition.left,
+                    top: placement.top,
+                    left: placement.left,
                     opacity,
                     zIndex,
                   },
@@ -250,11 +299,23 @@ export const Tooltip = forwardRef<any, TooltipProps>((props, _ref) => {
                 accessibilityLabel={accessibilityLabel || (typeof label === 'string' ? label : undefined)}
                 accessibilityRole="text"
                 {...others}
+                onLayout={handleLayout}
               >
                 {typeof label === 'string' ? (
                   <Text style={styles.label}>{label}</Text>
                 ) : (
                   label
+                )}
+                {withArrow && placement.arrow && (
+                  <View
+                    testID="tooltip-arrow"
+                    pointerEvents="none"
+                    style={[
+                      styles.arrow,
+                      { width: arrowSize, height: arrowSize },
+                      placement.arrow,
+                    ]}
+                  />
                 )}
               </Animated.View>
             </View>
