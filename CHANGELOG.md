@@ -1,3 +1,20 @@
+
+
+# [0.21.0](https://github.com/auronsan/react-native-mantine/compare/v0.20.0...v0.21.0) (2026-09-10)
+
+
+### Bug Fixes
+
+* **deps:** bump lodash resolution to 4.18.1 ([d4a69ca](https://github.com/auronsan/react-native-mantine/commit/d4a69ca213beef8e50b6755a57ed9678400c699f))
+* **deps:** bump tmp, brace-expansion 1.x and minimatch 3.x to latest patches ([b0a12fc](https://github.com/auronsan/react-native-mantine/commit/b0a12fc69c138b158b876fcf5e5a61a490092c1d))
+* **deps:** pin vulnerable transitive dependencies via resolutions ([a58b1bf](https://github.com/auronsan/react-native-mantine/commit/a58b1bfbf6645ae59bf83e7763578fa3ed2843da))
+
+
+### Features
+
+* pluggable adapters for icons, gradients, clipboard, document picker and fonts ([a92b359](https://github.com/auronsan/react-native-mantine/commit/a92b3596c10ca85c7e01b3869251fcfec57af174))
+* **theme:** match mantine.dev typography ([6845a67](https://github.com/auronsan/react-native-mantine/commit/6845a6748b4c599b7d9c5cca0d5743f3a76f659a))
+
 # Changelog
 
 All notable changes to this project are documented here. The file is generated from conventional commits by release-it.
