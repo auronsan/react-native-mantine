@@ -5,6 +5,7 @@ import type { RootStackParamList } from './navigation/types';
 import { HomeScreen } from './screens/HomeScreen';
 import { CategoryScreen } from './screens/CategoryScreen';
 import { componentCategories } from './navigation/componentData';
+import { linking } from './navigation/linking';
 
 // Import all example screens
 import * as Examples from './examples';
@@ -31,7 +32,7 @@ const themeOverride = {
 export default function App() {
   return (
     <Theme theme={themeOverride} forceMode="light">
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{

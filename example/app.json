@@ -25,10 +25,12 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro",
-      "baseUrl": "/react-native-mantine"
+      "baseUrl": "/react-native-mantine",
+      "name": "React Native Mantine"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "description": "Mantine for React Native: themeable, accessible components for iOS, Android and Web"
   }
 }

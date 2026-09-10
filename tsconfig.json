@@ -4,6 +4,7 @@
     "paths": {
       "react-native-mantine": ["./src/index"]
     },
+    "allowImportingTsExtensions": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,

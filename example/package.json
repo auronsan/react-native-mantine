@@ -7,8 +7,9 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "web:build": "expo export --platform web --output-dir dist && node scripts/fix-gh-pages-paths.js",
-    "web:serve": "npx serve dist"
+    "web:build": "expo export --platform web --output-dir dist && node scripts/fix-gh-pages-paths.js && node --no-warnings --experimental-strip-types scripts/generate-seo.ts",
+    "web:serve": "npx serve dist",
+    "seo:generate": "node --no-warnings --experimental-strip-types scripts/generate-seo.ts"
   },
   "dependencies": {
     "@expo-google-fonts/nunito-sans": "^0.4.2",
