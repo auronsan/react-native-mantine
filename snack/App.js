@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ScrollView, useColorScheme } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, useColorScheme } from 'react-native';
 import {
   Theme,
   Title,
@@ -25,7 +25,8 @@ export default function App() {
 
   return (
     <Theme forceMode={dark ? 'dark' : 'light'}>
-      <ScrollView contentContainerStyle={{ padding: 24, paddingTop: 64, gap: 24 }}>
+      <SafeAreaView style={{ flex: 1, paddingTop: StatusBar.currentHeight ?? 0 }}>
+      <ScrollView contentContainerStyle={{ padding: 24, gap: 24 }}>
         <Group position="apart" align="center">
           <Title order={2}>React Native Mantine</Title>
           <Switch checked={dark} onChange={setDark} label="Dark" />
@@ -96,6 +97,7 @@ export default function App() {
           </Stack>
         </Card>
       </ScrollView>
+      </SafeAreaView>
     </Theme>
   );
 }

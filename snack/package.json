@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "App.js",
   "dependencies": {
+    "@expo/vector-icons": "^15.0.3",
     "expo": "~54.0.0",
     "expo-clipboard": "~8.0.8",
     "expo-document-picker": "~14.0.8",

@@ -2,143 +2,114 @@ import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
 import { PropsTable } from '../../components/PropsTable';
 import { stepperProps } from '../../data/props/StepperProps';
-import { Text, Paper, Stack, Button, Group, Progress } from 'react-native-mantine';
+import { Stepper, Text, Button, Group, Stack } from 'react-native-mantine';
+
+const StepContent = ({ children }: { children: string }) => (
+  <Text size="sm" color="dimmed">
+    {children}
+  </Text>
+);
 
 export const StepperExample = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const totalSteps = 3;
-
-  const nextStep = () => {
-    if (activeStep < totalSteps) {
-      setActiveStep(activeStep + 1);
-    }
-  };
-
-  const prevStep = () => {
-    if (activeStep > 0) {
-      setActiveStep(activeStep - 1);
-    }
-  };
-
-  const reset = () => setActiveStep(0);
+  const [active, setActive] = useState(1);
+  const [vertical, setVertical] = useState(0);
+  const [clickable, setClickable] = useState(0);
 
   return (
-    <ExampleWrapper
-      title="Stepper"
-      description="Multi-step form navigation"
-    >
+    <ExampleWrapper title="Stepper" description="Multi-step form navigation">
       <ExampleSection
-        title="Basic Stepper"
-        description="Navigate through multiple steps"
+        title="Horizontal"
+        description="Steps with labels and descriptions, content for the active step, and a completed state"
         variant="showcase"
       >
-        <Paper p="md" radius="md" withBorder>
-          <Stack spacing={16}>
-            <Progress
-              value={(activeStep / totalSteps) * 100}
-              size="sm"
-              radius="xl"
-            />
-
-            <Text weight="600" size="lg">
-              Step {activeStep + 1} of {totalSteps + 1}
-            </Text>
-
-            {activeStep === 0 && (
-              <Stack spacing={8}>
-                <Text weight="600">Step 1: Account Information</Text>
-                <Text size="sm">
-                  Enter your basic account details including email and password.
-                </Text>
-              </Stack>
-            )}
-
-            {activeStep === 1 && (
-              <Stack spacing={8}>
-                <Text weight="600">Step 2: Personal Details</Text>
-                <Text size="sm">
-                  Provide your name, phone number, and address information.
-                </Text>
-              </Stack>
-            )}
-
-            {activeStep === 2 && (
-              <Stack spacing={8}>
-                <Text weight="600">Step 3: Preferences</Text>
-                <Text size="sm">
-                  Choose your notification preferences and theme settings.
-                </Text>
-              </Stack>
-            )}
-
-            {activeStep === 3 && (
-              <Stack spacing={8}>
-                <Text weight="600" color="green">
-                  Complete!
-                </Text>
-                <Text size="sm">
-                  You've successfully completed all steps. Your account is ready!
-                </Text>
-              </Stack>
-            )}
-
-            <Group spacing={8}>
-              {activeStep > 0 && (
-                <Button
-                  variant="outline"
-                  onPress={prevStep}
-                >
-                  Back
-                </Button>
-              )}
-
-              {activeStep < totalSteps ? (
-                <Button onPress={nextStep}>
-                  Next Step
-                </Button>
-              ) : (
-                <Button onPress={reset} color="green">
-                  Start Over
-                </Button>
-              )}
-            </Group>
-          </Stack>
-        </Paper>
+        <Stack spacing={16}>
+          <Stepper active={active} onStepClick={setActive}>
+            <Stepper.Step label="Account" description="Create an account">
+              <StepContent>Step 1: enter your email and password</StepContent>
+            </Stepper.Step>
+            <Stepper.Step label="Verify" description="Confirm email">
+              <StepContent>Step 2: check your inbox for the code</StepContent>
+            </Stepper.Step>
+            <Stepper.Step label="Done" description="Get full access">
+              <StepContent>Step 3: you are ready to go</StepContent>
+            </Stepper.Step>
+            <Stepper.Completed>
+              <StepContent>All steps completed</StepContent>
+            </Stepper.Completed>
+          </Stepper>
+          <Group position="right" spacing={8}>
+            <Button variant="default" onPress={() => setActive((s) => Math.max(0, s - 1))}>
+              Back
+            </Button>
+            <Button onPress={() => setActive((s) => Math.min(3, s + 1))}>Next</Button>
+          </Group>
+        </Stack>
       </ExampleSection>
 
-      <ExampleSection
-        title="Usage Example"
-        description="Simple stepper implementation"
-      >
+      <ExampleSection title="Usage" description="Minimal copy-pasteable example">
         <CodeBlock
           code={`import { useState } from 'react';
-import { Button, Text, Progress } from 'react-native-mantine';
+import { Stepper, Button, Group } from 'react-native-mantine';
 
-const MyStepper = () => {
-  const [step, setStep] = useState(0);
-  const totalSteps = 3;
+function Onboarding() {
+  const [active, setActive] = useState(0);
 
   return (
     <>
-      <Progress value={(step / totalSteps) * 100} />
-      <Text>Step {step + 1} of {totalSteps + 1}</Text>
-
-      <Button onPress={() => setStep(step - 1)}>
-        Back
-      </Button>
-      <Button onPress={() => setStep(step + 1)}>
-        Next
-      </Button>
+      <Stepper active={active} onStepClick={setActive}>
+        <Stepper.Step label="Account" description="Create an account">
+          Step 1 content
+        </Stepper.Step>
+        <Stepper.Step label="Verify" description="Confirm email">
+          Step 2 content
+        </Stepper.Step>
+        <Stepper.Completed>All done</Stepper.Completed>
+      </Stepper>
+      <Group position="right">
+        <Button variant="default" onPress={() => setActive((s) => s - 1)}>Back</Button>
+        <Button onPress={() => setActive((s) => s + 1)}>Next</Button>
+      </Group>
     </>
   );
-};`}
+}`}
         />
       </ExampleSection>
 
+      <ExampleSection title="Vertical" description="orientation=&quot;vertical&quot; stacks the steps">
+        <Stepper active={vertical} onStepClick={setVertical} orientation="vertical">
+          <Stepper.Step label="Order placed" description="We received your order" />
+          <Stepper.Step label="Packed" description="Your items are on the way" />
+          <Stepper.Step label="Delivered" description="Enjoy" />
+        </Stepper>
+      </ExampleSection>
+
+      <ExampleSection title="Sizes and colors" description="size, color and iconSize props">
+        <Stack spacing={16}>
+          <Stepper active={1} size="xs" color="teal">
+            <Stepper.Step label="First" />
+            <Stepper.Step label="Second" />
+            <Stepper.Step label="Third" />
+          </Stepper>
+          <Stepper active={1} size="lg" color="grape">
+            <Stepper.Step label="First" />
+            <Stepper.Step label="Second" />
+            <Stepper.Step label="Third" />
+          </Stepper>
+        </Stack>
+      </ExampleSection>
+
       <ExampleSection
-        title="Component Props"
-        description="Complete reference of all available Stepper props"
+        title="Restricted navigation"
+        description="allowNextStepsSelect={false} only lets users go back to completed steps"
       >
+        <Stepper active={clickable} onStepClick={setClickable} allowNextStepsSelect={false}>
+          <Stepper.Step label="Cart" />
+          <Stepper.Step label="Shipping" />
+          <Stepper.Step label="Payment" />
+        </Stepper>
+      </ExampleSection>
+
+      <ExampleSection title="Component Props" description="All available props">
         <PropsTable props={stepperProps} />
       </ExampleSection>
     </ExampleWrapper>
