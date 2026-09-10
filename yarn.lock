@@ -12598,8 +12598,9 @@ __metadata:
     expo-document-picker: "*"
     expo-font: ~14.0.10
     expo-linear-gradient: ~15.0.8
-    react: "*"
-    react-native: "*"
+    react: ">=18.2.0"
+    react-native: ">=0.72.0"
+    react-native-svg: ">=13.0.0"
     react-native-vector-icons: ^10.0.0
   peerDependenciesMeta:
     expo-clipboard:
@@ -12609,6 +12610,8 @@ __metadata:
     expo-font:
       optional: true
     expo-linear-gradient:
+      optional: true
+    react-native-svg:
       optional: true
     react-native-vector-icons:
       optional: true
