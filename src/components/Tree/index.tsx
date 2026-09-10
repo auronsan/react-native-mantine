@@ -174,7 +174,16 @@ export const Tree = forwardRef<View, TreeProps>((props, ref) => {
         style={[styles.node, selected && styles.nodeSelected]}
         onPress={handlePress}
         accessibilityRole="button"
-        accessibilityState={{ expanded: hasChildren ? expanded : undefined }}
+        accessibilityState={{
+          expanded: hasChildren ? expanded : undefined,
+          selected,
+          checked: indeterminate ? 'mixed' : checked,
+        }}
+        accessibilityLabel={
+          typeof node.label === 'string' || typeof node.label === 'number'
+            ? String(node.label)
+            : undefined
+        }
         {...node.nodeProps}
       >
         <Text style={styles.chevron}>

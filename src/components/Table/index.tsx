@@ -244,6 +244,16 @@ const useTableContext = () => {
   return context;
 };
 
+// Row position inside TBody, consumed by Td so the first body row can drop
+// its top border without leaking data-* props onto host views.
+interface TableRowContextValue {
+  isFirstBodyRow: boolean;
+}
+
+const TableRowContext = React.createContext<TableRowContextValue>({
+  isFirstBodyRow: false,
+});
+
 // Table Caption Component
 const TableCaption = forwardRef<View, TableCaptionProps>((props, ref) => {
   const { children, style, ...others } = props;
@@ -292,11 +302,18 @@ const TBody = forwardRef<View, TableSectionProps>((props, ref) => {
       striped && isOddRow && styles.stripedRow,
     ].filter(Boolean);
 
-    return React.cloneElement(child as React.ReactElement<any>, {
-      'style': rowStyle.length > 0 ? rowStyle : childProps.style,
-      'data-index': index,
-      'data-first': index === 0,
+    const row = React.cloneElement(child as React.ReactElement<any>, {
+      style: rowStyle.length > 0 ? rowStyle : childProps.style,
     });
+
+    return (
+      <TableRowContext.Provider
+        key={child.key ?? index}
+        value={{ isFirstBodyRow: index === 0 }}
+      >
+        {row}
+      </TableRowContext.Provider>
+    );
   });
 
   return (
@@ -362,11 +379,11 @@ Th.displayName = 'Table.Th';
 const Td = forwardRef<View, TableCellProps>((props, ref) => {
   const { children, style, colSpan, ...others } = props;
   const { styles, sx } = useTableContext();
-  const isFirstRow = (others as any)['data-first'];
+  const { isFirstBodyRow } = React.useContext(TableRowContext);
 
   const cellStyle = [
     styles.td,
-    isFirstRow && styles.firstBodyRow,
+    isFirstBodyRow && styles.firstBodyRow,
     colSpan && { flex: colSpan },
     style,
   ].filter(Boolean);

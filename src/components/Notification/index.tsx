@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { BoxView } from '../BoxView';
 import { Text } from '../Text';
+import { Loader } from '../Loader';
 import type { DefaultProps, MantineColor, MantineNumberSize } from '../../theme/types';
 import { useComponentDefaultProps } from '../../theme/theme-provider';
 import { createStyles } from '../../theme';
@@ -135,6 +136,7 @@ export const Notification = forwardRef<any, NotificationProps>((props, ref) => {
   const {
     title,
     message,
+    children,
     color,
     radius,
     icon,
@@ -152,17 +154,39 @@ export const Notification = forwardRef<any, NotificationProps>((props, ref) => {
     { name: 'Notification' }
   ) as any;
 
+  // `children` is an alternative to `message`; `message` wins when both are set
+  const body = message ?? children;
+
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
-      {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
+    <BoxView
+      ref={ref}
+      style={sx(styles.root, style)}
+      accessibilityRole="alert"
+      accessibilityLabel={typeof title === 'string' ? title : undefined}
+      accessibilityState={{ busy: !!loading }}
+      {...others}
+    >
+      {loading ? (
+        <BoxView style={styles.loader}>
+          <Loader size="sm" color={color} />
+        </BoxView>
+      ) : (
+        icon && <BoxView style={styles.icon}>{icon}</BoxView>
+      )}
 
       <BoxView style={styles.body}>
-        {title && withTextWrapper(title, shouldWrapInText, styles.title)}
-        {message && withTextWrapper(message, shouldWrapInText, styles.message)}
+        {title && withTextWrapper(title, shouldWrapInText, { style: styles.title })}
+        {body && withTextWrapper(body, shouldWrapInText, { style: styles.message })}
       </BoxView>
 
       {withCloseButton && onClose && (
-        <TouchableOpacity style={styles.closeButton} onPress={onClose} activeOpacity={0.7}>
+        <TouchableOpacity
+          style={styles.closeButton}
+          onPress={onClose}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="Close notification"
+        >
           <Text style={styles.closeButtonText}>×</Text>
         </TouchableOpacity>
       )}

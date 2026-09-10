@@ -223,8 +223,17 @@ const _Indicator = forwardRef<any, IndicatorProps>((props, ref) => {
     { name: 'Indicator' }
   ) as any;
 
+  const indicatorAccessibilityProps = {
+    accessibilityLabel: typeof label === 'string' ? label : undefined,
+    accessibilityState: processing ? { busy: true } : undefined,
+  };
+
   const indicator = (
-    <BoxView style={styles.indicator}>
+    <BoxView
+      style={styles.indicator}
+      {...indicatorAccessibilityProps}
+      {...(inline ? { ref, ...others } : {})}
+    >
       {label && typeof label === 'string' ? (
         <Text style={styles.label}>{label}</Text>
       ) : (

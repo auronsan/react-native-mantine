@@ -126,6 +126,7 @@ export const CloseButton = forwardRef<any, CloseButtonProps>((props, ref) => {
       accessible={true}
       accessibilityLabel={accessibilityLabel}
       accessibilityRole="button"
+      accessibilityState={{ disabled: !!disabled }}
       style={sx(styles.root, style)}
       {...others}
     >

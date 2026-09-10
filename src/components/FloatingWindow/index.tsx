@@ -177,11 +177,18 @@ export const FloatingWindow = forwardRef<View, FloatingWindowProps>(
           { left: position.x, top: position.y, width, zIndex },
           style
         )}
+        accessibilityLabel={
+          typeof title === 'string' || typeof title === 'number'
+            ? String(title)
+            : undefined
+        }
         {...others}
       >
         <View
           style={styles.header}
+          accessibilityRole="adjustable"
           accessibilityLabel="Move window"
+          accessibilityHint="Drag to reposition the window"
           {...panResponder.panHandlers}
         >
           <View style={styles.titleWrapper}>

@@ -139,6 +139,7 @@ export const Anchor = forwardRef<RNText, AnchorProps>((props, ref) => {
       ref={ref}
       style={sx(styles.root, style)}
       onPress={handlePress}
+      accessibilityRole="link"
       {...others}
     >
       {children}

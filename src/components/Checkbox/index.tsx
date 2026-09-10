@@ -162,7 +162,8 @@ export const Checkbox = forwardRef<any, CheckboxProps>((props, ref) => {
       disabled={disabled}
       style={sx(styles.root, wrapperStyle)}
       accessibilityRole="checkbox"
-      accessibilityState={{ checked: checked || indeterminate }}
+      accessibilityState={{ checked: indeterminate ? 'mixed' : !!checked, disabled: !!disabled }}
+      accessibilityLabel={typeof label === 'string' ? label : undefined}
       {...otherProps}
     >
       {checkboxContent}

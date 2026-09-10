@@ -156,6 +156,12 @@ export const Pill = forwardRef<View, PillProps>((props, ref) => {
           disabled={disabled}
           accessibilityRole="button"
           accessibilityLabel="Remove"
+          accessibilityHint={
+            typeof children === 'string' || typeof children === 'number'
+              ? `Removes ${children}`
+              : undefined
+          }
+          accessibilityState={{ disabled: !!disabled }}
           hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
           {...removeButtonProps}
         >

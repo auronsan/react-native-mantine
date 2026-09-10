@@ -134,7 +134,8 @@ export const Rating = forwardRef<any, RatingProps>((props, ref) => {
   ) as any;
 
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue ?? 0);
-  const [hoveredValue, setHoveredValue] = useState(-1);
+  // Number of symbols highlighted while pressing (1-based count), 0 when idle
+  const [hoveredValue, setHoveredValue] = useState(0);
 
   const value = controlledValue !== undefined ? controlledValue : uncontrolledValue;
 
@@ -149,7 +150,7 @@ export const Rating = forwardRef<any, RatingProps>((props, ref) => {
   };
 
   const renderSymbol = (index: number) => {
-    const currentValue = hoveredValue >= 0 && !highlightSelectedOnly ? hoveredValue : value;
+    const currentValue = hoveredValue > 0 && !highlightSelectedOnly ? hoveredValue : value;
     const isActive = index < currentValue;
 
     // For fractional ratings, calculate fill percentage
@@ -160,7 +161,7 @@ export const Rating = forwardRef<any, RatingProps>((props, ref) => {
         ? currentValue % 1
         : 0;
 
-    const isHovered = hoveredValue >= 0 && index <= hoveredValue;
+    const isHovered = hoveredValue > 0 && index < hoveredValue;
 
     const symbolContent = symbol || <StarSymbol filled={isActive} />;
     const emptySymbolContent = emptySymbol || <StarSymbol filled={false} />;
@@ -169,13 +170,14 @@ export const Rating = forwardRef<any, RatingProps>((props, ref) => {
       <TouchableOpacity
         key={index}
         onPress={() => handleClick(index)}
-        onPressIn={() => !readOnly && setHoveredValue(index)}
-        onPressOut={() => !readOnly && setHoveredValue(-1)}
+        onPressIn={() => !readOnly && setHoveredValue(index + 1)}
+        onPressOut={() => !readOnly && setHoveredValue(0)}
         disabled={readOnly}
         style={styles.symbolWrapper}
         activeOpacity={0.7}
         accessibilityRole="button"
         accessibilityLabel={`${index + 1} of ${count} stars`}
+        accessibilityState={{ selected: index < value, disabled: !!readOnly }}
       >
         <BoxView>
           {fillPercentage > 0 ? (

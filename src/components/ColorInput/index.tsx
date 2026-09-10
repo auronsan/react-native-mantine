@@ -200,8 +200,13 @@ export const ColorInput = forwardRef<RNTextInput, ColorInputProps>(
             activeOpacity={1}
             style={styles.modalOverlay}
             onPress={() => setOpened(false)}
+            accessible={false}
           >
-            <TouchableOpacity activeOpacity={1} style={styles.modalContent as any}>
+            <TouchableOpacity
+              activeOpacity={1}
+              style={styles.modalContent as any}
+              accessible={false}
+            >
               <BoxView>
                 <ColorPicker
                   value={parsed ? currentValue : lastValid || '#ffffff'}

@@ -243,7 +243,7 @@ const _Badge = forwardRef<any, BadgeProps>((props, ref) => {
       <BoxView style={styles.inner}>
         {variant === 'dot' && <BoxView style={styles.dot} />}
         {leftSection && <BoxView style={styles.leftSection}>{leftSection}</BoxView>}
-        {withTextWrapper(children, shouldWrapInText, { ...styles.label, color: textColor })}
+        {withTextWrapper(children, shouldWrapInText, { style: { ...styles.label, color: textColor } })}
         {rightSection && <BoxView style={styles.rightSection}>{rightSection}</BoxView>}
       </BoxView>
     </BoxView>

@@ -6,7 +6,21 @@ import { useTheme } from '../../theme/theme-provider';
 
 export interface SpaceProps
   extends DefaultProps,
-    Omit<ViewProps, 'style' | 'testID'> {
+    Omit<
+      ViewProps,
+      // `ViewProps` here is `View['props']`, i.e. a Readonly<> view of React
+      // Native's props. The accessibility props are already declared (mutable,
+      // with identical value types) on DefaultProps, so they are omitted from
+      // the React Native side to avoid a "not identical" inheritance conflict.
+      | 'style'
+      | 'testID'
+      | 'accessible'
+      | 'accessibilityLabel'
+      | 'accessibilityHint'
+      | 'accessibilityRole'
+      | 'accessibilityState'
+      | 'accessibilityValue'
+    > {
   /** Width, key of theme.spacing or number value */
   w?: MantineNumberSize | number;
 

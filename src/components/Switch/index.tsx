@@ -140,6 +140,7 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
     accessibilityLabel,
     style,
     wrapperStyle,
+    ...others
   } = useComponentDefaultProps('Switch', defaultProps, props);
 
   const theme = useTheme();
@@ -182,8 +183,9 @@ export const Switch = forwardRef<any, SwitchProps>((props, ref) => {
       disabled={disabled}
       style={sx(styles.switch, style)}
       accessibilityRole="switch"
-      accessibilityState={{ checked: checked || false }}
+      accessibilityState={{ checked: checked || false, disabled: !!disabled }}
       accessibilityLabel={defaultAccessibilityLabel}
+      {...others}
     />
   );
 

@@ -167,8 +167,20 @@ export const Progress = forwardRef<any, ProgressProps>((props, ref) => {
     });
   };
 
+  const currentValue =
+    sections && sections.length > 0
+      ? sections.reduce((total, section) => total + (section.value || 0), 0)
+      : value || 0;
+  const accessibilityNow = Math.min(100, Math.max(0, currentValue));
+
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+    <BoxView
+      ref={ref}
+      style={sx(styles.root, style)}
+      accessibilityRole="progressbar"
+      accessibilityValue={{ min: 0, max: 100, now: accessibilityNow }}
+      {...others}
+    >
       {sections && sections.length > 0 ? (
         <BoxView style={{ flexDirection: 'row', height: '100%' }}>{renderSections()}</BoxView>
       ) : (

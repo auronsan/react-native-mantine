@@ -60,9 +60,7 @@ export const Breadcrumbs = forwardRef<any, BreadcrumbsProps>((props, ref) => {
         <React.Fragment key={index}>
           {item}
           {index !== items.length - 1 && (
-            <Text style={styles.separator}>
-              {typeof separator === 'string' ? separator : separator}
-            </Text>
+            <Text style={styles.separator}>{separator}</Text>
           )}
         </React.Fragment>
       ))}

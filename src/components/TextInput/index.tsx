@@ -307,6 +307,7 @@ export const TextInput = forwardRef<RNTextInput, TextInputProps>(
             style={sx(styles.input, style)}
             accessibilityLabel={accessibilityLabel || (typeof label === 'string' ? label : undefined)}
             accessibilityHint={accessibilityHint}
+            accessibilityState={others.editable === false ? { disabled: true } : undefined}
             {...others}
           />
 

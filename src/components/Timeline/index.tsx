@@ -236,7 +236,12 @@ const TimelineRoot = forwardRef<any, TimelineProps>((props, ref) => {
         reverseActive: reverseActive ?? defaultProps.reverseActive ?? false,
       }}
     >
-      <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+      <BoxView
+        ref={ref}
+        style={sx(styles.root, style)}
+        accessibilityRole="list"
+        {...others}
+      >
         {childrenArray.map((child, index) => {
           if (!React.isValidElement(child)) return child;
 

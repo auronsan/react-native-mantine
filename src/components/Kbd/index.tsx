@@ -77,7 +77,7 @@ const _Kbd = forwardRef<any, KbdProps>((props, ref) => {
 
   return (
     <BoxView ref={ref} style={sx(styles.root, style)} {...otherProps}>
-      {withTextWrapper(children, shouldWrapInText, styles.label)}
+      {withTextWrapper(children, shouldWrapInText, { style: styles.label })}
     </BoxView>
   );
 });

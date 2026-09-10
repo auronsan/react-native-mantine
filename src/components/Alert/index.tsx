@@ -131,7 +131,7 @@ export const Alert = forwardRef<any, AlertProps>((props, ref) => {
       ref={ref}
       style={sx(styles.root, style)}
       accessibilityRole="alert"
-      accessibilityLabel={accessibilityLabel}
+      accessibilityLabel={accessibilityLabel ?? (typeof title === 'string' ? title : undefined)}
       {...others}
     >
       <BoxView style={styles.wrapper}>

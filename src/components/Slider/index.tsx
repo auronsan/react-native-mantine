@@ -326,15 +326,43 @@ export const Slider = forwardRef<View, SliderProps>((props, ref) => {
     [controlledValue, onChange]
   );
 
+  // The PanResponder is created once, so its handlers read the latest props,
+  // callbacks and value through this ref instead of the mount-time closure.
+  const latestRef = useRef({
+    clampedValue,
+    disabled,
+    label,
+    showLabelOnHover,
+    onChangeEnd,
+    updateValue,
+    getValueFromPosition,
+  });
+  latestRef.current = {
+    clampedValue,
+    disabled,
+    label,
+    showLabelOnHover,
+    onChangeEnd,
+    updateValue,
+    getValueFromPosition,
+  };
+
+  // Value reported by onChangeEnd. Tracks the last value produced by the
+  // gesture itself so the release handler does not depend on a re-render
+  // having happened between the last move and the release.
+  const gestureValueRef = useRef<number | null>(null);
+
   const panResponder = useRef(
     PanResponder.create({
-      onStartShouldSetPanResponder: () => !disabled,
-      onMoveShouldSetPanResponder: () => !disabled,
+      onStartShouldSetPanResponder: () => !latestRef.current.disabled,
+      onMoveShouldSetPanResponder: () => !latestRef.current.disabled,
       onPanResponderGrant: (evt) => {
-        if (disabled) return;
+        const latest = latestRef.current;
+        if (latest.disabled) return;
 
+        gestureValueRef.current = null;
         setIsDragging(true);
-        if (showLabelOnHover && label !== null) {
+        if (latest.showLabelOnHover && latest.label !== null) {
           setShowLabel(true);
         }
 
@@ -347,21 +375,24 @@ export const Slider = forwardRef<View, SliderProps>((props, ref) => {
 
         trackRef.current?.measure((_x, _y, width, _height, pageX, _pageY) => {
           const touchX = evt.nativeEvent.pageX - pageX;
-          const newValue = getValueFromPosition(touchX, width);
-          updateValue(newValue);
+          const newValue = latestRef.current.getValueFromPosition(touchX, width);
+          gestureValueRef.current = newValue;
+          latestRef.current.updateValue(newValue);
         });
       },
       onPanResponderMove: (evt) => {
-        if (disabled) return;
+        if (latestRef.current.disabled) return;
 
         trackRef.current?.measure((_x, _y, width, _height, pageX, _pageY) => {
           const touchX = evt.nativeEvent.pageX - pageX;
-          const newValue = getValueFromPosition(touchX, width);
-          updateValue(newValue);
+          const newValue = latestRef.current.getValueFromPosition(touchX, width);
+          gestureValueRef.current = newValue;
+          latestRef.current.updateValue(newValue);
         });
       },
       onPanResponderRelease: () => {
-        if (disabled) return;
+        const latest = latestRef.current;
+        if (latest.disabled) return;
 
         setIsDragging(false);
         setShowLabel(false);
@@ -373,10 +404,11 @@ export const Slider = forwardRef<View, SliderProps>((props, ref) => {
           bounciness: 8,
         }).start();
 
-        onChangeEnd?.(clampedValue);
+        latest.onChangeEnd?.(gestureValueRef.current ?? latest.clampedValue);
       },
       onPanResponderTerminate: () => {
-        if (disabled) return;
+        const latest = latestRef.current;
+        if (latest.disabled) return;
 
         setIsDragging(false);
         setShowLabel(false);
@@ -388,7 +420,7 @@ export const Slider = forwardRef<View, SliderProps>((props, ref) => {
           bounciness: 8,
         }).start();
 
-        onChangeEnd?.(clampedValue);
+        latest.onChangeEnd?.(gestureValueRef.current ?? latest.clampedValue);
       },
     })
   ).current;
@@ -469,6 +501,7 @@ export const Slider = forwardRef<View, SliderProps>((props, ref) => {
       accessibilityRole="adjustable"
       accessibilityValue={{ min: min ?? 0, max: max ?? 100, now: clampedValue }}
       accessibilityLabel={accessibilityLabel || `Slider, value ${clampedValue}`}
+      accessibilityState={{ disabled: !!disabled }}
       accessibilityActions={[
         { name: 'increment', label: 'Increment' },
         { name: 'decrement', label: 'Decrement' },

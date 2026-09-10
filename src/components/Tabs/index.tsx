@@ -356,7 +356,7 @@ const defaultTabsListProps: Partial<TabsListProps> = {
  * </Tabs>
  * ```
  */
-export const Tabs = forwardRef<any, TabsProps>((props, ref) => {
+const TabsRoot = forwardRef<any, TabsProps>((props, ref) => {
   const {
     value: controlledValue,
     defaultValue,
@@ -553,12 +553,20 @@ export const TabsPanel = forwardRef<any, TabsPanelProps>((props, ref) => {
   );
 });
 
-Tabs.displayName = 'Tabs';
+TabsRoot.displayName = 'Tabs';
 TabsList.displayName = 'Tabs.List';
 Tab.displayName = 'Tabs.Tab';
 TabsPanel.displayName = 'Tabs.Panel';
 
-// Attach sub-components
-(Tabs as any).List = TabsList;
-(Tabs as any).Tab = Tab;
-(Tabs as any).Panel = TabsPanel;
+/**
+ * Tabs with typed compound components: `Tabs.List`, `Tabs.Tab`, `Tabs.Panel`.
+ */
+export const Tabs = Object.assign(TabsRoot, {
+  List: TabsList,
+  Tab,
+  Panel: TabsPanel,
+}) as typeof TabsRoot & {
+  List: typeof TabsList;
+  Tab: typeof Tab;
+  Panel: typeof TabsPanel;
+};

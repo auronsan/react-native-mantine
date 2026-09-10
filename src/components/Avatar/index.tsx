@@ -181,7 +181,13 @@ const _Avatar = forwardRef<any, AvatarProps>((props, ref) => {
   };
 
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+    <BoxView
+      ref={ref}
+      style={sx(styles.root, style)}
+      accessibilityRole={shouldShowImage ? 'image' : undefined}
+      accessibilityLabel={alt}
+      {...others}
+    >
       {shouldShowImage ? (
         <Image
           source={{ uri: src || '' }}

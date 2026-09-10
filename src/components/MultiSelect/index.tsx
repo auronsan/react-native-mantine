@@ -128,7 +128,7 @@ const useStyles = createStyles(
             : theme.fn.themeColor('gray', 2),
       },
       listContainer: {
-        paddingVertical: rem(8) as any as any,
+        paddingVertical: rem(8) as any,
       },
       item: {
         paddingVertical: rem(12) as any,
@@ -327,7 +327,7 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
           onPress={() => !disabled && setOpened(true)}
           disabled={disabled}
           accessibilityRole="button"
-          accessibilityState={{ expanded: opened }}
+          accessibilityState={{ expanded: opened, disabled: !!disabled }}
           accessibilityLabel={defaultAccessibilityLabel}
           accessibilityHint={accessibilityHint}
         >
@@ -362,14 +362,19 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
             activeOpacity={1}
             style={styles.modalOverlay}
             onPress={() => setOpened(false)}
+            accessible={false}
           >
-            <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
+            <TouchableOpacity
+              activeOpacity={1}
+              style={styles.modalContent}
+              accessible={false}
+            >
               {searchable && (
                 <BoxView style={styles.searchContainer}>
                   <TextInput
                     placeholder={searchPlaceholder}
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.nativeEvent.text)}
+                    onChangeText={setSearchQuery}
                     autoFocus
                   />
                 </BoxView>
@@ -390,7 +395,10 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
                     onPress={() => !item.disabled && handleToggle(item.value)}
                     disabled={item.disabled}
                     accessibilityRole="checkbox"
-                    accessibilityState={{ checked: currentValue.includes(item.value) }}
+                    accessibilityState={{
+                      checked: currentValue.includes(item.value),
+                      disabled: !!item.disabled,
+                    }}
                     accessibilityLabel={item.label}
                   >
                     <Checkbox
@@ -425,7 +433,10 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
                         onPress={() => !item.disabled && handleToggle(item.value)}
                         disabled={item.disabled}
                         accessibilityRole="checkbox"
-                        accessibilityState={{ checked: currentValue.includes(item.value) }}
+                        accessibilityState={{
+                          checked: currentValue.includes(item.value),
+                          disabled: !!item.disabled,
+                        }}
                         accessibilityLabel={item.label}
                       >
                         <Checkbox
@@ -458,10 +469,18 @@ export const MultiSelect = forwardRef<RNTextInput, MultiSelectProps>(
 
               {clearable && currentValue.length > 0 && (
                 <BoxView style={styles.footer}>
-                  <TouchableOpacity onPress={handleClear}>
+                  <TouchableOpacity
+                    onPress={handleClear}
+                    accessibilityRole="button"
+                    accessibilityLabel={clearButtonLabel}
+                  >
                     <Text style={{ color: color }}>{clearButtonLabel}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setOpened(false)}>
+                  <TouchableOpacity
+                    onPress={() => setOpened(false)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Done, ${currentValue.length} selected`}
+                  >
                     <Text>Done ({currentValue.length})</Text>
                   </TouchableOpacity>
                 </BoxView>

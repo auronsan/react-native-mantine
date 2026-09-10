@@ -82,10 +82,18 @@ const defaultProps: Partial<BlockquoteProps> = {
 };
 
 const _Blockquote = forwardRef<any, BlockquoteProps>((props, ref) => {
-  const { color, icon, cite, radius, children, style, withTextWrapper: shouldWrapInText} =
-    useComponentDefaultProps('Blockquote', defaultProps, props);
+  const {
+    color,
+    icon,
+    cite,
+    radius,
+    children,
+    style,
+    withTextWrapper: shouldWrapInText,
+    ...others
+  } = useComponentDefaultProps('Blockquote', defaultProps, props);
 
-  const { styles, sx, ...others} = useStyles(
+  const { styles, sx } = useStyles(
     {
       color: color ?? defaultProps.color ?? 'blue',
       radius: radius ?? defaultProps.radius ?? 'sm'
@@ -98,8 +106,8 @@ const _Blockquote = forwardRef<any, BlockquoteProps>((props, ref) => {
       <BoxView style={styles.inner}>
         {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
         <BoxView style={styles.body}>
-          {withTextWrapper(children, shouldWrapInText, styles.content)}
-          {cite && withTextWrapper(cite, shouldWrapInText, styles.cite)}
+          {withTextWrapper(children, shouldWrapInText, { style: styles.content })}
+          {cite && withTextWrapper(cite, shouldWrapInText, { style: styles.cite })}
         </BoxView>
       </BoxView>
     </BoxView>

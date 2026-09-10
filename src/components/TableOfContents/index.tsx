@@ -153,8 +153,13 @@ export const TableOfContents = forwardRef<View, TableOfContentsProps>(
               key={item.id}
               activeOpacity={0.7}
               onPress={() => handlePress(item.id)}
-              accessibilityRole="button"
+              accessibilityRole="link"
               accessibilityState={{ selected: isActive }}
+              accessibilityLabel={
+                typeof item.value === 'string' || typeof item.value === 'number'
+                  ? String(item.value)
+                  : undefined
+              }
               {...controlProps}
               style={[
                 styles.control,

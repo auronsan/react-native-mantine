@@ -15,6 +15,7 @@ interface StepperContextValue {
   size: MantineSize;
   iconSize: number;
   allowNextStepsSelect: boolean;
+  stepsCount: number;
 }
 
 const StepperContext = createContext<StepperContextValue | null>(null);
@@ -233,7 +234,7 @@ const defaultProps: Partial<StepperProps> = {
   allowNextStepsSelect: true,
 };
 
-export const Stepper = forwardRef<any, StepperProps>((props, ref) => {
+const StepperRoot = forwardRef<any, StepperProps>((props, ref) => {
   const {
     active,
     onStepClick,
@@ -277,6 +278,7 @@ export const Stepper = forwardRef<any, StepperProps>((props, ref) => {
         size: size ?? defaultProps.size ?? 'md',
         iconSize,
         allowNextStepsSelect: allowNextStepsSelect ?? defaultProps.allowNextStepsSelect ?? true,
+        stepsCount: steps.length,
       }}
     >
       <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
@@ -358,7 +360,16 @@ export const Step = forwardRef<any, StepProps & { __stepIndex?: number; __isLast
         activeOpacity={canClick ? 0.7 : 1}
         accessibilityLabel={`${stepLabel}, ${stepStatus}`}
         accessibilityRole={canClick ? 'button' : undefined}
-        accessibilityState={isActive ? { selected: true } : undefined}
+        accessibilityState={{
+          selected: isActive,
+          disabled: !canClick,
+          busy: state === 'loading',
+        }}
+        accessibilityValue={{
+          min: 1,
+          max: Math.max(context.stepsCount, 1),
+          now: stepIndex + 1,
+        }}
         {...others}
       >
         <BoxView style={styles.stepWrapper}>
@@ -394,10 +405,17 @@ export const StepperCompleted = forwardRef<any, StepperCompletedProps>((props, r
   );
 });
 
-Stepper.displayName = 'Stepper';
+StepperRoot.displayName = 'Stepper';
 Step.displayName = 'Stepper.Step';
 StepperCompleted.displayName = 'Stepper.Completed';
 
-// Attach sub-components
-(Stepper as any).Step = Step;
-(Stepper as any).Completed = StepperCompleted;
+/**
+ * Stepper with typed compound components: `Stepper.Step`, `Stepper.Completed`.
+ */
+export const Stepper = Object.assign(StepperRoot, {
+  Step,
+  Completed: StepperCompleted,
+}) as typeof StepperRoot & {
+  Step: typeof Step;
+  Completed: typeof StepperCompleted;
+};

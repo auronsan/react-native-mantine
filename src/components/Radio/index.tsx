@@ -202,7 +202,8 @@ const RadioComponent = forwardRef<any, RadioProps>((props, ref) => {
       disabled={disabled}
       style={sx(styles.root, wrapperStyle)}
       accessibilityRole="radio"
-      accessibilityState={{ checked }}
+      accessibilityState={{ checked: !!checked, disabled: !!disabled }}
+      accessibilityLabel={typeof label === 'string' ? label : undefined}
       hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
       {...others}
     >

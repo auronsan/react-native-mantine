@@ -79,7 +79,10 @@ export const Collapse = forwardRef<any, CollapseProps>((props, ref) => {
         Animated.timing(opacityAnim, {
           toValue: opened ? 1 : 0,
           duration: transitionDuration,
-          useNativeDriver: true,
+          // Must match the height animation: React Native does not allow mixing
+          // native- and JS-driven animations on the same node, and height
+          // cannot be driven natively.
+          useNativeDriver: false,
         })
       );
     }

@@ -201,9 +201,10 @@ export const PinInput = forwardRef<any, PinInputProps>((props, ref) => {
       return;
     }
 
-    // Handle single character input
+    // Handle single character input. The value is positional: a cleared slot
+    // is stored as a space so the characters in the other slots stay in place.
     const newValueArray = value.padEnd(length!, ' ').split('');
-    newValueArray[index] = text;
+    newValueArray[index] = text || ' ';
     const newValue = newValueArray.join('').slice(0, length!);
 
     if (controlledValue === undefined) {

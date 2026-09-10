@@ -52,6 +52,9 @@ export function Loader(props: LoaderProps) {
     <ActivityIndicator
       size={loaderSize}
       color={loaderColor}
+      accessibilityRole="progressbar"
+      accessibilityLabel="Loading"
+      accessibilityState={{ busy: true }}
       {...others}
     />
   );

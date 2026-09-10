@@ -84,7 +84,16 @@ export const LoadingOverlay = forwardRef<any, LoadingOverlayProps>(
     }
 
     return (
-      <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+      <BoxView
+        ref={ref}
+        style={sx(styles.root, style)}
+        accessible
+        accessibilityRole="progressbar"
+        accessibilityLabel="Loading"
+        accessibilityState={{ busy: true }}
+        accessibilityLiveRegion="polite"
+        {...others}
+      >
         <Overlay
           opacity={overlayOpacity}
           color={overlayColor}

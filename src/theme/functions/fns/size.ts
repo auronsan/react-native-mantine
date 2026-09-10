@@ -9,7 +9,9 @@ export function size(_theme: any) {
     size?: MantineNumberSize | (string & {});
     sizes: Sizes;
   }): number | string => {
-    if (!size) return 0;
+    if (size === undefined || size === null || (size as unknown) === '') return 0;
+    // `0` is a valid size; getSize would otherwise fall back to `sizes.md`
+    if (typeof size === 'number') return size;
     return getSize({ size: size as MantineNumberSize, sizes }) as number | string;
   };
 }

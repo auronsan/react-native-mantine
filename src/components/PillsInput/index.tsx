@@ -171,7 +171,7 @@ const defaultProps: Partial<PillsInputProps> = {
  * PillsInput is a utility input container for Pill components and a free
  * text field. Port of Mantine v7 PillsInput component.
  */
-export const PillsInput = forwardRef<View, PillsInputProps>((props, ref) => {
+const PillsInputRoot = forwardRef<View, PillsInputProps>((props, ref) => {
   const {
     children,
     label,
@@ -235,7 +235,7 @@ export const PillsInput = forwardRef<View, PillsInputProps>((props, ref) => {
   );
 });
 
-PillsInput.displayName = 'PillsInput';
+PillsInputRoot.displayName = 'PillsInput';
 
 export interface PillsInputFieldProps
   extends Omit<RNTextInputProps, 'style'>,
@@ -295,4 +295,9 @@ export const PillsInputField = forwardRef<RNTextInput, PillsInputFieldProps>(
 
 PillsInputField.displayName = 'PillsInput.Field';
 
-(PillsInput as any).Field = PillsInputField;
+/**
+ * PillsInput with typed compound component: `PillsInput.Field`.
+ */
+export const PillsInput = Object.assign(PillsInputRoot, {
+  Field: PillsInputField,
+}) as typeof PillsInputRoot & { Field: typeof PillsInputField };

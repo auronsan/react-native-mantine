@@ -128,6 +128,7 @@ export const Image = forwardRef<any, ImageProps>((props, ref) => {
     style,
     onLoad,
     onError,
+    ...others
   } = useComponentDefaultProps('Image', defaultProps, props);
 
   const [loading, setLoading] = useState(true);
@@ -156,7 +157,14 @@ export const Image = forwardRef<any, ImageProps>((props, ref) => {
   };
 
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)}>
+    <BoxView
+      ref={ref}
+      style={sx(styles.root, style)}
+      accessibilityRole="image"
+      accessibilityLabel={alt}
+      accessibilityState={{ busy: loading }}
+      {...others}
+    >
       <RNImage
         source={source}
         style={styles.image}

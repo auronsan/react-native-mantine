@@ -305,6 +305,7 @@ export const AngleSlider = forwardRef<View, AngleSliderProps>((props, ref) => {
       style={sx(styles.root, style)}
       accessibilityRole="adjustable"
       accessibilityValue={{ min: 0, max: 359, now: Math.round(_value) }}
+      accessibilityState={{ disabled: !!disabled }}
       {...panResponder.panHandlers}
       {...others}
     >

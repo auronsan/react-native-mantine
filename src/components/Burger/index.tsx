@@ -223,6 +223,7 @@ export const Burger = forwardRef<View, BurgerProps>((props, ref) => {
       style={[styles.root, style]}
       onPress={onPress}
       accessibilityLabel={accessibilityLabel || (opened ? 'Close navigation' : 'Open navigation')}
+      accessibilityState={{ expanded: opened }}
       {...others}
     >
       <View style={styles.burger}>

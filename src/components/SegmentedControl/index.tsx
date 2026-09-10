@@ -287,8 +287,6 @@ export const SegmentedControl = forwardRef<any, SegmentedControlProps>(
         orientation === 'horizontal' ? '80%' : perpendicularDimension,
     };
 
-    console.log('perpendicularDimension', perpendicularDimension);
-
     return (
       <BoxView
         ref={ref}

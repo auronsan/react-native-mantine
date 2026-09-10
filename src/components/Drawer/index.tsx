@@ -350,8 +350,8 @@ export const Drawer = forwardRef<any, DrawerProps>((props, ref) => {
               transform: getTransform(),
             },
           ]}
-          accessibilityLabel={accessibilityLabel}
-          accessible={true}
+          accessibilityLabel={accessibilityLabel || (typeof title === 'string' ? title : undefined)}
+          accessibilityViewIsModal
           {...others}
         >
           {(title || withCloseButton) && (
@@ -362,6 +362,7 @@ export const Drawer = forwardRef<any, DrawerProps>((props, ref) => {
                   style={styles.closeButton}
                   onPress={onClose}
                   accessibilityLabel="Close"
+                  accessibilityHint="Closes the drawer"
                   accessibilityRole="button"
                 >
                   <Text style={styles.closeButtonText}>×</Text>

@@ -231,7 +231,12 @@ const ListRoot = forwardRef<any, ListProps>((props, ref) => {
         startIndex: startIndex || 1,
       }}
     >
-      <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+      <BoxView
+        ref={ref}
+        style={sx(styles.root, style)}
+        accessibilityRole="list"
+        {...others}
+      >
         {childrenArray.map((child, index) => {
           if (!React.isValidElement(child)) return child;
           return React.cloneElement<ListItemProps>(child as React.ReactElement<ListItemProps>, {
@@ -277,7 +282,7 @@ export const ListItem = forwardRef<any, ListItemProps>((props, ref) => {
     <BoxView ref={ref} style={sx(styles.item, style)} {...others}>
       <BoxView style={styles.icon}>{renderIcon()}</BoxView>
       <BoxView style={styles.content}>
-        {withTextWrapper(children, shouldWrapInText, styles.contentText)}
+        {withTextWrapper(children, shouldWrapInText, { style: styles.contentText })}
       </BoxView>
     </BoxView>
   );

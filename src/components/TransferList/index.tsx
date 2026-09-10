@@ -181,11 +181,27 @@ const defaultProps: Partial<TransferListProps> = {
   transferAllMatchingFilter: false,
 };
 
+/**
+ * Default item renderer: a purely decorative checkbox. The surrounding row
+ * touchable owns the press handling and the `checkbox` accessibility role, so
+ * the inner Checkbox neither receives touches nor is exposed to assistive
+ * technology (which would otherwise announce two checkboxes per row).
+ */
 const DefaultItem: React.FC<{ data: TransferListDataItem; selected: boolean }> = ({
   selected,
 }) => {
   return (
-    <Checkbox checked={selected} onChange={() => {}} />
+    <BoxView
+      pointerEvents="none"
+      accessible={false}
+      importantForAccessibility="no-hide-descendants"
+    >
+      <Checkbox
+        checked={selected}
+        accessible={false}
+        accessibilityRole="none"
+      />
+    </BoxView>
   );
 };
 
@@ -301,7 +317,7 @@ export const TransferList = forwardRef<any, TransferListProps>((props, ref) => {
           <TextInput
             placeholder={searchPlaceholder}
             value={searchValue}
-            onChange={(e) => setSearchValue(e.nativeEvent.text)}
+            onChangeText={setSearchValue}
             size="sm"
           />
         </BoxView>
@@ -319,6 +335,9 @@ export const TransferList = forwardRef<any, TransferListProps>((props, ref) => {
                 key={item.value}
                 style={[styles.item, isSelected && styles.itemSelected]}
                 onPress={() => toggleSelection(side, item.value)}
+                accessibilityRole="checkbox"
+                accessibilityState={{ checked: isSelected }}
+                accessibilityLabel={item.label}
               >
                 <ItemComponent data={item} selected={isSelected} />
                 <Text style={styles.itemText}>{item.label}</Text>
@@ -348,6 +367,7 @@ export const TransferList = forwardRef<any, TransferListProps>((props, ref) => {
             onPress={transferAllToRight}
             disabled={leftData.items.length === 0}
             size="sm"
+            accessibilityLabel="Move all items to the right list"
           >
             <Text>{'»'}</Text>
           </Button>
@@ -356,6 +376,7 @@ export const TransferList = forwardRef<any, TransferListProps>((props, ref) => {
             onPress={transferToRight}
             disabled={leftData.selectedValues.length === 0}
             size="sm"
+            accessibilityLabel="Move selected items to the right list"
           >
             <Text>{'›'}</Text>
           </Button>
@@ -364,6 +385,7 @@ export const TransferList = forwardRef<any, TransferListProps>((props, ref) => {
             onPress={transferToLeft}
             disabled={rightData.selectedValues.length === 0}
             size="sm"
+            accessibilityLabel="Move selected items to the left list"
           >
             <Text>{'‹'}</Text>
           </Button>
@@ -372,6 +394,7 @@ export const TransferList = forwardRef<any, TransferListProps>((props, ref) => {
             onPress={transferAllToLeft}
             disabled={rightData.items.length === 0}
             size="sm"
+            accessibilityLabel="Move all items to the left list"
           >
             <Text>{'«'}</Text>
           </Button>

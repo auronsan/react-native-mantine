@@ -360,6 +360,13 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
           accessibilityLabel={accessibilityLabel || (typeof label === 'string' ? label : undefined)}
           accessibilityHint={accessibilityHint}
           accessibilityRole="spinbutton"
+          accessibilityState={{ disabled: !!disabled }}
+          accessibilityValue={{
+            min,
+            max,
+            now: typeof value === 'number' ? value : undefined,
+            text: value === '' ? '' : String(value),
+          }}
         />
 
         {!hideControls && (
@@ -375,6 +382,12 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
               accessibilityRole="button"
               accessibilityLabel="Decrement"
               accessibilityHint="Decrease the value"
+              accessibilityState={{
+                disabled: !!(
+                  disabled ||
+                  (min !== undefined && typeof value === 'number' && value <= min)
+                ),
+              }}
             >
               <Text style={styles.controlText}>−</Text>
             </TouchableOpacity>
@@ -390,6 +403,12 @@ export const NumberInput = forwardRef<any, NumberInputProps>((props, ref) => {
               accessibilityRole="button"
               accessibilityLabel="Increment"
               accessibilityHint="Increase the value"
+              accessibilityState={{
+                disabled: !!(
+                  disabled ||
+                  (max !== undefined && typeof value === 'number' && value >= max)
+                ),
+              }}
             >
               <Text style={styles.controlText}>+</Text>
             </TouchableOpacity>

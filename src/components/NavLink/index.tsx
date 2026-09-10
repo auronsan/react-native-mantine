@@ -205,8 +205,9 @@ export const NavLink = forwardRef<any, NavLinkProps>((props, ref) => {
       >
         {icon && <BoxView style={styles.icon}>{icon}</BoxView>}
         <BoxView style={styles.body}>
-          {label && withTextWrapper(label, shouldWrapInText, styles.label)}
-          {description && withTextWrapper(description, shouldWrapInText, styles.description)}
+          {label && withTextWrapper(label, shouldWrapInText, { style: styles.label })}
+          {description &&
+            withTextWrapper(description, shouldWrapInText, { style: styles.description })}
         </BoxView>
         {rightSection && <BoxView style={styles.rightSection}>{rightSection}</BoxView>}
       </UnstyledButton>

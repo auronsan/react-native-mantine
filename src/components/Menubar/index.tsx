@@ -108,7 +108,12 @@ const MenubarBase = forwardRef<View, MenubarProps>((props, ref) => {
   });
 
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+    <BoxView
+      ref={ref}
+      style={sx(styles.root, style)}
+      accessibilityRole="menubar"
+      {...others}
+    >
       {items}
     </BoxView>
   );

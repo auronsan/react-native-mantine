@@ -318,7 +318,7 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
     <BoxView style={sx(styles.wrapper, wrapperStyle)}>
       {label && (
         <Text style={styles.label}>
-          {typeof label === 'string' ? label : label}
+          {label}
           {required && <Text style={{ color: theme.fn.themeColor('red', 6) }}> *</Text>}
         </Text>
       )}
@@ -330,6 +330,7 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
         disabled={disabled}
         activeOpacity={0.7}
         accessibilityRole="button"
+        accessibilityState={{ expanded: modalVisible, disabled: !!disabled }}
         accessibilityLabel={defaultAccessibilityLabel}
         accessibilityHint={accessibilityHint}
         {...others}
@@ -353,11 +354,11 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
 
       {description && (
         <Text style={styles.description}>
-          {typeof description === 'string' ? description : description}
+          {description}
         </Text>
       )}
 
-      {error && <Text style={styles.error}>{typeof error === 'string' ? error : error}</Text>}
+      {error && <Text style={styles.error}>{error}</Text>}
 
       <Modal
         visible={modalVisible}
@@ -369,8 +370,13 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
           style={styles.modalOverlay}
           activeOpacity={1}
           onPress={() => setModalVisible(false)}
+          accessible={false}
         >
-          <TouchableOpacity activeOpacity={1} onPress={(e) => e.stopPropagation()}>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={(e) => e.stopPropagation()}
+            accessible={false}
+          >
             <BoxView style={styles.modalContent}>
               <BoxView style={styles.modalHeader}>
                 <Text style={styles.modalTitle}>
@@ -392,7 +398,10 @@ export const NativeSelect = forwardRef<any, NativeSelectProps>((props, ref) => {
                     disabled={item.disabled}
                     activeOpacity={0.7}
                     accessibilityRole="menuitem"
-                    accessibilityState={{ selected: item.value === value }}
+                    accessibilityState={{
+                      selected: item.value === value,
+                      disabled: !!item.disabled,
+                    }}
                     accessibilityLabel={item.label}
                   >
                     <Text

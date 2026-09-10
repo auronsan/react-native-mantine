@@ -131,7 +131,14 @@ const _Skeleton = forwardRef<any, SkeletonProps>((props, ref) => {
   });
 
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
+    <BoxView
+      ref={ref}
+      style={sx(styles.root, style)}
+      accessible={!!visible}
+      accessibilityLabel={visible ? 'Loading' : undefined}
+      accessibilityState={{ busy: !!visible }}
+      {...others}
+    >
       {animate && (
         <Animated.View
           style={[

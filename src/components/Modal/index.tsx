@@ -357,8 +357,13 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
           activeOpacity={1}
           style={styles.overlay}
           onPress={handleOverlayPress}
+          accessible={false}
         >
-          <TouchableOpacity activeOpacity={1} onPress={(e) => e.stopPropagation()}>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={(e) => e.stopPropagation()}
+            accessible={false}
+          >
             <Animated.View
               ref={ref}
               style={[
@@ -368,8 +373,8 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
                   transform: [{ scale: scaleAnim }],
                 },
               ]}
-              accessibilityLabel={accessibilityLabel}
-              accessible={true}
+              accessibilityLabel={accessibilityLabel || (typeof title === 'string' ? title : undefined)}
+              accessibilityViewIsModal
               {...others}
             >
               {(title || withCloseButton) && (
@@ -384,6 +389,7 @@ export const Modal = forwardRef<any, ModalProps>((props, ref) => {
                       style={styles.closeButton}
                       onPress={onClose}
                       accessibilityLabel="Close"
+                      accessibilityHint="Closes the modal"
                       accessibilityRole="button"
                     >
                       <Text style={styles.closeButtonText}>×</Text>

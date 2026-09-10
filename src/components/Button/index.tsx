@@ -203,6 +203,7 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
         disabled={disabled || loading}
         ref={ref}
         accessibilityLabel={accessibilityLabel}
+        accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
         testID={testID}
         {...others}
       >
@@ -224,6 +225,7 @@ export const _Button = forwardRef<View, ButtonProps>((props, ref) => {
       disabled={disabled || loading}
       ref={ref}
       accessibilityLabel={accessibilityLabel}
+      accessibilityState={{ disabled: !!(disabled || loading), busy: !!loading }}
       testID={testID}
       {...others}
     >

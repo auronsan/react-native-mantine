@@ -383,7 +383,7 @@ export const Autocomplete = forwardRef<RNTextInput, AutocompleteProps>((props, r
         onFocus={handleFocus}
         style={style}
         accessibilityRole="combobox"
-        accessibilityState={{ expanded: opened }}
+        accessibilityState={{ expanded: opened, ...(disabled ? { disabled: true } : {}) }}
         accessibilityLabel={defaultAccessibilityLabel}
         accessibilityHint={accessibilityHint}
         required={required}
@@ -400,8 +400,13 @@ export const Autocomplete = forwardRef<RNTextInput, AutocompleteProps>((props, r
           activeOpacity={1}
           style={styles.modalOverlay}
           onPress={() => setOpened(false)}
+          accessible={false}
         >
-          <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={styles.modalContent}
+            accessible={false}
+          >
             <ScrollView
               style={{ maxHeight: maxDropdownHeight }}
               contentContainerStyle={styles.listContainer}
@@ -423,6 +428,7 @@ export const Autocomplete = forwardRef<RNTextInput, AutocompleteProps>((props, r
                       onPress={() => !item.disabled && handleItemSelect(item)}
                       disabled={item.disabled}
                       accessibilityRole="menuitem"
+                      accessibilityState={{ disabled: !!item.disabled }}
                       accessibilityLabel={item.label || item.value}
                     >
                       <Text style={styles.itemText}>
@@ -444,6 +450,7 @@ export const Autocomplete = forwardRef<RNTextInput, AutocompleteProps>((props, r
                           onPress={() => !item.disabled && handleItemSelect(item)}
                           disabled={item.disabled}
                           accessibilityRole="menuitem"
+                          accessibilityState={{ disabled: !!item.disabled }}
                           accessibilityLabel={item.label || item.value}
                         >
                           <Text style={styles.itemText}>

@@ -359,7 +359,7 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
         onPress={() => !disabled && setOpened(true)}
         style={style}
         accessibilityRole="button"
-        accessibilityState={{ expanded: opened }}
+        accessibilityState={{ expanded: opened, disabled: !!disabled }}
         accessibilityLabel={defaultAccessibilityLabel}
         accessibilityHint={accessibilityHint}
         {...others}
@@ -375,8 +375,13 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
           activeOpacity={1}
           style={styles.modalOverlay}
           onPress={() => setOpened(false)}
+          accessible={false}
         >
-          <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={styles.modalContent}
+            accessible={false}
+          >
             {searchable && (
               <BoxView style={styles.searchContainer}>
                 <TextInput
@@ -396,6 +401,8 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
                 <TouchableOpacity
                   style={styles.item}
                   onPress={handleClear}
+                  accessibilityRole="button"
+                  accessibilityLabel={clearButtonLabel}
                 >
                   <Text style={styles.itemText}>{clearButtonLabel}</Text>
                 </TouchableOpacity>
@@ -412,7 +419,10 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
                   onPress={() => !item.disabled && handleSelect(item.value)}
                   disabled={item.disabled}
                   accessibilityRole="menuitem"
-                  accessibilityState={{ selected: currentValue === item.value }}
+                  accessibilityState={{
+                    selected: currentValue === item.value,
+                    disabled: !!item.disabled,
+                  }}
                   accessibilityLabel={item.label}
                 >
                   <Text
@@ -440,7 +450,10 @@ export const Select = forwardRef<RNTextInput, SelectProps>((props, ref) => {
                       onPress={() => !item.disabled && handleSelect(item.value)}
                       disabled={item.disabled}
                       accessibilityRole="menuitem"
-                      accessibilityState={{ selected: currentValue === item.value }}
+                      accessibilityState={{
+                        selected: currentValue === item.value,
+                        disabled: !!item.disabled,
+                      }}
                       accessibilityLabel={item.label}
                     >
                       <Text

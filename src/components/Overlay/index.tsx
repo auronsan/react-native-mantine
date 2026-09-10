@@ -72,8 +72,30 @@ const defaultProps: Partial<OverlayProps> = {
 };
 
 export const Overlay = forwardRef<any, OverlayProps>((props, ref) => {
-  const { opacity, color, zIndex, radius, children, onPress, style, fixed, ...others} =
-    useComponentDefaultProps('Overlay', defaultProps, props);
+  const {
+    opacity,
+    color,
+    zIndex,
+    radius,
+    children,
+    onPress,
+    style,
+    fixed,
+    accessible,
+    accessibilityLabel,
+    accessibilityHint,
+    accessibilityRole,
+    accessibilityState,
+    ...others
+  } = useComponentDefaultProps('Overlay', defaultProps, props);
+
+  const accessibilityProps = {
+    accessible,
+    accessibilityLabel,
+    accessibilityHint,
+    accessibilityRole,
+    accessibilityState,
+  };
 
   const { styles, sx} = useStyles(
     {
@@ -86,21 +108,31 @@ export const Overlay = forwardRef<any, OverlayProps>((props, ref) => {
     { name: 'Overlay' }
   ) as any;
 
-  const content = (
-    <Animated.View ref={ref} style={sx(styles.root, style)} {...others}>
-      {children}
-    </Animated.View>
-  );
-
   if (onPress) {
     return (
-      <TouchableWithoutFeedback onPress={onPress}>
-        {content}
+      <TouchableWithoutFeedback
+        onPress={onPress}
+        {...accessibilityProps}
+        accessibilityRole={accessibilityRole ?? 'button'}
+        accessibilityLabel={accessibilityLabel ?? 'Dismiss'}
+      >
+        <Animated.View ref={ref} style={sx(styles.root, style)} {...others}>
+          {children}
+        </Animated.View>
       </TouchableWithoutFeedback>
     );
   }
 
-  return content;
+  return (
+    <Animated.View
+      ref={ref}
+      style={sx(styles.root, style)}
+      {...accessibilityProps}
+      {...others}
+    >
+      {children}
+    </Animated.View>
+  );
 });
 
 Overlay.displayName = 'Overlay';

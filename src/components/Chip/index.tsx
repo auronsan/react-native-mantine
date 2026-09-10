@@ -247,12 +247,12 @@ export const Chip = forwardRef<any, ChipProps>((props, ref) => {
       disabled={disabled}
       activeOpacity={0.7}
       accessibilityRole={type === 'radio' ? 'radio' : 'checkbox'}
-      accessibilityState={{ checked: checked || false }}
+      accessibilityState={{ checked: checked || false, disabled: !!disabled }}
       accessibilityLabel={defaultAccessibilityLabel}
       {...others}
     >
       {showIcon && <BoxView style={styles.icon}>{icon}</BoxView>}
-      {withTextWrapper(children, shouldWrapInText, sx(styles.text, textStyle))}
+      {withTextWrapper(children, shouldWrapInText, { style: sx(styles.text, textStyle) })}
     </TouchableOpacity>
   );
 });
@@ -321,7 +321,18 @@ export const ChipGroup = forwardRef<any, ChipGroupProps>((props, ref) => {
     defaultValue || (multiple ? [] : '')
   );
 
-  const value = controlledValue !== undefined ? controlledValue : uncontrolledValue;
+  const rawValue = controlledValue !== undefined ? controlledValue : uncontrolledValue;
+
+  // In multiple mode the group always works with an array. A stray non-array
+  // value (a type-level mistake) is normalized: '' / null / undefined mean
+  // "nothing selected", any other string is treated as a single selection.
+  const value: string | string[] = multiple
+    ? Array.isArray(rawValue)
+      ? rawValue
+      : rawValue
+        ? [rawValue]
+        : []
+    : rawValue;
 
   const { styles, sx } = useGroupStyles(
     { spacing: spacing ?? defaultGroupProps.spacing ?? 'sm' },
@@ -334,7 +345,9 @@ export const ChipGroup = forwardRef<any, ChipGroupProps>((props, ref) => {
     if (multiple) {
       const currentArray = Array.isArray(value) ? value : [];
       newValue = checked
-        ? [...currentArray, chipValue]
+        ? currentArray.includes(chipValue)
+          ? currentArray
+          : [...currentArray, chipValue]
         : currentArray.filter((v) => v !== chipValue);
     } else {
       newValue = checked ? chipValue : '';
@@ -347,7 +360,7 @@ export const ChipGroup = forwardRef<any, ChipGroupProps>((props, ref) => {
   };
 
   const isChecked = (chipValue: string) => {
-    if (multiple && Array.isArray(value)) {
+    if (Array.isArray(value)) {
       return value.includes(chipValue);
     }
     return value === chipValue;

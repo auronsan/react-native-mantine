@@ -70,7 +70,7 @@ const defaultProps: Partial<SimpleGridProps> = {
 };
 
 export const SimpleGrid = forwardRef<any, SimpleGridProps>((props, ref) => {
-  const { cols, spacing, verticalSpacing, breakpoints, children, style} =
+  const { cols, spacing, verticalSpacing, breakpoints, children, style, ...others } =
     useComponentDefaultProps('SimpleGrid', defaultProps, props);
 
   const [dimensions, setDimensions] = useState(Dimensions.get('window'));
@@ -88,7 +88,9 @@ export const SimpleGrid = forwardRef<any, SimpleGridProps>((props, ref) => {
   useEffect(() => {
     if (breakpoints && breakpoints.length > 0) {
       const width = dimensions.width;
-      const sorted = [...breakpoints].sort((a, b) => b.maxWidth - a.maxWidth);
+      // Smallest matching breakpoint wins (Mantine semantics): with
+      // [{ maxWidth: 900 }, { maxWidth: 600 }] a width of 500 uses the 600 one.
+      const sorted = [...breakpoints].sort((a, b) => a.maxWidth - b.maxWidth);
       const breakpoint = sorted.find((bp) => width <= bp.maxWidth);
 
       if (breakpoint) {
@@ -113,7 +115,7 @@ export const SimpleGrid = forwardRef<any, SimpleGridProps>((props, ref) => {
   const childArray = React.Children.toArray(children);
 
   return (
-    <BoxView ref={ref} style={sx(styles.root, style)}>
+    <BoxView ref={ref} style={sx(styles.root, style)} {...others}>
       {childArray.map((child, index) => (
         <BoxView key={index} style={styles.child}>
           {child}

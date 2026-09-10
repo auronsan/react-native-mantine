@@ -146,8 +146,8 @@ const ComboboxTarget: React.FC<ComboboxTargetProps> = ({ children }) => {
       child.props.onPress?.(...args);
       store.toggle();
     },
-    accessibilityRole: 'button',
-    accessibilityState: { expanded: store.opened },
+    accessibilityRole: child.props.accessibilityRole ?? 'button',
+    accessibilityState: { expanded: store.opened, ...child.props.accessibilityState },
   });
 };
 
@@ -178,10 +178,12 @@ const ComboboxDropdown: React.FC<ComboboxDropdownProps> = ({
         activeOpacity={1}
         onPress={store.close}
         accessibilityLabel="Close dropdown"
+        accessible={false}
       >
         <TouchableOpacity
           activeOpacity={1}
           style={[styles.modalContent as any, style]}
+          accessible={false}
           {...others}
         >
           {children}
@@ -259,6 +261,11 @@ const ComboboxOption: React.FC<ComboboxOptionProps> = ({
       disabled={disabled}
       accessibilityRole="menuitem"
       accessibilityState={{ disabled: !!disabled }}
+      accessibilityLabel={
+        typeof children === 'string' || typeof children === 'number'
+          ? String(children)
+          : undefined
+      }
       style={[styles.option, disabled ? { opacity: 0.4 } : null, style]}
       {...others}
     >

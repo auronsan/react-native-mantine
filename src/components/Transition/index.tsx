@@ -106,7 +106,6 @@ export const Transition = forwardRef<any, TransitionProps>((props, ref) => {
         easing: getEasing(timingFunction || 'ease'),
         useNativeDriver: true,
       }).start(({ finished }) => {
-        console.log('finished', finished);
         if (finished) {
           shouldRender.current = false;
           if (onExited) {

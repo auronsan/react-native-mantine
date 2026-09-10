@@ -78,10 +78,10 @@ const defaultProps: Partial<PaperProps> = {
 };
 
 export const Paper = forwardRef<any, PaperProps>((props, ref) => {
-  const { shadow, radius, p, withBorder, children, style} =
+  const { shadow, radius, p, withBorder, children, style, ...others } =
     useComponentDefaultProps('Paper', defaultProps, props);
 
-  const { styles, sx, ...others} = useStyles(
+  const { styles, sx } = useStyles(
     {
       shadow,
       radius: radius ?? defaultProps.radius ?? 'sm',

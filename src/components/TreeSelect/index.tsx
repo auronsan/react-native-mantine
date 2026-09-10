@@ -410,7 +410,12 @@ export const TreeSelect = forwardRef<RNTextInput, TreeSelectProps>(
             accessibilityRole={mode === 'checkbox' ? 'checkbox' : 'menuitem'}
             accessibilityState={{
               selected: isSelected,
-              checked: mode === 'checkbox' ? isSelected : undefined,
+              checked:
+                mode === 'checkbox'
+                  ? indeterminate
+                    ? 'mixed'
+                    : isSelected
+                  : undefined,
               expanded: hasChildren ? isExpanded : undefined,
             }}
             accessibilityLabel={getNodeLabelText(node)}
@@ -427,6 +432,9 @@ export const TreeSelect = forwardRef<RNTextInput, TreeSelectProps>(
               }
               accessibilityRole="button"
               accessibilityLabel={isExpanded ? 'Collapse' : 'Expand'}
+              accessibilityState={{ expanded: isExpanded, disabled: !hasChildren }}
+              accessibilityElementsHidden={!hasChildren}
+              importantForAccessibility={hasChildren ? 'auto' : 'no-hide-descendants'}
             >
               <Text style={styles.chevron}>
                 {hasChildren ? (isExpanded ? '▼' : '▶') : ''}
@@ -487,7 +495,8 @@ export const TreeSelect = forwardRef<RNTextInput, TreeSelectProps>(
           onPress={() => !disabled && setOpened(true)}
           style={style}
           accessibilityRole="button"
-          accessibilityState={{ expanded: opened, disabled }}
+          accessibilityState={{ expanded: opened, disabled: !!disabled }}
+          accessibilityLabel={typeof label === 'string' ? label : undefined}
           {...others}
         />
 
@@ -504,8 +513,13 @@ export const TreeSelect = forwardRef<RNTextInput, TreeSelectProps>(
               setOpened(false);
               setSearch('');
             }}
+            accessible={false}
           >
-            <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
+            <TouchableOpacity
+              activeOpacity={1}
+              style={styles.modalContent}
+              accessible={false}
+            >
               {searchable && (
                 <BoxView style={styles.searchContainer}>
                   <TextInput

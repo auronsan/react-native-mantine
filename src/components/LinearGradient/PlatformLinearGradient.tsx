@@ -34,9 +34,11 @@ export function PlatformLinearGradient({
     const angle = calculateGradientAngle(start, end);
     const gradient = `linear-gradient(${angle}deg, ${colors.join(', ')})`;
 
-    const webStyle: ViewStyle = {
+    // `backgroundImage` is not part of React Native's ViewStyle typings, but
+    // react-native-web forwards unknown style keys to the DOM as CSS, so it is
+    // valid here. Widen the type explicitly instead of suppressing the error.
+    const webStyle: ViewStyle & { backgroundImage: string } = {
       ...StyleSheet.flatten(style),
-      // @ts-ignore - backgroundImage is valid on web
       backgroundImage: gradient,
     };
 

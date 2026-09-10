@@ -3,7 +3,12 @@
  * Aligned with Mantine web v6 architecture
  */
 
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
+import type {
+  AccessibilityProps,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 
 // ============================================================================
 // Color System Types
@@ -623,4 +628,27 @@ export interface DefaultProps {
   sx?: any;
   unstyled?: boolean;
   testID?: string;
+
+  // The accessibility props below intentionally reuse React Native's own
+  // declarations (via indexed access types) so that component prop interfaces
+  // can extend both DefaultProps and a React Native props type without
+  // "not identical" conflicts.
+
+  /** When true, the component (and its children) is announced as a single accessibility element */
+  accessible?: AccessibilityProps['accessible'];
+
+  /** Text read by screen readers instead of the visible content */
+  accessibilityLabel?: AccessibilityProps['accessibilityLabel'];
+
+  /** Additional description of what happens when the control is activated */
+  accessibilityHint?: AccessibilityProps['accessibilityHint'];
+
+  /** Overrides the accessibility role derived by the component */
+  accessibilityRole?: AccessibilityProps['accessibilityRole'];
+
+  /** Overrides the accessibility state derived by the component (disabled, checked, selected, expanded, busy) */
+  accessibilityState?: AccessibilityProps['accessibilityState'];
+
+  /** Overrides the accessibility value derived by the component (min, max, now, text) */
+  accessibilityValue?: AccessibilityProps['accessibilityValue'];
 }

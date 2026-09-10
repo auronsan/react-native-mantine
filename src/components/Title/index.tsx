@@ -35,6 +35,7 @@ export const Title = forwardRef<any, TitleProps>((props, ref) => {
         headingStyles,
         style,
       ]}
+      accessibilityRole="header"
       {...others}
     >
       {children}

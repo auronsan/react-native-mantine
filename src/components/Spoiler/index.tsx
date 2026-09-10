@@ -113,7 +113,13 @@ export const Spoiler = forwardRef<any, SpoilerProps>((props, ref) => {
         <BoxView onLayout={handleLayout}>{children}</BoxView>
       </BoxView>
 
-      <TouchableOpacity style={styles.control} onPress={toggleExpanded} activeOpacity={0.7}>
+      <TouchableOpacity
+        style={styles.control}
+        onPress={toggleExpanded}
+        activeOpacity={0.7}
+        accessibilityRole="button"
+        accessibilityState={{ expanded }}
+      >
         <Text style={styles.controlText}>{expanded ? hideLabel : showLabel}</Text>
       </TouchableOpacity>
     </BoxView>

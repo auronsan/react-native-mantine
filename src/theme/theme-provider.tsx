@@ -55,7 +55,12 @@ export const ThemeProvider = ({
     try {
       Appearance.setColorScheme(mode);
     } catch (e) {
-      console.log('failed set scheme');
+      if (__DEV__) {
+        console.warn(
+          '[MantineProvider] Appearance.setColorScheme is not supported on this platform/React Native version; color scheme will only be applied to Mantine components.',
+          e
+        );
+      }
     }
   };
 
@@ -116,6 +121,20 @@ export const Theme = ({
   );
 };
 
+/**
+ * Accessibility props are always optional pass-through props: components set a
+ * derived default and then spread the remaining props so that a consumer-supplied
+ * value wins. They are therefore excluded from the "has a default" mapping below,
+ * otherwise TypeScript treats them as always present (TS2783).
+ */
+type AccessibilityPassThroughKeys =
+  | 'accessible'
+  | 'accessibilityLabel'
+  | 'accessibilityHint'
+  | 'accessibilityRole'
+  | 'accessibilityState'
+  | 'accessibilityValue';
+
 export function useComponentDefaultProps<
   T extends Record<string, any>,
   U extends Partial<T> = {},
@@ -124,7 +143,10 @@ export function useComponentDefaultProps<
   defaultProps: U,
   props: T
 ): T & {
-  [Key in Extract<keyof T, keyof U>]-?: U[Key] | NonNullable<T[Key]>;
+  [Key in Exclude<
+    Extract<keyof T, keyof U>,
+    AccessibilityPassThroughKeys
+  >]-?: U[Key] | NonNullable<T[Key]>;
 } {
   const theme = useTheme();
   const contextPropsPayload = theme?.components?.[component]?.defaultProps;

@@ -137,8 +137,10 @@ const SplitterBase = forwardRef<View, SplitterProps>((props, ref) => {
   const sizesRef = useRef(sizes);
   sizesRef.current = sizes;
 
-  const latestRef = useRef({ panes, onSizeChange, onResizeStart, onResizeEnd });
-  latestRef.current = { panes, onSizeChange, onResizeStart, onResizeEnd };
+  // Responders are cached per handle index, so everything they read that can
+  // change between renders (including the orientation axis) goes through here.
+  const latestRef = useRef({ panes, orientation, onSizeChange, onResizeStart, onResizeEnd });
+  latestRef.current = { panes, orientation, onSizeChange, onResizeStart, onResizeEnd };
 
   const dragStartSizesRef = useRef<number[]>([]);
 
@@ -151,8 +153,11 @@ const SplitterBase = forwardRef<View, SplitterProps>((props, ref) => {
         latestRef.current.onResizeStart?.();
       },
       onPanResponderMove: (_event, gestureState) => {
-        const { panes: currentPanes, onSizeChange: sizeChange } =
-          latestRef.current;
+        const {
+          panes: currentPanes,
+          orientation: currentOrientation,
+          onSizeChange: sizeChange,
+        } = latestRef.current;
         const start = dragStartSizesRef.current;
         const first = start[index] ?? 0;
         const second = start[index + 1] ?? 0;
@@ -164,7 +169,7 @@ const SplitterBase = forwardRef<View, SplitterProps>((props, ref) => {
         }
 
         const delta =
-          ((orientation === 'horizontal'
+          ((currentOrientation === 'horizontal'
             ? gestureState.dx
             : gestureState.dy) /
             Math.max(totalPxRef.current, 1)) *
@@ -228,6 +233,11 @@ const SplitterBase = forwardRef<View, SplitterProps>((props, ref) => {
           ]}
           accessibilityRole="adjustable"
           accessibilityLabel={`Resize pane ${index + 1}`}
+          accessibilityValue={{
+            min: pane.min,
+            max: pane.max,
+            now: Math.round(sizes[index] ?? 0),
+          }}
           {...getResponder(index).panHandlers}
         >
           <View
