@@ -110,8 +110,9 @@ const useStepperStyles = createStyles(
     theme,
     { orientation }: { orientation: 'horizontal' | 'vertical' }
   ) => ({
+    // Steps first, then the active step's content below them, in both orientations
     root: {
-      flexDirection: orientation === 'horizontal' ? 'row' : 'column',
+      flexDirection: 'column',
     },
     steps: {
       flexDirection: orientation === 'horizontal' ? 'row' : 'column',
@@ -158,12 +159,14 @@ const useStepStyles = createStyles(
       },
       stepWrapper: {
         flexDirection: orientation === 'horizontal' ? 'column' : 'row',
-        alignItems: 'center',
+        alignItems: orientation === 'horizontal' ? 'stretch' : 'flex-start',
         width: '100%',
       },
+      // Horizontal: icon then a separator growing to the right.
+      // Vertical: icon with the separator hanging below it; the label sits beside.
+      // No `flex: 1` here: inside a content-sized column it collapses to zero height.
       stepBody: {
-        flex: 1,
-        flexDirection: 'row',
+        flexDirection: orientation === 'horizontal' ? 'row' : 'column',
         alignItems: 'center',
       },
       iconWrapper: {
@@ -190,7 +193,8 @@ const useStepStyles = createStyles(
       },
       separator: {
         height: (orientation === 'horizontal' ? rem(2) : rem(24)) as any,
-        width: (orientation === 'horizontal' ? '100%' : rem(2)) as any,
+        width: orientation === 'horizontal' ? undefined : (rem(2) as any),
+        flex: orientation === 'horizontal' ? 1 : undefined,
         backgroundColor: isCompleted
           ? activeColor
           : theme.colorScheme === 'dark'
@@ -201,14 +205,14 @@ const useStepStyles = createStyles(
         ...(orientation === 'horizontal' && {
           marginTop: iconSize / 2,
         }),
-        ...(orientation === 'vertical' && {
-          marginLeft: iconSize / 2,
-        }),
       },
       stepLabel: {
         marginTop: orientation === 'horizontal' ? theme.spacing.xs : 0,
         marginLeft: orientation === 'vertical' ? theme.spacing.md : 0,
-        flex: 1,
+        // Vertically center the label on the icon in vertical orientation
+        paddingTop: orientation === 'vertical' ? Math.max(0, iconSize / 2 - 10) : 0,
+        flex: orientation === 'vertical' ? 1 : undefined,
+        paddingRight: orientation === 'horizontal' ? theme.spacing.xs : 0,
       },
       label: {
         fontSize: theme.fontSizes.sm as number,

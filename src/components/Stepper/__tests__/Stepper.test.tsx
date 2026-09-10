@@ -115,7 +115,7 @@ describe('Stepper', () => {
   it('renders steps, labels, descriptions and the active step content', () => {
     renderStepper();
 
-    expect(screen.getByTestId('stepper')).toHaveStyle({ flexDirection: 'row' });
+    expect(screen.getByTestId('stepper')).toHaveStyle({ flexDirection: 'column' });
     expect(screen.getByText('First')).toBeTruthy();
     expect(screen.getByText('Second')).toBeTruthy();
     expect(screen.getByText('Third')).toBeTruthy();
@@ -192,7 +192,7 @@ describe('Stepper', () => {
     expect(first.separator).toBeTruthy();
     expect(first.separator).toHaveStyle({
       backgroundColor: blue,
-      width: '100%',
+      flex: 1,
       height: 2,
       marginTop: 36 / 2,
     });
@@ -346,10 +346,10 @@ describe('Stepper', () => {
       flexDirection: 'row',
       alignItems: 'flex-start',
     });
+    // The separator hangs centered below the icon (column layout), no offset needed
     expect(getStepParts(1).separator).toHaveStyle({
       width: 2,
       height: 24,
-      marginLeft: 36 / 2,
       marginVertical: theme.spacing.xs,
     });
   });
