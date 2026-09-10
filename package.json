@@ -1,6 +1,6 @@
 {
   "name": "react-native-mantine",
-  "version": "0.21.0",
+  "version": "1.0.0",
   "description": "Mantine for React Native: 118 themeable, accessible components for iOS, Android and Web",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",

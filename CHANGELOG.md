@@ -1,5 +1,19 @@
 
 
+# [1.0.0](https://github.com/auronsan/react-native-mantine/compare/v0.21.0...v1.0.0) (2026-09-10)
+
+
+### Bug Fixes
+
+* accessibility on every interactive component and behavior bugs ([b52dfeb](https://github.com/auronsan/react-native-mantine/commit/b52dfeb3af6ecac41d9fe03398fd8a368c2b4f6d))
+
+
+### Features
+
+* **overlays:** implement position, width, arrow, shadow, radius and close options ([dc9d09f](https://github.com/auronsan/react-native-mantine/commit/dc9d09f35b233b35711761238c51a82cf2ac7f0f))
+* **ring-progress:** svg renderer through an optional react-native-svg adapter ([79a68cc](https://github.com/auronsan/react-native-mantine/commit/79a68cc09d050abab1c280cb4ccbbde8b0a88e3f))
+* **showcase:** crawlable docs site with per-component urls, seo and llms.txt ([6ca2397](https://github.com/auronsan/react-native-mantine/commit/6ca239719fd9ed9834abc6f6412a91717b3c5175))
+
 # [0.21.0](https://github.com/auronsan/react-native-mantine/compare/v0.20.0...v0.21.0) (2026-09-10)
 
 
