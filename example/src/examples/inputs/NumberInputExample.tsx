@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { numberInputProps } from '../../data/props/NumberInputProps';
 import {
   NumberInput,
   Paper,
@@ -164,10 +166,38 @@ export const NumberInputExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Usage"
+        description="Minimal copy-pasteable example"
+      >
+        <CodeBlock
+          code={`import { useState } from 'react';
+import { NumberInput } from 'react-native-mantine';
+
+const [value, setValue] = useState<number | ''>(1);
+
+<NumberInput
+  label="Quantity"
+  value={value}
+  onChange={setValue}
+  min={1}
+  max={10}
+  step={1}
+/>`}
+        />
+      </ExampleSection>
+
+      <ExampleSection
         title="Form Integration"
         description="NumberInput in an order form with live calculations"
       >
         <NumberInputFormExample />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available NumberInput props"
+      >
+        <PropsTable props={numberInputProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

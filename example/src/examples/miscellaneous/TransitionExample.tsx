@@ -4,6 +4,8 @@ import {
   ExampleSection,
   CodeBlock,
 } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { transitionProps } from '../../data/props/TransitionProps';
 import {
   Button,
   Transition,
@@ -202,6 +204,13 @@ const MyComponent = () => {
 // - pop: Scale from 0
 // - rotate: 180° rotation with fade`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Transition props"
+      >
+        <PropsTable props={transitionProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

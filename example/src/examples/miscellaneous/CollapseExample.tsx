@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { collapseProps } from '../../data/props/CollapseProps';
 import { Button, Collapse, Stack, Text, Paper } from 'react-native-mantine';
 
 export const CollapseExample = () => {
@@ -126,6 +128,13 @@ const MyComponent = () => {
   );
 };`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Collapse props"
+      >
+        <PropsTable props={collapseProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

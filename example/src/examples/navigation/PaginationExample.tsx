@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { paginationProps } from '../../data/props/PaginationProps';
 import { Text, Paper, Stack, Button, Group } from 'react-native-mantine';
 
 export const PaginationExample = () => {
@@ -147,6 +149,13 @@ const MyPagination = () => {
   );
 };`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Pagination props"
+      >
+        <PropsTable props={paginationProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

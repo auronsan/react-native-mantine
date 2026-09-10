@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { drawerProps } from '../../data/props/DrawerProps';
 import { Button, Drawer, Stack, Text, Title } from 'react-native-mantine';
 
 export const DrawerExample = () => {
@@ -154,6 +156,13 @@ const MyComponent = () => {
   );
 };`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Drawer props"
+      >
+        <PropsTable props={drawerProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

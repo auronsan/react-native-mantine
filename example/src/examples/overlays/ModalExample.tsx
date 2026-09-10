@@ -1,6 +1,8 @@
 import { View } from 'react-native';
 import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { modalProps } from '../../data/props/ModalProps';
 import { Button, Modal, Stack, Text, Title  } from 'react-native-mantine';
 
 export const ModalExample = () => {
@@ -220,6 +222,13 @@ const MyComponent = () => {
   );
 };`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Modal props"
+      >
+        <PropsTable props={modalProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

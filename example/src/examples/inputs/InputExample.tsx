@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { textInputProps } from '../../data/props/TextInputProps';
 import { TextInput, Text, Stack  } from 'react-native-mantine';
 
 export const InputExample = () => {
@@ -75,6 +77,13 @@ export const InputExample = () => {
   onChangeText={(text) => console.log(text)}
 />`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available TextInput props"
+      >
+        <PropsTable props={textInputProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

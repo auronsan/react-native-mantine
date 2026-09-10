@@ -1,4 +1,5 @@
 import { ScrollView } from 'react-native';
+import { ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
 import { PropsTable } from '../../components/PropsTable';
 import { iconProps } from '../../data/props/IconProps';
 import {
@@ -31,6 +32,18 @@ export function IconExample() {
             <Icon name="heart" size={32} color="#e03131" />
           </Group>
         </Paper>
+
+        <ExampleSection
+          title="Usage"
+          description="Minimal copy-pasteable example"
+        >
+          <CodeBlock
+            code={`import { Icon } from 'react-native-mantine';
+
+<Icon name="heart" size={24} color="#e03131" />
+<Icon name="home" size={24} useThemeColor />`}
+          />
+        </ExampleSection>
 
         <Paper p={16}>
           <Title order={3} style={{ marginBottom: 16 }}>

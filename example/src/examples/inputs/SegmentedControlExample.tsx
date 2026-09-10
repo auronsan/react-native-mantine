@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { segmentedControlProps } from '../../data/props/SegmentedControlProps';
 import { SegmentedControl, Paper, Stack, Text } from 'react-native-mantine';
 
 export const SegmentedControlExample = () => {
@@ -29,6 +31,29 @@ export const SegmentedControlExample = () => {
             </Text>
           </Stack>
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage"
+        description="Minimal copy-pasteable example"
+      >
+        <CodeBlock
+          code={`import { useState } from 'react';
+import { SegmentedControl } from 'react-native-mantine';
+
+const [value, setValue] = useState('react');
+
+<SegmentedControl
+  value={value}
+  onChange={setValue}
+  data={[
+    { value: 'react', label: 'React' },
+    { value: 'vue', label: 'Vue' },
+    { value: 'svelte', label: 'Svelte' },
+  ]}
+  fullWidth
+/>`}
+        />
       </ExampleSection>
 
       <ExampleSection
@@ -163,6 +188,13 @@ export const SegmentedControlExample = () => {
             orientation="vertical"
           />
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available SegmentedControl props"
+      >
+        <PropsTable props={segmentedControlProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

@@ -1,4 +1,6 @@
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { popoverProps } from '../../data/props/PopoverProps';
 import { Button, Popover, Text, Paper, Stack, TextInput } from 'react-native-mantine';
 
 export const PopoverExample = () => {
@@ -123,6 +125,13 @@ const MyComponent = () => {
   );
 };`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Popover props"
+      >
+        <PropsTable props={popoverProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { transferListProps } from '../../data/props/TransferListProps';
 import { TransferList, Text, Paper, Stack } from 'react-native-mantine';
 import type { TransferListData } from 'react-native-mantine';
 
@@ -77,6 +79,36 @@ export const TransferListExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Usage"
+        description="Minimal copy-pasteable example"
+      >
+        <CodeBlock
+          code={`import { useState } from 'react';
+import { TransferList } from 'react-native-mantine';
+import type { TransferListData } from 'react-native-mantine';
+
+const [data, setData] = useState<[TransferListData, TransferListData]>([
+  {
+    items: [
+      { value: 'react', label: 'React' },
+      { value: 'vue', label: 'Vue' },
+    ],
+    selectedValues: [],
+  },
+  { items: [{ value: 'svelte', label: 'Svelte' }], selectedValues: [] },
+]);
+
+<TransferList
+  value={data}
+  onChange={setData}
+  titles={['Available', 'Selected']}
+  searchable
+  listHeight={250}
+/>`}
+        />
+      </ExampleSection>
+
+      <ExampleSection
         title="Searchable"
         description="TransferList with search functionality"
       >
@@ -106,6 +138,13 @@ export const TransferListExample = () => {
             listHeight={220}
           />
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available TransferList props"
+      >
+        <PropsTable props={transferListProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

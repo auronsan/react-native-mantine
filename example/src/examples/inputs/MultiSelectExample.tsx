@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { multiSelectProps } from '../../data/props/MultiSelectProps';
 import { MultiSelect, Paper, Stack, Text } from 'react-native-mantine';
 
 export const MultiSelectExample = () => {
@@ -33,6 +35,28 @@ export const MultiSelectExample = () => {
             </Text>
           </Stack>
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage"
+        description="Minimal copy-pasteable example"
+      >
+        <CodeBlock
+          code={`import { useState } from 'react';
+import { MultiSelect } from 'react-native-mantine';
+
+const [value, setValue] = useState<string[]>([]);
+
+<MultiSelect
+  label="Choose frameworks"
+  placeholder="Pick multiple"
+  data={['React', 'Angular', 'Vue', 'Svelte']}
+  value={value}
+  onChange={setValue}
+  searchable
+  clearable
+/>`}
+        />
       </ExampleSection>
 
       <ExampleSection
@@ -112,6 +136,13 @@ export const MultiSelectExample = () => {
             />
           </Stack>
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available MultiSelect props"
+      >
+        <PropsTable props={multiSelectProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

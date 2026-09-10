@@ -1,4 +1,6 @@
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { tooltipProps } from '../../data/props/TooltipProps';
 import { Button, Tooltip, Text, Paper, Stack, Group } from 'react-native-mantine';
 
 export const TooltipExample = () => {
@@ -117,6 +119,13 @@ const MyComponent = () => {
   );
 };`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Tooltip props"
+      >
+        <PropsTable props={tooltipProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

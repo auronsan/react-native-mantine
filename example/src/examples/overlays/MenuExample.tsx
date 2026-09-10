@@ -1,4 +1,6 @@
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { menuProps } from '../../data/props/MenuProps';
 import { Button, Menu, Text, Paper } from 'react-native-mantine';
 
 export const MenuExample = () => {
@@ -139,6 +141,13 @@ const MyComponent = () => {
   );
 };`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Menu props"
+      >
+        <PropsTable props={menuProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

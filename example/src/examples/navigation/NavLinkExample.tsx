@@ -1,4 +1,6 @@
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { navLinkProps } from '../../data/props/NavLinkProps';
 import { NavLink, Stack , Paper } from 'react-native-mantine';
 
 export const NavLinkExample = () => {
@@ -18,6 +20,34 @@ export const NavLinkExample = () => {
             <NavLink label="Logout" />
           </Stack>
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage"
+        description="Minimal copy-pasteable example"
+      >
+        <CodeBlock
+          code={`import { NavLink, Icon } from 'react-native-mantine';
+
+<NavLink
+  label="Dashboard"
+  description="Overview of your account"
+  icon={<Icon name="home" size={16} />}
+  active
+  onPress={() => navigate('Dashboard')}
+/>
+
+<NavLink label="Settings" onPress={() => navigate('Settings')}>
+  <NavLink label="Profile" onPress={() => navigate('Profile')} />
+</NavLink>`}
+        />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available NavLink props"
+      >
+        <PropsTable props={navLinkProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

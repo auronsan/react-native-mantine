@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { stepperProps } from '../../data/props/StepperProps';
 import { Text, Paper, Stack, Button, Group, Progress } from 'react-native-mantine';
 
 export const StepperExample = () => {
@@ -131,6 +133,13 @@ const MyStepper = () => {
   );
 };`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Stepper props"
+      >
+        <PropsTable props={stepperProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

@@ -3,6 +3,8 @@ import {
   ExampleSection,
   CodeBlock,
 } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { gradientProps } from '../../data/props/GradientProps';
 import { Button, Stack } from 'react-native-mantine';
 
 export const GradientExample = () => {
@@ -208,6 +210,13 @@ export const GradientExample = () => {
 //         90 = top to bottom
 //         135 = diagonal (reverse)`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Gradient props"
+      >
+        <PropsTable props={gradientProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { selectProps } from '../../data/props/SelectProps';
 import {
   Select,
   Paper,
@@ -160,10 +162,43 @@ export const SelectExample = () => {
       </ExampleSection>
 
       <ExampleSection
+        title="Usage"
+        description="Minimal copy-pasteable example"
+      >
+        <CodeBlock
+          code={`import { useState } from 'react';
+import { Select } from 'react-native-mantine';
+
+const [value, setValue] = useState('');
+
+<Select
+  label="Choose framework"
+  placeholder="Pick one"
+  data={[
+    { value: 'react', label: 'React' },
+    { value: 'vue', label: 'Vue' },
+    { value: 'svelte', label: 'Svelte' },
+  ]}
+  value={value}
+  onChange={setValue}
+  searchable
+  clearable
+/>`}
+        />
+      </ExampleSection>
+
+      <ExampleSection
         title="Form Integration"
         description="Select components integrated with useForm hook"
       >
         <SelectFormExample />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Select props"
+      >
+        <PropsTable props={selectProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ScrollView, Alert } from 'react-native';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
 import {
   TextInput,
   Button,
@@ -543,6 +543,28 @@ export const UseFormExample = () => {
           description="Simple form with email and password validation"
         >
           <BasicLoginForm />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Usage"
+          description="Minimal copy-pasteable example"
+        >
+          <CodeBlock
+            code={`import { useForm, isEmail, minLength, TextInput, Button } from 'react-native-mantine';
+
+const form = useForm({
+  initialValues: { email: '', password: '' },
+  validate: {
+    email: isEmail('Invalid email address'),
+    password: minLength(6, 'Password must be at least 6 characters'),
+  },
+  validateInputOnBlur: true,
+});
+
+<TextInput label="Email" {...form.getInputProps('email')} />
+<TextInput label="Password" secureTextEntry {...form.getInputProps('password')} />
+<Button onPress={form.onSubmit((values) => console.log(values))}>Submit</Button>`}
+          />
         </ExampleSection>
 
         <ExampleSection

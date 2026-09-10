@@ -1,7 +1,10 @@
 import {
   ExampleWrapper,
   ExampleSection,
+  CodeBlock,
 } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { backgroundImageProps } from '../../data/props/BackgroundImageProps';
 import { BackgroundImage, Text, Paper } from 'react-native-mantine';
 
 export const BackgroundImageExample = () => {
@@ -24,6 +27,30 @@ export const BackgroundImageExample = () => {
             </Text>
           </BackgroundImage>
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage"
+        description="Minimal copy-pasteable example"
+      >
+        <CodeBlock
+          code={`import { BackgroundImage, Text } from 'react-native-mantine';
+
+<BackgroundImage
+  source={{ uri: 'https://unsplash.it/640/425' }}
+  radius="md"
+  style={{ height: 150 }}
+>
+  <Text style={{ color: '#fff', padding: 16 }}>Content over image</Text>
+</BackgroundImage>`}
+        />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available BackgroundImage props"
+      >
+        <PropsTable props={backgroundImageProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

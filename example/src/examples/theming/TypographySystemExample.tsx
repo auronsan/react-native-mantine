@@ -1,6 +1,6 @@
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { Stack, Title, Text, Divider, Code } from 'react-native-mantine';
-import { ExampleWrapper } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
 import { useTheme } from 'react-native-mantine';
 
 /**
@@ -29,6 +29,25 @@ export function TypographySystemExample() {
             <Title order={6}>Heading 6</Title>
           </Stack>
         </ExampleWrapper>
+
+        <ExampleSection
+          title="Usage"
+          description="Minimal copy-pasteable example"
+        >
+          <CodeBlock
+            code={`import { Title, Text, useTheme } from 'react-native-mantine';
+
+const theme = useTheme();
+
+<Title order={2}>Section heading</Title>
+<Text size="md" weight="500">
+  Body text using theme.fontSizes.md ({theme.fontSizes.md}px)
+</Text>
+<Text size="sm" color="dimmed">
+  Secondary text
+</Text>`}
+          />
+        </ExampleSection>
 
         <Divider />
 

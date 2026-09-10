@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { dialogProps } from '../../data/props/DialogProps';
 import { Button, Dialog, Stack, Text, TextInput, Group } from 'react-native-mantine';
 
 export const DialogExample = () => {
@@ -158,6 +160,13 @@ const MyComponent = () => {
   );
 };`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Dialog props"
+      >
+        <PropsTable props={dialogProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

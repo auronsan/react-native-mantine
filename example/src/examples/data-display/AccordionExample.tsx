@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { accordionProps } from '../../data/props/AccordionProps';
 import { Text, Paper, Stack, Button, Collapse, Divider } from 'react-native-mantine';
 
 export const AccordionExample = () => {
@@ -112,6 +114,13 @@ const AccordionItem = ({ title, children }) => {
   );
 };`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Accordion props"
+      >
+        <PropsTable props={accordionProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

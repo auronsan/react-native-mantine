@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { spoilerProps } from '../../data/props/SpoilerProps';
 import { Text, Paper, Stack, Button, Collapse } from 'react-native-mantine';
 
 export const SpoilerExample = () => {
@@ -103,6 +105,13 @@ const MyComponent = () => {
   );
 };`}
         />
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available Spoiler props"
+      >
+        <PropsTable props={spoilerProps} />
       </ExampleSection>
     </ExampleWrapper>
   );

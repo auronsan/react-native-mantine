@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { ExampleWrapper, ExampleSection } from '../../components/ExampleWrapper';
+import { ExampleWrapper, ExampleSection, CodeBlock } from '../../components/ExampleWrapper';
+import { PropsTable } from '../../components/PropsTable';
+import { ringProgressProps } from '../../data/props/RingProgressProps';
 import { RingProgress, Paper, Button, Stack, Text, Group } from 'react-native-mantine';
 
 export const RingProgressExample = () => {
@@ -50,6 +52,26 @@ export const RingProgressExample = () => {
             </Group>
           </Stack>
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Usage"
+        description="Minimal copy-pasteable example"
+      >
+        <CodeBlock
+          code={`import { RingProgress, Text } from 'react-native-mantine';
+
+<RingProgress
+  size={120}
+  thickness={12}
+  sections={[
+    { value: 40, color: 'blue' },
+    { value: 30, color: 'orange' },
+    { value: 15, color: 'green' },
+  ]}
+  label={<Text size="sm">85%</Text>}
+/>`}
+        />
       </ExampleSection>
 
       <ExampleSection
@@ -114,6 +136,13 @@ export const RingProgressExample = () => {
             </Stack>
           </Group>
         </Paper>
+      </ExampleSection>
+
+      <ExampleSection
+        title="Component Props"
+        description="Complete reference of all available RingProgress props"
+      >
+        <PropsTable props={ringProgressProps} />
       </ExampleSection>
     </ExampleWrapper>
   );
