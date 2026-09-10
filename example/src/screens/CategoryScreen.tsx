@@ -122,7 +122,7 @@ const useStyles = createStyles((theme) => ({
   },
   title: {
     fontSize: 26,
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: theme.colors.gray?.[9] || '#212529',
     marginBottom: 8,
   },
@@ -163,7 +163,7 @@ const useStyles = createStyles((theme) => ({
   },
   componentName: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '600',
     color: theme.colors.gray?.[9] || '#212529',
     marginBottom: 6,
   },

@@ -149,7 +149,7 @@ const useStyles = createStyles((theme) => ({
   },
   title: {
     fontSize: 26,
-    fontWeight: 'bold',
+    fontWeight: '600',
     color:
       theme.colorScheme === 'dark'
         ? theme.colors.dark[0]
@@ -176,7 +176,7 @@ const useStyles = createStyles((theme) => ({
   },
   sectionTitle: {
     fontSize: 19,
-    fontWeight: '700',
+    fontWeight: '600',
     color:
       theme.colorScheme === 'dark'
         ? theme.colors.dark[0]
@@ -226,7 +226,7 @@ const useStyles = createStyles((theme) => ({
   },
   propsTableTitle: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '600',
     marginBottom: 12,
     color:
       theme.colorScheme === 'dark'

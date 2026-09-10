@@ -199,7 +199,7 @@ const useStyles = createStyles((theme) => ({
   title: {
     color: '#ffffff',
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: '600',
     textAlign: 'center',
     marginBottom: 8,
   },
@@ -232,7 +232,7 @@ const useStyles = createStyles((theme) => ({
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
     marginBottom: 4,
   },
@@ -250,7 +250,7 @@ const useStyles = createStyles((theme) => ({
   },
   categoryTitle: {
     fontSize: 20,
-    fontWeight: '700',
+    fontWeight: '600',
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[9],
     marginBottom: 6,
   },
@@ -270,7 +270,7 @@ const useStyles = createStyles((theme) => ({
   },
   resultName: {
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: '600',
     color: theme.colors.gray?.[9] || '#212529',
   },
   resultDescription: {
