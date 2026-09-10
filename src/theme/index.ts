@@ -59,7 +59,14 @@ export type {
 
 // Theme exports
 export { DEFAULT_COLORS } from './default-colors';
-export { DEFAULT_THEME, _DEFAULT_THEME } from './default-theme';
+export { DEFAULT_THEME, _DEFAULT_THEME, WEB_FONT_FAMILY, WEB_FONT_FAMILY_MONOSPACE } from './default-theme';
+export {
+  getBundledFonts,
+  BUNDLED_HEADING_FONT,
+  BUNDLED_HEADING_FONT_BOLD,
+  areBundledFontsLoaded,
+  markBundledFontsLoaded,
+} from './bundled-fonts';
 export { createTheme } from './create-theme';
 
 // Function exports

@@ -1,5 +1,6 @@
 import { resetFallbackCache, resolveFallback } from './fallbacks';
 import type { AdapterName, MantineAdapters } from './types';
+import { resetBundledFonts } from '../theme/bundled-fonts';
 
 let registry: Partial<MantineAdapters> = {};
 
@@ -43,4 +44,5 @@ export function getConfiguredAdapters(): Partial<MantineAdapters> {
 export function resetAdapters(): void {
   registry = {};
   resetFallbackCache();
+  resetBundledFonts();
 }

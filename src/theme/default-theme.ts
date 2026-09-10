@@ -10,6 +10,13 @@ import type {
   MantineTheme as MantineThemeType,
   MantineThemeBase
 } from './types';
+import { BUNDLED_HEADING_FONT } from './bundled-fonts';
+
+// Same stacks as Mantine's default theme on the web
+export const WEB_FONT_FAMILY =
+  '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji';
+export const WEB_FONT_FAMILY_MONOSPACE =
+  'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace';
 
 /**
  * Base theme configuration (without functions)
@@ -50,6 +57,7 @@ export const _DEFAULT_THEME: MantineThemeBase = {
   fontFamily: Platform.select({
     ios: 'System', // San Francisco (equivalent to -apple-system)
     android: 'Roboto', // Android system font
+    web: WEB_FONT_FAMILY,
     default: 'System',
   }) as string,
 
@@ -80,6 +88,7 @@ export const _DEFAULT_THEME: MantineThemeBase = {
   fontFamilyMonospace: Platform.select({
     ios: 'Menlo', // iOS monospace font
     android: 'monospace', // Android monospace font
+    web: WEB_FONT_FAMILY_MONOSPACE,
     default: 'monospace',
   }) as string,
 
@@ -116,13 +125,11 @@ export const _DEFAULT_THEME: MantineThemeBase = {
   },
 
   headings: {
-    // Headings use bold font family for proper weight rendering on iOS/Android
-    fontFamily: Platform.select({
-      ios: 'System',
-      android: 'Roboto-Bold',
-      default: 'System',
-    }),
-    fontWeight: '700', // Matches Mantine web heading weight
+    // Outfit at 600, the heading typeface used on mantine.dev. Bundled with the
+    // library and loaded by `Theme`; falls back to the bold system font until
+    // it is registered (see theme/bundled-fonts.ts).
+    fontFamily: BUNDLED_HEADING_FONT,
+    fontWeight: '600',
     sizes: {
       h1: { fontSize: 34, lineHeight: 1.3 },
       h2: { fontSize: 26, lineHeight: 1.35 },

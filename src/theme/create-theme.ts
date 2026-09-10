@@ -85,9 +85,9 @@ function deepMerge<T extends Record<string, any>>(target: T, source: Partial<T>)
  * @example
  * // Create theme with custom typography
  * const theme = createTheme({
- *   fontFamily: 'Nunito',
+ *   fontFamily: 'Inter',
  *   headings: {
- *     fontFamily: 'Nunito-Bold',
+ *     fontFamily: 'Inter-Bold',
  *     sizes: {
  *       h1: { fontSize: 40, lineHeight: 1.2 },
  *     },
@@ -123,7 +123,7 @@ export function createTheme(override?: MantineThemeOverride): MantineTheme {
  *
  * @example
  * const brandTheme = { primaryColor: 'brand' };
- * const typographyTheme = { fontFamily: 'Nunito' };
+ * const typographyTheme = { fontFamily: 'Inter' };
  * const merged = mergeThemeOverrides(brandTheme, typographyTheme);
  */
 export function mergeThemeOverrides(

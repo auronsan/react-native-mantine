@@ -194,7 +194,8 @@
       "expo-linear-gradient": "<rootDir>/src/__tests__/__mocks__/expo-linear-gradient.js",
       "react-native-vector-icons/(.*)": "<rootDir>/src/__tests__/__mocks__/react-native-vector-icons.js",
       "react-native/jest/mockComponent": "<rootDir>/src/__tests__/__mocks__/mockComponent.js",
-      "expo-document-picker": "<rootDir>/src/__tests__/__mocks__/expo-document-picker.js"
+      "expo-document-picker": "<rootDir>/src/__tests__/__mocks__/expo-document-picker.js",
+      "\\\\.(ttf|otf)$": "<rootDir>/src/__tests__/__mocks__/file-mock.js"
     }
   },
   "commitlint": {

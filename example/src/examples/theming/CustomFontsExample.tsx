@@ -397,7 +397,7 @@ module.exports = {
           ==================================================================== */}
       <ExampleSection
         title="Complete Working Example"
-        description="Full implementation with Nunito Sans font (used in this demo app)"
+        description="Full implementation with Nunito Sans from @expo-google-fonts"
       >
         <Stack spacing={16}>
           <Paper p="md" shadow="sm" radius="md" style={{ backgroundColor: '#fff' }}>
@@ -405,7 +405,7 @@ module.exports = {
               This Demo App Setup
             </Text>
             <Text size="sm" color="dimmed" style={{ marginBottom: 12 }}>
-              Here's how this example app loads and uses Nunito Sans:
+              Here's how an app can load and use Nunito Sans (the showcase itself uses the default theme: system font for body text, bundled Outfit for headings):
             </Text>
             <CodeBlock
               code={`// App.tsx

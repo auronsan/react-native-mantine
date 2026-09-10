@@ -30,9 +30,8 @@ import type {
 import useCachedResources from '../hooks/useCachedResources';
 
 // Jest has no transform for font files; stand in for the bundled assets.
-jest.mock('../fonts/Nunito-Regular.ttf', () => 'nunito-regular');
-jest.mock('../fonts/Nunito-Bold.ttf', () => 'nunito-bold');
-jest.mock('../fonts/Nunito-SemiBold.ttf', () => 'nunito-semibold');
+jest.mock('../fonts/Outfit-SemiBold.ttf', () => 'outfit-semibold');
+jest.mock('../fonts/Outfit-Bold.ttf', () => 'outfit-bold');
 
 const theme = createTheme();
 
@@ -255,11 +254,7 @@ describe('adapters: loadFonts', () => {
 
     await waitFor(() => expect(result.current).toBe(true));
     expect(loadFonts).toHaveBeenCalledTimes(1);
-    expect(Object.keys(loadFonts.mock.calls[0][0])).toEqual([
-      'Nunito',
-      'Nunito Bold',
-      'Nunito SemiBold',
-    ]);
+    expect(Object.keys(loadFonts.mock.calls[0][0])).toEqual(['Outfit', 'Outfit-Bold']);
   });
 
   it('useCachedResources prefers an explicit loader option', async () => {

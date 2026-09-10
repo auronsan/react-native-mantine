@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+import { areBundledFontsLoaded, isBundledFont } from '../../bundled-fonts';
 import type { MantineThemeBase, MantineNumberSize } from '../../types';
 import type { TextStyle } from 'react-native';
 import { getSize } from '../../get-size';
@@ -46,11 +48,29 @@ export const headingStyles = (theme: MantineThemeBase) => (order: 1 | 2 | 3 | 4 
   const headingKey = `h${order}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   const heading = theme.headings.sizes[headingKey];
 
+  let fontFamily = heading.fontFamily ?? theme.headings.fontFamily ?? theme.fontFamilyBold;
+  let fontWeight = (heading.fontWeight ??
+    theme.headings.fontWeight ??
+    theme.fontWeights.bold) as TextStyle['fontWeight'];
+
+  if (isBundledFont(fontFamily)) {
+    if (!areBundledFontsLoaded()) {
+      // Font files not registered (no font loader, or still loading):
+      // use the bold system font instead of an unknown family.
+      fontFamily = theme.fontFamilyBold;
+      fontWeight = theme.fontWeights.bold as TextStyle['fontWeight'];
+    } else if (Platform.OS === 'android') {
+      // Each bundled face is registered under its own name; a heavier weight
+      // would make Android synthesize a fake bold on top of it.
+      fontWeight = 'normal';
+    }
+  }
+
   return {
     fontSize: heading.fontSize,
     lineHeight: heading.lineHeight * heading.fontSize,
-    fontWeight: (heading.fontWeight ?? theme.headings.fontWeight ?? theme.fontWeights.bold) as TextStyle['fontWeight'],
-    fontFamily: heading.fontFamily ?? theme.headings.fontFamily ?? theme.fontFamilyBold,
+    fontWeight,
+    fontFamily,
   };
 };
 

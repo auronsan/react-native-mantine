@@ -1,12 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Theme, colorSchemeValue } from 'react-native-mantine';
-import {
-  useFonts,
-  NunitoSans_400Regular,
-  NunitoSans_600SemiBold,
-  NunitoSans_700Bold,
-} from '@expo-google-fonts/nunito-sans';
 import type { RootStackParamList } from './navigation/types';
 import { HomeScreen } from './screens/HomeScreen';
 import { CategoryScreen } from './screens/CategoryScreen';
@@ -20,25 +14,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 // Define comprehensive theme overrides with color scheme-aware constants
 // These constants automatically adapt between light and dark modes
 const themeOverride = {
-  // Font configuration using Nunito
-  fontFamily: 'Nunito-Regular',
-  fontFamilyBold: 'Nunito-Bold',
-  fontFamilySemiBold: 'Nunito-SemiBold',
-  fontFamilyInput: 'Nunito-Regular',
-
-  // Keep headings with bold Nunito
-  headings: {
-    fontFamily: 'Nunito-Bold',
-    fontWeight: '700' as const,
-    sizes: {
-      h1: { fontSize: 34, lineHeight: 1.3 },
-      h2: { fontSize: 26, lineHeight: 1.35 },
-      h3: { fontSize: 22, lineHeight: 1.4 },
-      h4: { fontSize: 18, lineHeight: 1.45 },
-      h5: { fontSize: 16, lineHeight: 1.5 },
-      h6: { fontSize: 14, lineHeight: 1.5 },
-    },
-  },
+  // Typography comes from the default theme: system font for body text,
+  // bundled Outfit for headings, matching mantine.dev.
 
   other: {
     // App-wide color constants
@@ -52,19 +29,6 @@ const themeOverride = {
 };
 
 export default function App() {
-  // Load Nunito fonts from Google Fonts
-  // Map the Google Fonts names to the expected theme font family names
-  const [fontsLoaded] = useFonts({
-    'Nunito-Regular': NunitoSans_400Regular,
-    'Nunito-SemiBold': NunitoSans_600SemiBold,
-    'Nunito-Bold': NunitoSans_700Bold,
-  });
-
-  // Wait for fonts to load before rendering
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
     <Theme theme={themeOverride} forceMode="light">
       <NavigationContainer>
@@ -77,7 +41,6 @@ export default function App() {
             headerTintColor: '#fff',
             headerTitleStyle: {
               fontWeight: 'bold',
-              fontFamily: 'Nunito-Bold',
             },
           }}
         >

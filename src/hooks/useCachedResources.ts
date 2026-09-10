@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAdapter } from '../adapters/context';
 import type { MantineAdapters } from '../adapters/types';
+import { getBundledFonts, markBundledFontsLoaded } from '../theme/bundled-fonts';
 
 export interface UseCachedResourcesOptions {
   /**
@@ -24,11 +25,8 @@ export default function useCachedResources(
       try {
         // Only load fonts if a font loader is available
         if (typeof loadFonts === 'function') {
-          await loadFonts({
-            Nunito: require('../fonts/Nunito-Regular.ttf'),
-            'Nunito Bold': require('../fonts/Nunito-Bold.ttf'),
-            'Nunito SemiBold': require('../fonts/Nunito-SemiBold.ttf'),
-          })
+          await loadFonts(getBundledFonts());
+          markBundledFontsLoaded();
         }
       } catch (e) {
         // Error silently ignored - consider adding error reporting in production

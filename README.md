@@ -302,6 +302,18 @@ React Native Mantine includes 110+ components organized by category:
 
 ## Theming
 
+### Typography
+
+The default theme matches mantine.dev:
+
+| Role | Font | Weight |
+| --- | --- | --- |
+| Body text, inputs, buttons | Platform system font (San Francisco on iOS, Roboto on Android, Mantine's `-apple-system` stack on web) | 400, buttons 600 |
+| Headings (`Title`) | [Outfit](https://fonts.google.com/specimen/Outfit), bundled with the library under the SIL Open Font License | 600 |
+| Monospace (`Code`, `Kbd`) | Menlo on iOS, `monospace` on Android, Mantine's `ui-monospace` stack on web | 400 |
+
+`Theme` registers the bundled Outfit files through `expo-font` or your `loadFonts` adapter. If neither is available, or when you use `ThemeProvider` directly, headings fall back to the bold system font. To use your own fonts, load them yourself and override `fontFamily`, `fontFamilyBold`, `fontFamilySemiBold`, `fontFamilyInput`, `fontFamilyMonospace`, or `headings.fontFamily` in the theme.
+
 ### Creating a Custom Theme
 
 Use `createTheme()` to customize the default theme:
