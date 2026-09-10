@@ -54,6 +54,29 @@ describe('ThemeProvider', () => {
     expect(screen.getByTestId('ios')).toHaveTextContent('true');
   });
 
+  it('follows forceMode changes after mount', () => {
+    const { rerender } = render(
+      <ThemeProvider theme={theme} forceMode="light">
+        <ModeConsumer />
+      </ThemeProvider>
+    );
+    expect(screen.getByTestId('mode')).toHaveTextContent('light');
+
+    rerender(
+      <ThemeProvider theme={theme} forceMode="dark">
+        <ModeConsumer />
+      </ThemeProvider>
+    );
+    expect(screen.getByTestId('mode')).toHaveTextContent('dark');
+
+    rerender(
+      <ThemeProvider theme={theme} forceMode="light">
+        <ModeConsumer />
+      </ThemeProvider>
+    );
+    expect(screen.getByTestId('mode')).toHaveTextContent('light');
+  });
+
   it('falls back to system color scheme, then light', () => {
     const spy = jest.spyOn(Appearance, 'getColorScheme');
     spy.mockReturnValue('dark');

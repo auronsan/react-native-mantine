@@ -47,6 +47,15 @@ export const ThemeProvider = ({
     forceMode || systemDarkMode || 'light'
   );
 
+  // Keep the scheme in sync when the `forceMode` prop changes after mount
+  // (e.g. an app-level dark mode switch). Without this the prop was only
+  // read as the initial state.
+  useEffect(() => {
+    if (forceMode && forceMode !== currentMode) {
+      setCurrentMode(forceMode);
+    }
+  }, [forceMode]);
+
   const toggleMode = (): void => {
     setCurrentMode(currentMode === 'light' ? 'dark' : 'light');
   };
