@@ -8,9 +8,11 @@ import { dirname, join } from 'node:path';
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const code = readFileSync(join(root, 'snack/App.js'), 'utf8');
 const pkg = JSON.parse(readFileSync(join(root, 'snack/package.json'), 'utf8'));
+// Pin the library to the exact released version so the demo matches what was tested
+const libVersion = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version;
 const deps = Object.entries(pkg.dependencies)
   .filter(([name]) => !['expo', 'react', 'react-native'].includes(name))
-  .map(([name, version]) => `${name}@${version}`)
+  .map(([name, version]) => `${name}@${name === 'react-native-mantine' ? libVersion : version}`)
   .join(',');
 const sdk = (pkg.dependencies.expo || '').replace(/[^\d.]/g, '').split('.')[0];
 
