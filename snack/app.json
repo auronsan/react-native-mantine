@@ -1,0 +1,7 @@
+{
+  "expo": {
+    "name": "react-native-mantine",
+    "slug": "react-native-mantine-snack",
+    "platforms": ["ios", "android", "web"]
+  }
+}

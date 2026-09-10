@@ -2,32 +2,40 @@
 
 # React Native Mantine
 
+**Mantine for React Native.** 118 themeable, accessible components for iOS, Android and Web, with the theme system, variants and `useForm` API Mantine users already know.
+
 [![npm version](https://img.shields.io/npm/v/react-native-mantine.svg?style=flat-square)](https://www.npmjs.com/package/react-native-mantine)
-[![license](https://img.shields.io/npm/l/react-native-mantine.svg?style=flat-square)](https://github.com/auronsan/react-native-mantine/blob/main/LICENSE)
 [![npm downloads](https://img.shields.io/npm/dm/react-native-mantine.svg?style=flat-square)](https://www.npmjs.com/package/react-native-mantine)
-[![GitHub stars](https://img.shields.io/github/stars/auronsan/react-native-mantine?style=flat-square)](https://github.com/auronsan/react-native-mantine/stargazers)
-[![React Native](https://img.shields.io/badge/React%20Native-0.74.5-blue.svg?style=flat-square)](https://reactnative.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.2.2-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
+[![CI](https://img.shields.io/github/actions/workflow/status/auronsan/react-native-mantine/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/auronsan/react-native-mantine/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/react-native-mantine.svg?style=flat-square)](https://github.com/auronsan/react-native-mantine/blob/main/LICENSE)
+[![React Native](https://img.shields.io/badge/React%20Native-0.81-blue.svg?style=flat-square)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-54-000020.svg?style=flat-square&logo=expo)](https://expo.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
 
-A comprehensive React Native component library inspired by [Mantine](https://mantine.dev/), bringing beautiful and accessible UI components to your mobile applications.
+[**Documentation**](https://auronsan.github.io/react-native-mantine/) · [**Try it in Expo Snack**](https://snack.expo.dev/@git/github.com/auronsan/react-native-mantine:snack) · [Starter template](https://github.com/auronsan/react-native-mantine-template) · [npm](https://www.npmjs.com/package/react-native-mantine) · [Changelog](CHANGELOG.md)
 
-**Work in Progress** - This library is actively developed and evolving.
-
-[Documentation](https://auronsan.github.io/react-native-mantine/) • [Getting Started Template](https://github.com/auronsan/react-native-mantine-template) • [NPM](https://www.npmjs.com/package/react-native-mantine) • [GitHub](https://github.com/auronsan/react-native-mantine)
+<img src="docs/assets/hero.png" alt="Button, Select, Stepper and RingProgress components rendered by React Native Mantine" width="100%" />
 
 </div>
 
+## Why React Native Mantine
+
+- **Same mental model as Mantine on web.** Colors, sizes, radius, shadows, variants (`filled`, `light`, `outline`, `subtle`, `gradient`, ...) and `useForm` follow Mantine, so a team with a Mantine web app can share theme tokens and habits with its mobile app.
+- **118 components, not 40.** Layout, inputs, overlays, navigation, feedback and data display, plus components most React Native kits skip: `Tree`, `TreeSelect`, `TransferList`, `Splitter`, `Timeline`, `Stepper`, `Marquee`, `RollingNumber`, `TableOfContents`, `RingProgress`, `SemiCircleProgress`.
+- **Works everywhere.** iOS, Android and Web through React Native Web. Expo is a first-class target; bare React Native works too.
+- **Zero required native dependencies.** Icons, gradients, clipboard and fonts are pluggable and optional. Bring `@expo/vector-icons` or `react-native-vector-icons`, or neither.
+- **Typed end to end.** Written in TypeScript with documented props for every component.
+
 ## Features
 
-- **80+ React Native Components** - Comprehensive collection of production-ready components including buttons, inputs, overlays, navigation, feedback, and data display elements
-- **Full Theme System** - 14 color palettes with 10 shades each, aligned with Mantine v6, supporting light and dark modes
-- **8 Component Variants** - filled, light, outline, subtle, white, default, gradient, and transparent variants for consistent design
-- **TypeScript First** - Written in TypeScript with comprehensive type definitions for excellent developer experience
+- **118 React Native Components** - Buttons, inputs, overlays, navigation, feedback and data display, all themeable
+- **Full Theme System** - 14 color palettes with 10 shades each, aligned with Mantine, with light and dark modes
+- **8 Component Variants** - filled, light, outline, subtle, white, default, gradient and transparent
+- **TypeScript First** - Comprehensive type definitions for every component and hook
 - **Accessibility Built-in** - Components follow React Native accessibility best practices out of the box
-- **Expo Compatible** - Works seamlessly with Expo projects with optional dependencies (expo-linear-gradient, expo-font, expo-clipboard)
-- **Cross-platform** - Supports iOS, Android, and Web (via React Native Web)
-- **Dark Mode Support** - Automatic color scheme adjustments with full dark mode implementation
-- **Form Management** - Powerful useForm hook with validation, error handling, and state management
+- **Expo Compatible** - Works with Expo and bare React Native; native integrations are optional and pluggable
+- **Cross-platform** - iOS, Android and Web (via React Native Web)
+- **Form Management** - `useForm` hook with validation, error handling and state management
 
 ## Installation
 
@@ -43,55 +51,79 @@ yarn add react-native-mantine
 
 ### Peer Dependencies
 
-#### Required Peer Dependencies
-
-React Native Mantine requires React and React Native:
+Only `react` and `react-native` are required. Everything else is optional and pluggable.
 
 ```bash
 npm install react react-native
 ```
 
-#### Optional Peer Dependencies
+## Icons and native integrations
 
-The following dependencies are **optional** and provide enhanced functionality:
+react-native-mantine does not depend on any icon or gradient package. Pass the implementations you already use through `Theme` / `ThemeProvider`, or through `configureMantine` outside React. When nothing is passed, the library uses `react-native-vector-icons`, `expo-linear-gradient`, `expo-clipboard`, `expo-document-picker` and `expo-font` if they happen to be installed, and otherwise degrades gracefully: icon names render as text and gradients render as a solid first color.
+
+### Expo
 
 ```bash
-# Optional: For icon support (Icon component)
-npm install react-native-vector-icons
-
-# Optional: For gradient support (Gradient, ThemeIcon gradient variant)
-npm install expo-linear-gradient
-
-# Optional: For custom font loading
-npm install expo-font
-
-# Optional: For clipboard functionality (CopyButton component)
-npm install expo-clipboard
+npx expo install @expo/vector-icons expo-linear-gradient
 ```
 
-**Note:** The library will work without these optional dependencies. Components will gracefully degrade:
-- Without `react-native-vector-icons`: Icon component displays icon names as text
-- Without `expo-linear-gradient`: Gradient components fall back to solid colors
-- Without `expo-font`: Custom fonts won't load (system fonts used instead)
-- Without `expo-clipboard`: CopyButton will display a warning when used
+```tsx
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Theme, type MantineAdapters } from 'react-native-mantine';
 
-#### Additional Setup for react-native-vector-icons
+const adapters: Partial<MantineAdapters> = {
+  Icon: FontAwesome as MantineAdapters['Icon'], // Expo types `name` as a glyph union
+  LinearGradient,
+};
 
-If you install react-native-vector-icons, additional setup is required:
+export default function App() {
+  return <Theme adapters={adapters}>{/* your app */}</Theme>;
+}
+```
 
-For iOS:
+### Bare React Native
 
 ```bash
+yarn add react-native-vector-icons react-native-linear-gradient
 cd ios && pod install
 ```
 
-For Android, add to `android/app/build.gradle`:
+```tsx
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import LinearGradient from 'react-native-linear-gradient';
+import { Theme } from 'react-native-mantine';
 
-```gradle
-apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+export default function App() {
+  return <Theme adapters={{ Icon: FontAwesome, LinearGradient }}>{/* your app */}</Theme>;
+}
 ```
 
-For more details, see the [react-native-vector-icons installation guide](https://github.com/oblador/react-native-vector-icons#installation).
+### Outside React
+
+```ts
+import { configureMantine } from 'react-native-mantine';
+
+configureMantine({ Icon: FontAwesome, LinearGradient }); // e.g. in index.js
+```
+
+`Theme adapters` takes precedence over `configureMantine`.
+
+### Other adapters
+
+| Adapter          | Used by                   | Shape                                                    | Default fallback       |
+| ---------------- | ------------------------- | -------------------------------------------------------- | ---------------------- |
+| `clipboard`      | `CopyButton`              | `{ setStringAsync(text) }`                               | `expo-clipboard`       |
+| `documentPicker` | `FileButton`, `FileInput` | `(opts) => Promise<{ canceled, assets }>` (Expo shape)   | `expo-document-picker` |
+| `loadFonts`      | `Theme`                   | `(fonts) => Promise<void>`                               | `expo-font`            |
+
+```ts
+import Clipboard from '@react-native-clipboard/clipboard';
+
+configureMantine({
+  clipboard: { setStringAsync: (text) => Clipboard.setString(text) },
+});
+```
 
 ## Quick Start
 
@@ -542,23 +574,7 @@ React Native Mantine components are built with accessibility in mind:
 
 ## Expo Compatibility
 
-React Native Mantine is fully compatible with Expo projects. The following Expo packages are **optional peer dependencies**:
-
-- **expo-linear-gradient** - For gradient components (Gradient, ThemeIcon with gradient variant)
-- **expo-font** - For custom font loading (Nunito fonts)
-- **expo-clipboard** - For clipboard functionality (CopyButton component)
-
-**For Expo Projects:**
-Install the optional dependencies you need:
-
-```bash
-npx expo install expo-linear-gradient expo-font expo-clipboard
-```
-
-**For Bare React Native Projects:**
-These packages work in bare React Native projects as well, or you can skip them if you don't need the enhanced functionality.
-
-The library automatically detects available packages and provides graceful fallbacks when they're not installed.
+React Native Mantine works in Expo (managed and bare) and in plain React Native projects. No Expo package is required. See [Icons and native integrations](#icons-and-native-integrations) for how to plug in `@expo/vector-icons`, `expo-linear-gradient`, `expo-clipboard`, `expo-document-picker` and `expo-font`, or their bare React Native equivalents.
 
 ## Platform Support
 
